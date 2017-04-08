@@ -1,6 +1,7 @@
 package tp;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -18,9 +19,11 @@ public class Persona {
 	          }
 	    	
 	    }
-	    private static void leerArchivo(String archivo)  throws FileNotFoundException, IOException {
+	    private static void leerArchivo()  throws FileNotFoundException, IOException {
 	       
 	        String cadena;
+	        
+	        File archivo=new File ("/home/dds/Desarrollo/workspace/TP-DDS-2017/Datos");
 	        FileReader f = new FileReader(archivo);
 	        BufferedReader b = new BufferedReader(f);
 	        int a=0,x;
