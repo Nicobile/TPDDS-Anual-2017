@@ -19,7 +19,7 @@ public class Persona {
 	          }
 	    	
 	    }
-	    private static void leerArchivo()  throws FileNotFoundException, IOException {
+	    public static void leerArchivo()  throws FileNotFoundException, IOException {
 	       
 	        String cadena;
 	        
@@ -49,5 +49,11 @@ public class Persona {
 	        }
 	        b.close();
 	    }
+		public static Collection<LineaArchivo> getLineasArchivo() {
+			return lineasArchivo;
+		}
+		public static void setLineasArchivo(Collection<LineaArchivo> lineasArchivo) {
+			Persona.lineasArchivo = lineasArchivo;
+		}
 
 }
