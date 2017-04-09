@@ -1,58 +1,53 @@
 package tp;
 
+
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 public class Persona {
 	
-	  static Collection<LineaArchivo> lineasArchivo;
+ static ArrayList<LineaArchivo> lineasArchivo = new ArrayList<LineaArchivo>();
 	   
-	
-	    private static void recorrerlinea(String cadena,int a, StringBuffer b){
-	    	  while (cadena.charAt(a)!=' ') {
-	        	  b.append(cadena.charAt(a));
-	        	  a++;
-	        	  return;
-	          }
-	    	
-	    }
-	    public static void leerArchivo()  throws FileNotFoundException, IOException {
+	    public  void leerArchivo()  throws FileNotFoundException, IOException {
 	       
 	        String cadena;
-	        
-	        File archivo=new File ("/home/dds/Desarrollo/workspace/TP-DDS-2017/Datos");
-	        FileReader f = new FileReader(archivo);
-	        BufferedReader b = new BufferedReader(f);
-	        int a=0,x;
-	        StringBuffer nombreEmpresa = new StringBuffer();
-	        StringBuffer nombreCuenta = new StringBuffer();
-	        StringBuffer valorCuenta = new StringBuffer();
-	        while((cadena= b.readLine())!=null) {
-	        	
-	        	
-	          recorrerlinea(cadena,a,nombreEmpresa);
-	          a++;
-	          recorrerlinea(cadena,a,nombreCuenta);
-	          a++;
-	          while (cadena.charAt(a)!='\n') {
-	        	  valorCuenta.append(cadena.charAt(a));
-	        	  a++;
-	          }
-	          x=Integer.parseInt(valorCuenta.toString());
-	          LineaArchivo elementoColeccion;
-	          elementoColeccion=new LineaArchivo(nombreEmpresa.toString(),nombreCuenta.toString(),x);
-	          lineasArchivo.add(elementoColeccion);
-	          a=0;	          	          
+	        BufferedReader b = new BufferedReader(new FileReader("/home/dds/Desarrollo/workspace/TP-DDS-2017/Datos.txt"));
+	        int numTokens = 0,x;
+	        String s;
+	        String nomEmpresa=null,nomCuenta = null,valorCuenta=null;
+	        while((cadena= b.readLine())!=null) {	
+	 	        StringTokenizer cad = new StringTokenizer (cadena);
+	 	        
+	 	        // bucle por todas las palabras
+	 	        while (cad.hasMoreTokens())
+	 	        {
+	 	            s = cad.nextToken();
+	 	            numTokens++;
+	 	            if(numTokens==1){
+	 	            	nomEmpresa=s;
+	 	            }
+	 	            if (numTokens==2){
+	 	            	nomCuenta=s;
+	 	            }
+	 	           if (numTokens==3){
+	 	            	valorCuenta=s;
+	 	            }
+	 	        }
+	 	       x=Integer.parseInt(valorCuenta);
+		          LineaArchivo elementoColeccion;
+		          elementoColeccion=new LineaArchivo(nomEmpresa,nomCuenta,x);
+		          lineasArchivo.add(elementoColeccion);
 	        }
+	       
 	        b.close();
 	    }
-		public static Collection<LineaArchivo> getLineasArchivo() {
+		public ArrayList<LineaArchivo> getLineasArchivo() {
 			return lineasArchivo;
 		}
-		public static void setLineasArchivo(Collection<LineaArchivo> lineasArchivo) {
+		public  void setLineasArchivo(ArrayList<LineaArchivo> lineasArchivo) {
 			Persona.lineasArchivo = lineasArchivo;
 		}
 
