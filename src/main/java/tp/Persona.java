@@ -15,13 +15,18 @@ public class Persona {
 	       
 	        String cadena;
 	        BufferedReader b = new BufferedReader(new FileReader("/home/dds/Desarrollo/workspace/TP-DDS-2017/Datos.txt"));
-	        int numTokens = 0,x;
-	        String s;
+	        int x;
+	        String s;//donde voy guardando las palabrast 
 	        String nomEmpresa=null,nomCuenta = null,valorCuenta=null;
-	        while((cadena= b.readLine())!=null) {	
+	        LineaArchivo elementoColeccion;
+	        
+	      
+	 
+	       while((cadena= b.readLine())!=null) 
+	        {	int numTokens = 0;
 	 	        StringTokenizer cad = new StringTokenizer (cadena);
 	 	        
-	 	        // bucle por todas las palabras
+	 	        // bucle por todas las palabras y guardo las palabras
 	 	        while (cad.hasMoreTokens())
 	 	        {
 	 	            s = cad.nextToken();
@@ -36,10 +41,12 @@ public class Persona {
 	 	            	valorCuenta=s;
 	 	            }
 	 	        }
+	 	        //para agregar los elementos a la lista
 	 	       x=Integer.parseInt(valorCuenta);
-		          LineaArchivo elementoColeccion;
+		          
 		          elementoColeccion=new LineaArchivo(nomEmpresa,nomCuenta,x);
 		          lineasArchivo.add(elementoColeccion);
+		          
 	        }
 	       
 	        b.close();
