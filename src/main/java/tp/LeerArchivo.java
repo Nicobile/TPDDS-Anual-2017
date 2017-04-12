@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 public class LeerArchivo {
 	
 
-		
+		Empresa empresa;
 	 static ArrayList<LineaArchivo> lineasArchivo = new ArrayList<LineaArchivo>();
 		   
 		    public  void leerArchivo()  throws FileNotFoundException, IOException {
@@ -58,6 +58,9 @@ public class LeerArchivo {
 		        }
 		       
 		        b.close();
+		        
+		        //paso lista a empresa
+		        empresa.armarListaEmpresas(lineasArchivo);
 		       }
 			public ArrayList<LineaArchivo> getLineasArchivo() {
 				return lineasArchivo;
