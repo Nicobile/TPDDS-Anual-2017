@@ -12,12 +12,12 @@ import org.junit.Test;
 
 public class pruebaArchivo {
 	
-    private Persona persona;
+    private LeerArchivo persona;
 	
 	@Before
 	
 	public void initPerson() throws FileNotFoundException, IOException{
-		this.persona = new Persona();
+		this.persona = new LeerArchivo();
 		this.persona.leerArchivo();
 	}
 	

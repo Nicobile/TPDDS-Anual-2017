@@ -7,13 +7,24 @@ package tp;
 	    String nombreEmpresa;
 	    String nombreCuenta;
 	    int valorCuenta;
+	    String fecha;
 	    
-	    public LineaArchivo( String nombreEmpresa, String nombreCuenta,int valorCuenta) {
+	    public LineaArchivo( String nombreEmpresa, String nombreCuenta,int valorCuenta, String fecha) {
 	        this.nombreCuenta = nombreCuenta;
 	        this.nombreEmpresa=nombreEmpresa;
-	        this.valorCuenta=valorCuenta;	        
+	        this.valorCuenta=valorCuenta;
+	        this.fecha=fecha;
+	        
 	        
 	    }
+
+		public String getFecha() {
+			return fecha;
+		}
+
+		public void setFecha(String fecha) {
+			this.fecha = fecha;
+		}
 
 		public String getNombreEmpresa() {
 			return nombreEmpresa;
