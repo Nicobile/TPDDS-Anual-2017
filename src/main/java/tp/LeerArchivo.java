@@ -63,7 +63,13 @@ public class LeerArchivo {
 		        //paso lista a empresa
 		        this.armarListaEmpresas(lineasArchivo);
 		       }
-		    private int buscarEnLista(ArrayList<Empresa> empresas, String nombreEmpresa ){
+		    public ArrayList<Empresa> getEmpresas() {
+				return empresas;
+			}
+			public void setEmpresas(ArrayList<Empresa> empresas) {
+				this.empresas = empresas;
+			}
+			private int buscarEnLista(ArrayList<Empresa> empresas, String nombreEmpresa ){
 				for(int x=0;x<empresas.size();x++) {
 					  //pregunto si ya existe la empresa
 					if(empresas.get(x).getNombre()==nombreEmpresa){

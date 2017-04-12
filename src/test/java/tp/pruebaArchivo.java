@@ -12,13 +12,13 @@ import org.junit.Test;
 
 public class pruebaArchivo {
 	
-    private LeerArchivo persona;
+    private LeerArchivo lector;
 	
 	@Before
 	
-	public void initPerson() throws FileNotFoundException, IOException{
-		this.persona = new LeerArchivo();
-		this.persona.leerArchivo();
+	public void initLectura() throws FileNotFoundException, IOException{
+		this.lector = new LeerArchivo();
+		this.lector.leerArchivo();
 	}
 	
 	
@@ -26,37 +26,34 @@ public class pruebaArchivo {
 	
 	//prueba para verificar que la lista contenga elementos
 	public void listaTieneElementos() throws FileNotFoundException, IOException{
-		assertFalse((this.persona.getLineasArchivo().isEmpty()));
+		assertFalse((this.lector.getLineasArchivo().isEmpty()));
 	}
 	
 	@Test
 	
 	public void listaCantElementos() throws FileNotFoundException, IOException{
-		assertEquals((this.persona.getLineasArchivo().size()),5);
+		assertEquals((this.lector.getEmpresas().size()),4);
 	}
 	
 	@Test
 	
 	//prueba para verficiar el valor de los elementos
-	public void verificaContenidoLista() throws FileNotFoundException, IOException{
-		assertEquals(this.persona.getLineasArchivo().get(0).getNombreEmpresa(), "Facebook");
-		assertEquals(this.persona.getLineasArchivo().get(0).getNombreCuenta(), "cuentaA");
-		assertEquals(this.persona.getLineasArchivo().get(0).getValorCuenta(), 452362);
-		assertEquals(this.persona.getLineasArchivo().get(1).getNombreEmpresa(), "Twitter");
-		assertEquals(this.persona.getLineasArchivo().get(1).getNombreCuenta(), "cuentaB");
-		assertEquals(this.persona.getLineasArchivo().get(1).getValorCuenta(), 452369);
-		assertEquals(this.persona.getLineasArchivo().get(2).getNombreEmpresa(), "CocaCola");
-		assertEquals(this.persona.getLineasArchivo().get(2).getNombreCuenta(), "cuentaB");
-		assertEquals(this.persona.getLineasArchivo().get(2).getValorCuenta(), 654263);
-		assertEquals(this.persona.getLineasArchivo().get(3).getNombreEmpresa(), "Pepsico");
-		assertEquals(this.persona.getLineasArchivo().get(3).getNombreCuenta(), "cuentaC");
-		assertEquals(this.persona.getLineasArchivo().get(3).getValorCuenta(), 5623521);
+	public void verificaContenidoListaEmpresas() throws FileNotFoundException, IOException{
+		assertEquals(this.lector.getEmpresas().get(2).getNombre(),"CocaCola");
 	}
+	
+	@Test
+	
+	public void verficarCuentasEmpresa() throws FileNotFoundException, IOException{
+		assertEquals(this.lector.getEmpresas().get(2).getCuentas().get(0).getNombre(),"cuentaB");
+	}
+
 
     @After
     
     public void eliminarLista(){
-    	this.persona.getLineasArchivo().clear();
+    	this.lector.getLineasArchivo().clear();
+    	this.lector.getEmpresas().clear();
     }
 	
 }
