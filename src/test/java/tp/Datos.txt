@@ -1,0 +1,6 @@
+Facebook cuentaA 452362 27/03/2015
+Twitter cuentaB 452369	15/04/2010
+CocaCola cuentaB 654263	11/02/2011
+Pepsico cuentaC 5623521	31/12/2013
+CocaCola cuentaC 653	11/02/2011
+Pepsico cuentaC 5623521 31/12/2013
