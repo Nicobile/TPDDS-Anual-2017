@@ -12,7 +12,10 @@ import org.junit.Test;
 
 public class pruebaArchivo {
 	
+		
+	
     private LeerArchivo lector;
+    
 	
 	@Before
 	

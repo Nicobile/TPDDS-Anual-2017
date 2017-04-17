@@ -7,17 +7,22 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class LeerArchivo {
+			//creo lista empresas
+			ArrayList<Empresa> empresas = new ArrayList<Empresa>();
+			static ArrayList<LineaArchivo> lineasArchivo = new ArrayList<LineaArchivo>(); 
 	
-
-	//creo lista empresas
-	ArrayList<Empresa> empresas = new ArrayList<Empresa>();
-	 static ArrayList<LineaArchivo> lineasArchivo = new ArrayList<LineaArchivo>();
+	
 		   
-		    public  void leerArchivo()  throws FileNotFoundException, IOException {
+		    
+public void leerArchivo()  throws FileNotFoundException, IOException {
 		       
-		        String cadena;
-		        BufferedReader b = new BufferedReader(new FileReader("/home/dds/Desarrollo/workspace/TP-DDS-2017/Datos.txt"));
-		        //int x;
+		        
+		        BufferedReader b = new BufferedReader(new FileReader("/home/dds/Desarrollo/workspace/TP-DDS-2017/src/test/java/tp/Datos.txt"));
+		       
+		        
+		      
+		       
+		       String cadena;
 		        String s;//donde voy guardando las palabrast 
 		        String nomEmpresa=null,nomCuenta = null,valorCuenta=null, fecha=null;
 		        LineaArchivo elementoColeccion;
@@ -46,31 +51,34 @@ public class LeerArchivo {
 		 	            	fecha=s;
 		 	            }
 		 	        }
-		 	        //para agregar los elementos a la lista
-		 	       //x=Integer.parseInt(valorCuenta);
+		 	        
+		 	       
 			          
 			          elementoColeccion=new LineaArchivo(nomEmpresa,nomCuenta,Integer.parseInt(valorCuenta),fecha);
 			          lineasArchivo.add(elementoColeccion);
-			          //this.empresa.inicializate(elementoColeccion);
-			          //this.cuenta.inicializate(elementoColeccion);
-			           
+			          
 			          
 			          
 		        }
-		       
+		      
 		        b.close();
+		      
 		        
 		        //paso lista a empresa
 		        this.armarListaEmpresas(lineasArchivo);
+		        
 		       }
-		    public ArrayList<Empresa> getEmpresas() {
+		    
+public ArrayList<Empresa> getEmpresas() {
 				return empresas;
 			}
-			public void setEmpresas(ArrayList<Empresa> empresas) {
+			
+public void setEmpresas(ArrayList<Empresa> empresas) {
 				this.empresas = empresas;
 			}
 			
-			private int buscarEnLista(ArrayList<Empresa> empresas, String nombreEmpresa ){
+			
+private int buscarEnLista(ArrayList<Empresa> empresas, String nombreEmpresa ){
 				for(int x=0;x<empresas.size();x++) {
 					  //pregunto si ya existe la empresa
 					if(empresas.get(x).getNombre().equals(nombreEmpresa)){
@@ -81,7 +89,8 @@ public class LeerArchivo {
 				return -1;
 			}
 			
-			public void armarListaEmpresas(ArrayList<LineaArchivo> lineasArchivo ){			
+			
+public void armarListaEmpresas(ArrayList<LineaArchivo> lineasArchivo ){			
 				
 				//recorro la lista que contiene todos los datos
 				for(int x=0;x<lineasArchivo.size();x++) {
@@ -113,12 +122,15 @@ public class LeerArchivo {
 				
 			}
 				
-			public ArrayList<LineaArchivo> getLineasArchivo() {
+			
+public ArrayList<LineaArchivo> getLineasArchivo() {
 				return lineasArchivo;
 			}
-			public  void setLineasArchivo(ArrayList<LineaArchivo> lineasArchivo) {
+			
+public  void setLineasArchivo(ArrayList<LineaArchivo> lineasArchivo) {
 				LeerArchivo.lineasArchivo = lineasArchivo;
 			}
 
 	}
+
 
