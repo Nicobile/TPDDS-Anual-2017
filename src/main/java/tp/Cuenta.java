@@ -8,12 +8,15 @@ public class Cuenta {
         this.nombre= nombreCuenta;
         this.valor=valorCuenta;
         this.fecha=fecha;}
+
+
 /*public void inicializate(LineaArchivo elementoColeccion){
 	Cuenta cuenta= new Cuenta();
 	cuenta.fecha=elementoColeccion.fecha;
 	cuenta.valor=elementoColeccion.valorCuenta;
 	cuenta.nombre=elementoColeccion.nombreCuenta;
 }*/
+
 public String getFecha() {
 	return fecha;
 }
