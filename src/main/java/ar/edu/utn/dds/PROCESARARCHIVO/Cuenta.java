@@ -1,4 +1,4 @@
-package tp;
+package ar.edu.utn.dds.PROCESARARCHIVO;
 
 public class Cuenta {
 	private String fecha;

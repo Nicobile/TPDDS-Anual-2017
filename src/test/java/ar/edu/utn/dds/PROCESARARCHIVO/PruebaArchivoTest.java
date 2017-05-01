@@ -1,4 +1,4 @@
-package tp;
+package ar.edu.utn.dds.PROCESARARCHIVO;
 
 import static org.junit.Assert.*;
 
@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class pruebaArchivo {
+public class PruebaArchivoTest {
 	
 		
 	

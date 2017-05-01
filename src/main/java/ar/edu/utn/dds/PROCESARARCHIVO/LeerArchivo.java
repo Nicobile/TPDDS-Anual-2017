@@ -1,4 +1,4 @@
-package tp;
+package ar.edu.utn.dds.PROCESARARCHIVO;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -17,7 +17,7 @@ public class LeerArchivo {
 public void leerArchivo()  throws FileNotFoundException, IOException {
 		       
 		        
-		        BufferedReader b = new BufferedReader(new FileReader("/home/dds/Desarrollo/workspace/2017-mn-group-12/src/test/java/tp/Datos.txt"));
+		        BufferedReader b = new BufferedReader(new FileReader("../2017-mn-group-12/src/test/resources/Datos.txt"));
 		       
 		        
 		      
