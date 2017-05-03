@@ -17,7 +17,7 @@ public class LeerArchivo {
 public void leerArchivo()  throws FileNotFoundException, IOException {
 		       
 		        
-		        BufferedReader b = new BufferedReader(new FileReader("../2017-mn-group-12-1.1/src/test/resources/Datos.txt"));
+		        BufferedReader b = new BufferedReader(new FileReader("../2017-mn-group-12/src/test/resources/Datos.txt"));
 		        
 		      
 		       
