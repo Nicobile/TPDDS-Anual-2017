@@ -27,33 +27,36 @@ public class ProcesarIndicadores {
                   Cell cell = sheet.getCell(j, i);
                    CellType type = cell.getType();
                    if (type == CellType.LABEL) {
-                    /*System.out.println("String "
-                                                                + cell.getContents());*/
+                   
                         indicadores.add(cell.getContents());
                                         	
                        }
                                         /*
-                                        if (type == CellType.NUMBER) {
-                                                System.out.println("Numero "
-                                                                + cell.getContents());
+                               if (type == CellType.NUMBER) {System.out.println("Numero " + cell.getContents());
                                         }*/
 
                         }
                         }
                         
-                } catch (BiffException e) {
-                        e.printStackTrace();
-                }
-        w.close();
+                } catch (BiffException e){e.printStackTrace(); }
+      
 				return indicadores;
         }
 	
-	 void cargarIndPredefinidos(String a){
+	public void cargarIndPredefinidos(String a){
 		 indicadores.add(a);
 	 }
-      /*  //esto es para probar que funciona leer el excel y meterlo en una lista
+       //esto es para probar que funciona leer el excel y meterlo en una lista
         
-        public  static void main(String[] args) throws IOException {
+        public ArrayList<String> getIndicadores() {
+		return indicadores;
+	}
+
+	public void setIndicadores(ArrayList<String> indicadores) {
+		this.indicadores = indicadores;
+	}
+
+	/*	public  static void main(String[] args) throws IOException {
         	ArrayList<String> lista = new ArrayList<String>();
                 ProcesarIndicadores test = new ProcesarIndicadores();
                 
