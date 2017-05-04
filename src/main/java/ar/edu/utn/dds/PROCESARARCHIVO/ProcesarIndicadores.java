@@ -47,7 +47,11 @@ public class ProcesarIndicadores {
         w.close();
 				return indicadores;
         }
-        //esto es para probar que funciona leer el excel y meterlo en una lista
+	
+	 void cargarIndPredefinidos(String a){
+		 indicadores.add(a);
+	 }
+      /*  //esto es para probar que funciona leer el excel y meterlo en una lista
         
         public  static void main(String[] args) throws IOException {
         	ArrayList<String> lista = new ArrayList<String>();
@@ -58,6 +62,6 @@ public class ProcesarIndicadores {
                System.out.println(lista.get(1));
                
                 
-        }
+        } */
 
 }
