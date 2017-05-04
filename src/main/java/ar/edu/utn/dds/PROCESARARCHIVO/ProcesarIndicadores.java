@@ -18,7 +18,7 @@ public class ProcesarIndicadores {
 
 	ArrayList<String> leerExcel() throws IOException  {
        File inputWorkbook = new File(this.getClass().getResource("/Indicadores.xls").getFile());
-        Workbook w;
+        Workbook w=null;
         try {
          w = Workbook.getWorkbook(inputWorkbook);                      
          Sheet sheet = w.getSheet(0);                       
@@ -44,10 +44,11 @@ public class ProcesarIndicadores {
                 } catch (BiffException e) {
                         e.printStackTrace();
                 }
+        w.close();
 				return indicadores;
         }
         //esto es para probar que funciona leer el excel y meterlo en una lista
-        /*
+        
         public  static void main(String[] args) throws IOException {
         	ArrayList<String> lista = new ArrayList<String>();
                 ProcesarIndicadores test = new ProcesarIndicadores();
@@ -58,5 +59,5 @@ public class ProcesarIndicadores {
                
                 
         }
-*/
+
 }
