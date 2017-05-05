@@ -16,8 +16,8 @@ public class ProcesarIndicadores {
 	ArrayList<String> indicadores = new ArrayList<String>();
      
 
-	ArrayList<String> leerExcel() throws IOException  {
-       File inputWorkbook = new File(this.getClass().getResource("/Indicadores.xls").getFile());
+	void leerExcel() throws IOException  {
+       File inputWorkbook = new File("../2017-mn-group-12/src/test/resources/Indicadores.xls");
         Workbook w=null;
         try {
          w = Workbook.getWorkbook(inputWorkbook);                      
@@ -28,7 +28,7 @@ public class ProcesarIndicadores {
                    CellType type = cell.getType();
                    if (type == CellType.LABEL) {
                    
-                        indicadores.add(cell.getContents());
+                        getIndicadores().add(cell.getContents());
                                         	
                        }
                                         /*
@@ -40,11 +40,10 @@ public class ProcesarIndicadores {
                         
                 } catch (BiffException e){e.printStackTrace(); }
       
-				return indicadores;
         }
 	
 	public void cargarIndPredefinidos(String a){
-		 indicadores.add(a);
+		indicadores.add(a);
 	 }
        //esto es para probar que funciona leer el excel y meterlo en una lista
         
