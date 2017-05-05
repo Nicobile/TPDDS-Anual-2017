@@ -1,6 +1,6 @@
 package ar.edu.utn.dds.PROCESARARCHIVO;
 
-public class Indicador {
+public class Indicador implements IOperacion{
 	private String nombre;
 	private String operacion;
 	
@@ -16,5 +16,12 @@ public class Indicador {
 	}
 	public void setOperacion(String operacion) {
 		this.operacion = operacion;
+	}
+	public int operar(String operacion){
+		
+	}
+	@Override
+	public int calcular() {
+		return operar(this.getOperacion());
 	}
 }
