@@ -17,7 +17,9 @@ public class ProcesarIndicadores {
      
 
 	void leerExcel() throws IOException  {
-       File inputWorkbook = new File("../2017-mn-group-12/src/test/resources/Indicadores.xls");
+       File inputWorkbook = new File(this.getClass().getResource("/Indicadores.xls").getFile());
+		
+	
         Workbook w=null;
         try {
          w = Workbook.getWorkbook(inputWorkbook);                      
@@ -38,7 +40,7 @@ public class ProcesarIndicadores {
                         }
                         }
                         
-                } catch (BiffException e){e.printStackTrace(); }
+                } catch (BiffException e){e.printStackTrace();}
       
         }
 	
