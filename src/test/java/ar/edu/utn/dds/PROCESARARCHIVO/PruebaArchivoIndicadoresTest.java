@@ -16,9 +16,7 @@ public class PruebaArchivoIndicadoresTest {
        
        public void initIndicadores() throws FileNotFoundException, IOException{
     	   this.Procesador = new ProcesarIndicadores();
-    	   Procesador.cargarIndPredefinidos("1238*a");
-    	   Procesador.cargarIndPredefinidos("1238*a");
-    	   Procesador.cargarIndPredefinidos("c / d"); 
+    	    
     	   Procesador.leerExcel();
        }
        
@@ -26,13 +24,16 @@ public class PruebaArchivoIndicadoresTest {
        @Test
        
        public void tamanioLista(){
-    	   assertEquals(Procesador.getIndicadores().size(),5);
+    	   assertEquals(Procesador.getIndicadores().size(),4);
        }
        
        @Test
        
        public void verificarNodosLista(){
-    	   assertEquals(Procesador.getIndicadores().get(2),"c / d");
+    	   assertEquals(Procesador.getIndicadores().get(1).getNombre(),"Chau");
+    	   assertEquals(Procesador.getIndicadores().get(1).getOperacion(),"563+2,5");
+    	   assertEquals(Procesador.getIndicadores().get(0).getNombre(),"Hola");
+    	   assertEquals(Procesador.getIndicadores().get(3).getOperacion(),"650,9-9*9"); 
        }
        
        @After

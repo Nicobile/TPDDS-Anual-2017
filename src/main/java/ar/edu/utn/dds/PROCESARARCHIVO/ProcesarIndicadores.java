@@ -13,7 +13,7 @@ import jxl.read.biff.BiffException;
 
 public class ProcesarIndicadores {
 
-	ArrayList<String> indicadores = new ArrayList<String>();
+	 ArrayList<Indicador> indicadores = new ArrayList<Indicador>();
      
 
 	void leerExcel() throws IOException  {
@@ -24,48 +24,44 @@ public class ProcesarIndicadores {
         try {
          w = Workbook.getWorkbook(inputWorkbook);                      
          Sheet sheet = w.getSheet(0);                       
-         for (int j = 0; j < sheet.getColumns(); j++) {
-             for (int i = 0; i < sheet.getRows(); i++) {
-                  Cell cell = sheet.getCell(j, i);
+         //for (int j = 0; j < sheet.getColumns(); j++) {
+            
+        	 for (int i = 0; i < sheet.getRows(); i++) {
+                  Cell cell = sheet.getCell(0, i);
+                  Cell cell2 = sheet.getCell(1, i);
                    CellType type = cell.getType();
-                   if (type == CellType.LABEL) {
+                   Indicador indicador= new Indicador();
+                  
+                   if(type== CellType.LABEL){
+                	   
+                	   //seteo el nombre del indicador
+                	   indicador.setNombre(cell.getContents());                   
                    
-                        getIndicadores().add(cell.getContents());
-                                        	
-                       }
-                                        /*
-                               if (type == CellType.NUMBER) {System.out.println("Numero " + cell.getContents());
-                                        }*/
-
-                        }
-                        }
+                	   indicador.setOperacion(cell2.getContents());
+                	   indicadores.add(indicador);
+                        
+                        }}
                         
                 } catch (BiffException e){e.printStackTrace();}
       
         }
 	
-	public void cargarIndPredefinidos(String a){
-		indicadores.add(a);
+	public void cargarIndPredefinidos(String nombre, String operacion){
+		Indicador indicador=new Indicador();
+		indicador.setNombre(nombre);
+		indicador.setOperacion(operacion);
+		indicadores.add(indicador);
 	 }
        //esto es para probar que funciona leer el excel y meterlo en una lista
         
-        public ArrayList<String> getIndicadores() {
+        public ArrayList<Indicador> getIndicadores() {
 		return indicadores;
 	}
 
-	public void setIndicadores(ArrayList<String> indicadores) {
+	public void setIndicadores(ArrayList<Indicador> indicadores) {
 		this.indicadores = indicadores;
 	}
 
-	/*	public  static void main(String[] args) throws IOException {
-        	ArrayList<String> lista = new ArrayList<String>();
-                ProcesarIndicadores test = new ProcesarIndicadores();
-                
-               lista=test.leerExcel();
-               System.out.println(lista.get(0));
-               System.out.println(lista.get(1));
-               
-                
-        } */
+	
 
 }
