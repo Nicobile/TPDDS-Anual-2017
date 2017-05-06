@@ -53,6 +53,31 @@ public class ProcesarIndicadores {
 		indicadores.add(indicador);
 	 }
        //esto es para probar que funciona leer el excel y meterlo en una lista
+	
+	private void descomponerString(String operaciones,ArrayList<String> lista){
+		char[] c=operaciones.toCharArray();
+		StringBuilder s= new StringBuilder();
+		
+		for(int i=0;i<c.length;i++){
+			
+			if (c[i] =='+' ||c[i] == '-' ||c[i] =='(' ||c[i] == ')' ||c[i] =='*' ||c[i] == '/'  ){
+				
+				if(s.length()==0){
+					lista.add(s.toString());
+					s= new StringBuilder();
+				}
+				lista.add(""+c[i]);
+			
+			}
+				
+			else {
+				s.append(c[i]);
+			    						
+			}
+			
+		}
+		
+	}
         
         public ArrayList<Indicador> getIndicadores() {
 		return indicadores;
