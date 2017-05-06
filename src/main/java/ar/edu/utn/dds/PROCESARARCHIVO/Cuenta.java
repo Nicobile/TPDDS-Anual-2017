@@ -1,6 +1,6 @@
 package ar.edu.utn.dds.PROCESARARCHIVO;
 
-public class Cuenta implements IOperacion{
+public class Cuenta {
 	private String fecha;
 	private String nombre;
 	private int valor;
@@ -38,9 +38,5 @@ public void setValor(int valor) {
 }
 
 
-@Override
-public int calcular() {
-	return valor;
-	
-}
+
 }
