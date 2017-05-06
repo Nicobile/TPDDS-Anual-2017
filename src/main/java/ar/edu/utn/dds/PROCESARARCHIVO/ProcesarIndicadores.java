@@ -112,10 +112,10 @@ public class ProcesarIndicadores {
 	        
 	
 			
-		private void calcularIndicador(Indicador i){
+		public int calcularIndicador(Indicador i){
 			
 			this.descomponerString(i.getOperacion());
-			 i.operar(this.armarExpresion());//le paso al indicador la expresion ya armada para que la calcule
+			return i.operar(this.armarExpresion());//le paso al indicador la expresion ya armada para que la calcule
 			
 			
 		}

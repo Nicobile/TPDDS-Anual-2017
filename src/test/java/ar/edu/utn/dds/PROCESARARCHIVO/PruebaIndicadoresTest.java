@@ -36,15 +36,15 @@ public class PruebaIndicadoresTest {
         	this.cuenta2 = new Cuenta("Cuenta2",1000,"05/08/2017");
         	this.cuenta3 = new Cuenta("Cuenta3",200,"06/03/2017");
         	this.cuenta4 = new Cuenta("Cuenta4",700,"05/10/2016");
-        	this.cuentasCorrea.add(this.cuenta1);
-        	this.cuentasCorrea.add(this.cuenta3);
-        	this.cuentasMalcorra.add(this.cuenta2);
-        	this.cuentasMalcorra.add(this.cuenta4);
-        	this.cuentasSancor.add(this.cuenta1);
-        	this.cuentasSancor.add(this.cuenta2);
-        	this.Malcorra = new Empresa("Malcorra",this.cuentasMalcorra);
-        	this.Sancor = new Empresa("Sancor",this.cuentasSancor);
-        	this.Correa = new Empresa("Correa",this.cuentasCorrea);
+        	this.cuentasCorrea.add(cuenta1);
+        	this.cuentasCorrea.add(cuenta3);
+        	this.cuentasMalcorra.add(cuenta2);
+        	this.cuentasMalcorra.add(cuenta4);
+        	this.cuentasSancor.add(cuenta1);
+        	this.cuentasSancor.add(cuenta2);
+        	this.Malcorra = new Empresa("Malcorra",cuentasMalcorra);
+        	this.Sancor = new Empresa("Sancor",cuentasSancor);
+        	this.Correa = new Empresa("Correa",cuentasCorrea);
         	this.procesador1.cargarIndPredefinidos("Indicador1", "Cuenta2 + Cuenta4", "Malcorra");
         	this.procesador2.cargarIndPredefinidos("Indicador2", "Cuenta1 * Cuenta2", "Sancor");
         	this.procesador3.cargarIndPredefinidos("Indicador3", "Cuenta1 - Cuenta3", "Correa");
@@ -54,7 +54,7 @@ public class PruebaIndicadoresTest {
         
         @Test
         public void calcular(){
-             assertEquals(this.procesador1.getIndicadores().get(0).operar("Cuenta2 + Cuenta4"),1700);
+             assertEquals(this.procesador1.calcularIndicador(this.procesador1.getIndicadores().get(0)),1700);
         }
         
         
