@@ -1,7 +1,6 @@
 package ar.edu.utn.dds.PROCESARARCHIVO;
 
-import java.io.BufferedReader;
-import java.nio.Buffer;
+
 import java.util.ArrayList;
 
 public class Indicador implements IOperacion{
@@ -9,6 +8,9 @@ public class Indicador implements IOperacion{
 	private String operacion;
 	private String empresa;
 	private LeerArchivo lector;
+	private ArrayList<Cuenta> cuentasEmpresa;
+	private ProcesarIndicadores p;
+	
 	
 	 public LeerArchivo getLector() {
 		return lector;
@@ -42,22 +44,98 @@ public class Indicador implements IOperacion{
 		return parser.parse(operacion);
 		
 	}
-	
-	public ArrayList<Cuenta> buscarEmpresa(String nombreEmpresa){
+	//busco la empresa sobre la que quiero calcular el indicador para obtener las cuentas de esa empresa sobre las que puede aplicar indicador
+	public void buscarEmpresa(String nombreEmpresa){
 		try{
 		for(int e=0;e<lector.getEmpresas().size();e++){
 			if(lector.getEmpresas().get(e).getNombre().equals(nombreEmpresa)){
-				return lector.getEmpresas().get(e).getCuentas();
+				this.setCuentasEmpresa(lector.getEmpresas().get(e).getCuentas());
 			}
 		
 		}
 		}catch(Exception e){
 		  
 		};
-		return null;
+		return;
+	}
+	private void descomponerString(String operaciones){
+		char[] c=operaciones.toCharArray();
+		StringBuilder s= new StringBuilder();
+		
+		for(int i=0;i<c.length;i++){
+			
+			if (c[i] =='+' ||c[i] == '-' ||c[i] =='(' ||c[i] == ')' ||c[i] =='*' ||c[i] == '/'  ){
+				
+				if(s.length()==0){
+					//lista.add(s.toString());
+					Indicador ind=this.buscarIndicador(s.toString());
+					if(ind!=null){
+						String x=ind.getOperacion();
+						getOperaciones().add(x);//agrego una operacion
+						this.descomponerString(x);
+						x=null;
+					}
+					else{
+						Cuenta cue=buscarCuenta(s.toString());
+						getOperaciones().add(String.valueOf(cue.getValor()));
+					}
+					
+					
+					
+					s= new StringBuilder();
+				}
+				getOperaciones().add(""+c[i]);
+			
+			}
+				
+			else {
+				s.append(c[i]);
+			    						
+			}
+			
+		}
+		
+		
 	}
 	
+	private String armarExpresion() {
+		String s=null;
+		for(int i=0;i<this.getOperaciones().size();i++){
+			s.concat(this.getOperaciones().get(i));
+		}
+		return s;
+	}
+        
+	private Cuenta buscarCuenta(String s){
+		
+		for(int i=0; i< this.getCuentasEmpresa().size();i++){
+			if(this.getCuentasEmpresa().get(i).getNombre().equals(s)){
+				return this.getCuentasEmpresa().get(i);
+			}
+		}
+		return null;
+		
+	}
+		
+	private int calcularIndicador(){
+		
+		this.descomponerString(this.getOperacion());
+		return parser.parse(this.armarExpresion());
+		
+		
+	}
 
+	
+	private Indicador buscarIndicador(String s) {
+		// TODO Auto-generated method stub
+		
+		for(int i=0; i< p.getIndicadores().size();i++){
+			if(p.getIndicadores().get(i).getNombre().equals(s)){
+				return p.getIndicadores().get(i);
+			}
+		}
+		return null;
+	}
 	
 	public ArrayList<String> getOperaciones() {
 		return operaciones;
@@ -74,5 +152,11 @@ public class Indicador implements IOperacion{
 	@Override
 	public int calcular() {
 		return operar(this.getOperacion());
+	}
+	public ArrayList<Cuenta> getCuentasEmpresa() {
+		return cuentasEmpresa;
+	}
+	public void setCuentasEmpresa(ArrayList<Cuenta> cuentasEmpresa) {
+		this.cuentasEmpresa = cuentasEmpresa;
 	}
 }
