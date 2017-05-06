@@ -4,8 +4,10 @@ package ar.edu.utn.dds.PROCESARARCHIVO;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
 
 import jxl.Cell;
 import jxl.CellType;
@@ -18,7 +20,7 @@ public class ProcesarIndicadores {
 	private ArrayList<Cuenta> cuentasEmpresa;//de la empresa sobre la que el indicador esta trabajando, me guardo todas sus cuentas para utilizarla para calcular el indicador
 	 private ArrayList<String> operaciones =new ArrayList<String>();//operaciones es una lista que va descomponiendo la operacion de los indicadores hasta llegar a un ponto en donde son todos cuentas y operadores
 	private ArrayList<Indicador> indicadores = new ArrayList<Indicador>();
-	
+	   SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");//declaro el formato de la fecha
      
 //leo el excel y lo cargo en la lista de indicadores con el nombre del indicador y la operacion ver si al excel agregar la empresa
 	//formato de excel columna 1 nombre indicador columna 2 operacion columna 3 nombre de la empresa
@@ -134,11 +136,31 @@ public class ProcesarIndicadores {
 
 	private Cuenta buscarCuenta(String s){//falta agregar que busque la fecha mas reciente
 			try{
+				ArrayList<Cuenta> listaDeCuentasConIgualNombreDeCuentaDeUnaEmpresa=new ArrayList<Cuenta>();
+				Cuenta c=null;
+				Date ultimaFecha=new Date();
+				
 			for(int i=0; i< this.getCuentasEmpresa().size();i++){
 				if(this.getCuentasEmpresa().get(i).getNombre().equals(s)){
-					return this.getCuentasEmpresa().get(i);
+					
+					listaDeCuentasConIgualNombreDeCuentaDeUnaEmpresa.add(this.getCuentasEmpresa().get(i));
 				}
-			}}catch(Exception e){e.printStackTrace(System.out);};
+				}
+			int i=0;
+			while(i<listaDeCuentasConIgualNombreDeCuentaDeUnaEmpresa.size())	{
+				ultimaFecha =formatoFecha.parse(listaDeCuentasConIgualNombreDeCuentaDeUnaEmpresa.get(i).getFecha());
+				if((ultimaFecha.compareTo(formatoFecha.parse(listaDeCuentasConIgualNombreDeCuentaDeUnaEmpresa.get(i+1).getFecha())))>0){
+					//ultimafecha seria la fecha mas reciente
+					c=listaDeCuentasConIgualNombreDeCuentaDeUnaEmpresa.get(i);
+					
+				}
+				i++;
+
+			}
+			return c;
+			
+				
+			}catch(Exception e){e.printStackTrace(System.out);};
 			
 			return null;
 			
