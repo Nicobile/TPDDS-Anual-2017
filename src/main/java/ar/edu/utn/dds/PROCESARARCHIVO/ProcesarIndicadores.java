@@ -71,22 +71,21 @@ public class ProcesarIndicadores {
 				
 				if (c[i] =='+' ||c[i] == '-' ||c[i] =='(' ||c[i] == ')' ||c[i] =='*' ||c[i] == '/'  ){
 					
-					if(s.length()==0){
+					
+					if(s.length()>0){
 						//lista.add(s.toString());
 						Indicador ind=this.buscarIndicador(s.toString());
 						if(ind!=null){
-							String x=ind.getOperacion();
-							getOperaciones().add(x);//agrego una operacion
+							String x=new String();
+									x=ind.getOperacion();
+							//getOperaciones().add(x);//agrego una operacion
 							this.descomponerString(x);
-							x=null;
+							
 						}
 						else{
 							Cuenta cue=buscarCuenta(s.toString());
 							getOperaciones().add(String.valueOf(cue.getValor()));
-						}
-						
-						
-						
+						}															
 						s= new StringBuilder();
 					}
 					getOperaciones().add(""+c[i]);
