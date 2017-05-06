@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class PruebaIndicadoresTest {
+	    private LeerArchivo lector;
         private ProcesarIndicadores procesador1;
         private ProcesarIndicadores procesador2;
         private ProcesarIndicadores procesador3;
@@ -26,9 +27,8 @@ public class PruebaIndicadoresTest {
         
         @Before
         public void inicializacion(){
-        	this.procesador1 = new ProcesarIndicadores();
-        	this.procesador2 = new ProcesarIndicadores();
-        	this.procesador3 = new ProcesarIndicadores();
+        	this.lector = new LeerArchivo();
+        	this.lector.leerArchivo();
         	this.cuentasMalcorra = new ArrayList<Cuenta>();
         	this.cuentasSancor = new ArrayList<Cuenta>();
         	this.cuentasCorrea = new ArrayList<Cuenta>();
@@ -45,9 +45,15 @@ public class PruebaIndicadoresTest {
         	this.Malcorra = new Empresa("Malcorra",cuentasMalcorra);
         	this.Sancor = new Empresa("Sancor",cuentasSancor);
         	this.Correa = new Empresa("Correa",cuentasCorrea);
+        	this.procesador1 = new ProcesarIndicadores(lector,cuentasMalcorra,);
+        	this.procesador2 = new ProcesarIndicadores();
+        	this.procesador3 = new ProcesarIndicadores();
         	this.procesador1.cargarIndPredefinidos("Indicador1", "Cuenta2 + Cuenta4", "Malcorra");
         	this.procesador2.cargarIndPredefinidos("Indicador2", "Cuenta1 * Cuenta2", "Sancor");
         	this.procesador3.cargarIndPredefinidos("Indicador3", "Cuenta1 - Cuenta3", "Correa");
+        	this.procesador1.buscarEmpresa(procesador1.getIndicadores().get(0));
+        	this.procesador2.buscarEmpresa(procesador2.getIndicadores().get(0));
+        	this.procesador3.buscarEmpresa(procesador3.getIndicadores().get(0));
         }
         
         

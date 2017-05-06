@@ -16,12 +16,20 @@ import jxl.Workbook;
 import jxl.read.biff.BiffException;
 
 public class ProcesarIndicadores {
-	private LeerArchivo lector;//me permite conocer a la lista de empresas para buscar sobre la cual estoy calculando
-	private ArrayList<Cuenta> cuentasEmpresa;//de la empresa sobre la que el indicador esta trabajando, me guardo todas sus cuentas para utilizarla para calcular el indicador
-	 private ArrayList<String> operaciones =new ArrayList<String>();//operaciones es una lista que va descomponiendo la operacion de los indicadores hasta llegar a un ponto en donde son todos cuentas y operadores
-	private ArrayList<Indicador> indicadores = new ArrayList<Indicador>();
+	public LeerArchivo lector;//me permite conocer a la lista de empresas para buscar sobre la cual estoy calculando
+	public ArrayList<Cuenta> cuentasEmpresa;//de la empresa sobre la que el indicador esta trabajando, me guardo todas sus cuentas para utilizarla para calcular el indicador
+	 public ArrayList<String> operaciones =new ArrayList<String>();//operaciones es una lista que va descomponiendo la operacion de los indicadores hasta llegar a un ponto en donde son todos cuentas y operadores
+	public ArrayList<Indicador> indicadores = new ArrayList<Indicador>();
 	   SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");//declaro el formato de la fecha
-     
+    
+	   
+public ProcesarIndicadores(LeerArchivo lector, ArrayList<Cuenta> cuentasEmpresa,
+			ArrayList<Indicador> indicadores) {
+		super();
+		this.lector = lector;
+		this.cuentasEmpresa = cuentasEmpresa;
+		this.indicadores = indicadores;
+	}
 //leo el excel y lo cargo en la lista de indicadores con el nombre del indicador y la operacion ver si al excel agregar la empresa
 	//formato de excel columna 1 nombre indicador columna 2 operacion columna 3 nombre de la empresa
 	void leerExcel() throws IOException ,FileNotFoundException  {
