@@ -64,6 +64,10 @@ public class ProcesarIndicadores {
 				
 				if(s.length()==0){
 					lista.add(s.toString());
+					
+					
+					
+					
 					s= new StringBuilder();
 				}
 				lista.add(""+c[i]);

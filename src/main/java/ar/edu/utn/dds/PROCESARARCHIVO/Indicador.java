@@ -7,11 +7,19 @@ import java.util.ArrayList;
 public class Indicador implements IOperacion{
 	private String nombre;
 	private String operacion;
-	private Empresa empresa;
-	 public Empresa getEmpresa() {
+	private String empresa;
+	private LeerArchivo lector;
+	
+	 public LeerArchivo getLector() {
+		return lector;
+	}
+	public void setLector(LeerArchivo lector) {
+		this.lector = lector;
+	}
+	public String getEmpresa() {
 		return empresa;
 	}
-	public void setEmpresa(Empresa empresa) {
+	public void setEmpresa(String empresa) {
 		this.empresa = empresa;
 	}
 	ArrayList<String> operaciones =new ArrayList<String>();
@@ -33,6 +41,20 @@ public class Indicador implements IOperacion{
 		
 		return parser.parse(operacion);
 		
+	}
+	
+	public ArrayList<Cuenta> buscarEmpresa(String nombreEmpresa){
+		try{
+		for(int e=0;e<lector.getEmpresas().size();e++){
+			if(lector.getEmpresas().get(e).getNombre().equals(nombreEmpresa)){
+				return lector.getEmpresas().get(e).getCuentas();
+			}
+		
+		}
+		}catch(Exception e){
+		  
+		};
+		return null;
 	}
 	
 
