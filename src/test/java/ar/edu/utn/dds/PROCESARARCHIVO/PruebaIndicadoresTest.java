@@ -41,9 +41,8 @@ public class PruebaIndicadoresTest {
         	assertEquals(this.procesador1.getIndicadores().get(1).getOperacion(),"cuentaB*(cuentaC+cuentaE)");
         	assertEquals(this.procesador1.getIndicadores().get(2).getNombre(),"Indicador3");
         	assertEquals(this.procesador1.getIndicadores().get(2).getNombreEmpresa(),"Facebook");
-        	assertEquals(this.procesador1.getIndicadores().get(2).getOperacion(),"cuentaB-cuentaC");
+        	assertEquals(this.procesador1.getIndicadores().get(2).getOperacion(),"cuentaB-cuentaC");     	
         	
-        	//assertEquals(this.procesador1.descomponerString("4+5+cuentaA", this.procesador1.obtenerSoloLasCuentasMasRecientesDeEmpresa(this.lector.getEmpresas().get(0))),"4+5+1000");
         	
         	
         }

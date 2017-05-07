@@ -124,6 +124,8 @@ public int calcularIndicador(Indicador i,LeerArchivo lector) throws ParseExcepti
 	listaOperacionDelIndicador=this.descomponerString(i.getOperacion(),cuentasMasRecientesEmpresa);
 	return i.operar(this.armarExpresion(listaOperacionDelIndicador));
 }
+//este codifo anda con cuentas
+/*
 public ArrayList<String> descomponerString(String operaciones,ArrayList<Cuenta> cuentas){ //descompongo la operacion de un indicador y agrego a la lista el valor de la cuenta
 	ArrayList<String> operacionDeIndicadorDescompuesta=new ArrayList<String>();
 	char[] c=operaciones.toCharArray();
@@ -137,47 +139,103 @@ public ArrayList<String> descomponerString(String operaciones,ArrayList<Cuenta> 
 			
 		else {
 			s.append(c[i]);
-			}
-		
-		//	if(s.length()>0){
-				//lista.add(s.toString());
-			/*	Indicador ind=this.buscarIndicador(s.toString());
-				if(ind!=null){
-					String x=new String();
-							x=ind.getOperacion();
-					//getOperaciones().add(x);//agrego una operacion
-					this.descomponerString(x);
-					
-				}*/
-				
-				
+			}		
 				Cuenta cue=this.buscarCuenta(s.toString(),cuentas);
 				if(cue!=null){
 					operacionDeIndicadorDescompuesta.add(String.valueOf(cue.getValor()));
 					s.setLength(0);
 					}
 				
-					//operacionDeIndicadorDescompuesta.add(Integer.toString(cue.getValor()));
-					//operacionDeIndicadorDescompuesta.add(s.toString());
+					
 					
 					
 				}															
 				
-			//}
+			
 	return operacionDeIndicadorDescompuesta;
 		
 		}
-		/*	
+		*/
+private Indicador buscarIndicador(String ind){// busco un indicador de la lista ya sea desde pq es predefinido o pq es de una lista
+	for(int i=0;i<indicadores.size();i++){
+		if(indicadores.get(i).getNombre().equals(ind)){
+			return indicadores.get(i);
+		}
+	}
+	return null;
+}
+public ArrayList<String> descomponerString(String operaciones,ArrayList<Cuenta> cuentas){//el nombre de indicador ni cuenta deben tener numeros
+	ArrayList<String> operacionDeIndicadorDescompuesta=new ArrayList<String>();
+	char[] c=operaciones.toCharArray();
+	StringBuilder s= new StringBuilder();
+for(int i=0;i<c.length;i++){
+		
+		if (c[i] =='+' ||c[i] == '-' ||c[i] =='(' ||c[i] == ')' ||c[i] =='*' ||c[i] == '/'  ){
+			operacionDeIndicadorDescompuesta.add(Character.toString(c[i]));}
 		else {
 			s.append(c[i]);
-		    						
-		}*/
+			}	
+		Cuenta cue=this.buscarCuenta(s.toString(),cuentas);
+		if(cue!=null){
+			operacionDeIndicadorDescompuesta.add(String.valueOf(cue.getValor()));
+			s.setLength(0);
+			}
+		Indicador ind=this.buscarIndicador(s.toString());
+		if(ind!=null){
+			operacionDeIndicadorDescompuesta.add(ind.getOperacion());
+			s.setLength(0);
+		}	
+		if(c[i]=='0'||c[i]=='1'||c[i]=='2'||c[i]=='3'||c[i]=='4'||c[i]=='5'||c[i]=='6'||c[i]=='7'||c[i]=='8'||c[i]=='9'){
+			operacionDeIndicadorDescompuesta.add(Character.toString(c[i]));
+		}
+}
+while(this.tieneCuenta(operacionDeIndicadorDescompuesta, cuentas)|| this.tieneIndicadores(operacionDeIndicadorDescompuesta)){
+	
+	this.descomponerString(operaciones, cuentas);
+}
+
+           return operacionDeIndicadorDescompuesta;  
+}
+private Boolean tieneIndicadores(ArrayList<String> operaciones){
+	for (int i=0;i<indicadores.size();i++){
+		if((this.buscarIndicador(operaciones.get(i)))!=null){
+			return true;
+		}
+	}
+	return false;
+}
+private Boolean tieneCuenta(ArrayList<String> operacion,ArrayList<Cuenta> cuentas){
+	for (int i=0;i<cuentas.size();i++){
+		if((this.buscarCuenta(operacion.get(i),cuentas))!=null){
+			return true;
+		}
+	}
+	return false;
+
+}
+private ArrayList<String> reemplazarCuentas(ArrayList<String> operaciones,ArrayList<Cuenta> cuentas){
+	ArrayList<String> lista=new ArrayList<>();
+	for(int i=0;i<operaciones.size();i++){
+	
+	Cuenta cue=this.buscarCuenta(operaciones.get(i),cuentas);
+	if(cue!=null){
+		lista.add(String.valueOf(cue.getValor()));
+		
+		}
+	else{
+		lista.add(operaciones.get(i));
+	}
+			
+}return lista;
+}
+		
 	
 	
-private String armarExpresion(ArrayList<String> listaDeOperacion) {
+private String armarExpresion(ArrayList<String> listaDeOperacion) {//los signos -deben ir acompañados por un parentesis luego
 	String s=new String();
 	for(int i=0;i<listaDeOperacion.size();i++){
-		s=s.concat(" ").concat(listaDeOperacion.get(i));
+		
+		s=s.concat(listaDeOperacion.get(i));
 	}
 	return s;
 }
@@ -194,7 +252,7 @@ private String armarExpresion(ArrayList<String> listaDeOperacion) {
 		 LeerArchivo lector=new LeerArchivo();
 		 lector.leerArchivo();
 		 ProcesarIndicadores p=new ProcesarIndicadores(lector);
-		 p.leerExcel();
+		// p.leerExcel();
 		 ExpressionParser e=new ExpressionParser();
 		 ArrayList<String> lista=new ArrayList<>();
 		 ArrayList<Cuenta> cuentas= new ArrayList<>();
@@ -206,15 +264,27 @@ private String armarExpresion(ArrayList<String> listaDeOperacion) {
 		 cuentas.add(cuentaB);
 		 cuentas.add(cuentaC);
 		 cuentas.add(cuentaD);
-		 Indicador i=new Indicador("Indicador1", "(cuentaB-cuentaC-cuentaA)*cuentaD", "Facebook");
-		 lista=p.descomponerString(i.getOperacion(),cuentas);
-		/* for(int j=0;j<lista.size();j++){
-		 System.out.print(lista.get(j));
-		 }*/
-		 //System.out.print(p.armarExpresion(lista));
-		 System.out.print(e.parse(p.armarExpresion(lista)));
+		 Indicador i=new Indicador("IndicadorA", "(cuentaB-(cuentaC)*cuentaA)*cuentaD", "Facebook");
+		 Indicador y=new Indicador("IndicadorB", "(cuentaB-IndicadorA*cuentaA)*cuentaD", "Facebook");
+		 Indicador j=new Indicador("IndicadorC", "(cuentaB-(cuentaC)*cuentaA)*cuentaD", "Facebook");
+		 Indicador k=new Indicador("IndicadorD", "(cuentaB-(cuentaC)*IndicadorA)*cuentaD", "Facebook");
+		 Indicador h=new Indicador("IndicadorE", "(Indicador1)*Indicador3-IndicadorB", "Facebook");
+		 p.indicadores.add(i);
+		 p.indicadores.add(y);
+		 p.indicadores.add(j);
+		 p.indicadores.add(k);
 		 
-		
+		 lista=p.descomponerString(k.getOperacion(),cuentas);
+		 /*for(int x=0;x<lista.size();x++){
+		 System.out.print(lista.get(x));
+			 //System.out.print(p.descomponerString(p.armarExpresion(lista), cuentas));
+		 }*/
+		 System.out.print(p.armarExpresion(lista));
+		//System.out.print(e.parse(p.armarExpresion(lista)));
+		//System.out.print(e.parse(p.armarExpresion(p.descomponerString(p.armarExpresion(lista), cuentas))));
+		 
+		 
+		 //System.out.print(p.reemplazarCuentas(p.descomponerString(p.armarExpresion(lista), cuentas),cuentas));
 		 
 				 
  }
