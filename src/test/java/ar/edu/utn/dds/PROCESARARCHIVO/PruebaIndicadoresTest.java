@@ -21,13 +21,16 @@ public class PruebaIndicadoresTest {
         	this.procesador1 = new ProcesarIndicadores();
         	this.lector.leerArchivo();
         	this.procesador1.leerExcel();
+        /*	this.procesador1.buscarEmpresa(this.procesador1.getIndicadores().get(0));
+        	this.procesador1.buscarEmpresa(this.procesador1.getIndicadores().get(1));
+        	this.procesador1.buscarEmpresa(this.procesador1.getIndicadores().get(2)); */
         }
         
         
         
         @Test
         public void calcular(){
-             assertEquals(this.procesador1.calcularIndicador(this.procesador1.getIndicadores().get(0)),1700);
+             assertEquals(this.procesador1.calcularIndicador(this.procesador1.getIndicadores().get(0)),1400);
         }
         
         
