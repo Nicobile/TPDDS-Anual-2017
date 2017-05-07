@@ -1,5 +1,7 @@
 package ar.edu.utn.dds.PROCESARARCHIVO;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.BitSet;
 import java.util.Locale;
 
@@ -105,6 +107,10 @@ public class ExpressionParser {
             public void reportAmbiguity(final Parser arg0, final DFA arg1, final int arg2, final int arg3, final boolean arg4, final BitSet arg5, final ATNConfigSet arg6) {
             }
         };
+    }
+    public static void main(String[] args) throws IOException, ParseException {
+    	ExpressionParser p= new ExpressionParser();
+    	System.out.print(p.parse("45 - 6"));
     }
 
 }
