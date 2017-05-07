@@ -1,8 +1,8 @@
 Facebook cuentaA 1000 27/03/2015
 Facebook cuentaD 400  09/07/2017
-CocaCola cuentaB  700  15/04/2010
-Pepsico cuentaB 200  11/02/2011
-Pepsico cuentaC  1100 31/12/2013
-CocaCola cuentaC 500  11/02/2011
-Pepsico cuentaE  100  31/12/2013
+Facebook cuentaB  700  15/04/2010
+Facebook cuentaB 200  11/02/2011
+Facebook cuentaC  1100 31/12/2013
+Facebook cuentaC 500  11/02/2011
+Facebook cuentaE  100  31/12/2013
 
