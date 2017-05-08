@@ -8,14 +8,12 @@ public class Indicador{
 	private String operacion;
 	private String nombreEmpresa;
 	private ExpressionParser parser = new ExpressionParser();
-	
-	public Indicador(String nombre, String operacion, String nombreEmpresa) {
+		public Indicador(String nombre, String operacion, String nombreEmpresa) {
 		super();
 		this.nombre = nombre;
 		this.operacion = operacion;
 		this.nombreEmpresa = nombreEmpresa;
 	}
-
 	public int operar(String operacion){
 		
 		return parser.parse(operacion);
