@@ -15,8 +15,8 @@ import jxl.Workbook;
 import jxl.read.biff.BiffException;
 
 public class ProcesarIndicadores {
-	private LeerArchivo lector;//me permite conocer a la lista de empresas para buscar sobre la cual estoy calculando
-	public ProcesarIndicadores(LeerArchivo lector) {
+	private LectorArchivo lector;//me permite conocer a la lista de empresas para buscar sobre la cual estoy calculando
+	public ProcesarIndicadores(LectorArchivo lector) {
 		super();
 		this.lector = lector;
 	}
@@ -28,10 +28,10 @@ public class ProcesarIndicadores {
 	   
 //leo el excel y lo cargo en la lista de indicadores con el nombre del indicador y la operacion ver si al excel agregar la empresa
 	//formato de excel columna 1 nombre indicador columna 2 operacion columna 3 nombre de la empresa
-	void leerExcel() throws IOException ,FileNotFoundException  {
+	void leerExcel(String archivo) throws IOException ,FileNotFoundException  {
 		
        //File inputWorkbook = new File(this.getClass().getResource("/Indicadores.xls").getFile());	
-		File inputWorkbook = new File("../2017-mn-group-12/src/test/resources/Indicadores.xls");
+		File inputWorkbook = new File(archivo);
         Workbook w=null;
         try {
          w = Workbook.getWorkbook(inputWorkbook);                      
@@ -45,6 +45,7 @@ public class ProcesarIndicadores {
                    CellType type = cell.getType();               
                   
                    if(type== CellType.LABEL){
+                	   
                 	   Indicador indicador= new Indicador(cell.getContents(),cell2.getContents(),cell3.getContents());
                 	   //seteo el nombre del indicador
                 	   indicadores.add(indicador);
@@ -57,10 +58,11 @@ public class ProcesarIndicadores {
       
         }
 	
-	public void cargarIndPredefinidos(String nombre, String operacion,String nombreDeEmpresa){
+	public Indicador cargarIndPredefinidos(String nombre, String operacion,String nombreDeEmpresa){
 		//Indicador indicador=new Indicador(nombre,operacion,nombreDeEmpresa);
 		Indicador indicador=new Indicador(nombre,operacion,nombreDeEmpresa);
 		indicadores.add(indicador);
+		return indicador;
 	 }
        	
  public Empresa buscarEmpresaSobreLaQueIndicadorSeCalcula(Indicador ind){
@@ -166,7 +168,7 @@ for(int i=0;i<c.length;i++){
            return operacionDeIndicadorDescompuesta; 
            
 }
-/*
+
 private Boolean tieneIndicadores(ArrayList<String> operaciones){
 	for (int i=0;i<indicadores.size();i++){
 		if((this.buscarIndicador(operaciones.get(i)))!=null){
@@ -200,7 +202,7 @@ private ArrayList<String> reemplazarCuentas(ArrayList<String> operaciones,ArrayL
 			
 }return lista;
 }
-	*/	
+	
 	
 	
 private String armarExpresion(ArrayList<String> listaDeOperacion) {//los signos -deben ir acompañados por un parentesis luego
@@ -221,8 +223,8 @@ private String armarExpresion(ArrayList<String> listaDeOperacion) {//los signos 
 		this.indicadores = indicadores;
 	}
 	 public static void main(String[] args) throws IOException, ParseException {
-		 LeerArchivo lector=new LeerArchivo();
-		 lector.leerArchivo();
+		 LectorArchivo lector=new LectorArchivo();
+		// lector.leerArchivo();
 		 ProcesarIndicadores p=new ProcesarIndicadores(lector);
 		// p.leerExcel();
 		 ExpressionParser e=new ExpressionParser();
@@ -240,32 +242,31 @@ private String armarExpresion(ArrayList<String> listaDeOperacion) {//los signos 
 		 cuentas.add(cuentaD);
 		 cuentas.add(cuentaE);
 		 cuentas.add(cuentaF);
-		/* Indicador i=new Indicador("IndicadorA", "(cuentaB-(cuentaC)*cuentaA)*cuentaD", "Facebook");
-		 Indicador y=new Indicador("IndicadorB", "(cuentaB-IndicadorA*cuentaA)*cuentaD", "Facebook");
+		Indicador i=new Indicador("IndicadorA", "(cuentaB-(cuentaC)*cuentaA)*cuentaD", "Facebook");
+		 Indicador y=new Indicador("IndicadorB", "(cuentaB-(IndicadorA)*cuentaA)*cuentaD", "Facebook");
 		 Indicador j=new Indicador("IndicadorC", "(cuentaB-(cuentaC)*cuentaA)*cuentaD", "Facebook");
 		 Indicador k=new Indicador("IndicadorD", "(cuentaB-(cuentaC)*IndicadorA)*cuentaD", "Facebook");
-		 Indicador h=new Indicador("IndicadorE", "(IndicadorD)*IndicadorA-IndicadorB", "Facebook");
+		 Indicador h=new Indicador("IndicadorE", "(IndicadorD)*IndicadorA-(IndicadorB)", "Facebook");
+		Indicador r= p.cargarIndPredefinidos("IndicadorR", "(cuentaB-(cuentaC)*cuentaA)*cuentaD","RIco");
 		 p.indicadores.add(i);
 		 p.indicadores.add(y);
 		 p.indicadores.add(j);
 		 p.indicadores.add(k);
-		 p.indicadores.add(h);*/
+		 p.indicadores.add(h);
 		 
-		 //lista=p.descomponerString(i.getOperacion(),cuentas);
+		 lista=p.descomponerString(k.getOperacion(),cuentas);
 		 /*for(int x=0;x<lista.size();x++){
 		 System.out.print(lista.get(x));
 			 //System.out.print(p.descomponerString(p.armarExpresion(lista), cuentas));
 		 }*/
-		//System.out.print(p.armarExpresion(lista));
-		 //System.out.print(p.armarExpresion(p.descomponerString(p.armarExpresion(lista),cuentas)));
-		//System.out.print(p.calcularIndicador(i));
-		//System.out.print(e.parse(p.armarExpresion(p.descomponerString(p.armarExpresion(lista), cuentas))));
+		System.out.print( r.operar(p.armarExpresion(lista)));
 		 
+	  // System.out.print(p.calcularIndicador(k));
+		
 		 
-		 //System.out.print(p.armarExpresion(p.reemplazarCuentas(p.descomponerString(p.armarExpresion(lista), cuentas),cuentas)));
-		 
-             ProcesarIndicadores test = new ProcesarIndicadores(lector);
-           test.leerExcel();
+		 //System.out.print(p.reemplazarCuentas((p.armarExpresion(lista));
+		
+            
              
      }
 		 
