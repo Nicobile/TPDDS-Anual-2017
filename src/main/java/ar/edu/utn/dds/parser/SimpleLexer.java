@@ -1,5 +1,5 @@
 // Generated from com/nibado/example/antlr/Simple.g4 by ANTLR 4.5
-package ar.edu.utn.dds.PROCESARARCHIVO;
+package ar.edu.utn.dds.parser;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;

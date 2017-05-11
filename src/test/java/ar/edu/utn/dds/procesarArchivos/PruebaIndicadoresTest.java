@@ -1,4 +1,4 @@
-package ar.edu.utn.dds.PROCESARARCHIVO;
+package ar.edu.utn.dds.procesarArchivos;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -11,6 +11,9 @@ import static org.junit.Assert.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import ar.edu.utn.dds.procesarArchivos.LectorArchivo;
+import ar.edu.utn.dds.procesarArchivos.ProcesarIndicadores;
 
 public class PruebaIndicadoresTest {
 	    private LectorArchivo lector;

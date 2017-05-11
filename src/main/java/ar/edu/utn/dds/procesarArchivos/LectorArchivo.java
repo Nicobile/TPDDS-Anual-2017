@@ -1,4 +1,4 @@
-package ar.edu.utn.dds.PROCESARARCHIVO;
+package ar.edu.utn.dds.procesarArchivos;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -6,6 +6,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+
+import ar.edu.utn.dds.modelo.Cuenta;
+import ar.edu.utn.dds.modelo.Empresa;
 
 public class LectorArchivo {
 	// creo lista empresas

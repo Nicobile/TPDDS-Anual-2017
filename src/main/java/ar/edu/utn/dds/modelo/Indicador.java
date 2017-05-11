@@ -1,9 +1,9 @@
-package ar.edu.utn.dds.PROCESARARCHIVO;
+package ar.edu.utn.dds.modelo;
 
 
+import ar.edu.utn.dds.parser.ExpressionParser;
 
-
-public class Indicador{
+public class Indicador {
 	private String nombre;
 	private String operacion;
 	private String nombreEmpresa;
@@ -19,7 +19,7 @@ public class Indicador{
 
 
 	
-	public Indicador(String nombre, String operacion, String nombreEmpresa) {
+	public Indicador(String nombre,String operacion, String nombreEmpresa) {
 		super();
 		this.nombre = nombre;
 		this.operacion = operacion;
@@ -49,12 +49,22 @@ public class Indicador{
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+	
+
 	public String getOperacion() {
 		return operacion;
 	}
+
+
+
+
 	public void setOperacion(String operacion) {
 		this.operacion = operacion;
 	}
+
+
+
+
 	public ExpressionParser getParser() {
 		return parser;
 	}

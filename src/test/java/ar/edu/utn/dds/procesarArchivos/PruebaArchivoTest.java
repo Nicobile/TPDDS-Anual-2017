@@ -1,4 +1,4 @@
-package ar.edu.utn.dds.PROCESARARCHIVO;
+package ar.edu.utn.dds.procesarArchivos;
 
 import static org.junit.Assert.*;
 
@@ -9,6 +9,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import ar.edu.utn.dds.modelo.Cuenta;
+import ar.edu.utn.dds.procesarArchivos.LectorArchivo;
+import junit.framework.Assert;
+
 public class PruebaArchivoTest {
 
 	private LectorArchivo lector;
@@ -18,7 +22,12 @@ public class PruebaArchivoTest {
 	public void initLectura() throws FileNotFoundException, IOException {
 		this.lector = new LectorArchivo();
 		this.lector.leerArchivo(this.getClass().getResource("/Datos.txt").getFile());
+
 	}
+
+	Cuenta cuenta = new Cuenta("cuentaB", 65, "11/02/2011");
+	Cuenta cuentaX = new Cuenta("cuentaB", 452369, "15/04/2010");
+	Cuenta c = new Cuenta("cuentaA", 452362, "27/03/2015");
 
 	@Test
 
@@ -49,6 +58,18 @@ public class PruebaArchivoTest {
 		assertEquals(this.lector.getEmpresas().get(2).getCuentas().get(1).getNombre(), "cuentaC");
 		assertEquals(this.lector.getEmpresas().get(2).getCuentas().get(1).getFecha(), "11/02/2011");
 		assertEquals(this.lector.getEmpresas().get(2).getCuentas().get(1).getValor(), 6);
+
+		assertEquals(this.lector.getEmpresas().get(2).buscarUnaCuenta("cuentaB").getNombre(), cuenta.getNombre());
+		assertEquals(this.lector.getEmpresas().get(2).buscarUnaCuenta("cuentaB").getFecha(), cuenta.getFecha());
+		assertEquals(this.lector.getEmpresas().get(2).buscarUnaCuenta("cuentaB").getValor(), cuenta.getValor());
+
+		assertEquals(this.lector.getEmpresas().get(0).buscarUnaCuenta("cuentaA").getFecha(), c.getFecha());
+
+		assertNull(this.lector.getEmpresas().get(2).buscarUnaCuenta("cuentaA"));/*
+							 * cuentaA no correspone a la empresa en la posicion
+							 * 2 deberia retornar null
+							 */
+		assertNotNull(this.lector.getEmpresas().get(0).buscarUnaCuenta("cuentaA"));
 
 	}
 
