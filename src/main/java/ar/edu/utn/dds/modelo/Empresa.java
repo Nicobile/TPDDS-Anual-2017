@@ -28,6 +28,37 @@ public class Empresa {
 
 		return null;
 	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((cuentas == null) ? 0 : cuentas.hashCode());
+		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Empresa other = (Empresa) obj;
+		if (cuentas == null) {
+			if (other.cuentas != null)
+				return false;
+		} else if (!cuentas.equals(other.cuentas))
+			return false;
+		if (nombre == null) {
+			if (other.nombre != null)
+				return false;
+		} else if (!nombre.equals(other.nombre))
+			return false;
+		return true;
+	}
+
 	public Cuenta buscarUnaCuentaPorFecha(String nombreDeCuenta,String fecha) {
 		try {
 			for (int i = 0; i < getCuentas().size(); i++) {

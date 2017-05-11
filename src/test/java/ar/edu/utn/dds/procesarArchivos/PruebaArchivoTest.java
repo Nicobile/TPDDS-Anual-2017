@@ -71,6 +71,11 @@ public class PruebaArchivoTest {
 							 */
 		assertNotNull(this.lector.getEmpresas().get(0).buscarUnaCuenta("cuentaA"));
 
+		assertEquals(this.lector.consultarValorCuenta("CocaCola", "cuentaB", "11/02/2011"), 65);
+		assertTrue(this.lector.getEmpresas().get(2).buscarUnaCuenta("cuentaB").equals(cuenta));
+		assertTrue(this.lector.getEmpresas().get(0).buscarUnaCuenta("cuentaA").equals(c));
+		assertFalse(this.lector.getEmpresas().get(0).buscarUnaCuenta("cuentaA").equals(cuenta));
+		
 	}
 
 	@Test

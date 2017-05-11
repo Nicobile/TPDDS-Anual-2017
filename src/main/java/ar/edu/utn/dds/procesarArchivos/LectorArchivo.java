@@ -65,14 +65,15 @@ public class LectorArchivo {
 		this.empresas = empresas;
 	}
 
-	private int buscarEnLista(ArrayList<Empresa> empresas, String nombreEmpresa) {
+	private int buscarEmpresa(ArrayList<Empresa> empresas, String nombreEmpresa) {
+		try{
 		for (int x = 0; x < empresas.size(); x++) {
 			// pregunto si ya existe la empresa
 			if (empresas.get(x).getNombre().equals(nombreEmpresa)) {
 				return x;
 			}
 
-		}
+		}}catch(Exception e){System.out.println("NO SE ENCONTRO LA EMPRESA");};
 		return -1;
 	}
 
@@ -84,7 +85,7 @@ public class LectorArchivo {
 			int i;// indice de donde encuentra el elemento en la lista de
 					// empresas ya existentes
 
-			i = buscarEnLista(empresas, lineasArchivo.get(x).nombreEmpresa);
+			i = buscarEmpresa(empresas, lineasArchivo.get(x).nombreEmpresa);
 			// pregunto si ya existe la empresa
 
 			if ((i >= 0)) {// si ya existe la empresa
@@ -116,6 +117,35 @@ public class LectorArchivo {
 			}
 		}
 
+	}
+	public int consultarValorCuenta(String nombreEmpresa,String nombreCuenta,String fecha){
+		int i=this.buscarEmpresa(getEmpresas(), nombreEmpresa);
+		return getEmpresas().get(i).obtenerValorDeCuenta(nombreCuenta, fecha);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((empresas == null) ? 0 : empresas.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		LectorArchivo other = (LectorArchivo) obj;
+		if (empresas == null) {
+			if (other.empresas != null)
+				return false;
+		} else if (!empresas.equals(other.empresas))
+			return false;
+		return true;
 	}
 
 	public ArrayList<LineaArchivo> getLineasArchivo() {
