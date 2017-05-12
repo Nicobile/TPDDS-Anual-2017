@@ -29,7 +29,7 @@ public class ProcesarIndicadores {
 		this.lector = lector;
 	}
 
-	SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+	//SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
 	public ArrayList<Indicador> indicadores = new ArrayList<Indicador>();
 
 	// leo el excel y lo cargo en la lista de indicadores con el nombre del
@@ -49,6 +49,7 @@ public class ProcesarIndicadores {
 				Cell cell = sheet.getCell(0, i);
 				Cell cell2 = sheet.getCell(1, i);
 				Cell cell3 = sheet.getCell(2, i);
+				Cell cell4 = sheet.getCell(3, i);
 				CellType type = cell.getType();
 
 				if (type == CellType.LABEL) {
@@ -56,7 +57,7 @@ public class ProcesarIndicadores {
 					
 					
 
-					Indicador indicador = new Indicador(cell.getContents(),cell2.getContents(),cell3.getContents());
+					Indicador indicador = new Indicador(cell.getContents(),cell2.getContents(),cell3.getContents(),cell4.getContents());
 					// seteo el nombre del indicador
 					indicadores.add(indicador);
 					/*
@@ -73,13 +74,36 @@ public class ProcesarIndicadores {
 		}
 
 	}
+    public ArrayList<String> listarIndicadoresYCuentas(String nombreDeEmpresa,String fecha) {
+    	ArrayList<String> indicadoresyCuentasDeEmpresa=new ArrayList<String>();
+    	Empresa e;
+    	ArrayList<Cuenta> cuentas;
+    	try{
+    	for (int i = 0; i < indicadores.size(); i++) {
 
-	public Indicador cargarIndPredefinidos(String nombre, String operacion, String nombreDeEmpresa) {
 
-		Indicador indicador = new Indicador(nombre, operacion, nombreDeEmpresa);
+			if (indicadores.get(i).getNombreEmpresa().equals(nombreDeEmpresa) && indicadores.get(i).getFecha().equals(fecha) ){
+				indicadoresyCuentasDeEmpresa.add(indicadores.get(i).getNombre());
+				e=this.buscarEmpresaSobreLaQueIndicadorSeCalcula(indicadores.get(i));
+			cuentas=this.buscarDeUnaEmpresaTodasSusCuentas(e);
+				for(int j=0;i<cuentas.size();j++){
+					if (cuentas.get(j).getFecha().equals(fecha)){
+						indicadoresyCuentasDeEmpresa.add(cuentas.get(j).getNombre());
+					}
+				}
+				
+			}
+		}}catch(Exception ex){System.out.println("NO SE ENCONTRARON INDICADORES O CUENTAS PARA ESA EMPRESA EN ESA FECHA");};
+    return indicadoresyCuentasDeEmpresa;
+    }
+    
+	public Indicador cargarIndPredefinidos(String nombre, String operacion, String nombreDeEmpresa,String fecha) {
+
+		Indicador indicador = new Indicador(nombre, operacion, nombreDeEmpresa, fecha);
 		indicadores.add(indicador);
 		return indicador;
 	}
+	
 
 	public Empresa buscarEmpresaSobreLaQueIndicadorSeCalcula(Indicador ind) {
 		// busco en la lista de empresas el nombre de la empresadel indicador
@@ -112,20 +136,21 @@ public class ProcesarIndicadores {
 			if (x < 0) {// no existe la cuenta en la lista
 				cuentasEmpresa.add(c.get(i));
 			} else {
-				Date ultimaFecha = formatoFecha.parse(c.get(i)
-						.getFecha());/*
+				/*Date ultimaFecha = formatoFecha.parse(c.get(i)
+					.getFecha());/*
 										 * de la cuenta de la lista no filtrada
 										 * por ultimas cuentas de empresa //
 										 * obtengo // la // fecha
 										 */
 
-				if ((ultimaFecha.compareTo(formatoFecha.parse(cuentasEmpresa.get(x)
+				/*if ((ultimaFecha.compareTo(formatoFecha.parse(cuentasEmpresa.get(x)
 						.getFecha()))) > 0) {/*
 												 * comparo la fecha de la cuenta
 												 * con la que encontre en la
 												 * lista de las ultimas cuentas
 												 * de la empresa
 												 */
+				if(Integer.valueOf(c.get(i).getFecha())>Integer.valueOf(cuentasEmpresa.get(x).getFecha())){
 					// ultimafecha seria la fecha mas reciente,es decir seria la
 					// que esta en la lista no filtrada
 
@@ -149,6 +174,8 @@ public class ProcesarIndicadores {
 		return -1;
 
 	}
+	
+
 	public ArrayList<String> descomponerString(String operaciones,
 			ArrayList<Cuenta> cuentas) {/*
 										 * el // nombre // de // indicador // ni
@@ -173,7 +200,7 @@ public class ProcesarIndicadores {
 			Indicador ind = this.buscarIndicador(s.toString());
 			if (ind != null) {
 				operacionDeIndicadorDescompuesta.add(ind.getOperacion());
-				
+
 				s.setLength(0);
 			}
 			if (c[i] == '0' || c[i] == '1' || c[i] == '2' || c[i] == '3' || c[i] == '4' || c[i] == '5' || c[i] == '6'
@@ -187,9 +214,9 @@ public class ProcesarIndicadores {
 	}
 
 	private Indicador buscarIndicador(String ind) {// busco un indicador de la
-													// lista ya sea desde pq es
-													// predefinido o pq es de
-													// una lista
+		// lista ya sea desde pq es
+		// predefinido o pq es de
+		// una lista
 		for (int i = 0; i < indicadores.size(); i++) {
 			if (indicadores.get(i).getNombre().equals(ind)) {
 				return indicadores.get(i);

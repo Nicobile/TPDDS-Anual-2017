@@ -75,5 +75,6 @@ public class Cuenta {
 	public void setValor(int valor) {
 		this.valor = valor;
 	}
+	
 
 }
