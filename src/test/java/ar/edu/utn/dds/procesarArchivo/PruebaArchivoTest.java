@@ -51,7 +51,7 @@ public class PruebaArchivoTest {
 
 	@Test
 
-	public void verficarCuentasEmpresa() throws FileNotFoundException, IOException {
+	public void verficarCuentasEmpresaArchivo() throws FileNotFoundException, IOException {
 		assertEquals(this.lector.getEmpresas().get(2).getCuentas().get(0).getNombre(), "cuentaB");
 		assertEquals(this.lector.getEmpresas().get(2).getCuentas().get(0).getFecha(), "11/02/2011");
 		assertEquals(this.lector.getEmpresas().get(2).getCuentas().get(0).getValor(), 654263);
@@ -59,24 +59,39 @@ public class PruebaArchivoTest {
 		assertEquals(this.lector.getEmpresas().get(2).getCuentas().get(1).getFecha(), "11/02/2011");
 		assertEquals(this.lector.getEmpresas().get(2).getCuentas().get(1).getValor(), 653);
 
-		assertEquals(this.lector.getEmpresas().get(2).buscarUnaCuenta("cuentaB").getNombre(), cuenta.getNombre());
-		assertEquals(this.lector.getEmpresas().get(2).buscarUnaCuenta("cuentaB").getFecha(), cuenta.getFecha());
-		assertEquals(this.lector.getEmpresas().get(2).buscarUnaCuenta("cuentaB").getValor(), cuenta.getValor());
-
-		assertEquals(this.lector.getEmpresas().get(0).buscarUnaCuenta("cuentaA").getFecha(), c.getFecha());
-
-		assertNull(this.lector.getEmpresas().get(2).buscarUnaCuenta("cuentaA"));/*
-							 * cuentaA no correspone a la empresa en la posicion
-							 * 2 deberia retornar null
-							 */
-		assertNotNull(this.lector.getEmpresas().get(0).buscarUnaCuenta("cuentaA"));
-
-		assertEquals(this.lector.consultarValorCuenta("CocaCola", "cuentaB", "11/02/2011"), 654263);
-		assertTrue(this.lector.getEmpresas().get(2).buscarUnaCuenta("cuentaB").equals(cuenta));
-		assertTrue(this.lector.getEmpresas().get(0).buscarUnaCuenta("cuentaA").equals(c));
-		assertFalse(this.lector.getEmpresas().get(0).buscarUnaCuenta("cuentaA").equals(cuenta));
-		
 	}
+	
+	@Test
+	public void consultarObjetoCuenta() throws FileNotFoundException, IOException {
+	
+	
+	assertEquals(this.lector.getEmpresas().get(2).buscarUnaCuenta("cuentaB").getNombre(), cuenta.getNombre());
+	assertEquals(this.lector.getEmpresas().get(2).buscarUnaCuenta("cuentaB").getFecha(), cuenta.getFecha());
+	assertEquals(this.lector.getEmpresas().get(2).buscarUnaCuenta("cuentaB").getValor(), cuenta.getValor());
+
+	assertEquals(this.lector.getEmpresas().get(0).buscarUnaCuenta("cuentaA").getFecha(), c.getFecha());
+
+	assertNull(this.lector.getEmpresas().get(2).buscarUnaCuenta("cuentaA"));/*
+						 * cuentaA no correspone a la empresa en la posicion
+						 * 2 deberia retornar null
+						 */
+	assertNotNull(this.lector.getEmpresas().get(0).buscarUnaCuenta("cuentaA"));
+
+	
+	assertTrue(this.lector.getEmpresas().get(2).buscarUnaCuenta("cuentaB").equals(cuenta));
+	assertTrue(this.lector.getEmpresas().get(0).buscarUnaCuenta("cuentaA").equals(c));
+	assertFalse(this.lector.getEmpresas().get(0).buscarUnaCuenta("cuentaA").equals(cuenta));
+	
+	}
+
+	
+	@Test
+	 
+	public void consultarValorCuenta() throws FileNotFoundException, IOException {
+		assertEquals(this.lector.consultarValorCuenta("CocaCola", "cuentaB", "11/02/2011"), 654263);
+
+	}
+	
 
 	@Test
 
