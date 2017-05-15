@@ -21,7 +21,7 @@ import jxl.read.biff.BiffException;
 
 public class ProcesarIndicadores {
 	private LectorArchivo lector;// me permite conocer a la lista de empresas
-									// para buscar sobre la cual estoy
+	private Empresa e;								// para buscar sobre la cual estoy
 	//private Operacion operacion;								// calculando
 
 	public ProcesarIndicadores(LectorArchivo lector) {
@@ -31,7 +31,6 @@ public class ProcesarIndicadores {
 
 	//SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
 	public ArrayList<Indicador> indicadores = new ArrayList<Indicador>();
-
 	// leo el excel y lo cargo en la lista de indicadores con el nombre del
 	// indicador y la operacion ver si al excel agregar la empresa
 	// formato de excel columna 1 nombre indicador columna 2 operacion columna 3
@@ -58,9 +57,9 @@ public class ProcesarIndicadores {
 					
 
 					Indicador indicador = new Indicador(cell.getContents(),cell3.getContents(),cell4.getContents());
-					Operacion operacion =new Operacion();
+					/*Operacion operacion =new Operacion();
 					operacion.setOperacion(cell2.getContents());
-					indicador.setOperacion(operacion);
+					indicador.setOperacion(operacion);*/
 					
 					
 					// seteo el nombre del indicador
@@ -79,6 +78,14 @@ public class ProcesarIndicadores {
 		}
 
 	}
+	public void inciarIndicadoresDeEmpresa(Empresa e){
+		for(int i=0; i<indicadores.size();i++){
+			if(indicadores.get(i).getNombreEmpresa().equals(e.getNombre())){
+				e.getIndicadores().add(indicadores.get(i));
+			}
+		}
+	}
+	
     public ArrayList<String> listarIndicadoresYCuentas(String nombreDeEmpresa,String fecha) {
     	ArrayList<String> indicadoresyCuentasDeEmpresa=new ArrayList<String>();
     	Empresa e;
@@ -107,7 +114,7 @@ public class ProcesarIndicadores {
 		Indicador indicador = new Indicador(nombre, nombreDeEmpresa, fecha);
 		Operacion operacion =new Operacion();
 		operacion.setOperacion(op);
-		indicador.setOperacion(operacion);
+		//indicador.setOperacion(operacion);
 		indicadores.add(indicador);
 		return indicador;
 	}
@@ -129,7 +136,7 @@ public class ProcesarIndicadores {
 
 		return e.getCuentas();
 	}
-
+/*
 	public ArrayList<Cuenta> obtenerSoloLasCuentasMasRecientesDeEmpresa(Empresa e) throws ParseException {// carga
 																											// a
 																											// cuentasEmpresa
@@ -145,19 +152,10 @@ public class ProcesarIndicadores {
 				cuentasEmpresa.add(c.get(i));
 			} else {
 				/*Date ultimaFecha = formatoFecha.parse(c.get(i)
-					.getFecha());/*
-										 * de la cuenta de la lista no filtrada
-										 * por ultimas cuentas de empresa //
-										 * obtengo // la // fecha
-										 */
+					.getFecha());
 
 				/*if ((ultimaFecha.compareTo(formatoFecha.parse(cuentasEmpresa.get(x)
-						.getFecha()))) > 0) {/*
-												 * comparo la fecha de la cuenta
-												 * con la que encontre en la
-												 * lista de las ultimas cuentas
-												 * de la empresa
-												 */
+						.getFecha()))) > 0) {
 				if(Integer.valueOf(c.get(i).getFecha())>Integer.valueOf(cuentasEmpresa.get(x).getFecha())){
 					// ultimafecha seria la fecha mas reciente,es decir seria la
 					// que esta en la lista no filtrada
@@ -172,7 +170,7 @@ public class ProcesarIndicadores {
 		}
 		return cuentasEmpresa;
 	}
-
+*/
 	private int existeLaCuenta(Cuenta c, ArrayList<Cuenta> cuentasEmpresa) {
 		for (int i = 0; i < cuentasEmpresa.size(); i++) {
 			if (cuentasEmpresa.get(i).getNombre().equals(c.getNombre())) {

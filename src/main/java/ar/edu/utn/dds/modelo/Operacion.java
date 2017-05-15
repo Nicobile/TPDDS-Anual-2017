@@ -4,12 +4,6 @@ public class Operacion {
 private String operacion;
 
 
-
-
-
-
-
-
 public String getOperacion() {
 	return operacion;
 }

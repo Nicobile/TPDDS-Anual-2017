@@ -1,6 +1,6 @@
 package ar.edu.utn.dds.modelo;
 
-public class Cuenta implements Operando{
+public class Cuenta {
 	private String fecha;
 	private String nombre;
 	private int valor;
@@ -76,11 +76,7 @@ public class Cuenta implements Operando{
 		this.valor = valor;
 	}
 
-	@Override
-	public int calcular() {
-		// TODO Auto-generated method stub
-		return this.getValor();
-	}
+
 	
 
 }

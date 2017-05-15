@@ -2,11 +2,12 @@ package ar.edu.utn.dds.modelo;
 
 
 
-public class Indicador extends NodoIndicador{
+public class Indicador {
 	private String nombre;
 	private Operacion operacion;
 	private String nombreEmpresa;
 	private String fecha;
+	private NodoIndicador nodo;
 	//ver de sacar la fecha
 
 	public String getFecha() {
@@ -43,13 +44,8 @@ public class Indicador extends NodoIndicador{
 		this.nombre = nombre;
 	}
 
-	public Operacion getOperacion() {
-		return operacion;
-	}
-
-	public void setOperacion(Operacion operacion) {
-		this.operacion = operacion;
-	}
-
+public int calcular(){
+	return this.nodo.calcular();
+}
 
 }

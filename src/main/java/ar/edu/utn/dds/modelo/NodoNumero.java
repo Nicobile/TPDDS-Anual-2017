@@ -8,12 +8,17 @@ public class NodoNumero implements Operando {
 		// TODO Auto-generated method stub
 		return numero;
 	}
-
+/*
 	public int getNumero() {
 		return numero;
 	}
 
 	public void setNumero(int numero) {
+		this.numero = numero;
+	}*/
+
+	public NodoNumero(int numero) {
+		super();
 		this.numero = numero;
 	}
 

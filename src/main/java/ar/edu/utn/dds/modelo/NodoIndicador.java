@@ -1,21 +1,41 @@
 package ar.edu.utn.dds.modelo;
 
+import java.util.ArrayList;
+
+
 public class NodoIndicador implements Operando{
 	private Operador operador;
 	private Operando operando1;
 	private Operando operando2;
+	
+	private String nombre;
+	private ArrayList<Indicador> indicadores;
 
 
 		
-	/*	
-		public NodoIndicador(Operador operador, Operando operando1, Operando operando2) {
+		
+		public NodoIndicador( Operando operando1,Operador operador, Operando operando2) {
 		super();
 		this.operador = operador;
 		this.operando1 = operando1;
 		this.operando2 = operando2;
-	}*/
+	}
 
-	
+			
+
+
+
+		public NodoIndicador(String nombre, ArrayList<Indicador> indicadores) {
+			super();
+			this.nombre = nombre;
+			this.indicadores = indicadores;
+		}
+
+
+
+
+
+
 
 		@Override
 		public int calcular() {

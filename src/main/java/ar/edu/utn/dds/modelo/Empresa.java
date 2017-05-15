@@ -8,6 +8,16 @@ public class Empresa {
 
 	private ArrayList<Cuenta> cuentas = new ArrayList<Cuenta>();
 
+	private ArrayList<Indicador> indicadores = new ArrayList<Indicador>();
+
+	public ArrayList<Indicador> getIndicadores() {
+		return indicadores;
+	}
+
+	public void setIndicadores(ArrayList<Indicador> indicadores) {
+		this.indicadores = indicadores;
+	}
+
 	public Empresa(String nombre, ArrayList<Cuenta> cuentas) {
 		this.nombre = nombre;
 
