@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
-import ar.edu.utn.dds.parser.ExpressionParser;
-import ar.edu.utn.dds.procesarArchivos.LectorArchivo;
-import ar.edu.utn.dds.procesarArchivos.ProcesarIndicadores;
+
 
 public interface Operando {
 public int calcular();
@@ -15,17 +13,14 @@ public int calcular();
 
 
 
-public static void main(String[] args) throws IOException, ParseException {
-	LectorArchivo lector = new LectorArchivo();
+public static void main(String[] args) throws IOException {
+	
 	// lector.leerArchivo();
-	ProcesarIndicadores p = new ProcesarIndicadores(lector);
-	// p.leerExcel();
-	ExpressionParser e = new ExpressionParser();
-	ArrayList<String> lista = new ArrayList<>();
+
 	ArrayList<Cuenta> cuentas = new ArrayList<>();
 	Cuenta cuentaA = new Cuenta("cuentaA", 1, "12/10/1976");
 	Cuenta cuentaB = new Cuenta("cuentaB", 12, "12/10/1686");
-	Cuenta cuentaC = new Cuenta("cuentaC", 182, "12/10/1696");
+	Cuenta cuentaC = new Cuenta("cuentaC", 12, "12/10/1696");
 	Cuenta cuentaD = new Cuenta("cuentaD", 13, "12/10/1676");
 	Cuenta cuentaE = new Cuenta("cuentaA", 10, "12/10/2016");
 	Cuenta cuentaF = new Cuenta("cuentaA", 1, "12/10/1986");

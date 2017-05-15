@@ -12,7 +12,7 @@ import java.util.Date;
 import ar.edu.utn.dds.modelo.Cuenta;
 import ar.edu.utn.dds.modelo.Empresa;
 import ar.edu.utn.dds.modelo.Indicador;
-import ar.edu.utn.dds.parser.ExpressionParser;
+import ar.edu.utn.dds.modelo.Operacion;
 import jxl.Cell;
 import jxl.CellType;
 import jxl.Sheet;
@@ -22,7 +22,7 @@ import jxl.read.biff.BiffException;
 public class ProcesarIndicadores {
 	private LectorArchivo lector;// me permite conocer a la lista de empresas
 									// para buscar sobre la cual estoy
-									// calculando
+	//private Operacion operacion;								// calculando
 
 	public ProcesarIndicadores(LectorArchivo lector) {
 		super();
@@ -46,10 +46,10 @@ public class ProcesarIndicadores {
 			// for (int j = 0; j < sheet.getColumns(); j++) {
 
 			for (int i = 0; i < sheet.getRows(); i++) {
-				Cell cell = sheet.getCell(0, i);
-				Cell cell2 = sheet.getCell(1, i);
-				Cell cell3 = sheet.getCell(2, i);
-				Cell cell4 = sheet.getCell(3, i);
+				Cell cell = sheet.getCell(0, i);//nombre indicador
+				Cell cell2 = sheet.getCell(1, i);//operacion
+				Cell cell3 = sheet.getCell(2, i);//nombre empresa sobre la que se calcula indicador
+				Cell cell4 = sheet.getCell(3, i);//año en la cual se calcula indicador
 				CellType type = cell.getType();
 
 				if (type == CellType.LABEL) {
@@ -57,7 +57,12 @@ public class ProcesarIndicadores {
 					
 					
 
-					Indicador indicador = new Indicador(cell.getContents(),cell2.getContents(),cell3.getContents(),cell4.getContents());
+					Indicador indicador = new Indicador(cell.getContents(),cell3.getContents(),cell4.getContents());
+					Operacion operacion =new Operacion();
+					operacion.setOperacion(cell2.getContents());
+					indicador.setOperacion(operacion);
+					
+					
 					// seteo el nombre del indicador
 					indicadores.add(indicador);
 					/*
@@ -97,9 +102,12 @@ public class ProcesarIndicadores {
     return indicadoresyCuentasDeEmpresa;
     }
     
-	public Indicador cargarIndPredefinidos(String nombre, String operacion, String nombreDeEmpresa,String fecha) {
+	public Indicador cargarIndPredefinidos(String nombre, String op, String nombreDeEmpresa,String fecha) {
 
-		Indicador indicador = new Indicador(nombre, operacion, nombreDeEmpresa, fecha);
+		Indicador indicador = new Indicador(nombre, nombreDeEmpresa, fecha);
+		Operacion operacion =new Operacion();
+		operacion.setOperacion(op);
+		indicador.setOperacion(operacion);
 		indicadores.add(indicador);
 		return indicador;
 	}
@@ -175,13 +183,9 @@ public class ProcesarIndicadores {
 
 	}
 	
-
+/*
 	public ArrayList<String> descomponerString(String operaciones,
-			ArrayList<Cuenta> cuentas) {/*
-										 * el // nombre // de // indicador // ni
-										 * // cuenta // deben // tener //
-										 * numeros
-										 */
+			ArrayList<Cuenta> cuentas) {
 		ArrayList<String> operacionDeIndicadorDescompuesta = new ArrayList<String>();
 		char[] c = operaciones.toCharArray();
 		StringBuilder s = new StringBuilder();
@@ -212,7 +216,7 @@ public class ProcesarIndicadores {
 		return operacionDeIndicadorDescompuesta;
 
 	}
-
+*/
 	private Indicador buscarIndicador(String ind) {// busco un indicador de la
 		// lista ya sea desde pq es
 		// predefinido o pq es de
@@ -236,20 +240,16 @@ public class ProcesarIndicadores {
 		return null;
 	}
 
-
+/*
 	public int calcularIndicador(Indicador i) throws ParseException {
 		ArrayList<Cuenta> cuentasMasRecientesEmpresa = new ArrayList<Cuenta>();
 		ArrayList<String> listaOperacionDelIndicador = new ArrayList<String>();
 		cuentasMasRecientesEmpresa = this
 				.obtenerSoloLasCuentasMasRecientesDeEmpresa(this.buscarEmpresaSobreLaQueIndicadorSeCalcula(
-						i));/*
-							 * a // cuentasEmpresa // le // agrego // solo //
-							 * las // cuentas // de // la // empresa // sobre //
-							 * la // que // calculo // el // indicador
-							 */
+						i));
 		listaOperacionDelIndicador = this.descomponerString(i.getOperacion(), cuentasMasRecientesEmpresa);
 		return i.operar(this.armarExpresion(listaOperacionDelIndicador));
-	}
+	}*/
 
 
 	
@@ -283,7 +283,7 @@ public class ProcesarIndicadores {
 		// lector.leerArchivo();
 		ProcesarIndicadores p = new ProcesarIndicadores(lector);
 		// p.leerExcel();
-		ExpressionParser e = new ExpressionParser();
+		
 		ArrayList<String> lista = new ArrayList<>();
 		ArrayList<Cuenta> cuentas = new ArrayList<>();
 		Cuenta cuentaA = new Cuenta("cuentaA", 1, "12/10/1976");

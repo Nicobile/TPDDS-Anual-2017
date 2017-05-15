@@ -1,12 +1,10 @@
 package ar.edu.utn.dds.modelo;
 
-import java.util.ArrayList;
 
-import ar.edu.utn.dds.parser.ExpressionParser;
 
 public class Indicador extends NodoIndicador{
 	private String nombre;
-	private String operacion;
+	private Operacion operacion;
 	private String nombreEmpresa;
 	private String fecha;
 	//ver de sacar la fecha
@@ -18,25 +16,13 @@ public class Indicador extends NodoIndicador{
 	public void setFecha(String fecha) {
 		this.fecha = fecha;
 	}
-
-	private ExpressionParser parser = new ExpressionParser();
 	
-	public int operar(String operacion) {
-
-		return parser.parse(operacion);
-
-	}
 
 	
 
-
-
-	
-
-	public Indicador( String nombre, String operacion,String nombreEmpresa, String fecha) {
+	public Indicador( String nombre,String nombreEmpresa, String fecha) {
 		super();
 		this.nombre = nombre;
-		this.operacion = operacion;
 		this.nombreEmpresa = nombreEmpresa;
 		this.fecha = fecha;
 	}
@@ -57,20 +43,13 @@ public class Indicador extends NodoIndicador{
 		this.nombre = nombre;
 	}
 
-	public String getOperacion() {
+	public Operacion getOperacion() {
 		return operacion;
 	}
 
-	public void setOperacion(String operacion) {
+	public void setOperacion(Operacion operacion) {
 		this.operacion = operacion;
 	}
 
-	public ExpressionParser getParser() {
-		return parser;
-	}
-
-	public void setParser(ExpressionParser parser) {
-		this.parser = parser;
-	}
 
 }
