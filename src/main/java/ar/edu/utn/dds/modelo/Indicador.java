@@ -20,6 +20,14 @@ public class Indicador {
 
 	
 
+	public NodoIndicador getNodo() {
+		return nodo;
+	}
+
+	public void setNodo(NodoIndicador nodo) {
+		this.nodo = nodo;
+	}
+
 	public Indicador( String nombre,Operacion operacion,String nombreEmpresa, String fecha) {
 		super();
 		this.nombre = nombre;

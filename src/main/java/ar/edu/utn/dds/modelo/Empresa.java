@@ -46,12 +46,11 @@ public class Empresa {
 	
 	public int calcularIndicador(String nombreIndicador){
 		Indicador indicadoraux;
+		NodoIndicador nodo;
 		ArrayList<Indicador> listain = new ArrayList<Indicador>();
 		indicadoraux = this.buscarIndicador(nombreIndicador);
-		listain.add(indicadoraux);
-		parser.parse(indicadoraux.getOperacion().getOperacion(),listain);
-		return listain.get(0).calcular();
-		
+		nodo = (NodoIndicador) parser.parse(indicadoraux.getOperacion().getOperacion(),listain);
+		return nodo.calcular();
 	}
 	
 	
