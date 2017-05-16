@@ -28,7 +28,8 @@ public class ProcesarIndicadores {
 		super();
 		this.lector = lector;
 	}
-
+	
+	
 	//SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
 	public ArrayList<Indicador> indicadores = new ArrayList<Indicador>();
 	// leo el excel y lo cargo en la lista de indicadores con el nombre del
@@ -54,12 +55,12 @@ public class ProcesarIndicadores {
 				if (type == CellType.LABEL) {
 					
 					
+					Operacion operacion =new Operacion();
+					operacion.setOperacion(cell2.getContents());
 					
 
-					Indicador indicador = new Indicador(cell.getContents(),cell3.getContents(),cell4.getContents());
-					/*Operacion operacion =new Operacion();
-					operacion.setOperacion(cell2.getContents());
-					indicador.setOperacion(operacion);*/
+					Indicador indicador = new Indicador(cell.getContents(),operacion,cell3.getContents(),cell4.getContents());
+					
 					
 					
 					// seteo el nombre del indicador
@@ -111,10 +112,10 @@ public class ProcesarIndicadores {
     
 	public Indicador cargarIndPredefinidos(String nombre, String op, String nombreDeEmpresa,String fecha) {
 
-		Indicador indicador = new Indicador(nombre, nombreDeEmpresa, fecha);
+		
 		Operacion operacion =new Operacion();
 		operacion.setOperacion(op);
-		//indicador.setOperacion(operacion);
+		Indicador indicador = new Indicador(nombre, operacion,nombreDeEmpresa, fecha);
 		indicadores.add(indicador);
 		return indicador;
 	}
@@ -278,11 +279,11 @@ public class ProcesarIndicadores {
 
 	public static void main(String[] args) throws IOException, ParseException {
 		LectorArchivo lector = new LectorArchivo();
-		// lector.leerArchivo();
-		ProcesarIndicadores p = new ProcesarIndicadores(lector);
-		// p.leerExcel();
+		lector.leerArchivo("../2017-mn-group-12/src/test/resources/Datos.txt");
+	     ProcesarIndicadores p = new ProcesarIndicadores(lector);
+		 p.leerExcel("../2017-mn-group-12/src/test/resources/Indicadores.xls");
 		
-		ArrayList<String> lista = new ArrayList<>();
+	/*	ArrayList<String> lista = new ArrayList<>();
 		ArrayList<Cuenta> cuentas = new ArrayList<>();
 		Cuenta cuentaA = new Cuenta("cuentaA", 1, "12/10/1976");
 		Cuenta cuentaB = new Cuenta("cuentaB", 122, "12/10/1686");
@@ -296,6 +297,12 @@ public class ProcesarIndicadores {
 		cuentas.add(cuentaD);
 		cuentas.add(cuentaE);
 		cuentas.add(cuentaF);
+		
+		*/ 
+
+		
+		
+		
 	/*	Indicador i = new Indicador("IndicadorA", "(cuentaB-(cuentaC)*cuentaA)*cuentaD", "Facebook");
 		Indicador y = new Indicador("IndicadorB", "(cuentaB-(IndicadorA)*cuentaA)*cuentaD", "Facebook");
 		Indicador j = new Indicador("IndicadorC", "(cuentaB-(cuentaC)*cuentaA)*cuentaD", "Facebook");

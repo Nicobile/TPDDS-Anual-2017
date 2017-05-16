@@ -2,6 +2,8 @@ package ar.edu.utn.dds.modelo;
 
 import java.util.ArrayList;
 
+import antlr.ExpressionParser;
+
 public class Empresa {
 	// public LeerArchivo archivo;
 	private String nombre;
@@ -9,6 +11,9 @@ public class Empresa {
 	private ArrayList<Cuenta> cuentas = new ArrayList<Cuenta>();
 
 	private ArrayList<Indicador> indicadores = new ArrayList<Indicador>();
+	
+	private ExpressionParser parser;
+	
 
 	public ArrayList<Indicador> getIndicadores() {
 		return indicadores;
@@ -23,6 +28,34 @@ public class Empresa {
 
 		this.cuentas = cuentas;
 	}
+	
+	
+	
+	private Indicador buscarIndicador(String ind) {// busco un indicador de la
+		// lista ya sea desde pq es
+		// predefinido o pq es de
+		// una lista
+		for (int i = 0; i < indicadores.size(); i++) {
+			if (indicadores.get(i).getNombre().equals(ind)) {
+				return indicadores.get(i);
+			}
+		}
+		return null;
+	}
+	
+	
+	public int calcularIndicador(String nombreIndicador){
+		Indicador indicadoraux;
+		ArrayList<Indicador> listain = new ArrayList<Indicador>();
+		indicadoraux = this.buscarIndicador(nombreIndicador);
+		listain.add(indicadoraux);
+		parser.parse(indicadoraux.getOperacion().getOperacion(),listain);
+		return listain.get(0).calcular();
+		
+	}
+	
+	
+	
 
 	public Cuenta buscarUnaCuenta(String nombreDeCuenta) {
 		try {

@@ -1,7 +1,6 @@
 package ar.edu.utn.dds.modelo;
 
 
-
 public class Indicador {
 	private String nombre;
 	private Operacion operacion;
@@ -21,11 +20,20 @@ public class Indicador {
 
 	
 
-	public Indicador( String nombre,String nombreEmpresa, String fecha) {
+	public Indicador( String nombre,Operacion operacion,String nombreEmpresa, String fecha) {
 		super();
 		this.nombre = nombre;
+		this.operacion = operacion;
 		this.nombreEmpresa = nombreEmpresa;
 		this.fecha = fecha;
+	}
+
+	public Operacion getOperacion() {
+		return operacion;
+	}
+
+	public void setOperacion(Operacion operacion) {
+		this.operacion = operacion;
 	}
 
 	public String getNombreEmpresa() {
