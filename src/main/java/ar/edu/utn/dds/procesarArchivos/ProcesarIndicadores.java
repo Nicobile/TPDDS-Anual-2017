@@ -66,10 +66,10 @@ public class ProcesarIndicadores {
 					// seteo el nombre del indicador
 					indicadores.add(indicador);
 					/*
-					 * System.out.println("I got a label " +
-					 * cell.getContents()+cell2.getContents()+cell3.getContents(
-					 * ));
-					 */
+					 System.out.println("I got a label " +
+					  cell.getContents()+cell2.getContents()+cell3.getContents(
+					  )+cell4.getContents());*/
+					 
 
 				}
 			}
