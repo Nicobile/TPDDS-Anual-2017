@@ -51,11 +51,12 @@ public class PruebaIndicadoresTest {
         	
         	
         }
-        /*
+        
         @Test
-        public void noCorrespondeFecha(){
-        	assertNull(procesador1.calcular(lector.obtenerEmpresa("CocaCola"), "2015","i_IndicadorB"));
-        }*/
+        public void listarIndicadoresyCuentas(){
+        	
+        	assertTrue(procesador1.listarIndicadodoresyCuentas(lector.obtenerEmpresa("Facebook"), "2015").get(0).equals("i_IndicadorA"));
+        }
         
         @After
         	 public void eliminarLista(){

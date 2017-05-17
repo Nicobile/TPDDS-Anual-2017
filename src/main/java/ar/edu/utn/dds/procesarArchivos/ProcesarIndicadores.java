@@ -132,6 +132,17 @@ public class ProcesarIndicadores {
 		return -1;
 
 	}
+	public ArrayList<String> listarIndicadodoresyCuentas(Empresa e, String fecha){
+		ArrayList<String> lista=new ArrayList<>();
+		for (int i=0;i<indicadores.size();i++){
+			lista.add(indicadores.get(i).getNombre());
+		}
+		for (int i=0;i<e.getCuentas().size();i++){
+			lista.add(e.getCuentas().get(i).getNombre());
+		}
+		return lista;
+		
+	}
 	public int calcular(Empresa e, String fecha, String nombreIndicador){
 		Indicador i=this.buscarIndicador(nombreIndicador);
 		Operando operando= parser.parse(i.getOperacion(), indicadores);

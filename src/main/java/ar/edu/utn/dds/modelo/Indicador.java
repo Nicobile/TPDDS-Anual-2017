@@ -1,9 +1,11 @@
 package ar.edu.utn.dds.modelo;
 
+import java.util.ArrayList;
 
 public class Indicador {
 	private String nombre;
 	private Operacion operacion;
+	private ArrayList<Cuenta> cuentas;
 	
 	private NodoIndicador nodo;
 	//ver de sacar la fecha
