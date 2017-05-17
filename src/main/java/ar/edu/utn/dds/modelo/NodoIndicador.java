@@ -2,15 +2,16 @@ package ar.edu.utn.dds.modelo;
 
 import java.util.ArrayList;
 
+import antlr.ExpressionParser;
+import ar.edu.utn.dds.procesarArchivos.ProcesarIndicadores;
+
 
 public class NodoIndicador implements Operando{
 	private Operador operador;
 	private Operando operando1;
 	private Operando operando2;
+	ExpressionParser parser;
 	
-	private String nombre;
-	private ArrayList<Indicador> indicadores;
-
 
 		
 		
@@ -26,23 +27,22 @@ public class NodoIndicador implements Operando{
 
 
 		public NodoIndicador(String nombre, ArrayList<Indicador> indicadores) {
-			super();
-			this.nombre = nombre;
-			this.indicadores = indicadores;
+			Indicador i= indicadores.stream().filter(unIndicador -> unIndicador.getNombre().equals(nombre)).findFirst().get();
+			NodoIndicador o= (NodoIndicador)new ExpressionParser().parse(i.getOperacion(), indicadores);
+			operador = o.getOperador();
+			operando1=o.getOperando1();
+			operando2=o.getOperando2();
+			
+			
+			
 		}
 
 
-
-
-
-
-
 		@Override
-		public int calcular() {
+		public int calcular(Empresa e, String fecha) {
 			// TODO Auto-generated method stub
-			return this.getOperador().operar(operando1.calcular(),operando2.calcular());
-		} //extiende a indicador
-
+			return this.getOperador().operar(operando1.calcular(e,fecha),operando2.calcular(e,fecha));
+		} 
 		
 
 

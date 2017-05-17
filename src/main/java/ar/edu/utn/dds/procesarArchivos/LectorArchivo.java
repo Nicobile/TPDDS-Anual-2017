@@ -65,7 +65,7 @@ public class LectorArchivo {
 		this.empresas = empresas;
 	}
 
-	private int buscarEmpresa(ArrayList<Empresa> empresas, String nombreEmpresa) {
+	public int buscarEmpresa( String nombreEmpresa) {
 		try{
 		for (int x = 0; x < empresas.size(); x++) {
 			// pregunto si ya existe la empresa
@@ -76,6 +76,17 @@ public class LectorArchivo {
 		}}catch(Exception e){System.out.println("NO SE ENCONTRO LA EMPRESA");};
 		return -1;
 	}
+	public Empresa obtenerEmpresa( String nombreEmpresa) {
+		try{
+		for (int x = 0; x < empresas.size(); x++) {
+			// pregunto si ya existe la empresa
+			if (empresas.get(x).getNombre().equals(nombreEmpresa)) {
+				return empresas.get(x);
+			}
+
+		}}catch(Exception e){System.out.println("NO SE ENCONTRO LA EMPRESA");};
+		return null;
+	}
 
 	public void armarListaEmpresas(ArrayList<LineaArchivo> lineasArchivo) {
 
@@ -85,7 +96,7 @@ public class LectorArchivo {
 			int i;// indice de donde encuentra el elemento en la lista de
 					// empresas ya existentes
 
-			i = buscarEmpresa(empresas, lineasArchivo.get(x).nombreEmpresa);
+			i = buscarEmpresa(lineasArchivo.get(x).nombreEmpresa);
 			// pregunto si ya existe la empresa
 
 			if ((i >= 0)) {// si ya existe la empresa
@@ -119,7 +130,7 @@ public class LectorArchivo {
 
 	}
 	public int consultarValorCuenta(String nombreEmpresa,String nombreCuenta,String fecha){
-		int i=this.buscarEmpresa(getEmpresas(), nombreEmpresa);
+		int i=this.buscarEmpresa(nombreEmpresa);
 		return getEmpresas().get(i).obtenerValorDeCuenta(nombreCuenta, fecha);
 	}
 

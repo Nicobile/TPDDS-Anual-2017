@@ -25,10 +25,13 @@ import ar.edu.utn.dds.modelo.Multiplicacion;
 import ar.edu.utn.dds.modelo.NodoCuenta;
 import ar.edu.utn.dds.modelo.NodoIndicador;
 import ar.edu.utn.dds.modelo.NodoNumero;
+import ar.edu.utn.dds.modelo.Operacion;
 import ar.edu.utn.dds.modelo.Division;
+import ar.edu.utn.dds.modelo.Empresa;
 import ar.edu.utn.dds.modelo.Indicador;
 import ar.edu.utn.dds.modelo.Resta;
 import ar.edu.utn.dds.modelo.Suma;
+import ar.edu.utn.dds.procesarArchivos.ProcesarIndicadores;
 
 
 
@@ -74,7 +77,6 @@ public class ExpressionParser {
          * 'Visit' all the branches of the tree to get our expression result.
          * 
          */
-      
       return visit(context,indicadores);
        
       
@@ -89,64 +91,35 @@ public class ExpressionParser {
     
     
     
-    
-    
 
-    /*
-     * Visits the branches in the expression tree recursively until we hit a
-     * leaf.
-     */
-   /* private int visit(final ExprContext context) {
-    	
-    
-        if (context.number() != null) { //Just a number
-            return Integer.valueOf((context.number().getText()));
-        }
-        else if (context.BR_CLOSE() != null) { //Expression between brackets
-            return visit(context.expr(0));
-        }
-        else if (context.TIMES() != null) { //Expression * expression
-            return (visit(context.expr(0)) * visit(context.expr(1)));
-        }
-        else if (context.DIV() != null) { //Expression / expression
-            return visit(context.expr(0)) / visit(context.expr(1));
-        }
-        else if (context.PLUS() != null) { //Expression + expression
-            return visit(context.expr(0)) + visit(context.expr(1));
-        }
-        else if (context.MINUS() != null) { //Expression - expression
-            return visit(context.expr(0)) - visit(context.expr(1));
-        }
-        else {
-            throw new IllegalStateException();
-        }
-    }*/
     private Operando visit(final ExprContext context, ArrayList<Indicador> indicadores) {
         if (context.number() != null) { //Just a number
             return new NodoNumero(Integer.parseInt(context.number().getText()));
         }
-        if (context.indicador() != null) { //
-        	return new NodoIndicador((context.indicador().getText()),indicadores);
-        }
         if (context.cuenta() != null) {
         	return new NodoCuenta(context.cuenta().getText());
         }
+        if (context.indicador() != null) { 
+        	return new NodoIndicador((context.indicador().getText()),indicadores);
+        }
+       
         else if (context.BR_CLOSE() != null) { //Expression between brackets
             return visit(context.expr(0), indicadores);
         }
         else if (context.TIMES() != null) { //Expression * expression
             return new NodoIndicador(visit(context.expr(0),indicadores),new Multiplicacion(),visit(context.expr(1),indicadores));
         }
+        else if (context.MINUS() != null) { //Expression - expression
+        	return new NodoIndicador(visit(context.expr(0),indicadores), new Resta(),visit(context.expr(1),indicadores));
+        }
         else if (context.DIV() != null) { //Expression / expression
             return new NodoIndicador(visit(context.expr(0),indicadores), new Division(),visit(context.expr(1),indicadores));
         }
         else if (context.PLUS() != null) { //Expression + expression
-           // return new Indicador(visit(context.expr(0)),new Suma(),visit(context.expr(1)));
+
         	return new NodoIndicador(visit(context.expr(0),indicadores), new Suma(),visit(context.expr(1),indicadores));
         }
-        else if (context.MINUS() != null) { //Expression - expression
-        	return new NodoIndicador(visit(context.expr(0),indicadores), new Resta(),visit(context.expr(1),indicadores));
-        }
+       
         else {
             throw new IllegalStateException();
         }
@@ -171,9 +144,5 @@ public class ExpressionParser {
             }
         };
     }
-    public static void main(String[] args) throws IOException {
-    	ExpressionParser p=new ExpressionParser();
-    	//System.out.println(p.parse("5+9*9"));
-    }
-
+    
 }

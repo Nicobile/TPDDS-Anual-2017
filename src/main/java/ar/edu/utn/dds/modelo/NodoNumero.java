@@ -4,7 +4,7 @@ public class NodoNumero implements Operando {
 	private int numero;
 
 	@Override
-	public int calcular() {
+	public int calcular(Empresa e,String fecha) {
 		// TODO Auto-generated method stub
 		return numero;
 	}
