@@ -1,7 +1,8 @@
 package ar.edu.utn.dds.modelo;
 
+import excepciones.NoSeEncuentraEnLaLista;
 
 public interface Operando {
-public int calcular(Empresa e, String fecha);
+	public double calcular(Empresa e, String fecha) throws NoSeEncuentraEnLaLista;
 
 }

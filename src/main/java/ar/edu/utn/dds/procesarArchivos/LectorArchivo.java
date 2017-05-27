@@ -6,16 +6,16 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-
 import ar.edu.utn.dds.modelo.Cuenta;
 import ar.edu.utn.dds.modelo.Empresa;
+import excepciones.NoSeEncuentraEnLaLista;
 
 public class LectorArchivo {
 	// creo lista empresas
 	ArrayList<Empresa> empresas = new ArrayList<Empresa>();
 	static ArrayList<LineaArchivo> lineasArchivo = new ArrayList<LineaArchivo>();
 
-	public void leerArchivo(String archivo) throws FileNotFoundException, IOException {
+	public void leerArchivo(String archivo) throws FileNotFoundException, IOException, NoSeEncuentraEnLaLista {
 
 		BufferedReader b = new BufferedReader(new FileReader(archivo));
 
@@ -65,30 +65,34 @@ public class LectorArchivo {
 		this.empresas = empresas;
 	}
 
-	public int buscarEmpresa( String nombreEmpresa) {
-		try{
-		for (int x = 0; x < empresas.size(); x++) {
-			// pregunto si ya existe la empresa
-			if (empresas.get(x).getNombre().equals(nombreEmpresa)) {
-				return x;
-			}
+	public int buscarEmpresa(String nombreEmpresa) throws NoSeEncuentraEnLaLista {
+		try {
+			for (int x = 0; x < empresas.size(); x++) {
+				// pregunto si ya existe la empresa
+				if (empresas.get(x).getNombre().equals(nombreEmpresa)) {
+					return x;
+				}
 
-		}}catch(Exception e){System.out.println("NO SE ENCONTRO LA EMPRESA");};
+			}
+		} catch (Exception e) {
+			throw new NoSeEncuentraEnLaLista("No se encontro la empresa especificada");
+		}
+		;
 		return -1;
 	}
-	public Empresa obtenerEmpresa( String nombreEmpresa) {
-		try{
-		for (int x = 0; x < empresas.size(); x++) {
-			// pregunto si ya existe la empresa
-			if (empresas.get(x).getNombre().equals(nombreEmpresa)) {
-				return empresas.get(x);
-			}
 
-		}}catch(Exception e){System.out.println("NO SE ENCONTRO LA EMPRESA");};
-		return null;
+	public Empresa obtenerEmpresa(String nombreEmpresa) throws NoSeEncuentraEnLaLista {
+		if (this.getEmpresas().stream().filter(unaEmpresa -> unaEmpresa.getNombre().equals(nombreEmpresa)).findFirst()
+				.isPresent()) {
+
+			return this.getEmpresas().stream().filter(unaEmpresa -> unaEmpresa.getNombre().equals(nombreEmpresa))
+					.findFirst().get();
+
+		}
+		throw new NoSeEncuentraEnLaLista("No se encontro la empresa especificada");
 	}
 
-	public void armarListaEmpresas(ArrayList<LineaArchivo> lineasArchivo) {
+	public void armarListaEmpresas(ArrayList<LineaArchivo> lineasArchivo) throws NoSeEncuentraEnLaLista {
 
 		// recorro la lista que contiene todos los datos
 		for (int x = 0; x < lineasArchivo.size(); x++) {
@@ -129,8 +133,10 @@ public class LectorArchivo {
 		}
 
 	}
-	public int consultarValorCuenta(String nombreEmpresa,String nombreCuenta,String fecha){
-		int i=this.buscarEmpresa(nombreEmpresa);
+
+	public double consultarValorCuenta(String nombreEmpresa, String nombreCuenta, String fecha)
+			throws NoSeEncuentraEnLaLista {
+		int i = this.buscarEmpresa(nombreEmpresa);
 		return getEmpresas().get(i).obtenerValorDeCuenta(nombreCuenta, fecha);
 	}
 

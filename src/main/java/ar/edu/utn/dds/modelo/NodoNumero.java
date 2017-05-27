@@ -4,18 +4,11 @@ public class NodoNumero implements Operando {
 	private int numero;
 
 	@Override
-	public int calcular(Empresa e,String fecha) {
-		// TODO Auto-generated method stub
-		return numero;
-	}
-/*
-	public int getNumero() {
+	public double calcular(Empresa e, String fecha) {
+		
 		return numero;
 	}
 
-	public void setNumero(int numero) {
-		this.numero = numero;
-	}*/
 
 	public NodoNumero(int numero) {
 		super();

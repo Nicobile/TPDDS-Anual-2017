@@ -1,19 +1,13 @@
 package ar.edu.utn.dds.modelo;
 
-import java.util.ArrayList;
+import excepciones.NoSeEncuentraEnLaLista;
 
 public class Indicador {
 	private String nombre;
 	private Operacion operacion;
-	private ArrayList<Cuenta> cuentas;
-	
+
 	private NodoIndicador nodo;
-	//ver de sacar la fecha
-
-
-	
-
-	
+	// ver de sacar la fecha
 
 	public NodoIndicador getNodo() {
 		return nodo;
@@ -23,11 +17,11 @@ public class Indicador {
 		this.nodo = nodo;
 	}
 
-	public Indicador( String nombre,Operacion operacion) {
-		
+	public Indicador(String nombre, Operacion operacion) {
+
 		this.nombre = nombre;
 		this.operacion = operacion;
-		
+
 	}
 
 	public String getOperacion() {
@@ -38,7 +32,6 @@ public class Indicador {
 		this.operacion = operacion;
 	}
 
-
 	public String getNombre() {
 		return nombre;
 	}
@@ -47,8 +40,8 @@ public class Indicador {
 		this.nombre = nombre;
 	}
 
-public int calcular(Empresa e,String fecha){
-	return this.nodo.calcular(e,fecha);
-}
+	public double calcular(Empresa e, String fecha) throws NoSeEncuentraEnLaLista {
+		return this.nodo.calcular(e, fecha);
+	}
 
 }
