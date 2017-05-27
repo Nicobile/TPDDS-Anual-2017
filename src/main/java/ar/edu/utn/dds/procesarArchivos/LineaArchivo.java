@@ -6,10 +6,10 @@ package ar.edu.utn.dds.procesarArchivos;
 	    
 	    String nombreEmpresa;
 	    String nombreCuenta;
-	    int valorCuenta;
+	    double valorCuenta;
 	    String fecha;
 	    
-	    public LineaArchivo( String nombreEmpresa, String nombreCuenta,int valorCuenta, String fecha) {
+	    public LineaArchivo( String nombreEmpresa, String nombreCuenta,double valorCuenta, String fecha) {
 	        this.nombreCuenta = nombreCuenta;
 	        this.nombreEmpresa=nombreEmpresa;
 	        this.valorCuenta=valorCuenta;
@@ -42,7 +42,7 @@ package ar.edu.utn.dds.procesarArchivos;
 			this.nombreCuenta = nombreCuenta;
 		}
 
-		public int getValorCuenta() {
+		public double getValorCuenta() {
 			return valorCuenta;
 		}
 

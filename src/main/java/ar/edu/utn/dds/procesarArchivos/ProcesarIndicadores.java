@@ -6,13 +6,13 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 
-import antlr.ExpressionParser;
 import ar.edu.utn.dds.modelo.Cuenta;
 import ar.edu.utn.dds.modelo.Empresa;
 import ar.edu.utn.dds.modelo.Indicador;
 import ar.edu.utn.dds.modelo.Operacion;
-import ar.edu.utn.dds.modelo.Operando;
-import excepciones.NoSeEncuentraEnLaLista;
+
+import ar.edu.utn.dds.modelo.Traductor;
+
 import jxl.Cell;
 import jxl.CellType;
 import jxl.Sheet;
@@ -20,11 +20,13 @@ import jxl.Workbook;
 import jxl.read.biff.BiffException;
 
 public class ProcesarIndicadores {
+	private Traductor t = new Traductor();
 
-	private ExpressionParser parser = new ExpressionParser();// para buscar
-																// sobre la cual
-																// estoy
-	public ArrayList<Indicador> indicadores = new ArrayList<Indicador>();
+	public ProcesarIndicadores(Traductor t) {
+
+		super();
+		this.t = t;
+	}
 
 	void leerExcel(String archivo) throws IOException, FileNotFoundException {
 
@@ -48,7 +50,7 @@ public class ProcesarIndicadores {
 					Indicador indicador = new Indicador(cell.getContents(), operacion);
 
 					// seteo el nombre del indicador
-					indicadores.add(indicador);
+					t.agregarIndicador(indicador);
 
 				}
 			}
@@ -64,58 +66,13 @@ public class ProcesarIndicadores {
 		Operacion operacion = new Operacion();
 		operacion.setOperacion(op);
 		Indicador indicador = new Indicador(nombre, operacion);
-		indicadores.add(indicador);
+		t.agregarIndicador(indicador);
 		return indicador;
 	}
 
 	ArrayList<Cuenta> buscarDeUnaEmpresaTodasSusCuentas(Empresa e) {
 
 		return e.getCuentas();
-	}
-
-	public ArrayList<String> listarIndicadodoresyCuentas(Empresa e, String fecha) {
-		ArrayList<String> lista = new ArrayList<>();
-		for (int i = 0; i < indicadores.size(); i++) {
-			lista.add(indicadores.get(i).getNombre());
-		}
-		for (int i = 0; i < e.getCuentas().size(); i++) {
-			lista.add(e.getCuentas().get(i).getNombre());
-
-		}
-		return lista;
-
-	}
-
-	public double calcular(Empresa e, String fecha, String nombreIndicador) throws NoSeEncuentraEnLaLista {
-		Indicador i = this.buscarIndicador(nombreIndicador);
-		Operando operando = parser.parse(i.getOperacion(), indicadores);
-		return operando.calcular(e, fecha);
-	}
-
-	public Indicador buscarIndicador(String ind) throws NoSeEncuentraEnLaLista {// busco
-																				// un
-																				// indicador
-																				// de
-																				// la
-		// lista ya sea desde pq es
-		// predefinido o pq es de
-		// una lista
-
-		if (this.getIndicadores().stream().filter(unInd -> unInd.getNombre().equals(ind)).findFirst().isPresent()) {
-
-			return this.getIndicadores().stream().filter(unIndicador -> unIndicador.getNombre().equals(ind)).findFirst()
-					.get();
-		}
-		throw new NoSeEncuentraEnLaLista("No se encontro en la lista el indicador especificado");
-
-	}
-
-	public ArrayList<Indicador> getIndicadores() {
-		return indicadores;
-	}
-
-	public void setIndicadores(ArrayList<Indicador> indicadores) {
-		this.indicadores = indicadores;
 	}
 
 }
