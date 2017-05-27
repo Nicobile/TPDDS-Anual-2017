@@ -5,10 +5,9 @@ public class NodoNumero implements Operando {
 
 	@Override
 	public double calcular(Empresa e, String fecha) {
-		
+
 		return numero;
 	}
-
 
 	public NodoNumero(int numero) {
 		super();

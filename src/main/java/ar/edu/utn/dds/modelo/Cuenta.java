@@ -11,13 +11,9 @@ public class Cuenta {
 		this.fecha = fecha;
 	}
 
-
 	public String getFecha() {
 		return fecha;
 	}
-
-	
-
 
 	@Override
 	public int hashCode() {
@@ -30,7 +26,6 @@ public class Cuenta {
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -56,7 +51,6 @@ public class Cuenta {
 		return true;
 	}
 
-
 	public void setFecha(String fecha) {
 		this.fecha = fecha;
 	}
@@ -76,8 +70,5 @@ public class Cuenta {
 	public void setValor(int valor) {
 		this.valor = valor;
 	}
-
-
-	
 
 }
