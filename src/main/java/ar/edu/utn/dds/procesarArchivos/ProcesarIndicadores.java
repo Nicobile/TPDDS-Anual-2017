@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import ar.edu.utn.dds.modelo.Cuenta;
 import ar.edu.utn.dds.modelo.Empresa;
 import ar.edu.utn.dds.modelo.Indicador;
-import ar.edu.utn.dds.modelo.Operacion;
 
 import ar.edu.utn.dds.modelo.Traductor;
 
@@ -44,10 +43,7 @@ public class ProcesarIndicadores {
 
 				if (type == CellType.LABEL) {
 
-					Operacion operacion = new Operacion();
-					operacion.setOperacion(cell2.getContents());
-
-					Indicador indicador = new Indicador(cell.getContents(), operacion);
+					Indicador indicador = new Indicador(cell.getContents(), cell2.getContents());
 
 					// seteo el nombre del indicador
 					t.agregarIndicador(indicador);
@@ -63,9 +59,7 @@ public class ProcesarIndicadores {
 
 	public Indicador cargarIndPredefinidos(String nombre, String op) {
 
-		Operacion operacion = new Operacion();
-		operacion.setOperacion(op);
-		Indicador indicador = new Indicador(nombre, operacion);
+		Indicador indicador = new Indicador(nombre, op);
 		t.agregarIndicador(indicador);
 		return indicador;
 	}

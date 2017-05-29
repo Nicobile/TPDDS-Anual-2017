@@ -4,11 +4,12 @@ import excepciones.NoSeEncuentraEnLaLista;
 
 public class Indicador {
 	private String nombre;
-	private Operacion operacion;
+	private String operacion;
+
 
 	private NodoIndicador nodo;
 	// ver de sacar la fecha
-
+	
 	public NodoIndicador getNodo() {
 		return nodo;
 	}
@@ -17,7 +18,7 @@ public class Indicador {
 		this.nodo = nodo;
 	}
 
-	public Indicador(String nombre, Operacion operacion) {
+	public Indicador(String nombre, String operacion) {
 
 		this.nombre = nombre;
 		this.operacion = operacion;
@@ -25,10 +26,10 @@ public class Indicador {
 	}
 
 	public String getOperacion() {
-		return operacion.getOperacion();
+		return operacion;
 	}
 
-	public void setOperacion(Operacion operacion) {
+	public void setOperacion(String operacion) {
 		this.operacion = operacion;
 	}
 
