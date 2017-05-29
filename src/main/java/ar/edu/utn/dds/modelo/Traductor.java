@@ -4,7 +4,10 @@ import java.util.ArrayList;
 
 import antlr.ExpressionParser;
 import ar.edu.utn.dds.procesarArchivos.LineaArchivo;
-import excepciones.NoSeEncuentraEnLaLista;
+import excepciones.NoSeEncuentraCuenta;
+import excepciones.NoSeEncuentraElIndicador;
+import excepciones.NoSeEncuentraLaEmpresa;
+import excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
 
 public class Traductor {
 
@@ -33,20 +36,21 @@ public class Traductor {
 
 	}
 
-	public double calcular(String empresa, String fecha, String nombreIndicador) throws NoSeEncuentraEnLaLista {
+	public double calcular(String empresa, String fecha, String nombreIndicador) throws NoSeEncuentraLaEmpresa,
+			NoSeEncuentraCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
 		Indicador i = this.buscarIndicador(nombreIndicador);
 		Operando operando = parser.parse(i.getOperacion(), indicadores);
 		return operando.calcular(this.obtenerEmpresa(empresa), fecha);
 	}
 
-	public Indicador buscarIndicador(String ind) throws NoSeEncuentraEnLaLista {
+	public Indicador buscarIndicador(String ind) throws NoSeEncuentraElIndicador {
 
 		if (this.getIndicadores().stream().filter(unInd -> unInd.getNombre().equals(ind)).findFirst().isPresent()) {
 
 			return this.getIndicadores().stream().filter(unIndicador -> unIndicador.getNombre().equals(ind)).findFirst()
 					.get();
 		}
-		throw new NoSeEncuentraEnLaLista("No se encontro en la lista el indicador especificado");
+		throw new NoSeEncuentraElIndicador("No se encontro en la lista de indicadores el indicador especificado");
 
 	}
 
@@ -61,7 +65,7 @@ public class Traductor {
 	}
 
 	/*----------------------------------------------------------------------------*/
-	public int buscarEmpresa(String nombreEmpresa) throws NoSeEncuentraEnLaLista {
+	public int buscarEmpresa(String nombreEmpresa) throws NoSeEncuentraLaEmpresa {
 		try {
 			for (int x = 0; x < empresas.size(); x++) {
 				// pregunto si ya existe la empresa
@@ -71,13 +75,13 @@ public class Traductor {
 
 			}
 		} catch (Exception e) {
-			throw new NoSeEncuentraEnLaLista("No se encontro la empresa especificada");
+			throw new NoSeEncuentraLaEmpresa("No se encontro la empresa especificada");
 		}
 		;
 		return -1;
 	}
 
-	public Empresa obtenerEmpresa(String nombreEmpresa) throws NoSeEncuentraEnLaLista {
+	public Empresa obtenerEmpresa(String nombreEmpresa) throws NoSeEncuentraLaEmpresa {
 		if (this.getEmpresas().stream().filter(unaEmpresa -> unaEmpresa.getNombre().equals(nombreEmpresa)).findFirst()
 				.isPresent()) {
 
@@ -85,16 +89,16 @@ public class Traductor {
 					.findFirst().get();
 
 		}
-		throw new NoSeEncuentraEnLaLista("No se encontro la empresa especificada");
+		throw new NoSeEncuentraLaEmpresa("No se encontro la empresa especificada");
 	}
 
 	public double consultarValorCuenta(String nombreEmpresa, String nombreCuenta, String fecha)
-			throws NoSeEncuentraEnLaLista {
+			throws NoSeEncuentraLaEmpresa, NoSeEncuentraCuenta, NoSeEncuentraLaCuentaEnEsaFecha {
 		int i = this.buscarEmpresa(nombreEmpresa);
 		return getEmpresas().get(i).obtenerValorDeCuenta(nombreCuenta, fecha);
 	}
 
-	public void armarListaEmpresas(ArrayList<LineaArchivo> lineasArchivo) throws NoSeEncuentraEnLaLista {
+	public void armarListaEmpresas(ArrayList<LineaArchivo> lineasArchivo) throws NoSeEncuentraLaEmpresa {
 
 		// recorro la lista que contiene todos los datos
 		for (int x = 0; x < lineasArchivo.size(); x++) {

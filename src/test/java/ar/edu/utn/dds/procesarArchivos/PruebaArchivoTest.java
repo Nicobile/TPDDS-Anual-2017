@@ -14,7 +14,9 @@ import org.junit.Test;
 import ar.edu.utn.dds.modelo.Cuenta;
 import ar.edu.utn.dds.modelo.Traductor;
 import ar.edu.utn.dds.procesarArchivos.LectorArchivo;
-import excepciones.NoSeEncuentraEnLaLista;
+import excepciones.NoSeEncuentraCuenta;
+import excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
+import excepciones.NoSeEncuentraLaEmpresa;
 
 public class PruebaArchivoTest {
 
@@ -24,11 +26,10 @@ public class PruebaArchivoTest {
 
 	@Before
 
-	public void initLectura() throws FileNotFoundException, IOException, NoSeEncuentraEnLaLista {
+	public void initLectura() throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresa {
 		this.t = new Traductor();
 		this.lector = new LectorArchivo(t);
 		this.lector.leerArchivo(this.getClass().getResource("/Datos.txt").getFile());
-		
 
 	}
 
@@ -60,7 +61,7 @@ public class PruebaArchivoTest {
 
 	@Test
 
-	public void verficarCuentasEmpresa() throws FileNotFoundException, IOException, NoSeEncuentraEnLaLista {
+	public void verficarCuentasEmpresa() throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresa, NoSeEncuentraCuenta, NoSeEncuentraLaCuentaEnEsaFecha {
 		assertEquals(this.t.getEmpresas().get(2).getCuentas().get(0).getNombre(), "c_cuentaC");
 		assertEquals(this.t.getEmpresas().get(2).getCuentas().get(0).getFecha(), "2013");
 		assertEquals(this.t.getEmpresas().get(2).getCuentas().get(0).getValor(), 1, DELTA);
@@ -92,9 +93,16 @@ public class PruebaArchivoTest {
 
 	@Test
 
-	public void noSeEncuentraCuenta() throws NoSeEncuentraEnLaLista {
-		thrown.expect(NoSeEncuentraEnLaLista.class);
+	public void noSeEncuentraCuenta() throws NoSeEncuentraLaEmpresa, NoSeEncuentraCuenta {
+		thrown.expect(NoSeEncuentraCuenta.class);
 		this.t.obtenerEmpresa("Pepsico").buscarUnaCuenta("c_cuentaA");
+	}
+
+	@Test
+
+	public void noSeEncuentraCuentaEnUnaFecha() throws NoSeEncuentraLaEmpresa, NoSeEncuentraCuenta, NoSeEncuentraLaCuentaEnEsaFecha {
+		thrown.expect(NoSeEncuentraLaCuentaEnEsaFecha.class);
+		this.t.obtenerEmpresa("Pepsico").buscarUnaCuentaPorFecha("c_cuentaC", "2011");
 	}
 
 	@After

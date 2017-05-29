@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import ar.edu.utn.dds.modelo.Traductor;
-import excepciones.NoSeEncuentraEnLaLista;
+import excepciones.NoSeEncuentraLaEmpresa;
 
 public class LectorArchivo {
 	private Traductor t = new Traductor();
@@ -19,7 +19,7 @@ public class LectorArchivo {
 
 	static ArrayList<LineaArchivo> lineasArchivo = new ArrayList<LineaArchivo>();
 
-	public void leerArchivo(String archivo) throws FileNotFoundException, IOException, NoSeEncuentraEnLaLista {
+	public void leerArchivo(String archivo) throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresa {
 
 		BufferedReader b = new BufferedReader(new FileReader(archivo));
 
