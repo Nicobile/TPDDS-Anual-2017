@@ -1,4 +1,4 @@
-package excepciones;
+package ar.edu.utn.dds.excepciones;
 
 public class NoSeEncuentraLaEmpresa extends Exception {
 

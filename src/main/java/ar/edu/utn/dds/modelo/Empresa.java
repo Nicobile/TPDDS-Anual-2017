@@ -2,9 +2,9 @@ package ar.edu.utn.dds.modelo;
 
 import java.util.ArrayList;
 
-import excepciones.NoSeEncuentraCuenta;
-import excepciones.NoSeEncuentraLaEmpresa;
-import excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
 
 public class Empresa {
 
@@ -18,7 +18,7 @@ public class Empresa {
 		this.cuentas = cuentas;
 	}
 
-	public Cuenta buscarUnaCuenta(String nombreDeCuenta) throws NoSeEncuentraCuenta {
+	public Cuenta buscarUnaCuenta(String nombreDeCuenta) throws NoSeEncuentraLaCuenta {
 
 		if (this.getCuentas().stream().filter(unaCuenta -> unaCuenta.getNombre().equals(nombreDeCuenta)).findFirst()
 				.isPresent()) {
@@ -27,7 +27,7 @@ public class Empresa {
 					.findFirst().get();
 		}
 
-		throw new NoSeEncuentraCuenta("No se encuentra la cuenta");
+		throw new NoSeEncuentraLaCuenta("No se encuentra la cuenta");
 
 	}
 
@@ -62,29 +62,28 @@ public class Empresa {
 		return true;
 	}
 
-	public Cuenta buscarUnaCuentaPorFecha(String nombreDeCuenta, String fecha) throws  NoSeEncuentraCuenta, NoSeEncuentraLaCuentaEnEsaFecha {
+	public Cuenta buscarUnaCuentaPorFecha(String nombreDeCuenta, String fecha)
+			throws NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha {
 		if (this.getCuentas().stream()
 				.filter(unaCuenta -> unaCuenta.getNombre().equals(nombreDeCuenta) && unaCuenta.getFecha().equals(fecha))
 				.findFirst().isPresent()) {
 			return this.getCuentas().stream().filter(
 					unaCuenta -> unaCuenta.getNombre().equals(nombreDeCuenta) && unaCuenta.getFecha().equals(fecha))
-					.findFirst().get();}
-		else{
-		if(!this.getCuentas().stream()
-				.filter(unaCuenta -> unaCuenta.getNombre().equals(nombreDeCuenta) )
-				.findFirst().isPresent()){
-			throw new NoSeEncuentraCuenta("No se encuentra la cuenta");
+					.findFirst().get();
+		} else {
+			if (!this.getCuentas().stream().filter(unaCuenta -> unaCuenta.getNombre().equals(nombreDeCuenta))
+					.findFirst().isPresent()) {
+				throw new NoSeEncuentraLaCuenta("No se encuentra la cuenta");
+			} else {
+				throw new NoSeEncuentraLaCuentaEnEsaFecha(
+						"No se encontro para la empresa una cuenta en la fecha especificada ");
+			}
 		}
-		else{
-			throw new NoSeEncuentraLaCuentaEnEsaFecha("No se encontro para la empresa una cuenta en la fecha especificada ");
-		}
-		}
-			
-				
 
 	}
 
-	public double obtenerValorDeCuenta(String nombreDeCuenta, String fecha) throws NoSeEncuentraLaEmpresa, NoSeEncuentraCuenta, NoSeEncuentraLaCuentaEnEsaFecha {
+	public double obtenerValorDeCuenta(String nombreDeCuenta, String fecha)
+			throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha {
 		return this.buscarUnaCuentaPorFecha(nombreDeCuenta, fecha).getValor();
 
 	}

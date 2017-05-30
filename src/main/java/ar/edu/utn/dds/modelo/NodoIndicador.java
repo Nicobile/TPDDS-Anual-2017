@@ -3,9 +3,9 @@ package ar.edu.utn.dds.modelo;
 import java.util.ArrayList;
 
 import antlr.ExpressionParser;
-import excepciones.NoSeEncuentraCuenta;
-import excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
-import excepciones.NoSeEncuentraLaEmpresa;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
 
 public class NodoIndicador implements Operando {
 	private Operador operador;
@@ -31,7 +31,8 @@ public class NodoIndicador implements Operando {
 	}
 
 	@Override
-	public double calcular(Empresa e, String fecha) throws  NoSeEncuentraCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraLaEmpresa {
+	public double calcular(Empresa e, String fecha)
+			throws NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraLaEmpresa {
 		// TODO Auto-generated method stub
 		return this.getOperador().operar(operando1.calcular(e, fecha), operando2.calcular(e, fecha));
 	}

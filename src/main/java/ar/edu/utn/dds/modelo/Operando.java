@@ -1,10 +1,11 @@
 package ar.edu.utn.dds.modelo;
 
-import excepciones.NoSeEncuentraCuenta;
-import excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
-import excepciones.NoSeEncuentraLaEmpresa;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
 
 public interface Operando {
-	public double calcular(Empresa e, String fecha) throws NoSeEncuentraLaEmpresa, NoSeEncuentraCuenta, NoSeEncuentraLaCuentaEnEsaFecha;
+	public double calcular(Empresa e, String fecha)
+			throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha;
 
 }

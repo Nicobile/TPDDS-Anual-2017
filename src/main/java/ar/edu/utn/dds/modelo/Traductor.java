@@ -3,11 +3,11 @@ package ar.edu.utn.dds.modelo;
 import java.util.ArrayList;
 
 import antlr.ExpressionParser;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicador;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
 import ar.edu.utn.dds.procesarArchivos.LineaArchivo;
-import excepciones.NoSeEncuentraCuenta;
-import excepciones.NoSeEncuentraElIndicador;
-import excepciones.NoSeEncuentraLaEmpresa;
-import excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
 
 public class Traductor {
 
@@ -37,7 +37,7 @@ public class Traductor {
 	}
 
 	public double calcular(String empresa, String fecha, String nombreIndicador) throws NoSeEncuentraLaEmpresa,
-			NoSeEncuentraCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
+			NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
 		Indicador i = this.buscarIndicador(nombreIndicador);
 		Operando operando = parser.parse(i.getOperacion(), indicadores);
 		return operando.calcular(this.obtenerEmpresa(empresa), fecha);
@@ -93,7 +93,7 @@ public class Traductor {
 	}
 
 	public double consultarValorCuenta(String nombreEmpresa, String nombreCuenta, String fecha)
-			throws NoSeEncuentraLaEmpresa, NoSeEncuentraCuenta, NoSeEncuentraLaCuentaEnEsaFecha {
+			throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha {
 		int i = this.buscarEmpresa(nombreEmpresa);
 		return getEmpresas().get(i).obtenerValorDeCuenta(nombreCuenta, fecha);
 	}

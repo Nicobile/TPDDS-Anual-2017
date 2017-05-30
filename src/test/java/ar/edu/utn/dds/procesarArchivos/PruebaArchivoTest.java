@@ -11,12 +11,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
 import ar.edu.utn.dds.modelo.Cuenta;
 import ar.edu.utn.dds.modelo.Traductor;
 import ar.edu.utn.dds.procesarArchivos.LectorArchivo;
-import excepciones.NoSeEncuentraCuenta;
-import excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
-import excepciones.NoSeEncuentraLaEmpresa;
 
 public class PruebaArchivoTest {
 
@@ -61,7 +61,8 @@ public class PruebaArchivoTest {
 
 	@Test
 
-	public void verficarCuentasEmpresa() throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresa, NoSeEncuentraCuenta, NoSeEncuentraLaCuentaEnEsaFecha {
+	public void verficarCuentasEmpresa() throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresa,
+			NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha {
 		assertEquals(this.t.getEmpresas().get(2).getCuentas().get(0).getNombre(), "c_cuentaC");
 		assertEquals(this.t.getEmpresas().get(2).getCuentas().get(0).getFecha(), "2013");
 		assertEquals(this.t.getEmpresas().get(2).getCuentas().get(0).getValor(), 1, DELTA);
@@ -93,14 +94,15 @@ public class PruebaArchivoTest {
 
 	@Test
 
-	public void noSeEncuentraCuenta() throws NoSeEncuentraLaEmpresa, NoSeEncuentraCuenta {
-		thrown.expect(NoSeEncuentraCuenta.class);
+	public void noSeEncuentraCuenta() throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta {
+		thrown.expect(NoSeEncuentraLaCuenta.class);
 		this.t.obtenerEmpresa("Pepsico").buscarUnaCuenta("c_cuentaA");
 	}
 
 	@Test
 
-	public void noSeEncuentraCuentaEnUnaFecha() throws NoSeEncuentraLaEmpresa, NoSeEncuentraCuenta, NoSeEncuentraLaCuentaEnEsaFecha {
+	public void noSeEncuentraCuentaEnUnaFecha()
+			throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha {
 		thrown.expect(NoSeEncuentraLaCuentaEnEsaFecha.class);
 		this.t.obtenerEmpresa("Pepsico").buscarUnaCuentaPorFecha("c_cuentaC", "2011");
 	}

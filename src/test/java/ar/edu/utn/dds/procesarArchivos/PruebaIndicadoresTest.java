@@ -11,13 +11,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicador;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
 import ar.edu.utn.dds.modelo.Traductor;
 import ar.edu.utn.dds.procesarArchivos.LectorArchivo;
 import ar.edu.utn.dds.procesarArchivos.ProcesarIndicadores;
-import excepciones.NoSeEncuentraCuenta;
-import excepciones.NoSeEncuentraElIndicador;
-import excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
-import excepciones.NoSeEncuentraLaEmpresa;
 
 public class PruebaIndicadoresTest {
 	private LectorArchivo lector;
@@ -39,7 +39,8 @@ public class PruebaIndicadoresTest {
 	public ExpectedException thrown = ExpectedException.none();
 
 	@Test
-	public void calcular() throws IndexOutOfBoundsException, NoSeEncuentraLaEmpresa, NoSeEncuentraCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
+	public void calcular() throws IndexOutOfBoundsException, NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta,
+			NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
 
 		assertEquals(t.getIndicadores().get(1).getNombre(), "i_IndicadorB");
 		assertEquals(t.calcular("CocaCola", "2016", "i_IndicadorB"), 390, DELTA);
@@ -47,7 +48,8 @@ public class PruebaIndicadoresTest {
 	}
 
 	@Test
-	public void calcular2() throws NoSeEncuentraLaEmpresa, NoSeEncuentraCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
+	public void calcular2() throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha,
+			NoSeEncuentraElIndicador {
 		assertEquals(t.calcular(t.getEmpresas().get(0).getNombre(), "2015", "i_IndicadorA"), 2481480, DELTA);
 		assertEquals(t.calcular("CocaCola", "2016", "i_IndicadorC"), 2346, DELTA);
 
@@ -60,18 +62,22 @@ public class PruebaIndicadoresTest {
 	}
 
 	@Test
-	public void noSeEncuentraIndicador() throws NoSeEncuentraLaEmpresa, NoSeEncuentraCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
+	public void noSeEncuentraIndicador() throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta,
+			NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
 		thrown.expect(NoSeEncuentraElIndicador.class);
 		t.calcular("CocaCola", "2017", "i_IndicadorH");
 	}
+
 	@Test
-	public void noSeEncuentraCuentaParaLaEmpresa() throws NoSeEncuentraLaEmpresa, NoSeEncuentraCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
-		thrown.expect(NoSeEncuentraCuenta.class);
+	public void noSeEncuentraCuentaParaLaEmpresa() throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta,
+			NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
+		thrown.expect(NoSeEncuentraLaCuenta.class);
 		t.calcular("Pepsico", "2016", "i_IndicadorA");
 	}
 
 	@Test
-	public void ExpresionIncorrecta() throws NoSeEncuentraLaEmpresa, NoSeEncuentraCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
+	public void ExpresionIncorrecta() throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta,
+			NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
 		thrown.expect(IllegalArgumentException.class);
 
 		t.calcular("Facebook", "2015", "i_IndicadorD");
@@ -80,7 +86,8 @@ public class PruebaIndicadoresTest {
 
 	@Test
 
-	public void calcularConParentesis() throws NoSeEncuentraLaEmpresa, NoSeEncuentraCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
+	public void calcularConParentesis() throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta,
+			NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
 		assertEquals(t.calcular("CocaCola", "2016", "i_IndicadorE"), 2376, DELTA);
 	}
 
