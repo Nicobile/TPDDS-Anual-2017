@@ -6,4 +6,5 @@ public class NoSeEncuentraElIndicador extends Exception {
 
 	public NoSeEncuentraElIndicador(String msje_error) {
 		super(msje_error);
-}}
+	}
+}
