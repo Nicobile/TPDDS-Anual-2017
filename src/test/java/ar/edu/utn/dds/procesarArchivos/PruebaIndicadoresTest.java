@@ -15,6 +15,8 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicador;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
+import ar.edu.utn.dds.modelo.Empresa;
+import ar.edu.utn.dds.modelo.Operando;
 import ar.edu.utn.dds.modelo.Traductor;
 import ar.edu.utn.dds.procesarArchivos.LectorArchivo;
 import ar.edu.utn.dds.procesarArchivos.ProcesarIndicadores;
@@ -89,6 +91,15 @@ public class PruebaIndicadoresTest {
 	public void calcularConParentesis() throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta,
 			NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
 		assertEquals(t.calcular("CocaCola", "2016", "i_IndicadorE"), 2376, DELTA);
+	}
+	
+	
+	@Test
+	public void pruebaParser() throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta,
+	NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
+		Operando nodo = t.getParser().parse("c_cuentaA + c_cuentaB", t.getIndicadores());
+		Empresa CocaCola = t.obtenerEmpresa("CocaCola");
+		assertEquals(nodo.calcular(CocaCola, "2016"),71,DELTA);
 	}
 
 	@After

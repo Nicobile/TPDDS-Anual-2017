@@ -11,6 +11,7 @@ import ar.edu.utn.dds.procesarArchivos.LineaArchivo;
 
 public class Traductor {
 
+
 	// creo lista empresas
 	private ArrayList<Empresa> empresas = new ArrayList<Empresa>();
 
@@ -152,6 +153,14 @@ public class Traductor {
 
 	public void setEmpresas(ArrayList<Empresa> empresas) {
 		this.empresas = empresas;
+	}
+
+	public ExpressionParser getParser() {
+		return parser;
+	}
+
+	public void setParser(ExpressionParser parser) {
+		this.parser = parser;
 	}
 
 }
