@@ -101,6 +101,15 @@ public class PruebaIndicadoresTest {
 		Empresa CocaCola = t.obtenerEmpresa("CocaCola");
 		assertEquals(nodo.calcular(CocaCola, "2016"),71,DELTA);
 	}
+	
+	@Test
+	public void pruebaDividirPor0() throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta,
+	NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador{
+		thrown.expect(ArithmeticException.class);
+		Operando nodo = t.getParser().parse("(c_cuentaA + c_cuentaB)/0", t.getIndicadores());
+		Empresa CocaCola = t.obtenerEmpresa("CocaCola");
+		nodo.calcular(CocaCola, "2016");
+	}
 
 	@After
 	public void eliminarLista() {
