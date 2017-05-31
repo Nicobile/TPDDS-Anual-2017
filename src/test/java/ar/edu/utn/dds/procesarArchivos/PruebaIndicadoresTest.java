@@ -53,8 +53,13 @@ public class PruebaIndicadoresTest {
 	public void calcular2() throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha,
 			NoSeEncuentraElIndicador {
 		assertEquals(t.calcular(t.getEmpresas().get(0).getNombre(), "2015", "i_IndicadorA"), 2481480, DELTA);
-		assertEquals(t.calcular("CocaCola", "2016", "i_IndicadorC"), 2346, DELTA);
 
+	}
+
+	@Test
+	public void indicadorRecursivoDosVeces() throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta,
+			NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
+		assertEquals(t.calcular("CocaCola", "2016", "i_IndicadorC"), 2346, DELTA);
 	}
 
 	@Test
@@ -92,23 +97,56 @@ public class PruebaIndicadoresTest {
 			NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
 		assertEquals(t.calcular("CocaCola", "2016", "i_IndicadorE"), 2376, DELTA);
 	}
-	
-	
+
 	@Test
-	public void pruebaParser() throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta,
-	NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
+
+	public void errorIndicadorMalEscrito() throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta,
+			NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
+		thrown.expect(NoSeEncuentraElIndicador.class);
+		t.calcular("CocaCola", "2016", "j_IndicadorE");
+	}
+
+	@Test
+
+	public void errorCualquierCosaComoIndicador() throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta,
+			NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
+		thrown.expect(NoSeEncuentraElIndicador.class);
+		t.calcular("CocaCola", "2016", "abjshdjkasdlksdaj");
+	}
+
+	@Test
+	public void pruebaParser() throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha,
+			NoSeEncuentraElIndicador {
 		Operando nodo = t.getParser().parse("c_cuentaA + c_cuentaB", t.getIndicadores());
 		Empresa CocaCola = t.obtenerEmpresa("CocaCola");
-		assertEquals(nodo.calcular(CocaCola, "2016"),71,DELTA);
+		assertEquals(nodo.calcular(CocaCola, "2016"), 71, DELTA);
 	}
-	
+
 	@Test
 	public void pruebaDividirPor0() throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta,
-	NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador{
+			NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
 		thrown.expect(ArithmeticException.class);
 		Operando nodo = t.getParser().parse("(c_cuentaA + c_cuentaB)/0", t.getIndicadores());
 		Empresa CocaCola = t.obtenerEmpresa("CocaCola");
 		nodo.calcular(CocaCola, "2016");
+	}
+
+	@Test
+	public void parsearCualquierCosa() {
+		thrown.expect(IllegalArgumentException.class);
+		t.getParser().parse("sadfdsfsfasdasdfdscsacsad", t.getIndicadores());
+	}
+
+	@Test
+	public void parsearCualquierIndicadorDesdeArchivoIndicadores() {
+		thrown.expect(IllegalArgumentException.class);
+		t.getParser().parse("j_IndicadorF", t.getIndicadores());
+	}
+
+	@Test
+	public void parsearCualquierCuentaDesdeArchivoIndicadores() {
+		thrown.expect(IllegalArgumentException.class);
+		System.out.println((t.getParser().parse("cuentaA+s_cuentaH", t.getIndicadores())));
 	}
 
 	@After
