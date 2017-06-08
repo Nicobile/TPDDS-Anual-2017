@@ -27,7 +27,7 @@ public class ProcesarIndicadores {
 		this.t = t;
 	}
 
-	void leerExcel(String archivo) throws IOException, FileNotFoundException {
+	public void leerExcel(String archivo) throws IOException, FileNotFoundException {
 
 		File inputWorkbook = new File(archivo);
 		Workbook w = null;

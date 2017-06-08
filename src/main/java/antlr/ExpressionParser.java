@@ -21,7 +21,6 @@ import ar.edu.utn.dds.modelo.Multiplicacion;
 import ar.edu.utn.dds.modelo.NodoCuenta;
 import ar.edu.utn.dds.modelo.NodoIndicador;
 import ar.edu.utn.dds.modelo.NodoNumero;
-
 import ar.edu.utn.dds.modelo.Division;
 
 import ar.edu.utn.dds.modelo.Indicador;

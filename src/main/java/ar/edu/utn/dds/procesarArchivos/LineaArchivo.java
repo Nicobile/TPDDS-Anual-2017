@@ -6,6 +6,7 @@ public class LineaArchivo {
 	String nombreCuenta;
 	double valorCuenta;
 	String fecha;
+	
 
 	public LineaArchivo(String nombreEmpresa, String nombreCuenta, double valorCuenta, String fecha) {
 		this.nombreCuenta = nombreCuenta;

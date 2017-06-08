@@ -44,28 +44,29 @@ public class PruebaIndicadoresTest {
 	public void calcular() throws IndexOutOfBoundsException, NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta,
 			NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
 
-		assertEquals(t.getIndicadores().get(1).getNombre(), "i_IndicadorB");
-		assertEquals(t.calcular("CocaCola", "2016", "i_IndicadorB"), 390, DELTA);
+		assertEquals(t.getIndicadores().get(1).getNombre(), "i_NivelDeuda");
+		assertEquals(t.calcular("CocaCola", "2015", "i_IngresoNeto"), 6104, DELTA);
 
 	}
 
 	@Test
 	public void calcular2() throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha,
 			NoSeEncuentraElIndicador {
-		assertEquals(t.calcular(t.getEmpresas().get(0).getNombre(), "2015", "i_IndicadorA"), 2481480, DELTA);
+		assertEquals(t.calcular("Twitter", "2014", "i_NivelDeuda"), 1.4390243902439024, DELTA);
 
 	}
 
 	@Test
 	public void indicadorRecursivoDosVeces() throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta,
 			NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
-		assertEquals(t.calcular("CocaCola", "2016", "i_IndicadorC"), 2346, DELTA);
+		assertEquals(t.calcular("Pepsico", "2015", "i_ROE"), -0.22781721384205855, DELTA);
+
 	}
 
 	@Test
 	public void listarIndicadoresyCuentas() throws NoSeEncuentraLaEmpresa {
 
-		assertTrue(t.listarIndicadodoresyCuentas(t.obtenerEmpresa("Facebook"), "2015").get(0).equals("i_IndicadorA"));
+		assertTrue(t.listarIndicadodoresyCuentas(t.obtenerEmpresa("Facebook"), "2015").get(0).equals("i_ROE"));
 	}
 
 	@Test
@@ -79,7 +80,7 @@ public class PruebaIndicadoresTest {
 	public void noSeEncuentraCuentaParaLaEmpresa() throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta,
 			NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
 		thrown.expect(NoSeEncuentraLaCuenta.class);
-		t.calcular("Pepsico", "2016", "i_IndicadorA");
+		t.calcular("Pepsico", "2015", "i_Solvencia");
 	}
 
 	@Test
@@ -93,17 +94,10 @@ public class PruebaIndicadoresTest {
 
 	@Test
 
-	public void calcularConParentesis() throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta,
-			NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
-		assertEquals(t.calcular("CocaCola", "2016", "i_IndicadorE"), 2376, DELTA);
-	}
-
-	@Test
-
 	public void errorIndicadorMalEscrito() throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta,
 			NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
 		thrown.expect(NoSeEncuentraElIndicador.class);
-		t.calcular("CocaCola", "2016", "j_IndicadorE");
+		t.calcular("CocaCola", "2015", "j_ROE");
 	}
 
 	@Test
@@ -111,24 +105,24 @@ public class PruebaIndicadoresTest {
 	public void errorCualquierCosaComoIndicador() throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta,
 			NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
 		thrown.expect(NoSeEncuentraElIndicador.class);
-		t.calcular("CocaCola", "2016", "abjshdjkasdlksdaj");
+		t.calcular("CocaCola", "2014", "abjshdjkasdlksdaj");
 	}
 
 	@Test
 	public void pruebaParser() throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha,
 			NoSeEncuentraElIndicador {
-		Operando nodo = t.getParser().parse("c_cuentaA + c_cuentaB", t.getIndicadores());
+		Operando nodo = t.getParser().parse("c_Ventas + c_Utilidades", t.getIndicadores());
 		Empresa CocaCola = t.obtenerEmpresa("CocaCola");
-		assertEquals(nodo.calcular(CocaCola, "2016"), 71, DELTA);
+		assertEquals(nodo.calcular(CocaCola, "2015"), 101000, DELTA);
 	}
 
 	@Test
 	public void pruebaDividirPor0() throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta,
 			NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
 		thrown.expect(ArithmeticException.class);
-		Operando nodo = t.getParser().parse("(c_cuentaA + c_cuentaB)/0", t.getIndicadores());
+		Operando nodo = t.getParser().parse("(c_Ventas + c_Utilidades)/0", t.getIndicadores());
 		Empresa CocaCola = t.obtenerEmpresa("CocaCola");
-		nodo.calcular(CocaCola, "2016");
+		nodo.calcular(CocaCola, "2015");
 	}
 
 	@Test
@@ -141,12 +135,6 @@ public class PruebaIndicadoresTest {
 	public void parsearCualquierIndicadorDesdeArchivoIndicadores() {
 		thrown.expect(IllegalArgumentException.class);
 		t.getParser().parse("j_IndicadorF", t.getIndicadores());
-	}
-
-	@Test
-	public void parsearCualquierCuentaDesdeArchivoIndicadores() {
-		thrown.expect(IllegalArgumentException.class);
-		System.out.println((t.getParser().parse("cuentaA+s_cuentaH", t.getIndicadores())));
 	}
 
 	@After
