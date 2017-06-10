@@ -1,15 +1,20 @@
 package ar.edu.utn.dds.modelo;
 
 import java.util.ArrayList;
+
 import java.util.Collections;
 import java.util.Iterator;
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
 
 public class Metodologia {
 	private ArrayList<Condicion> condicionesDeMetodologia = new ArrayList<Condicion>();
 	private String nombre;
-	ArrayList<PuntajeEmpresa> puntajeEmpresas = new ArrayList<PuntajeEmpresa>();
+	private ArrayList<PuntajeEmpresa> puntajeEmpresas = new ArrayList<PuntajeEmpresa>();
 
 	private int buscarEmpresa(String nomE, ArrayList<PuntajeEmpresa> lista) throws NoSeEncuentraLaEmpresa {
 		for (int i = 0; i < lista.size(); i++) {
@@ -21,7 +26,7 @@ public class Metodologia {
 	}
 
 	private void aplicarCondicion(Condicion condicion)
-			throws NoSeEncuentraLaEmpresa { /*
+			throws NoSeEncuentraLaEmpresa, ScriptException { /*
 											 * aplicar condicion modifica la
 											 * lista de puntaje empresas ,lista
 											 * es una lista vacia que carga los
@@ -53,7 +58,7 @@ public class Metodologia {
 	}
 
 	public ArrayList<PuntajeEmpresa> aplicarMetodologia()
-			throws NoSeEncuentraLaEmpresa { /*
+			throws NoSeEncuentraLaEmpresa, ScriptException { /*
 											 * deberia haber una clase que tenga
 											 * una lista de metologias
 											 */
@@ -71,7 +76,7 @@ public class Metodologia {
 		 * ahora debo ordenarlas
 		 */
 
-		Collections.sort(puntajeEmpresas, (p1, p2) -> new Integer(p1.getValor()).compareTo(new Integer(p2.getValor())));
+		Collections.sort(puntajeEmpresas, (p1, p2) -> new Integer(p1.getPuntaje()).compareTo(new Integer(p2.getPuntaje())));
 		return puntajeEmpresas;
 
 	}
@@ -84,29 +89,32 @@ public class Metodologia {
 		this.nombre = nombre;
 	}
 	// prueba del Collection anda bien
-	/*
-	 * public static void main(String[] agrs){ ArrayList<PuntajeEmpresa>
-	 * puntajeEmpresas = new ArrayList<PuntajeEmpresa>(); PuntajeEmpresa p1=new
-	 * PuntajeEmpresa(); p1.setValor(8);
-	 * 
-	 * PuntajeEmpresa p2=new PuntajeEmpresa(); p2.setValor(7); PuntajeEmpresa
-	 * p3=new PuntajeEmpresa(); p3.setValor(9); PuntajeEmpresa p4=new
-	 * PuntajeEmpresa(); p4.setValor(1); PuntajeEmpresa p5=new PuntajeEmpresa();
-	 * p5.setValor(0); PuntajeEmpresa p6=new PuntajeEmpresa(); p6.setValor(0);
-	 * puntajeEmpresas.add(p1); puntajeEmpresas.add(p2);
-	 * puntajeEmpresas.add(p3); puntajeEmpresas.add(p4);
-	 * puntajeEmpresas.add(p5); puntajeEmpresas.add(p6);
-	 * Collections.sort(puntajeEmpresas, (pA, pB) -> new
-	 * Integer(pA.getValor()).compareTo(new Integer(pB.getValor()))); for (int
-	 * i=0;i<puntajeEmpresas.size();i++){
-	 * System.out.println(puntajeEmpresas.get(i).getValor()); }
-	 * System.out.println(puntajeEmpresas.size());
-	 * 
-	 * 
-	 * 
-	 * 
-	 * }
-	 */
-
-
+	
+	public static void main(String[] agrs) throws ScriptException{ ArrayList<PuntajeEmpresa>
+	 puntajeEmpresas = new ArrayList<PuntajeEmpresa>(); PuntajeEmpresa p1=new
+	  PuntajeEmpresa(); p1.setResultadoDeAplicarCondicion(8);
+	  
+	  PuntajeEmpresa p2=new PuntajeEmpresa(); p2.setResultadoDeAplicarCondicion(7); PuntajeEmpresa
+	  p3=new PuntajeEmpresa(); p3.setResultadoDeAplicarCondicion(5);; PuntajeEmpresa p4=new
+	  PuntajeEmpresa(); p4.setResultadoDeAplicarCondicion(8);; PuntajeEmpresa p5=new PuntajeEmpresa();
+	  p5.setResultadoDeAplicarCondicion(10);; PuntajeEmpresa p6=new PuntajeEmpresa(); p6.setResultadoDeAplicarCondicion(0);
+	  puntajeEmpresas.add(p1); puntajeEmpresas.add(p2);
+	  puntajeEmpresas.add(p3); puntajeEmpresas.add(p4);
+	  puntajeEmpresas.add(p5); puntajeEmpresas.add(p6);
+	  Collections.sort(puntajeEmpresas, (pA, pB) -> new Double(pA.getResultadoDeAplicarCondicion()).compareTo(new Double(pB.getResultadoDeAplicarCondicion()))); 
+	  for (int i=0;i<puntajeEmpresas.size();i++){
+	  System.out.println(puntajeEmpresas.get(i).getResultadoDeAplicarCondicion()); }
+	 
+	  System.out.println(puntajeEmpresas.size());
+	  
+	 
+	Collections.reverse(puntajeEmpresas);
+	 
+	  for (int i=0;i<puntajeEmpresas.size();i++){
+		  System.out.println(puntajeEmpresas.get(i).getResultadoDeAplicarCondicion()); }
+	  
+		  System.out.println(puntajeEmpresas.size());
+		
+		 }
+	
 }

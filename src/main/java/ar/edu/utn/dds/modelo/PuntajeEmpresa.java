@@ -2,9 +2,13 @@ package ar.edu.utn.dds.modelo;
 
 public class PuntajeEmpresa {
 private String nombreEmpresa;
-private int valor=0;
+private int puntaje=0;
+private double resultadoDeAplicarCondicion;
+
+
+
 public void suma(int v){
-	valor=valor+v;	
+	puntaje=puntaje+v;	
 }
 public String getNombreEmpresa() {
 	return nombreEmpresa;
@@ -12,10 +16,17 @@ public String getNombreEmpresa() {
 public void setNombreEmpresa(String nombreEmpresa) {
 	this.nombreEmpresa = nombreEmpresa;
 }
-public int getValor() {
-	return valor;
+public int getPuntaje() {
+	return puntaje;
 }
-public void setValor(int valor) {
-	this.valor = valor;
+public void setPuntaje(int puntaje) {
+	this.puntaje = puntaje;
 }
+public double getResultadoDeAplicarCondicion() {
+	return resultadoDeAplicarCondicion;
+}
+public void setResultadoDeAplicarCondicion(double resultadoDeAplicarCondicion) {
+	this.resultadoDeAplicarCondicion = resultadoDeAplicarCondicion;
+}
+
 }
