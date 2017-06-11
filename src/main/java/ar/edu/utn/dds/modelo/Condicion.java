@@ -23,7 +23,7 @@ public abstract class Condicion {
 	private Boolean filtro;
 	/*2 formas de ingresar por interfaz
 	 * lado izquierdo derecho y comparador y periodos
-	 * lado izquierdo y criterio
+	 * lado izquierdo y criterio y periodo
 	 * */
 
 	public ArrayList<PuntajeEmpresa>  aplicar() throws ScriptException, NoSePudoOrdenarLaCondicion, NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador{/* ordena a las empresas segun cumplan la condicion
@@ -52,13 +52,8 @@ public abstract class Condicion {
 				 
 				 return valoresAizq;}
 			}
-			if(criterio.equals("creciente")){
-				setFiltro(true);
-			}
-			if(criterio.equals("decreciente")){
-				setFiltro(true);
-			}
 			
+			return valoresAizq;
 		}
 		
 		else{
@@ -77,13 +72,13 @@ public abstract class Condicion {
 		    	if((boolean) interprete.eval(formula)){
 		    		/*con esto evaluo la expresion retorna true o false*/
 		    		/*si cumple antonces agrego a la nueva lista*/
-		    		empresasQueCumplenCond.add(valoresAizq.get(i));//esto no deberia sumar puntaje
+		    		empresasQueCumplenCond.add(valoresAizq.get(i));
 		    	}
 		    }
 		    return empresasQueCumplenCond;
 	
 		}		
-		throw new NoSePudoOrdenarLaCondicion("Error al aplicar la condicion");
+		
 		
 	}
 

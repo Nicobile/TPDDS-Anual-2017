@@ -75,6 +75,7 @@ public class Traductor {
 					periodoAnterior = operando.calcular(empresas.get(j), String.valueOf(2017 - x));
 				} else {
 					empresas.remove(j);
+					j=0;
 					
 				}
 
@@ -84,6 +85,7 @@ public class Traductor {
 					periodoAnterior = operando.calcular(empresas.get(j), String.valueOf(2017 - x));
 				} else {
 					empresas.remove(j);
+					j=0;
 				}
 			}
 		}

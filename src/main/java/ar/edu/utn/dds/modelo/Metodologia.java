@@ -48,6 +48,11 @@ public class Metodologia {
 		} else {
 			if(!condicion.getFiltro()){
 			for (int i = 0; i < lista.size(); i++) {
+				puntajeEmpresas.stream().filter(unaE->unaE.getNombreEmpresa().equals(unaE.getNombreEmpresa()));
+				
+			}
+			
+			for (int i = 0; i < lista.size(); i++) {
 
 				int j;
 				j = this.buscarEmpresa(lista.get(i).getNombreEmpresa(), puntajeEmpresas);
@@ -106,32 +111,72 @@ public class Metodologia {
 	}
 	// prueba del Collection anda bien
 	
-	public static void main(String[] agrs) throws ScriptException{ ArrayList<PuntajeEmpresa>
-	 puntajeEmpresas = new ArrayList<PuntajeEmpresa>(); PuntajeEmpresa p1=new
-	  PuntajeEmpresa(); p1.setResultadoDeAplicarCondicion(8);
+	private static ArrayList<PuntajeEmpresa>  eliminarLista(ArrayList<PuntajeEmpresa> l){
+		
+		
+		
+		for(int i =0;i<l.size();i++){
+			if(l.get(i).getResultadoDeAplicarCondicion()>4.0){
+				l.remove(l.get(i));
+				i=0;
+			}
+		}
+		return l;
+	}
+	
+	public static void main(String[] agrs) throws ScriptException{ 
+		ArrayList<PuntajeEmpresa> puntajeEmpresas = new ArrayList<PuntajeEmpresa>(); 
+	PuntajeEmpresa p1=new PuntajeEmpresa(); 
+	p1.setResultadoDeAplicarCondicion(8);
 	  
-	  PuntajeEmpresa p2=new PuntajeEmpresa(); p2.setResultadoDeAplicarCondicion(7); PuntajeEmpresa
-	  p3=new PuntajeEmpresa(); p3.setResultadoDeAplicarCondicion(5);; PuntajeEmpresa p4=new
-	  PuntajeEmpresa(); p4.setResultadoDeAplicarCondicion(8);; PuntajeEmpresa p5=new PuntajeEmpresa();
-	  p5.setResultadoDeAplicarCondicion(10);; PuntajeEmpresa p6=new PuntajeEmpresa(); p6.setResultadoDeAplicarCondicion(0);
-	  puntajeEmpresas.add(p1); puntajeEmpresas.add(p2);
-	  puntajeEmpresas.add(p3); puntajeEmpresas.add(p4);
-	  puntajeEmpresas.add(p5); puntajeEmpresas.add(p6);
+	  PuntajeEmpresa p2=new PuntajeEmpresa(); 
+	  p2.setResultadoDeAplicarCondicion(7);
+	  PuntajeEmpresa p3=new PuntajeEmpresa();
+	  p3.setResultadoDeAplicarCondicion(5);
+	  PuntajeEmpresa p4=new PuntajeEmpresa(); 
+	  p4.setResultadoDeAplicarCondicion(5);
+	  PuntajeEmpresa p5=new PuntajeEmpresa();
+	  p5.setResultadoDeAplicarCondicion(10);
+	   PuntajeEmpresa p6=new PuntajeEmpresa(); 
+	   p6.setResultadoDeAplicarCondicion(0);
+	 
+	  
+	  puntajeEmpresas.add(p1); 
+	  puntajeEmpresas.add(p2);
+	  puntajeEmpresas.add(p3); 
+	  puntajeEmpresas.add(p4);
+	  puntajeEmpresas.add(p5); 
+	  puntajeEmpresas.add(p6);
+	  
+	  
 	  Collections.sort(puntajeEmpresas, (pA, pB) -> new Double(pA.getResultadoDeAplicarCondicion()).compareTo(new Double(pB.getResultadoDeAplicarCondicion()))); 
 	  for (int i=0;i<puntajeEmpresas.size();i++){
 	  System.out.println(puntajeEmpresas.get(i).getResultadoDeAplicarCondicion()); }
 	 
 	  System.out.println(puntajeEmpresas.size());
-	  
-	  
-	 
-	Collections.reverse(puntajeEmpresas);
-	 
-	  for (int i=0;i<puntajeEmpresas.size();i++){
-		  System.out.println(puntajeEmpresas.get(i).getResultadoDeAplicarCondicion()); }
-	  
-		  System.out.println(puntajeEmpresas.size());
+
+		  
+	  ArrayList<PuntajeEmpresa> lista = new ArrayList<PuntajeEmpresa>(eliminarLista(puntajeEmpresas)); 
+		  
+		  System.out.println(lista.size());
+		  
+		  for (int i=0;i<lista.size();i++){
+			  System.out.println(lista.get(i).getResultadoDeAplicarCondicion()); }
 		
-		 }
+		  
+		  
+		  for(int i =0;i<lista.size();i++){
+				if(lista.get(i).getResultadoDeAplicarCondicion()>4.0){
+					lista.remove(lista.get(i));
+				}
+				System.out.println(lista.get(i).getResultadoDeAplicarCondicion());
+			}
+			}
+		  
+		  
+		 
+	
+	
+	
 	
 }
