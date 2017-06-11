@@ -104,4 +104,19 @@ public class Empresa {
 		this.cuentas = cuentas;
 	}
 
+	public void filtrarCuentasEnUnPeriodo(int periodos) {
+		for(int a=0; a<this.getCuentas().size(); a++){
+			boolean comp = true;
+			for(int x=periodos; x>0; x--){
+				if(this.getCuentas().get(a).getFecha().equals(String.valueOf(2017 - x)) ){
+					comp = false;
+				}
+			}
+			if(comp){
+				this.getCuentas().remove(a);
+			}
+		}
+	
+	}
+
 }
