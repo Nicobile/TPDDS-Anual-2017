@@ -29,7 +29,8 @@ public abstract class LadoIzq {
 		//me quedo solo con las cuentas de empresa que pertenecen al periodo seria la misma estructura de la lista de emresas con menos cuentas
 		
 		for(int i=0;i<traductor.getEmpresas().size();i++){
-			empresas.add(traductor.getEmpresas().get(i).filtrarCuentasEnUnPeriodo(periodos));
+			traductor.getEmpresas().get(i).filtrarCuentasEnUnPeriodo(periodos);
+			empresas.add(traductor.getEmpresas().get(i));
 		}
 		
 		
