@@ -43,6 +43,22 @@ public class Traductor {
 		Operando operando = parser.parse(i.getOperacion(), indicadores);
 		return operando.calcular(this.obtenerEmpresa(empresa), fecha);
 	}
+	
+	
+	public ArrayList<Double> calcularAListaDeEmpresas(ArrayList<Empresa> empresas, int periodos ,Indicador i) throws NoSeEncuentraLaEmpresa,
+	NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
+		ArrayList<Double> lista= new ArrayList<Double>();
+Operando operando = parser.parse(i.getOperacion(), indicadores);
+
+for(int j=0;j<empresas.size();j++){
+	double sumaDeIndicadorPeriodos=0;
+	for(int x=periodos; x>0;x--){
+ sumaDeIndicadorPeriodos=sumaDeIndicadorPeriodos+operando.calcular(empresas.get(j), String.valueOf(2017-x));
+ }
+	lista.add(sumaDeIndicadorPeriodos);
+}
+return lista;
+}
 
 	public Indicador buscarIndicador(String ind) throws NoSeEncuentraElIndicador {
 

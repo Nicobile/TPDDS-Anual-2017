@@ -7,27 +7,32 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicador;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
+import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicion;
+
 public abstract class Condicion {
-	private Traductor traductor=new Traductor();
+	
 	private LadoIzq ladoIzq;
 	private Double ladoDer=null;/* lado der SIEMPRE va a ser un numero PUEDE NO INGRESARSE*/
 	private String comparador=null;/*PUEDE NO INGRESARSE*/ 
 	private int periodos;
-	private String criterio;//mayor o menor ingreesa en la interfaz grafica
+	private String criterio;//mayor o menor,  ingreesa en la interfaz grafica
+	private Boolean filtro;
 	/*2 formas de ingresar por interfaz
 	 * lado izquierdo derecho y comparador y periodos
-	 * lado izquierdo y criterio*/
+	 * lado izquierdo y criterio
+	 * */
 
-	public ArrayList<PuntajeEmpresa>  aplicar() throws ScriptException{/* ordena a las empresas segun cumplan la condicion
-	*/
-		/*por cada condicion clono la lista  de empresas del traductor
-		para no modificar la posiciones de la lista de empresa del traductor*/
+	public ArrayList<PuntajeEmpresa>  aplicar() throws ScriptException, NoSePudoOrdenarLaCondicion, NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador{/* ordena a las empresas segun cumplan la condicion
+	*/ setFiltro(false);
 		
-		ArrayList<Empresa> empresas= (ArrayList<Empresa>) traductor.getEmpresas().clone();
 		ArrayList<PuntajeEmpresa> valoresAizq=new ArrayList<PuntajeEmpresa>();/* debe a partir de la lista de empresas crear esta estructura y oredenarla segun 
 		corresponda por el valor del campo valor*/
 		
-		valoresAizq=ladoIzq.calcularValor(empresas,periodos);/*esto va a aplicar a todas las empresas el lado izq
+		valoresAizq=ladoIzq.calcularValor(periodos);/*esto va a aplicar a todas las empresas el lado izq
 		y los guarda en la lista SIN ORDENAR*/
 		if((ladoDer==null && comparador!=null) || (comparador==null && ladoDer!=null)){
 			System.out.println("Error");/*dsps crear el error*/
@@ -41,17 +46,18 @@ public abstract class Condicion {
 			 Collections.reverse(valoresAizq);
 			 return valoresAizq;
 			}
-			else{
+			else{if(criterio.equals("menor")){
 				// de menor a mayor
 				Collections.sort(valoresAizq, (v1, v2) -> new Double(v1.getResultadoDeAplicarCondicion()).compareTo(new Double(v2.getResultadoDeAplicarCondicion())));	
 				 
-				 return valoresAizq;
+				 return valoresAizq;}
 			}
 			
 		}
 		
 		else{
 		/*en este caso tengo que filtrar aquellos que cumplan con la condicion con lo cual tengo que armar la condicion*/
+			setFiltro(true);
 			ScriptEngineManager manager = new ScriptEngineManager(); 
 		    ScriptEngine interprete = manager.getEngineByName("js"); /*con esto armo la ecuacion*/
 		    ArrayList<PuntajeEmpresa> empresasQueCumplenCond=new ArrayList<PuntajeEmpresa>();
@@ -65,15 +71,13 @@ public abstract class Condicion {
 		    	if((boolean) interprete.eval(formula)){
 		    		/*con esto evaluo la expresion retorna true o false*/
 		    		/*si cumple antonces agrego a la nueva lista*/
-		    		empresasQueCumplenCond.add(valoresAizq.get(i));
+		    		empresasQueCumplenCond.add(valoresAizq.get(i));//esto no deberia sumar puntaje
 		    	}
 		    }
-		    
-		    
-		    /*creo que falta ordenarlas se que estas empresas cumplen la condicion pero no se cuan bien*/
-		    
 		    return empresasQueCumplenCond;
+	
 		}		
+		throw new NoSePudoOrdenarLaCondicion("Error al aplicar la condicion");
 		
 	}
 
@@ -89,6 +93,14 @@ public abstract class Condicion {
 		this.ladoIzq = ladoIzq;
 		this.periodos = periodos;
 		this.criterio = criterio;
+	}
+
+	public Boolean getFiltro() {
+		return filtro;
+	}
+
+	public void setFiltro(Boolean filtro) {
+		this.filtro = filtro;
 	};
 
 }

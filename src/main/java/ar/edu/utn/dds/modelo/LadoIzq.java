@@ -2,6 +2,11 @@ package ar.edu.utn.dds.modelo;
 
 import java.util.ArrayList;
 
+import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicador;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
+
 public abstract class LadoIzq {
 	
 	/*a la hora de crear la metodologia siempre voy a saber que tipo de lado izquierdo estoy creando
@@ -9,12 +14,24 @@ public abstract class LadoIzq {
 	
 /*de alguna forma en la interfaz a la hora qeu ingresan el indicador deberia buscarlo con el traductor*/
 	private Indicador indicador;
+	private Traductor traductor=new Traductor();
+	private ArrayList<Empresa> empresas=new ArrayList<Empresa>();
+	
+	
 
 	public LadoIzq(Indicador indicador) {
 		super();
 		this.indicador = indicador;
 	}
-	public ArrayList<PuntajeEmpresa> calcularValor(ArrayList<Empresa> empresas,int periodos){
+	public ArrayList<PuntajeEmpresa> calcularValor(int periodos)throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador{
+
+		
+		//me quedo solo con las cuentas de empresa que pertenecen al periodo seria la misma estructura de la lista de emresas con menos cuentas
+		
+		for(int i=0;i<traductor.getEmpresas().size();i++){
+			empresas.add(traductor.getEmpresas().get(i).filtrarCuentasEnUnPeriodo(periodos));
+		}
+		
 		
 		ArrayList<PuntajeEmpresa> listaEmpresa= new ArrayList<PuntajeEmpresa> ();
 		PuntajeEmpresa elementoLista=new PuntajeEmpresa();
@@ -24,5 +41,23 @@ public abstract class LadoIzq {
 		}
 		
 		return listaEmpresa;
+	}
+	public ArrayList<Empresa> getEmpresas() {
+		return empresas;
+	}
+	public void setEmpresas(ArrayList<Empresa> empresas) {
+		this.empresas = empresas;
+	}
+	public Traductor getTraductor() {
+		return traductor;
+	}
+	public void setTraductor(Traductor traductor) {
+		this.traductor = traductor;
+	}
+	public Indicador getIndicador() {
+		return indicador;
+	}
+	public void setIndicador(Indicador indicador) {
+		this.indicador = indicador;
 	}
 }

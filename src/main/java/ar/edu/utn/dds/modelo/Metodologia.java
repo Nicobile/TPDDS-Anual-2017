@@ -9,7 +9,11 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicador;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
+import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicion;
 
 public class Metodologia {
 	private ArrayList<Condicion> condicionesDeMetodologia = new ArrayList<Condicion>();
@@ -26,7 +30,7 @@ public class Metodologia {
 	}
 
 	private void aplicarCondicion(Condicion condicion)
-			throws NoSeEncuentraLaEmpresa, ScriptException { /*
+			throws NoSeEncuentraLaEmpresa, ScriptException, NoSePudoOrdenarLaCondicion, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador { /*
 											 * aplicar condicion modifica la
 											 * lista de puntaje empresas ,lista
 											 * es una lista vacia que carga los
@@ -42,15 +46,26 @@ public class Metodologia {
 
 			}
 		} else {
+			if(!condicion.getFiltro()){
 			for (int i = 0; i < lista.size(); i++) {
 
 				int j;
 				j = this.buscarEmpresa(lista.get(i).getNombreEmpresa(), puntajeEmpresas);
+				
 				puntajeEmpresas.get(j).suma(buscarEmpresa(lista.get(i).getNombreEmpresa(),
 						lista));/*
 								 * sumo a lista puntaje empresas la posicion que
 								 * ocupa la empresa en la lista de condicion
 								 */
+			}}
+			else{
+				/*tengo que filtrar solo quellas que cumplen la condicion*/
+				for (int i=0;i<lista.size();i++){
+					PuntajeEmpresa elementoLista=lista.get(i);
+					puntajeEmpresas.stream().filter(unaE -> unaE.getNombreEmpresa().equals(elementoLista.getNombreEmpresa()));
+					
+				}
+				
 			}
 
 		}
@@ -58,7 +73,7 @@ public class Metodologia {
 	}
 
 	public ArrayList<PuntajeEmpresa> aplicarMetodologia()
-			throws NoSeEncuentraLaEmpresa, ScriptException { /*
+			throws NoSeEncuentraLaEmpresa, ScriptException, NoSePudoOrdenarLaCondicion, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador { /*
 											 * deberia haber una clase que tenga
 											 * una lista de metologias
 											 */
