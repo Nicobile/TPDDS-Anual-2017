@@ -11,7 +11,6 @@ import ar.edu.utn.dds.procesarArchivos.LineaArchivo;
 
 public class Traductor {
 
-
 	// creo lista empresas
 	private ArrayList<Empresa> empresas = new ArrayList<Empresa>();
 
@@ -43,22 +42,53 @@ public class Traductor {
 		Operando operando = parser.parse(i.getOperacion(), indicadores);
 		return operando.calcular(this.obtenerEmpresa(empresa), fecha);
 	}
-	
-	
-	public ArrayList<Double> calcularAListaDeEmpresas(ArrayList<Empresa> empresas, int periodos ,Indicador i) throws NoSeEncuentraLaEmpresa,
-	NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
-		ArrayList<Double> lista= new ArrayList<Double>();
-Operando operando = parser.parse(i.getOperacion(), indicadores);
 
-for(int j=0;j<empresas.size();j++){
-	double sumaDeIndicadorPeriodos=0;
-	for(int x=periodos; x>0;x--){
- sumaDeIndicadorPeriodos=sumaDeIndicadorPeriodos+operando.calcular(empresas.get(j), String.valueOf(2017-x));
- }
-	lista.add(sumaDeIndicadorPeriodos);
-}
-return lista;
-}
+	public ArrayList<Double> calcularAListaDeEmpresas(ArrayList<Empresa> empresas, int periodos, Indicador i)
+			throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha,
+			NoSeEncuentraElIndicador {
+		ArrayList<Double> lista = new ArrayList<Double>();
+		Operando operando = parser.parse(i.getOperacion(), indicadores);
+
+		for (int j = 0; j < empresas.size(); j++) {
+			double sumaDeIndicadorPeriodos = 0;
+			for (int x = periodos; x > 0; x--) {
+				sumaDeIndicadorPeriodos = sumaDeIndicadorPeriodos
+						+ operando.calcular(empresas.get(j), String.valueOf(2017 - x));
+			}
+			lista.add(sumaDeIndicadorPeriodos);
+		}
+		return lista;
+	}
+
+	public ArrayList<Empresa> compararAListaDeEmpresas(ArrayList<Empresa> empresas, int periodos, Indicador i, char criterio)
+			throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha,
+			NoSeEncuentraElIndicador {
+		
+		Operando operando = parser.parse(i.getOperacion(), indicadores);
+
+		for (int j = 0; j < empresas.size(); j++) {
+			double periodoAnterior = (operando.calcular(empresas.get(j), String.valueOf(2017 - periodos)));
+			for (int x = periodos; x > 0; x--) {
+				if (criterio == '>') {
+					if (periodoAnterior >= (operando.calcular(empresas.get(j), String.valueOf(2017 - x))))
+						;
+					periodoAnterior = operando.calcular(empresas.get(j), String.valueOf(2017 - x));
+				} else {
+					empresas.remove(j);
+					
+				}
+
+				if (criterio == '<') {
+					if (periodoAnterior <= (operando.calcular(empresas.get(j), String.valueOf(2017 - x))))
+						;
+					periodoAnterior = operando.calcular(empresas.get(j), String.valueOf(2017 - x));
+				} else {
+					empresas.remove(j);
+				}
+			}
+		}
+		return empresas;
+	}
 
 	public Indicador buscarIndicador(String ind) throws NoSeEncuentraElIndicador {
 

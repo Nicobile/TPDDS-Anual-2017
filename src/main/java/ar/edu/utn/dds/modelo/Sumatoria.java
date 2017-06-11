@@ -7,12 +7,13 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
 
-public class Promedio extends LadoIzq {
+public class Sumatoria extends LadoIzq{
 
-	public Promedio(Indicador indicador) {
+	public Sumatoria(Indicador indicador) {
 		super(indicador);
 		// TODO Auto-generated constructor stub
 	}
+
 	public ArrayList<PuntajeEmpresa> calcularValor(int periodos) throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador{
 		ArrayList<PuntajeEmpresa> listaEmpresas= super.calcularValor(periodos);
 		/*
@@ -20,16 +21,8 @@ public class Promedio extends LadoIzq {
 		 * aplico el indicador
 		 * a cada uno de los elementos de la lista firltrada
 		 * y ordeno por */
-		
-	  ArrayList<PuntajeEmpresa> sumatoria =  super.sumatoriaIndicadores(listaEmpresas, periodos);
-      
-      for (int i=0;(i<sumatoria.size());i++){
-    	  sumatoria.get(i).setResultadoDeAplicarCondicion(sumatoria.get(i).getResultadoDeAplicarCondicion()/periodos);
-      }
-      return sumatoria;
-		
+		return super.sumatoriaIndicadores(listaEmpresas, periodos);
 		
 		
 	}
-
 }

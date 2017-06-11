@@ -52,6 +52,12 @@ public abstract class Condicion {
 				 
 				 return valoresAizq;}
 			}
+			if(criterio.equals("creciente")){
+				setFiltro(true);
+			}
+			if(criterio.equals("decreciente")){
+				setFiltro(true);
+			}
 			
 		}
 		

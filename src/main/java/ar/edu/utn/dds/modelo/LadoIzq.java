@@ -43,6 +43,16 @@ public abstract class LadoIzq {
 		
 		return listaEmpresa;
 	}
+	public ArrayList<PuntajeEmpresa> sumatoriaIndicadores(ArrayList<PuntajeEmpresa> listaEmpresas, int periodos) throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador{
+		ArrayList<Double> lista= new ArrayList<Double>();
+	      lista=this.getTraductor().calcularAListaDeEmpresas(getEmpresas(), periodos, getIndicador());
+	      
+	      for (int i=0;(i<listaEmpresas.size()) && (i<lista.size());i++){
+	    	  listaEmpresas.get(i).setResultadoDeAplicarCondicion(lista.get(i));
+	      }
+	      return listaEmpresas;
+	}
+	
 	public ArrayList<Empresa> getEmpresas() {
 		return empresas;
 	}

@@ -18,7 +18,7 @@ import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicion;
 public class Metodologia {
 	private ArrayList<Condicion> condicionesDeMetodologia = new ArrayList<Condicion>();
 	private String nombre;
-	private ArrayList<PuntajeEmpresa> puntajeEmpresas = new ArrayList<PuntajeEmpresa>();
+	private ArrayList<PuntajeEmpresa> puntajeEmpresas = new ArrayList<PuntajeEmpresa>(); 
 
 	private int buscarEmpresa(String nomE, ArrayList<PuntajeEmpresa> lista) throws NoSeEncuentraLaEmpresa {
 		for (int i = 0; i < lista.size(); i++) {
@@ -92,6 +92,7 @@ public class Metodologia {
 		 */
 
 		Collections.sort(puntajeEmpresas, (p1, p2) -> new Integer(p1.getPuntaje()).compareTo(new Integer(p2.getPuntaje())));
+		Collections.reverse(puntajeEmpresas);
 		return puntajeEmpresas;
 
 	}
@@ -121,6 +122,7 @@ public class Metodologia {
 	  System.out.println(puntajeEmpresas.get(i).getResultadoDeAplicarCondicion()); }
 	 
 	  System.out.println(puntajeEmpresas.size());
+	  
 	  
 	 
 	Collections.reverse(puntajeEmpresas);
