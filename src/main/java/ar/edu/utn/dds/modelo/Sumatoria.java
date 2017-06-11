@@ -9,8 +9,8 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
 
 public class Sumatoria extends LadoIzq{
 
-	public Sumatoria(Indicador indicador) {
-		super(indicador);
+	public Sumatoria(Indicador indicador, Traductor traductor) {
+		super(indicador, traductor);
 		// TODO Auto-generated constructor stub
 	}
 

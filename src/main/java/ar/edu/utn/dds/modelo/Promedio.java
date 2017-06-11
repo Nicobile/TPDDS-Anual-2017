@@ -9,8 +9,8 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
 
 public class Promedio extends LadoIzq {
 
-	public Promedio(Indicador indicador) {
-		super(indicador);
+	public Promedio(Indicador indicador, Traductor traductor) {
+		super(indicador, traductor);
 		// TODO Auto-generated constructor stub
 	}
 	public ArrayList<PuntajeEmpresa> calcularValor(int periodos) throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador{

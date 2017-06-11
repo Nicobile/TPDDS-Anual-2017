@@ -13,7 +13,7 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicion;
 
-public abstract class Condicion {
+public class Condicion {
 	
 	private LadoIzq ladoIzq;
 	private Double ladoDer=null;/* lado der SIEMPRE va a ser un numero PUEDE NO INGRESARSE*/

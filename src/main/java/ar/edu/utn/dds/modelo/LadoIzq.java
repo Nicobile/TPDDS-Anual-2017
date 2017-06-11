@@ -14,14 +14,15 @@ public abstract class LadoIzq {
 	
 /*de alguna forma en la interfaz a la hora qeu ingresan el indicador deberia buscarlo con el traductor*/
 	private Indicador indicador;
-	private Traductor traductor=new Traductor();
+	private Traductor traductor;
 	private ArrayList<Empresa> empresas=new ArrayList<Empresa>();
 	
 	
 
-	public LadoIzq(Indicador indicador) {
+	public LadoIzq(Indicador indicador, Traductor traductor) {
 		super();
-		this.indicador = indicador;
+		this.setIndicador(indicador);
+		this.setTraductor(traductor);
 	}
 	public ArrayList<PuntajeEmpresa> calcularValor(int periodos)throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador{
 
