@@ -47,32 +47,38 @@ public class Traductor {
 			throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha,
 			NoSeEncuentraElIndicador {
 		ArrayList<Double> lista = new ArrayList<Double>();
-		Operando operando = parser.parse(i.getOperacion(), indicadores);
-
 		for (int j = 0; j < empresas.size(); j++) {
+			
 			double sumaDeIndicadorPeriodos = 0;
 			for (int x = periodos; x > 0; x--) {
-				sumaDeIndicadorPeriodos = sumaDeIndicadorPeriodos
-						+ operando.calcular(empresas.get(j), String.valueOf(2017 - x));
+				int valor=2016-x;
+				sumaDeIndicadorPeriodos = sumaDeIndicadorPeriodos+
+				this.calcular(empresas.get(j).getNombre(),String.valueOf(valor), i.getNombre());
+				
 			}
+		
+			
 			lista.add(sumaDeIndicadorPeriodos);
 		}
 		return lista;
 	}
-
-	public ArrayList<Empresa> compararAListaDeEmpresas(ArrayList<Empresa> empresas, int periodos, Indicador i, char criterio)
+/*
+	public ArrayList<Empresa> compararAListaDeEmpresas(ArrayList<Empresa> empresas, String periodos, Indicador i, char criterio)
 			throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha,
 			NoSeEncuentraElIndicador {
 		
 		Operando operando = parser.parse(i.getOperacion(), indicadores);
 
 		for (int j = 0; j < empresas.size(); j++) {
-			double periodoAnterior = (operando.calcular(empresas.get(j), String.valueOf(2017 - periodos)));
+			int valorInicial=2016-periodos;
+			double periodoAnterior = (operando.calcular(empresas.get(j), String.valueOf(valorInicial)));
 			for (int x = periodos; x > 0; x--) {
+				int valor=2016-x;;
+				
 				if (criterio == '>') {
-					if (periodoAnterior >= (operando.calcular(empresas.get(j), String.valueOf(2017 - x))))
+					if (periodoAnterior >= (operando.calcular(empresas.get(j), String.valueOf(valor))))
 						;
-					periodoAnterior = operando.calcular(empresas.get(j), String.valueOf(2017 - x));
+					periodoAnterior = operando.calcular(empresas.get(j), String.valueOf(valor));
 				} else {
 					empresas.remove(j);
 					j=0;
@@ -80,9 +86,9 @@ public class Traductor {
 				}
 
 				if (criterio == '<') {
-					if (periodoAnterior <= (operando.calcular(empresas.get(j), String.valueOf(2017 - x))))
+					if (periodoAnterior <= (operando.calcular(empresas.get(j), String.valueOf(valor))))
 						;
-					periodoAnterior = operando.calcular(empresas.get(j), String.valueOf(2017 - x));
+					periodoAnterior = operando.calcular(empresas.get(j), String.valueOf(valor));
 				} else {
 					empresas.remove(j);
 					j=0;
@@ -91,7 +97,7 @@ public class Traductor {
 		}
 		return empresas;
 	}
-
+*/
 	public Indicador buscarIndicador(String ind) throws NoSeEncuentraElIndicador {
 
 		if (this.getIndicadores().stream().filter(unInd -> unInd.getNombre().equals(ind)).findFirst().isPresent()) {
@@ -182,7 +188,7 @@ public class Traductor {
 			else {
 
 				ArrayList<Cuenta> cuentas = new ArrayList<Cuenta>();
-				Empresa empresa = new Empresa(lineasArchivo.get(x).getNombreEmpresa(), cuentas);
+				Empresa empresa = new Empresa(lineasArchivo.get(x).getNombreEmpresa(), cuentas);	
 				// creo la cuenta de la nueva empresa
 				Cuenta cuenta = new Cuenta(lineasArchivo.get(x).getNombreCuenta(),
 						lineasArchivo.get(x).getValorCuenta(), lineasArchivo.get(x).getFecha());
@@ -193,6 +199,22 @@ public class Traductor {
 			}
 		}
 
+	}
+	public ArrayList<Empresa> filtrarCuentasEnUnPeriodo(ArrayList<Empresa>empresas,int periodos) {
+		for (int i=0;i<empresas.size();i++){
+			for(int x=periodos;x<0;x--)
+			for(int j=0;j<empresas.get(i).getCuentas().size();j++){
+				if(!(empresas.get(i).getCuentas().get(j).getFecha().equals(String.valueOf(2016-x)))){
+					empresas.get(i).getCuentas().remove(j);
+					j=j-1;
+				}
+				
+			}}
+		
+			
+		
+	return empresas;
+	
 	}
 
 	public ArrayList<Empresa> getEmpresas() {

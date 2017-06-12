@@ -29,15 +29,13 @@ public abstract class LadoIzq {
 		
 		//me quedo solo con las cuentas de empresa que pertenecen al periodo seria la misma estructura de la lista de emresas con menos cuentas
 		
-		for(int i=0;i<traductor.getEmpresas().size();i++){
-			traductor.getEmpresas().get(i).filtrarCuentasEnUnPeriodo(periodos);
-			empresas.add(traductor.getEmpresas().get(i));
-		}
-		
+		ArrayList<Empresa> empresasAux= new ArrayList<Empresa>(traductor.getEmpresas());
+       empresas=traductor.filtrarCuentasEnUnPeriodo(empresasAux,periodos);	
 		
 		ArrayList<PuntajeEmpresa> listaEmpresa= new ArrayList<PuntajeEmpresa> ();
-		PuntajeEmpresa elementoLista=new PuntajeEmpresa();
+		
 		for (int i=0;i<empresas.size();i++){
+			PuntajeEmpresa elementoLista=new PuntajeEmpresa();
 			elementoLista.setNombreEmpresa(empresas.get(i).getNombre());
 			listaEmpresa.add(elementoLista);
 		}

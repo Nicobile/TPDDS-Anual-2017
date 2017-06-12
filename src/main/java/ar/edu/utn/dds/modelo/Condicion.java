@@ -19,7 +19,7 @@ public class Condicion {
 	private Double ladoDer=null;/* lado der SIEMPRE va a ser un numero PUEDE NO INGRESARSE*/
 	private String comparador=null;/*PUEDE NO INGRESARSE*/ 
 	private int periodos;
-	private String criterio;//mayor o menor,  ingreesa en la interfaz grafica
+	private String criterio;//mayor o menor, SON PALABRAS NO SIMBOLOS,  ingreesa en la interfaz grafica
 	private Boolean filtro;
 	/*2 formas de ingresar por interfaz
 	 * lado izquierdo derecho y comparador y periodos
@@ -82,7 +82,7 @@ public class Condicion {
 		
 	}
 
-	public Condicion(LadoIzq ladoIzq, Double ladoDer, String comparador, int periodos) {
+	public Condicion(LadoIzq ladoIzq, Double ladoDer, String comparador,int periodos) {
 		super();
 		this.ladoIzq = ladoIzq;
 		this.ladoDer = ladoDer;

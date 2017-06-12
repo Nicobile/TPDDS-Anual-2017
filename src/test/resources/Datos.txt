@@ -11,8 +11,8 @@ Facebook c_IngresoNetoEnOperacionesDiscontinuadas 4652		2014
 Facebook c_Dividendos 15000      	2014
 Facebook c_CapitalTotal 45000 		2014
 Facebook c_PasivosTotales 452		2015
-Facebook c_ActivosTotales 4520     	2015
-Facebook c_PasivosTotales 452		2014
+Facebook c_ActivosTotales 452550     	2015
+Facebook c_PasivosTotales 4512		2014
 Facebook c_ActivosTotales 4520     	2014
 Facebook c_Utilidades 5690		2015
 Facebook c_Ventas 573600     	2015
@@ -32,10 +32,10 @@ CocaCola c_IngresoNetoEnOperacionesContinuas 1002		2014
 CocaCola c_IngresoNetoEnOperacionesDiscontinuadas 42		2014
 CocaCola c_Dividendos 1500000      	2014
 CocaCola c_CapitalTotal 451000 		2014
-CocaCola c_PasivosTotales 58		2015
+CocaCola c_PasivosTotales 5825		2015
 CocaCola c_ActivosTotales 65     	2015
 CocaCola c_PasivosTotales 58		2014
-CocaCola c_ActivosTotales 65     	2014
+CocaCola c_ActivosTotales 6500     	2014
 CocaCola c_Utilidades 1000		2014
 CocaCola c_Ventas 10000    	2014
 Twitter c_Dividendos 242343 2017
@@ -46,8 +46,8 @@ Twitter c_IngresoNetoEnOperacionesContinuas 20000			2015
 Twitter c_IngresoNetoEnOperacionesDiscontinuadas 30000		2015
 Twitter c_Dividendos 150700      							2015
 Twitter c_CapitalTotal 450800 								2015
-Twitter c_PasivosTotales 590		2015
-Twitter c_ActivosTotales 1000     	2015
+Twitter c_PasivosTotales 59000		2015
+Twitter c_ActivosTotales 1000000     	2015
 Twitter c_Utilidades 50690		2015
 Twitter c_Ventas 53600     	2015
 Twitter c_IngresoNetoEnOperacionesContinuas 27000		2014
@@ -66,7 +66,7 @@ Pepsico c_IngresoNetoEnOperacionesContinuas 25000		2015
 Pepsico c_IngresoNetoEnOperacionesDiscontinuadas 23000		2015
 Pepsico c_Dividendos 150700      	2015
 Pepsico c_CapitalTotal 450800 		2015
-Pepsico c_PasivosTotales 569		2015
+Pepsico c_PasivosTotales 5690		2015
 Pepsico c_ActivosTotales 5736     	2015
 Pepsico c_Utilidades 5000		2015
 Pepsico c_Ventas 15000    	2015		
