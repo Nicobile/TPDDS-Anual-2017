@@ -15,15 +15,17 @@ import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicion;
 
 public class Condicion {
 	
+
 	private LadoIzq ladoIzq;
 	private Double ladoDer=null;/* lado der SIEMPRE va a ser un numero PUEDE NO INGRESARSE*/
 	private String comparador=null;/*PUEDE NO INGRESARSE*/ 
 	private int periodos;
-	private String criterio;//mayor o menor, SON PALABRAS NO SIMBOLOS,  ingreesa en la interfaz grafica
+	private String criterio=null;//mayor o menor, SON PALABRAS NO SIMBOLOS,  ingreesa en la interfaz grafica
 	private Boolean filtro;
-	/*2 formas de ingresar por interfaz
+	/*3 formas de ingresar por interfaz
 	 * lado izquierdo derecho y comparador y periodos
 	 * lado izquierdo y criterio y periodo
+	 * lado izquierdo y periodos
 	 * */
 
 	public ArrayList<PuntajeEmpresa>  aplicar() throws ScriptException, NoSePudoOrdenarLaCondicion, NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador{/* ordena a las empresas segun cumplan la condicion
@@ -39,6 +41,8 @@ public class Condicion {
 		}
 		if(ladoDer==null && comparador==null){
 			/*solo hay lado izquierdo, entonces ordeno la lista que me devuelve lado izquierdo y ahi estaria la condicion aplicada*/
+			if(criterio!=null){
+			
 			if(criterio.equals("mayor")){
 				/*ordena de menor a mayor*/
 			 Collections.sort(valoresAizq, (v1, v2) -> new Double(v1.getResultadoDeAplicarCondicion()).compareTo(new Double(v2.getResultadoDeAplicarCondicion())));
@@ -46,15 +50,22 @@ public class Condicion {
 			 Collections.reverse(valoresAizq);
 			 return valoresAizq;
 			}
-			else{if(criterio.equals("menor")){
+			if(criterio.equals("menor")){
 				// de menor a mayor
 				Collections.sort(valoresAizq, (v1, v2) -> new Double(v1.getResultadoDeAplicarCondicion()).compareTo(new Double(v2.getResultadoDeAplicarCondicion())));	
 				 
 				 return valoresAizq;}
 			}
 			
-			return valoresAizq;
-		}
+				return valoresAizq;
+			
+			
+			
+			}
+			
+			
+			
+		
 		
 		else{
 		/*en este caso tengo que filtrar aquellos que cumplan con la condicion con lo cual tengo que armar la condicion*/
@@ -94,6 +105,11 @@ public class Condicion {
 		this.ladoIzq = ladoIzq;
 		this.periodos = periodos;
 		this.criterio = criterio;
+	}
+	public Condicion(LadoIzq ladoIzq, int periodos) {
+		super();
+		this.ladoIzq = ladoIzq;
+		this.periodos = periodos;
 	}
 
 	public Boolean getFiltro() {

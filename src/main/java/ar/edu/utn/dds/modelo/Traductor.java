@@ -62,42 +62,40 @@ public class Traductor {
 		}
 		return lista;
 	}
-/*
-	public ArrayList<Empresa> compararAListaDeEmpresas(ArrayList<Empresa> empresas, String periodos, Indicador i, char criterio)
+
+	public ArrayList<Empresa> compararAListaDeEmpresas(ArrayList<Empresa> empresas, int periodos, Indicador i, char criterio)
 			throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha,
 			NoSeEncuentraElIndicador {
 		
-		Operando operando = parser.parse(i.getOperacion(), indicadores);
-
 		for (int j = 0; j < empresas.size(); j++) {
 			int valorInicial=2016-periodos;
-			double periodoAnterior = (operando.calcular(empresas.get(j), String.valueOf(valorInicial)));
+			double periodoAnterior = (this.calcular(empresas.get(j).getNombre(), String.valueOf(valorInicial),i.getNombre()));
+			
 			for (int x = periodos; x > 0; x--) {
-				int valor=2016-x;;
+				int valor=2016-x;
 				
 				if (criterio == '>') {
-					if (periodoAnterior >= (operando.calcular(empresas.get(j), String.valueOf(valor))))
-						;
-					periodoAnterior = operando.calcular(empresas.get(j), String.valueOf(valor));
+					if (periodoAnterior <= this.calcular(empresas.get(j).getNombre(), String.valueOf(valor),i.getNombre())){
+						
+					periodoAnterior = this.calcular(empresas.get(j).getNombre(), String.valueOf(valor),i.getNombre());
 				} else {
 					empresas.remove(j);
-					j=0;
+					j=j-1;
 					
-				}
-
+				}			
+		}
 				if (criterio == '<') {
-					if (periodoAnterior <= (operando.calcular(empresas.get(j), String.valueOf(valor))))
-						;
-					periodoAnterior = operando.calcular(empresas.get(j), String.valueOf(valor));
+					if (periodoAnterior >= this.calcular(empresas.get(j).getNombre(), String.valueOf(valor),i.getNombre())){						
+					periodoAnterior = this.calcular(empresas.get(j).getNombre(), String.valueOf(valor),i.getNombre());
 				} else {
 					empresas.remove(j);
-					j=0;
+					j=j-1;
 				}
 			}
-		}
-		return empresas;
+		
 	}
-*/
+			}return empresas;}
+
 	public Indicador buscarIndicador(String ind) throws NoSeEncuentraElIndicador {
 
 		if (this.getIndicadores().stream().filter(unInd -> unInd.getNombre().equals(ind)).findFirst().isPresent()) {
@@ -167,21 +165,9 @@ public class Traductor {
 			if ((i >= 0)) {// si ya existe la empresa
 				// creo una nueva cuenta
 				Cuenta cuenta = new Cuenta(lineasArchivo.get(x).getNombreCuenta(),
-						lineasArchivo.get(x).getValorCuenta(), lineasArchivo.get(x).getFecha());// tomo
-																								// los
-																								// elementos
-																								// del
-				// original y creo una
-				// cuenta para agregar a la
-				// lista
+						lineasArchivo.get(x).getValorCuenta(), lineasArchivo.get(x).getFecha());
 
-				this.getEmpresas().get(i).getCuentas().add(cuenta);// agrego la
-																	// cuenta,
-																	// en
-				// la lista de
-				// cuentas, de le
-				// empresa ya
-				// existente
+				this.getEmpresas().get(i).getCuentas().add(cuenta);
 
 			}
 			// la empresa no existia entonces la creo

@@ -3,12 +3,9 @@ package ar.edu.utn.dds.modelo;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import java.util.Collections;
 import java.util.Iterator;
 import javax.script.ScriptException;
-
-import antlr.ExpressionParser;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicador;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
@@ -47,37 +44,32 @@ public class Metodologia {
 				
 				eliminarDeListaDePuntajesSiNoCumplioLaCondicion(listaDeAplicarCondicion);
 				
-				for (int i = 0; i < listaDeAplicarCondicion.size(); i++) {
-
-					int j;
-					j = this.buscarEmpresa(listaDeAplicarCondicion.get(i).getNombreEmpresa(), puntajeEmpresas);
-
-					puntajeEmpresas.get(j).suma(buscarEmpresa(listaDeAplicarCondicion.get(i).getNombreEmpresa(),listaDeAplicarCondicion));
-					
-				}
+				sumarPuntosAPuntajesEmpresas(listaDeAplicarCondicion);
 			} else {
 				/* tengo que dejar solo quellas que cumplen la condicion */
 				eliminarDeListaDePuntajesSiNoCumplioLaCondicion( listaDeAplicarCondicion);
-				
-				for (int i = 0; i < listaDeAplicarCondicion.size(); i++) {
-
-					int j;
-					j = this.buscarEmpresa(listaDeAplicarCondicion.get(i).getNombreEmpresa(), puntajeEmpresas);
-
-					puntajeEmpresas.get(j).suma(buscarEmpresa(listaDeAplicarCondicion.get(i).getNombreEmpresa(),listaDeAplicarCondicion));
-					
-				}
+				sumarPuntosAPuntajesEmpresas(listaDeAplicarCondicion);
+			
 			}
 
 		}
 
 	}
+	private void sumarPuntosAPuntajesEmpresas(ArrayList<PuntajeEmpresa> lista) throws NoSeEncuentraLaEmpresa{
+		for (int i = 0; i < lista.size(); i++) {
+
+			int j;
+			j = this.buscarEmpresa(lista.get(i).getNombreEmpresa(), puntajeEmpresas);
+
+			puntajeEmpresas.get(j).suma(buscarEmpresa(lista.get(i).getNombreEmpresa(),lista));
+			
+		}
+	}
 	private void eliminarDeListaDePuntajesSiNoCumplioLaCondicion(ArrayList<PuntajeEmpresa> lista){			
 			
 			for(int j=0;j<puntajeEmpresas.size();j++){
 				PuntajeEmpresa e=puntajeEmpresas.get(j);
-			if ((lista.stream().filter(unaE -> unaE.getNombreEmpresa().equals(e.getNombreEmpresa())).findFirst().isPresent())){	
-			
+			if ((lista.stream().filter(unaE -> unaE.getNombreEmpresa().equals(e.getNombreEmpresa())).findFirst().isPresent())){		
 			}
 			else{puntajeEmpresas.remove(j);j=j-1;}
 		}
@@ -124,28 +116,40 @@ public class Metodologia {
 		
 		Promedio prom = new Promedio(t.buscarIndicador("i_NivelDeuda"),t);
 		Sumatoria sum=new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t);
+		Creciente cre= new Creciente(t.buscarIndicador("i_NivelDeuda"),t);
+		Longevidad l= new Longevidad(t.buscarIndicador("i_NivelDeuda"),t);
+		
+		Decreciente decre= new Decreciente(t.buscarIndicador("i_NivelDeuda"),t);
 		Condicion cond1 = new Condicion(prom,2,"mayor");
 		Condicion cond2 = new Condicion(sum,7.0,">",2);
-		//meto.getCondicionesDeMetodologia().add(cond1);
+		Condicion cond3 = new Condicion(cre,2,"mayor");
+		Condicion cond4 = new Condicion(decre,2);
+		Condicion cond5= new Condicion(l,1);
+		meto.getCondicionesDeMetodologia().add(cond1);
 		meto.getCondicionesDeMetodologia().add(cond2);
-	 	ArrayList<PuntajeEmpresa> listin3 = meto.aplicarMetodologia();
+	 	//ArrayList<PuntajeEmpresa> listin3 = meto.aplicarMetodologia();
 	 	
-		metod.getCondicionesDeMetodologia().add(cond1);
-	
+		metod.getCondicionesDeMetodologia().add(cond5);
+		ArrayList<PuntajeEmpresa> listin2=metod.aplicarMetodologia();
 		//ArrayList<PuntajeEmpresa> listin2=cond1.aplicar();//4elementos
 		//ArrayList<PuntajeEmpresa> listin3=cond2.aplicar();//2elementos facebook y pepsi esta es la q me interesa
 		
 	
 		
-
+		for (int i=0;i<listin2.size();i++){
+			
+			System.out.println(listin2.get(i).getNombreEmpresa());
+			System.out.println(listin2.get(i).getResultadoDeAplicarCondicion());
+			System.out.println(listin2.get(i).getPuntaje());
+			}
 		
 		
-		for (int i=0;i<listin3.size();i++){
+		/*for (int i=0;i<listin3.size();i++){
 			
 		System.out.println(listin3.get(i).getNombreEmpresa());
 		System.out.println(listin3.get(i).getResultadoDeAplicarCondicion());
 		System.out.println(listin3.get(i).getPuntaje());
-		}
+		}*/
 	
 
 	}

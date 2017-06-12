@@ -52,6 +52,18 @@ public abstract class LadoIzq {
 	      return listaEmpresas;
 	}
 	
+	public ArrayList<PuntajeEmpresa> eliminarEmpresasQueNoCumplenCondicion(ArrayList<PuntajeEmpresa> listaEmpresas, ArrayList<Empresa> empresas){
+		for(int j=0;j<listaEmpresas.size();j++){
+			PuntajeEmpresa e=listaEmpresas.get(j);
+		if ((empresas.stream().filter(unaE -> unaE.getNombre().equals(e.getNombreEmpresa())).findFirst().isPresent())){	
+		
+		}
+		else{listaEmpresas.remove(j);j=j-1;}
+	}
+		return listaEmpresas;
+		
+	}
+	
 	public ArrayList<Empresa> getEmpresas() {
 		return empresas;
 	}
