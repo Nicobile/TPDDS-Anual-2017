@@ -2,14 +2,10 @@ package ar.edu.utn.dds.modelo;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
 
 import java.util.Collections;
 import java.util.Iterator;
-
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 import antlr.ExpressionParser;
@@ -32,70 +28,72 @@ public class Metodologia {
 				return i;
 			}
 		}
-		throw new NoSeEncuentraLaEmpresa("No se encontro la empresa especificada");
+		return-1;
 	}
 
 	private void aplicarCondicion(Condicion condicion) throws NoSeEncuentraLaEmpresa, ScriptException,
 			NoSePudoOrdenarLaCondicion, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha,
 			NoSeEncuentraElIndicador { 
-		ArrayList<PuntajeEmpresa> lista = new ArrayList<PuntajeEmpresa>();
-		lista = condicion.aplicar();
+		ArrayList<PuntajeEmpresa> listaDeAplicarCondicion = new ArrayList<PuntajeEmpresa>();
+		listaDeAplicarCondicion = condicion.aplicar();
 		if (puntajeEmpresas.isEmpty()) {
-			for (int i = 0; i < lista.size(); i++) {
-				puntajeEmpresas.add(lista.get(i));
+			for (int i = 0; i < listaDeAplicarCondicion.size(); i++) {
+				puntajeEmpresas.add(listaDeAplicarCondicion.get(i));
 				puntajeEmpresas.get(i).suma(i);
 
 			}
 		} else {
 			if (!condicion.getFiltro()) {
-				for (int i = 0; i < lista.size(); i++) {
-					PuntajeEmpresa e=lista.get(i);
-					puntajeEmpresas.stream().filter(unaE -> unaE.getNombreEmpresa().equals(e.getNombreEmpresa()));
-
-				}
-				for (int i = 0; i < lista.size(); i++) {
+				
+				eliminarDeListaDePuntajesSiNoCumplioLaCondicion(listaDeAplicarCondicion);
+				
+				for (int i = 0; i < listaDeAplicarCondicion.size(); i++) {
 
 					int j;
-					j = this.buscarEmpresa(lista.get(i).getNombreEmpresa(), puntajeEmpresas);
+					j = this.buscarEmpresa(listaDeAplicarCondicion.get(i).getNombreEmpresa(), puntajeEmpresas);
 
-					puntajeEmpresas.get(j).suma(buscarEmpresa(lista.get(i).getNombreEmpresa(),lista));
+					puntajeEmpresas.get(j).suma(buscarEmpresa(listaDeAplicarCondicion.get(i).getNombreEmpresa(),listaDeAplicarCondicion));
 					
 				}
 			} else {
-				/* tengo que filtrar solo quellas que cumplen la condicion */
-				for (int i = 0; i < lista.size(); i++) {
-					PuntajeEmpresa elementoLista = lista.get(i);
-					puntajeEmpresas.stream()
-							.filter(unaE -> unaE.getNombreEmpresa().equals(elementoLista.getNombreEmpresa()));
+				/* tengo que dejar solo quellas que cumplen la condicion */
+				eliminarDeListaDePuntajesSiNoCumplioLaCondicion( listaDeAplicarCondicion);
+				
+				for (int i = 0; i < listaDeAplicarCondicion.size(); i++) {
 
+					int j;
+					j = this.buscarEmpresa(listaDeAplicarCondicion.get(i).getNombreEmpresa(), puntajeEmpresas);
+
+					puntajeEmpresas.get(j).suma(buscarEmpresa(listaDeAplicarCondicion.get(i).getNombreEmpresa(),listaDeAplicarCondicion));
+					
 				}
-
 			}
 
 		}
 
 	}
+	private void eliminarDeListaDePuntajesSiNoCumplioLaCondicion(ArrayList<PuntajeEmpresa> lista){			
+			
+			for(int j=0;j<puntajeEmpresas.size();j++){
+				PuntajeEmpresa e=puntajeEmpresas.get(j);
+			if ((lista.stream().filter(unaE -> unaE.getNombreEmpresa().equals(e.getNombreEmpresa())).findFirst().isPresent())){	
+			
+			}
+			else{puntajeEmpresas.remove(j);j=j-1;}
+		}
+				
+	}
 
 	public ArrayList<PuntajeEmpresa> aplicarMetodologia() throws NoSeEncuentraLaEmpresa, ScriptException,
 			NoSePudoOrdenarLaCondicion, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha,
-			NoSeEncuentraElIndicador { /*
-										 * deberia haber una clase que tenga una
-										 * lista de metologias
-										 */
-		/*
-		 * plicaria todas las condiciones y una vez terminado sumo los puntajes
-		 * de empresa y muestro la lista oredanda
-		 */
+			NoSeEncuentraElIndicador { 
 		Iterator<Condicion> condiciones = condicionesDeMetodologia.iterator();
 		while (condiciones.hasNext()) {
 			
 			this.aplicarCondicion(condiciones.next());// aplico condicion
 
 		}
-		/*
-		 * ahora aplique toda las condiciones sobre la lista puntejeempresas
-		 * ahora debo ordenarlas
-		 */
+		
 
 		Collections.sort(puntajeEmpresas,
 				(p1, p2) -> new Integer(p1.getPuntaje()).compareTo(new Integer(p2.getPuntaje())));
@@ -115,89 +113,40 @@ public class Metodologia {
 
 	public static void main(String[] agrs) throws ScriptException, FileNotFoundException, IOException, NoSeEncuentraLaEmpresa, NoSeEncuentraElIndicador, NoSePudoOrdenarLaCondicion, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha {
 		Traductor t = new Traductor();
-		ExpressionParser parser=new ExpressionParser();
+		
 		LectorArchivo lector = new LectorArchivo(t);
 		lector.leerArchivo("/home/dds/Desarrollo/workspace/2017-mn-group-12/src/test/resources/Datos.txt");
 		ProcesarIndicadores procesador1 = new ProcesarIndicadores(t);
 		procesador1.leerExcel("/home/dds/Desarrollo/workspace/2017-mn-group-12/src/test/resources/Indicadores.xls");
 
 		Metodologia meto = new Metodologia("BUFO");
+		Metodologia metod = new Metodologia("BUF");
 		
 		Promedio prom = new Promedio(t.buscarIndicador("i_NivelDeuda"),t);
 		Sumatoria sum=new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t);
 		Condicion cond1 = new Condicion(prom,2,"mayor");
 		Condicion cond2 = new Condicion(sum,7.0,">",2);
-		meto.getCondicionesDeMetodologia().add(cond1);
+		//meto.getCondicionesDeMetodologia().add(cond1);
 		meto.getCondicionesDeMetodologia().add(cond2);
-	 	ArrayList<PuntajeEmpresa> listin = meto.aplicarMetodologia();
-		
-	 	//sumatoria anda el problema eesta en condicion
-		//ArrayList<PuntajeEmpresa> listin=prom.calcularValor(1);
+	 	ArrayList<PuntajeEmpresa> listin3 = meto.aplicarMetodologia();
+	 	
+		metod.getCondicionesDeMetodologia().add(cond1);
+	
+		//ArrayList<PuntajeEmpresa> listin2=cond1.aplicar();//4elementos
+		//ArrayList<PuntajeEmpresa> listin3=cond2.aplicar();//2elementos facebook y pepsi esta es la q me interesa
 		
 	
-		ArrayList<PuntajeEmpresa> listin2=prom.calcularValor(2);
-		ArrayList<PuntajeEmpresa> listin3=sum.calcularValor(2);
 		
-		for (int i=0;i<listin.size();i++){
-		System.out.println(listin.get(i).getNombreEmpresa());
-		System.out.println(listin.get(i).getResultadoDeAplicarCondicion());
-		System.out.println(listin.get(i).getPuntaje());
-		}
-		for (int i=0;i<listin2.size();i++){
-			System.out.println(listin2.get(i).getNombreEmpresa());
-			System.out.println(listin2.get(i).getResultadoDeAplicarCondicion());
-			System.out.println(listin2.get(i).getPuntaje());
-			}
+
+		
+		
 		for (int i=0;i<listin3.size();i++){
-			System.out.println(listin3.get(i).getNombreEmpresa());
-			System.out.println(listin3.get(i).getResultadoDeAplicarCondicion());
-			System.out.println(listin3.get(i).getPuntaje());
-			}
-		
-		
-		
-		
-		/*ArrayList<PuntajeEmpresa> puntajeEmpresas = new ArrayList<PuntajeEmpresa>();
-		
-		ArrayList<PuntajeEmpresa> lista = new ArrayList<PuntajeEmpresa>();
-		lista = cond1.aplicar();
-		if (puntajeEmpresas.isEmpty()) {
-			for (int i = 0; i < lista.size(); i++) {
-				puntajeEmpresas.add(lista.get(i));
-
-			}
-		} else {
-			if (!cond1.getFiltro()) {
-				for (int i = 0; i < lista.size(); i++) {
-					puntajeEmpresas.stream().filter(unaE -> unaE.getNombreEmpresa().equals(unaE.getNombreEmpresa()));
-
-				}
-
-				for (int i = 0; i < lista.size(); i++) {
-
-					int j;
-					j =meto.buscarEmpresa(lista.get(i).getNombreEmpresa(), puntajeEmpresas);
-
-					puntajeEmpresas.get(j).suma(meto.buscarEmpresa(lista.get(i).getNombreEmpresa(),
-							lista));
-				}
-			} else {
-				
-				for (int i = 0; i < lista.size(); i++) {
-					PuntajeEmpresa elementoLista = lista.get(i);
-					puntajeEmpresas.stream()
-							.filter(unaE -> unaE.getNombreEmpresa().equals(elementoLista.getNombreEmpresa()));
-
-				}
-
-			}
-
+			
+		System.out.println(listin3.get(i).getNombreEmpresa());
+		System.out.println(listin3.get(i).getResultadoDeAplicarCondicion());
+		System.out.println(listin3.get(i).getPuntaje());
 		}
-		for(int i=0;i<puntajeEmpresas.size();i++){
-			System.out.println(puntajeEmpresas.get(i).getResultadoDeAplicarCondicion());
-		}*/
-		
-
+	
 
 	}
 
