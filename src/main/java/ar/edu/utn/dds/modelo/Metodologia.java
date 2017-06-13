@@ -113,31 +113,51 @@ public class Metodologia {
 
 		Metodologia meto = new Metodologia("BUFO");
 		Metodologia metod = new Metodologia("BUF");
+		Metodologia metodo = new Metodologia ("Bufet");
 		
-		Promedio prom = new Promedio(t.buscarIndicador("i_NivelDeuda"),t);
+	/*	Promedio prom = new Promedio(t.buscarIndicador("i_NivelDeuda"),t);
 		Sumatoria sum=new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t);
 		Creciente cre= new Creciente(t.buscarIndicador("i_NivelDeuda"),t);
-		Longevidad l= new Longevidad(t.buscarIndicador("i_NivelDeuda"),t);
+		Longevidad l= new Longevidad(t.buscarIndicador("i_NivelDeuda"),t); */
 		
-		Decreciente decre= new Decreciente(t.buscarIndicador("i_NivelDeuda"),t);
+	/*	Decreciente decre= new Decreciente(t.buscarIndicador("i_NivelDeuda"),t);
 		Condicion cond1 = new Condicion(prom,2,"mayor");
 		Condicion cond2 = new Condicion(sum,7.0,">",2);
 		Condicion cond3 = new Condicion(cre,2,"mayor");
 		Condicion cond4 = new Condicion(decre,2);
-		Condicion cond5= new Condicion(l,1.0,">",5);
+		Condicion cond5= new Condicion(l,1.0,">",5); 
 		meto.getCondicionesDeMetodologia().add(cond1);
-		meto.getCondicionesDeMetodologia().add(cond2);
+		meto.getCondicionesDeMetodologia().add(cond2); */
 	 	//ArrayList<PuntajeEmpresa> listin3 = meto.aplicarMetodologia();
+		
+		System.out.println(t.getEmpresas().get(0).getCuentas().size());
+		Creciente creci= new Creciente(t.buscarIndicador("i_ROE"),t);
+		Condicion condi1 = new Condicion(creci,10,"mayor");
+		/*Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t);
+		Condicion condi2 = new Condicion(sum,2,"menor");
+		/*Creciente cre2 = new Creciente(t.buscarIndicador("i_MargenVentas"),t);
+		Condicion condi3 = new Condicion(cre,10,"mayor");
+		Longevidad lon = new Longevidad(t.buscarIndicador("i_NivelDeuda"),t);
+		Condicion condi4 = new Condicion(lon,10.0,">",10); */
+		
+		Longevidad lon = new Longevidad(t.buscarIndicador("i_ROE"),t);
+		Condicion condi4 = new Condicion(lon,10.0,">",10);
+		metodo.getCondicionesDeMetodologia().add(condi1);
+		//metodo.getCondicionesDeMetodologia().add(condi2);
+		//metodo.getCondicionesDeMetodologia().add(condi3);
+		//metodo.getCondicionesDeMetodologia().add(condi4);
 	 	
-		metod.getCondicionesDeMetodologia().add(cond5);
-		ArrayList<PuntajeEmpresa> listin2=metod.aplicarMetodologia();
+	//	metod.getCondicionesDeMetodologia().add(cond5);
+		ArrayList<PuntajeEmpresa> listin2=metodo.aplicarMetodologia();
 		//ArrayList<PuntajeEmpresa> listin2=cond5.aplicar();//4elementos
 		//ArrayList<PuntajeEmpresa> listin3=cond2.aplicar();//2elementos facebook y pepsi esta es la q me interesa
 		
 	
 		
 		for (int i=0;i<listin2.size();i++){
-			
+			if(listin2.isEmpty()){
+				System.out.println("No hay monstruos aqui");
+			}
 			System.out.println(listin2.get(i).getNombreEmpresa());
 			System.out.println(listin2.get(i).getResultadoDeAplicarCondicion());
 			System.out.println(listin2.get(i).getPuntaje());

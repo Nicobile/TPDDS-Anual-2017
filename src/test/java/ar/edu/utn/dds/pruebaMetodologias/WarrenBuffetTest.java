@@ -40,7 +40,7 @@ public class WarrenBuffetTest {
 		this.procesador1.leerExcel(this.getClass().getResource("/Indicadores.xls").getFile());
 		Creciente cre= new Creciente(t.buscarIndicador("i_ROE"),t);
 		Condicion cond1 = new Condicion(cre,10,"mayor");
-		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuDa"),t);
+		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t);
 		Condicion cond2 = new Condicion(sum,1,"menor");
 		Creciente cre2 = new Creciente(t.buscarIndicador("i_MargenVentas"),t);
 		Condicion cond3 = new Condicion(cre,10,"mayor");

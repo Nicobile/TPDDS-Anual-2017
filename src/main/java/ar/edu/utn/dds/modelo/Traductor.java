@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import antlr.ExpressionParser;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
+import ar.edu.utn.dds.excepciones.NoHayEmpresasQueCumplanLaCondicion;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicador;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
@@ -51,7 +52,7 @@ public class Traductor {
 			
 			double sumaDeIndicadorPeriodos = 0;
 			for (int x = periodos; x > 0; x--) {
-				int valor=2016-x;
+				int valor=2017-x;
 				sumaDeIndicadorPeriodos = sumaDeIndicadorPeriodos+
 				this.calcular(empresas.get(j).getNombre(),String.valueOf(valor), i.getNombre());
 				
@@ -68,11 +69,11 @@ public class Traductor {
 			NoSeEncuentraElIndicador {
 		
 		for (int j = 0; j < empresas.size(); j++) {
-			int valorInicial=2016-periodos;
+			int valorInicial=2017-periodos;
 			double periodoAnterior = (this.calcular(empresas.get(j).getNombre(), String.valueOf(valorInicial),i.getNombre()));
 			
 			for (int x = periodos; x > 0; x--) {
-				int valor=2016-x;
+				int valor=2017-x;
 				
 				if (criterio == '>') {
 					if (periodoAnterior <= this.calcular(empresas.get(j).getNombre(), String.valueOf(valor),i.getNombre())){
@@ -80,10 +81,21 @@ public class Traductor {
 					periodoAnterior = this.calcular(empresas.get(j).getNombre(), String.valueOf(valor),i.getNombre());
 				} else {
 					empresas.remove(j);
-					j=j-1;
 					
+					if(j==0){
+					j=0;
+					}
+					else{
+						j=j-1;
+					}
+					}
+					if(empresas.isEmpty()){
+						throw new NoHayEmpresasQueCumplanLaCondicion("No hay empresas que cumplan esa condicion");
+						
+					}
+				
 				}			
-		}
+		
 				if (criterio == '<') {
 					if (periodoAnterior >= this.calcular(empresas.get(j).getNombre(), String.valueOf(valor),i.getNombre())){						
 					periodoAnterior = this.calcular(empresas.get(j).getNombre(), String.valueOf(valor),i.getNombre());
@@ -190,7 +202,7 @@ public class Traductor {
 		for (int i=0;i<empresas.size();i++){
 			for(int x=periodos;x<0;x--)
 			for(int j=0;j<empresas.get(i).getCuentas().size();j++){
-				if(!(empresas.get(i).getCuentas().get(j).getFecha().equals(String.valueOf(2016-x)))){
+				if(!(empresas.get(i).getCuentas().get(j).getFecha().equals(String.valueOf(2017-x)))){
 					empresas.get(i).getCuentas().remove(j);
 					j=j-1;
 				}
