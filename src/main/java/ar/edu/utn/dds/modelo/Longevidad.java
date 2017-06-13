@@ -17,23 +17,18 @@ public class Longevidad extends LadoIzq {
 	
 		ArrayList<PuntajeEmpresa> listaEmpresas= super.calcularValor(periodos);
 	
-	for (int i=0;i<getEmpresas().size();i++){
+	for (int i=0;i<getTraductor().getEmpresas().size();i++){
 		
-		for(int x=periodos;x>0;x--)
-		{int fecha=2016-x;
-			
-		if ((getEmpresas().get(i).getCuentas().stream().filter(unaC -> unaC.getFecha().equals(fecha)).findFirst().isPresent())){		
-		
-		System.out.println("asdasd");
-		
-		}	
-		
-		else{
-			
-		
-		
-			}
-	}}
+	int x=getTraductor().getEmpresas().get(i).obtenerLaFechaDeLaCuentaMasAntigua();
+
+	for(int j=0;j<listaEmpresas.size();j++){
+		if (listaEmpresas.get(j).getNombreEmpresa().equals(getTraductor().getEmpresas().get(i).getNombre())){
+			listaEmpresas.get(j).setResultadoDeAplicarCondicion(2017-x);
+		}
+	}
+	
+	}
+	
 	return listaEmpresas;
 	}
 }

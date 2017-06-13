@@ -107,6 +107,19 @@ public class Empresa {
 		this.cuentas = cuentas;
 	}
 
+	public int obtenerLaFechaDeLaCuentaMasAntigua() {
+		int fechaMasAntigua=0;
+		int xx=Integer.valueOf(this.getCuentas().get(0).getFecha());
+		for(int i=0;i<this.getCuentas().size();i++){
+			
+			if(Integer.valueOf(this.getCuentas().get(i).getFecha())<=xx){
+				fechaMasAntigua=Integer.valueOf(getCuentas().get(i).getFecha());
+				xx=Integer.valueOf(getCuentas().get(i).getFecha());
+			}
+		}
+		return fechaMasAntigua;
+	}
+
 
 			
 	

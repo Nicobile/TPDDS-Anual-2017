@@ -70,6 +70,7 @@ public class Condicion {
 		else{
 		/*en este caso tengo que filtrar aquellos que cumplan con la condicion con lo cual tengo que armar la condicion*/
 			setFiltro(true);
+			System.out.println("dasdas");
 			ScriptEngineManager manager = new ScriptEngineManager(); 
 		    ScriptEngine interprete = manager.getEngineByName("js"); /*con esto armo la ecuacion*/
 		    ArrayList<PuntajeEmpresa> empresasQueCumplenCond=new ArrayList<PuntajeEmpresa>();
