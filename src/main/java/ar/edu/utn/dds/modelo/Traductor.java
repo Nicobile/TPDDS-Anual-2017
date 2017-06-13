@@ -101,8 +101,18 @@ public class Traductor {
 					periodoAnterior = this.calcular(empresas.get(j).getNombre(), String.valueOf(valor),i.getNombre());
 				} else {
 					empresas.remove(j);
-					j=j-1;
+					if(j==0){
+						j=0;
+					}
+					else{
+						j=j-1;
+					}
+					
 				}
+					if(empresas.isEmpty()){
+						throw new NoHayEmpresasQueCumplanLaCondicion("No hay empresas que cumplan esa condicion");
+						
+					}
 			}
 		
 	}
