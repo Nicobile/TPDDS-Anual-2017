@@ -124,7 +124,7 @@ public class Metodologia {
 		Condicion cond2 = new Condicion(sum,7.0,">",2);
 		Condicion cond3 = new Condicion(cre,2,"mayor");
 		Condicion cond4 = new Condicion(decre,2);
-		Condicion cond5= new Condicion(l,2.0,">",5);
+		Condicion cond5= new Condicion(l,1.0,">",5);
 		meto.getCondicionesDeMetodologia().add(cond1);
 		meto.getCondicionesDeMetodologia().add(cond2);
 	 	//ArrayList<PuntajeEmpresa> listin3 = meto.aplicarMetodologia();
