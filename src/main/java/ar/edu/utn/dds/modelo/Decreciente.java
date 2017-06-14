@@ -7,7 +7,7 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
 
-public class Decreciente extends LadoIzq{
+public class Decreciente extends ValorCalculable{
 	
 	
 	

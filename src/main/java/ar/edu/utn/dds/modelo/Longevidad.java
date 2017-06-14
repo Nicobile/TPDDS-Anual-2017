@@ -7,7 +7,7 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
 
-public class Longevidad extends LadoIzq {
+public class Longevidad extends ValorCalculable {
 
 	public Longevidad(Indicador indicador, Traductor traductor) {
 		super(indicador, traductor);

@@ -7,7 +7,7 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
 
-public class Promedio extends LadoIzq {
+public class Promedio extends ValorCalculable {
 
 	public Promedio(Indicador indicador, Traductor traductor) {
 		super(indicador, traductor);

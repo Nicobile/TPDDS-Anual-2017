@@ -7,7 +7,7 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
 
-public abstract class LadoIzq {
+public abstract class ValorCalculable {
 	
 	/*a la hora de crear la metodologia siempre voy a saber que tipo de lado izquierdo estoy creando
 	  y el indicador tambien*/
@@ -19,7 +19,7 @@ public abstract class LadoIzq {
 	
 	
 
-	public LadoIzq(Indicador indicador, Traductor traductor) {
+	public ValorCalculable(Indicador indicador, Traductor traductor) {
 		super();
 		this.setIndicador(indicador);
 		this.setTraductor(traductor);
@@ -53,16 +53,32 @@ public abstract class LadoIzq {
 	}
 	
 	public ArrayList<PuntajeEmpresa> eliminarEmpresasQueNoCumplenCondicion(ArrayList<PuntajeEmpresa> listaEmpresas, ArrayList<Empresa> empresas){
-		for(int j=0;j<listaEmpresas.size();j++){
+		
+		
+		// lo usan creciente y decreciente con el codig comentado andaba barvaro ahora con esa linea lo poco que proba va bien
+		
+		
+		
+		/*for(int j=0;j<listaEmpresas.size();j++){
 			PuntajeEmpresa e=listaEmpresas.get(j);
+			//lo comentado paso muchas pruebas el remove if esta en fase de prueba
 		if ((empresas.stream().filter(unaE -> unaE.getNombre().equals(e.getNombreEmpresa())).findFirst().isPresent())){	
 		
 		}
-		else{listaEmpresas.remove(j);j=j-1;}
-	}
+		else{
+			getTraductor().eliminarPuntajeEmpresa(listaEmpresas, j);	
+	
+		}
+			
+		
+	}*/
+		listaEmpresas.removeIf(unE-> ! empresas.stream().filter(unaE->unaE.getNombre().equals(unE.getNombreEmpresa())).findFirst().isPresent());
 		return listaEmpresas;
 		
+		
 	}
+	
+	
 	
 	public ArrayList<Empresa> getEmpresas() {
 		return empresas;

@@ -7,7 +7,7 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
 
-public class Sumatoria extends LadoIzq{
+public class Sumatoria extends ValorCalculable{
 
 	public Sumatoria(Indicador indicador, Traductor traductor) {
 		super(indicador, traductor);
