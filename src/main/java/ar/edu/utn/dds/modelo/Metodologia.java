@@ -158,8 +158,8 @@ public class Metodologia {
 		 * meto.getCondicionesDeMetodologia().add(cond2);
 		 */
 		// ArrayList<PuntajeEmpresa> listin3 = meto.aplicarMetodologia();
-
-
+		Promedio prom = new Promedio(t.buscarIndicador("i_ROE"),t);
+		Condicion condf=new Condicion(prom,2,"mayor");
 		Creciente creci = new Creciente(t.buscarIndicador("i_ROE"), t);
 		Condicion condi1 = new Condicion(creci, 2, "mayor");
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_ROE"), t);
@@ -174,7 +174,7 @@ public class Metodologia {
 
 		Longevidad lon = new Longevidad(t.buscarIndicador("i_ROE"), t);
 		Condicion condi4 = new Condicion(lon, 10.0, ">", 10);
-		metodo.getCondicionesDeMetodologia().add(condi1);
+		metodo.getCondicionesDeMetodologia().add(condf);
 		// metodo.getCondicionesDeMetodologia().add(condi2);
 		// metodo.getCondicionesDeMetodologia().add(condi3);
 		// metodo.getCondicionesDeMetodologia().add(condi4);

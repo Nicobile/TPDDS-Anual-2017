@@ -15,20 +15,15 @@ public class Promedio extends ValorCalculable {
 	}
 	public ArrayList<PuntajeEmpresa> calcularValor(int periodos) throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador{
 		ArrayList<PuntajeEmpresa> listaEmpresas= super.calcularValor(periodos);
-		/*
-		 * deberia filtrar la lista de cuentas de le empresa durante los ultimos periodos
-		 * aplico el indicador
-		 * a cada uno de los elementos de la lista firltrada
-		 * y ordeno por */
+	
 		
-	  ArrayList<PuntajeEmpresa> sumatoria =  super.sumatoriaIndicadores(listaEmpresas, periodos);
-      
-      for (int i=0;(i<sumatoria.size());i++){
-    	  sumatoria.get(i).setResultadoDeAplicarCondicion(sumatoria.get(i).getResultadoDeAplicarCondicion()/periodos);
-      }
-      return sumatoria;
-		
-		
+		  ArrayList<PuntajeEmpresa> sumatoria =  super.sumatoriaIndicadores(listaEmpresas, periodos);
+	      
+	      for (int i=0;(i<sumatoria.size());i++){
+	    	  sumatoria.get(i).setResultadoDeAplicarCondicion(sumatoria.get(i).getResultadoDeAplicarCondicion()/periodos);
+	      }
+	      return sumatoria;		
+			
 		
 	}
 

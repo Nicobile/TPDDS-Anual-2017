@@ -1,11 +1,10 @@
 package ar.edu.utn.dds.modelo;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 import antlr.ExpressionParser;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
-import ar.edu.utn.dds.excepciones.NoHayEmpresasQueCumplanLaCondicion;
+
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicador;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
@@ -66,16 +65,6 @@ public class Traductor {
 
 	public int eliminarEmpresa(ArrayList<Empresa> empresas, int j) {
 		empresas.remove(j);
-
-		if (j == 0) {
-			j = 0;
-		} else {
-			j = j - 1;
-		}
-		return j;
-	}
-	public int eliminarPuntajeEmpresa(ArrayList<PuntajeEmpresa> puntajeEmpresas, int j) {
-		puntajeEmpresas.remove(j);
 
 		if (j == 0) {
 			j = 0;
