@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane fx:id="idBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ar.edu.utn.dds.controller.Condicion1">
+   <bottom>
+      <Button fx:id="idCerrar" mnemonicParsing="false" onAction="#cerrar" text="Cerrar" BorderPane.alignment="CENTER" />
+   </bottom>
+   <top>
+      <Pane prefHeight="355.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text layoutX="173.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lado Izquierdo:" />
+            <Text layoutX="189.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Comparador:" />
+            <Text layoutX="215.0" layoutY="249.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Periodos:" />
+            <TextField fx:id="idLadoIzq" layoutX="300.0" layoutY="65.0" onAction="#ladoIzq" />
+            <TextField fx:id="idLadoDerecho" layoutX="300.0" layoutY="118.0" onAction="#ladoderecho" />
+            <TextField fx:id="idComparador" layoutX="300.0" layoutY="173.0" onAction="#comparador" />
+            <Text layoutX="184.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lado Derecho:" />
+            <TextField fx:id="idPeriodos" layoutX="300.0" layoutY="231.0" onAction="#periodos" />
+         </children>
+      </Pane>
+   </top>
+</BorderPane>
