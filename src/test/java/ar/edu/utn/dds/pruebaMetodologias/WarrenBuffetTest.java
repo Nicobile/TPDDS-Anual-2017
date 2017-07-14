@@ -1,5 +1,7 @@
 package ar.edu.utn.dds.pruebaMetodologias;
 
+import static org.junit.Assert.*;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,6 +10,7 @@ import javax.script.ScriptException;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicador;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
@@ -43,20 +46,30 @@ public class WarrenBuffetTest {
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t);
 		Condicion cond2 = new Condicion(sum,1,"menor");
 		Creciente cre2 = new Creciente(t.buscarIndicador("i_MargenVentas"),t);
-		Condicion cond3 = new Condicion(cre,10,"mayor");
+		Condicion cond3 = new Condicion(cre2,10,"mayor");
 		Longevidad lon = new Longevidad(t.buscarIndicador("i_NivelDeuda"),t);
 		Condicion cond4 = new Condicion(lon,10.0,">",10);
-		meto.getCondicionesDeMetodologia().add(cond1);
-		meto.getCondicionesDeMetodologia().add(cond2);
-		meto.getCondicionesDeMetodologia().add(cond3);
-		meto.getCondicionesDeMetodologia().add(cond4);
-		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
+		meto.agregarCondicion(cond1);
+		meto.agregarCondicion(cond2);
+		meto.agregarCondicion(cond3);
+		meto.agregarCondicion(cond4);
 	}
 	
 	
+	@Test 
+	public void pruebaHayEmpresasQueCumplen() throws NoSeEncuentraLaEmpresa, ScriptException, NoSePudoOrdenarLaCondicion, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador{
+		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
+		assertTrue(empresas.size() > 0);
+	}
 	
-	
-	
+	@Test
+	public void seDebeInvertirEnPepsi() throws NoSeEncuentraLaEmpresa, ScriptException, NoSePudoOrdenarLaCondicion, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador{
+		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
+		assertEquals(empresas.get(0).getNombreEmpresa(), "Pepsico");
+		assertEquals(empresas.get(1).getNombreEmpresa(), "Twitter");
+		assertEquals(empresas.get(2).getNombreEmpresa(), "CocaCola");
+		assertEquals(empresas.get(3).getNombreEmpresa(), "Facebook");
+	}
 	
 	@After
 	public void eliminarLista() {

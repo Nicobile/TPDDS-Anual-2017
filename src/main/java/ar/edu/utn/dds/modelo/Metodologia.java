@@ -204,6 +204,10 @@ public class Metodologia {
 		 */
 
 	}
+	
+	public void agregarCondicion(Condicion cond){
+		this.getCondicionesDeMetodologia().add(cond);
+	}
 
 	public ArrayList<Condicion> getCondicionesDeMetodologia() {
 		return condicionesDeMetodologia;

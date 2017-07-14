@@ -50,7 +50,7 @@ public class PruebaMetodologiaTest {
 	public void pruebaSoloCondicionDecreciente() throws NoSeEncuentraElIndicador, NoSeEncuentraLaEmpresa, ScriptException, NoSePudoOrdenarLaCondicion, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha{
 		Decreciente decre= new Decreciente(t.buscarIndicador("i_NivelDeuda"),t);
 		Condicion cond = new Condicion(decre,2);	
-		meto.getCondicionesDeMetodologia().add(cond);
+		meto.agregarCondicion(cond);
 		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
 		//Solo Twitter, Cocacola y Facebook cumplen con la condidion de que su deuda sea decreciente
 		assertEquals(empresas.get(0).getNombreEmpresa(),"Twitter");
@@ -60,11 +60,11 @@ public class PruebaMetodologiaTest {
 	
 	
 	
-	@Test
+	@Test     
 	public void pruebaSoloCondicionSumatoria() throws NoSeEncuentraElIndicador, NoSeEncuentraLaEmpresa, ScriptException, NoSePudoOrdenarLaCondicion, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha{
 		Sumatoria sum=new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t);
 		Condicion cond2 = new Condicion(sum,7.0,">",2);		
-		meto.getCondicionesDeMetodologia().add(cond2);
+		meto.agregarCondicion(cond2);
 		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
 		//Solo Pepsi y Facebook cumplen con la condicion
 		assertEquals(empresas.get(0).getNombreEmpresa(),"Pepsico");
@@ -72,25 +72,41 @@ public class PruebaMetodologiaTest {
 
 	}
 	
-	@Test
+	
+	
+	@Test   //EL TEST QUE ROMPE TODO CON DE TODO
+	public void pruebaSumtoriayDecreciente() throws NoSeEncuentraElIndicador, NoSeEncuentraLaEmpresa, ScriptException, NoSePudoOrdenarLaCondicion, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha{
+		Decreciente decre= new Decreciente(t.buscarIndicador("i_NivelDeuda"),t);
+		Sumatoria sum=new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t);
+		Condicion condi = new Condicion(decre,2);
+		Condicion condi2 = new Condicion(sum,7.0,">",2);
+		meto.agregarCondicion(condi);		
+		meto.agregarCondicion(condi2);
+		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
+		//Solo Facebook debe cumplir estas dos condiciones combinadas
+		assertEquals(empresas.get(0).getNombreEmpresa(),"Facebook");
+	}
+	
+	
+	
+	@Test    //EL DE MAL ORDER?
 	public void pruebaPromedioySumatoria() throws NoSeEncuentraElIndicador, NoSeEncuentraLaEmpresa, ScriptException, NoSePudoOrdenarLaCondicion, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha{
 		Promedio prom = new Promedio(t.buscarIndicador("i_NivelDeuda"),t);
 		Sumatoria sum=new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t);
 		Condicion cond1 = new Condicion(prom,2,"mayor");
 		Condicion cond2 = new Condicion(sum,7.0,">",2);		
-		meto.getCondicionesDeMetodologia().add(cond1);
-		meto.getCondicionesDeMetodologia().add(cond2);
+		meto.agregarCondicion(cond1);
+		meto.agregarCondicion(cond2);
 		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
 		//El que tiene mayor promedio del indicador de deuda es Facebook
 		assertEquals(empresas.get(0).getNombreEmpresa(),"Pepsico");
 		//Le debe seguir Facebook que tiene menor promedio
 		assertEquals(empresas.get(1).getNombreEmpresa(),"Facebook");
 		//Esas dos empresas son las unicas cuya sumatoria de Nivel de Deuda sea mayor que 7, en el periodo de 2 años
-		//assertNull(empresas.get(2));
-	}
+	} 
 	
 	@After
-	public void eliminarLista() {
+	public void eliminarListas() {
 		this.lector.getLineasArchivo().clear();
 		this.t.getEmpresas().clear();
 		this.t.getIndicadores().clear();

@@ -18,7 +18,7 @@ Facebook c_Dividendos 9000      	2015
 Facebook c_CapitalTotal 45000 		2015
 Facebook c_Utilidades 5690		2015
 Facebook c_Ventas 573600     	2015
-Facebook c_PasivosTotales 452		2015
+Facebook c_PasivosTotales 45200		2015
 Facebook c_ActivosTotales 452550     	2015
 Facebook c_IngresoNetoEnOperacionesContinuas 40000		2014
 Facebook c_IngresoNetoEnOperacionesDiscontinuadas 40000		2014
