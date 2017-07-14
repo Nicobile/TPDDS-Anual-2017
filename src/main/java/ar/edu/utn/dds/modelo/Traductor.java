@@ -52,7 +52,7 @@ public class Traductor {
 
 			double sumaDeIndicadorPeriodos = 0;
 			for (int x = periodos; x > 0; x--) {
-				int valor = 2017 - x;
+				int valor = 2016 - x;
 				sumaDeIndicadorPeriodos = sumaDeIndicadorPeriodos
 						+ this.calcular(empresas.get(j).getNombre(), String.valueOf(valor), i.getNombre());
 
@@ -79,12 +79,12 @@ public class Traductor {
 			NoSeEncuentraElIndicador {
 
 		for (int j = 0; j < empresas.size(); j++) {
-			int valorInicial = 2017 - periodos;
+			int valorInicial = 2016 - periodos;
 			double periodoAnterior = (this.calcular(empresas.get(j).getNombre(), String.valueOf(valorInicial),
 					i.getNombre()));
 
 			for (int x = periodos; x > 0; x--) {
-				int valor = 2017 - x;
+				int valor = 2016 - x;
 
 				if (criterio == '>') {
 					if (periodoAnterior <= this.calcular(empresas.get(j).getNombre(), String.valueOf(valor),
@@ -218,7 +218,7 @@ public class Traductor {
 		for (int i = 0; i < empresas.size(); i++) {
 			for (int x = periodos; x < 0; x--)
 				for (int j = 0; j < empresas.get(i).getCuentas().size(); j++) {
-					if (!(empresas.get(i).getCuentas().get(j).getFecha().equals(String.valueOf(2017 - x)))) {
+					if (!(empresas.get(i).getCuentas().get(j).getFecha().equals(String.valueOf(2016 - x)))) {
 						empresas.get(i).getCuentas().remove(j);
 						j = j - 1;
 					}
