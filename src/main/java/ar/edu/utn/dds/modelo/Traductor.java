@@ -73,7 +73,16 @@ public class Traductor {
 		}
 		return j;
 	}
+	public int eliminarPuntajeEmpresa(ArrayList<PuntajeEmpresa> empresas, int j) {
+		empresas.remove(j);
 
+		if (j == 0) {
+			j = 0;
+		} else {
+			j = j - 1;
+		}
+		return j;
+	}
 	public ArrayList<Empresa> compararAListaDeEmpresas(ArrayList<Empresa> empresas, int periodos, Indicador i,
 			char criterio) throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha,
 			NoSeEncuentraElIndicador {

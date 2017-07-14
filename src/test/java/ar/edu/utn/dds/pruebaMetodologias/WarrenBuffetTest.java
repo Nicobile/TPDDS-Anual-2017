@@ -63,12 +63,12 @@ public class WarrenBuffetTest {
 	}
 	
 	@Test
-	public void seDebeInvertirEnPepsi() throws NoSeEncuentraLaEmpresa, ScriptException, NoSePudoOrdenarLaCondicion, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador{
+	public void seDebeInvertirEnFacebook() throws NoSeEncuentraLaEmpresa, ScriptException, NoSePudoOrdenarLaCondicion, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador{
 		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
-		assertEquals(empresas.get(0).getNombreEmpresa(), "Pepsico");
-		assertEquals(empresas.get(1).getNombreEmpresa(), "Twitter");
-		assertEquals(empresas.get(2).getNombreEmpresa(), "CocaCola");
-		assertEquals(empresas.get(3).getNombreEmpresa(), "Facebook");
+		assertEquals(empresas.get(3).getNombreEmpresa(), "Pepsico");
+		assertEquals(empresas.get(2).getNombreEmpresa(), "Twitter");
+		assertEquals(empresas.get(1).getNombreEmpresa(), "CocaCola");
+		assertEquals(empresas.get(0).getNombreEmpresa(), "Facebook");
 	}
 	
 	@After

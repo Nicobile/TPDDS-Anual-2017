@@ -25,6 +25,7 @@ public class Metodologia {
 				return i;
 			}
 		}
+		
 		return -1;
 	}
 
@@ -41,28 +42,32 @@ public class Metodologia {
 			}
 		} else {
 			if (!condicion.getFiltro()) {
-
+				
 				eliminarDeListaDePuntajesSiNoCumplioLaCondicion(listaDeAplicarCondicion);
-
+				
 				sumarPuntosAPuntajesEmpresas(listaDeAplicarCondicion);
+				
 			} else {
 				/* tengo que dejar solo quellas que cumplen la condicion */
+				
 				eliminarDeListaDePuntajesSiNoCumplioLaCondicion(listaDeAplicarCondicion);
-				sumarPuntosAPuntajesEmpresas(listaDeAplicarCondicion);
+				//sumarPuntosAPuntajesEmpresas(listaDeAplicarCondicion);
 
 			}
 
 		}
 
 	}
-
+/// esta anda bien faltaba validar algo pero dsps la voy a cambiar por una mas optima pq tiene for if que no hace nada PABLITO MIRA ESTO Y SE DESMAYA
 	private void sumarPuntosAPuntajesEmpresas(ArrayList<PuntajeEmpresa> lista) throws NoSeEncuentraLaEmpresa {
 		for (int i = 0; i < lista.size(); i++) {
 
 			int j;
+			
 			j = this.buscarEmpresa(lista.get(i).getNombreEmpresa(), puntajeEmpresas);
-
-			puntajeEmpresas.get(j).suma(buscarEmpresa(lista.get(i).getNombreEmpresa(), lista));
+			if (j==-1){}
+			else{
+			puntajeEmpresas.get(j).suma(buscarEmpresa(lista.get(i).getNombreEmpresa(), lista));}
 
 		}
 	}
@@ -94,7 +99,7 @@ public class Metodologia {
 	
 	*/
 		puntajeEmpresas.removeIf(unElementoDeMetodologia-> ! lista.stream().filter(unElementoQueCumpleUnaCondicion->unElementoQueCumpleUnaCondicion.getNombreEmpresa().equals(unElementoDeMetodologia.getNombreEmpresa())).findFirst().isPresent());
-	
+		
 	
 	}
 
@@ -103,14 +108,15 @@ public class Metodologia {
 			NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
 		Iterator<Condicion> condiciones = condicionesDeMetodologia.iterator();
 		while (condiciones.hasNext()) {
-
+			
 			this.aplicarCondicion(condiciones.next());// aplico condicion
 
 		}
 
 		Collections.sort(puntajeEmpresas,
 				(p1, p2) -> new Integer(p1.getPuntaje()).compareTo(new Integer(p2.getPuntaje())));
-		Collections.reverse(puntajeEmpresas);
+		
+		//Collections.reverse(puntajeEmpresas);
 		if (puntajeEmpresas.isEmpty()) {
 			System.out.println("No hay empresas que cumplan la metodologia aplicada");
 		}
@@ -136,73 +142,23 @@ public class Metodologia {
 		ProcesarIndicadores procesador1 = new ProcesarIndicadores(t);
 		procesador1.leerExcel("/home/dds/Desarrollo/workspace/2017-mn-group-12/src/test/resources/Indicadores.xls");
 
-		Metodologia meto = new Metodologia("BUFO");
-		Metodologia metod = new Metodologia("BUF");
-		Metodologia metodo = new Metodologia("Bufet");
-
-		/*
-		 * Promedio prom = new Promedio(t.buscarIndicador("i_NivelDeuda"),t);
-		 * Sumatoria sum=new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t);
-		 * Creciente cre= new Creciente(t.buscarIndicador("i_NivelDeuda"),t);
-		 * Longevidad l= new Longevidad(t.buscarIndicador("i_NivelDeuda"),t);
-		 */
-
-		/*
-		 * Decreciente decre= new
-		 * Decreciente(t.buscarIndicador("i_NivelDeuda"),t); Condicion cond1 =
-		 * new Condicion(prom,2,"mayor"); Condicion cond2 = new
-		 * Condicion(sum,7.0,">",2); Condicion cond3 = new
-		 * Condicion(cre,2,"mayor"); Condicion cond4 = new Condicion(decre,2);
-		 * Condicion cond5= new Condicion(l,1.0,">",5);
-		 * meto.getCondicionesDeMetodologia().add(cond1);
-		 * meto.getCondicionesDeMetodologia().add(cond2);
-		 */
-		// ArrayList<PuntajeEmpresa> listin3 = meto.aplicarMetodologia();
-		Promedio prom = new Promedio(t.buscarIndicador("i_ROE"),t);
-		Condicion condf=new Condicion(prom,2,"mayor");
-		Creciente creci = new Creciente(t.buscarIndicador("i_ROE"), t);
-		Condicion condi1 = new Condicion(creci, 2, "mayor");
-		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_ROE"), t);
-		Condicion condi2 = new Condicion(sum, 3.0, ">", 1);
-		/*
-		 * Creciente cre2 = new
-		 * Creciente(t.buscarIndicador("i_MargenVentas"),t); Condicion condi3 =
-		 * new Condicion(cre,10,"mayor"); Longevidad lon = new
-		 * Longevidad(t.buscarIndicador("i_NivelDeuda"),t); Condicion condi4 =
-		 * new Condicion(lon,10.0,">",10);
-		 */
-
-		Longevidad lon = new Longevidad(t.buscarIndicador("i_ROE"), t);
-		Condicion condi4 = new Condicion(lon, 10.0, ">", 10);
-		metodo.getCondicionesDeMetodologia().add(condf);
-		// metodo.getCondicionesDeMetodologia().add(condi2);
-		// metodo.getCondicionesDeMetodologia().add(condi3);
-		// metodo.getCondicionesDeMetodologia().add(condi4);
-
-		// metod.getCondicionesDeMetodologia().add(cond5);
-		ArrayList<PuntajeEmpresa> listin2 = metodo.aplicarMetodologia();
-
-		// ArrayList<PuntajeEmpresa> listin2=cond5.aplicar();//4elementos
-		// ArrayList<PuntajeEmpresa> listin3=cond2.aplicar();//2elementos
-		// facebook y pepsi esta es la q me interesa
-
-		for (int i = 0; i < listin2.size(); i++) {
-			if (listin2.isEmpty()) {
-				System.out.println("No hay monstruos aqui");
-			}
-			System.out.println(listin2.get(i).getNombreEmpresa());
-			System.out.println(listin2.get(i).getResultadoDeAplicarCondicion());
-			System.out.println(listin2.get(i).getPuntaje());
-		}
-
-		/*
-		 * for (int i=0;i<listin3.size();i++){
-		 * 
-		 * System.out.println(listin3.get(i).getNombreEmpresa());
-		 * System.out.println(listin3.get(i).getResultadoDeAplicarCondicion());
-		 * System.out.println(listin3.get(i).getPuntaje()); }
-		 */
-
+		Metodologia meto = new Metodologia("sada");
+		Decreciente decre= new Decreciente(t.buscarIndicador("i_NivelDeuda"),t);
+		Sumatoria sum=new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t);
+		Condicion cond2 = new Condicion(sum,7.0,">",2);	
+		meto.agregarCondicion(cond2);
+		Condicion condi = new Condicion(decre,2);
+		
+		meto.agregarCondicion(condi);		
+	
+		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
+		/*for(int i=0;i<empresas.size();i++){
+			System.out.println(empresas.get(i).getNombreEmpresa());
+		}*/
+		
+	
+	
+	
 	}
 	
 	public void agregarCondicion(Condicion cond){

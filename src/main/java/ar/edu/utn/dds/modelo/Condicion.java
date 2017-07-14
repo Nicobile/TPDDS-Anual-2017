@@ -55,7 +55,8 @@ public class Condicion {
 			if (criterio != null) {
 
 				if (criterio.equals("mayor")) {
-					/* ordena de menor a mayor */
+				
+					/* ordena de  mayor a menor */
 					Collections.sort(valoresAizq, (v1, v2) -> new Double(v1.getResultadoDeAplicarCondicion())
 							.compareTo(new Double(v2.getResultadoDeAplicarCondicion())));
 					// ordeno de mayor a menor
@@ -63,7 +64,7 @@ public class Condicion {
 					return valoresAizq;
 				}
 				if (criterio.equals("menor")) {
-					// de menor a mayor
+				
 					Collections.sort(valoresAizq, (v1, v2) -> new Double(v1.getResultadoDeAplicarCondicion())
 							.compareTo(new Double(v2.getResultadoDeAplicarCondicion())));
 
