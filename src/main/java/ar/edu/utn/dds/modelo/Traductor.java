@@ -26,13 +26,10 @@ public class Traductor {
 
 	public ArrayList<String> listarIndicadodoresyCuentas(Empresa e, String fecha) {
 		ArrayList<String> lista = new ArrayList<>();
-		for (int i = 0; i < getIndicadores().size(); i++) {
-			lista.add(getIndicadores().get(i).getNombre());
-		}
-		for (int i = 0; i < e.getCuentas().size(); i++) {
-			lista.add(e.getCuentas().get(i).getNombre());
-
-		}
+		
+		getIndicadores().forEach(unI->lista.add(unI.getNombre()));
+		
+		e.getCuentas().forEach(unaC->lista.add(unaC.getNombre()));
 		return lista;
 
 	}
@@ -73,16 +70,9 @@ public class Traductor {
 		}
 		return j;
 	}
-	public int eliminarPuntajeEmpresa(ArrayList<PuntajeEmpresa> empresas, int j) {
-		empresas.remove(j);
+	
+	
 
-		if (j == 0) {
-			j = 0;
-		} else {
-			j = j - 1;
-		}
-		return j;
-	}
 	public ArrayList<Empresa> compararAListaDeEmpresas(ArrayList<Empresa> empresas, int periodos, Indicador i,
 			char criterio) throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha,
 			NoSeEncuentraElIndicador {
@@ -223,7 +213,7 @@ public class Traductor {
 
 	}
     
-	//REVISAR TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO TODO TODO TODO TODO
+	
 	public ArrayList<Empresa> filtrarCuentasEnUnPeriodo(ArrayList<Empresa> empresas, int periodos) {
 		for (int i = 0; i < empresas.size(); i++) {
 			for (int x = periodos; x < 0; x--){

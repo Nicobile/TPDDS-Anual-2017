@@ -47,11 +47,11 @@ public class PruebaArchivoTest {
 	public void verficarCuentasEmpresa() throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresa,
 			NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha {
 
-		assertEquals(t.obtenerEmpresa("Facebook").getCuentas().size(), 16);
+		assertEquals(t.obtenerEmpresa("Facebook").getCuentas().size(), 79);
 		assertEquals(t.consultarValorCuenta("CocaCola", "c_IngresoNetoEnOperacionesDiscontinuadas", "2015"), 452,
 				DELTA);
 		assertEquals(t.obtenerEmpresa("Twitter").buscarUnaCuentaPorFecha("c_IngresoNetoEnOperacionesContinuas", "2015")
-				.getValor(), 20000, DELTA);
+				.getValor(), 13453, DELTA);
 	}
 
 	@Test
@@ -66,7 +66,7 @@ public class PruebaArchivoTest {
 	public void noSeEncuentraCuentaEnUnaFecha()
 			throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha {
 		thrown.expect(NoSeEncuentraLaCuentaEnEsaFecha.class);
-		this.t.obtenerEmpresa("Pepsico").buscarUnaCuentaPorFecha("c_IngresoNetoEnOperacionesContinuas", "2011");
+		this.t.obtenerEmpresa("Pepsico").buscarUnaCuentaPorFecha("c_IngresoNetoEnOperacionesContinuas", "2003");
 	}
 
 	@After

@@ -53,25 +53,7 @@ public abstract class ValorCalculable {
 	}
 
 	public ArrayList<PuntajeEmpresa> eliminarEmpresasQueNoCumplenCondicion(ArrayList<PuntajeEmpresa> listaEmpresas, ArrayList<Empresa> empresas){
-		
-		
-		// lo usan creciente y decreciente con el codig comentado andaba barvaro ahora con esa linea lo poco que proba va bien
-		
-		
-	/*	
-		for(int j=0;j<listaEmpresas.size();j++){
-			PuntajeEmpresa e=listaEmpresas.get(j);
-			//lo comentado paso muchas pruebas el remove if esta en fase de prueba
-		if ((empresas.stream().filter(unaE -> unaE.getNombre().equals(e.getNombreEmpresa())).findFirst().isPresent())){	
-		
-		}
-		else{
-			getTraductor().eliminarPuntajeEmpresa(listaEmpresas, j);	
-	
-		}
-			
-		
-	}*/
+
 		
 listaEmpresas.removeIf(unE-> ! empresas.stream().filter(unaE->unaE.getNombre().equals(unE.getNombreEmpresa())).findFirst().isPresent());
 
