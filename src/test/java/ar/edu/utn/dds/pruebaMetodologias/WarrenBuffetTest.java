@@ -42,13 +42,22 @@ public class WarrenBuffetTest {
 		this.procesador1 = new ProcesarIndicadores(t);
 		this.procesador1.leerExcel(this.getClass().getResource("/Indicadores.xls").getFile());
 		Creciente cre= new Creciente(t.buscarIndicador("i_ROE"),t);
-		Condicion cond1 = new Condicion(cre,10,"mayor");
+		Condicion cond1 = new Condicion(cre,2,"mayor");
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t);
-		Condicion cond2 = new Condicion(sum,1,"menor");
+		Condicion cond2 = new Condicion(sum,2,"menor");
 		Creciente cre2 = new Creciente(t.buscarIndicador("i_MargenVentas"),t);
-		Condicion cond3 = new Condicion(cre2,10,"mayor");
+		Condicion cond3 = new Condicion(cre2,2,"mayor");
 		Longevidad lon = new Longevidad(t.buscarIndicador("i_NivelDeuda"),t);
-		Condicion cond4 = new Condicion(lon,10.0,">",10);
+		Condicion cond4 = new Condicion(lon,10.0,">",2);
+		
+		/*	Creciente cre= new Creciente(t.buscarIndicador("i_ROE"),t);
+		Condicion cond1 = new Condicion(cre,2,"mayor");
+		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t);
+		Condicion cond2 = new Condicion(sum,2,"menor");
+		Creciente cre2 = new Creciente(t.buscarIndicador("i_MargenVentas"),t);
+		Condicion cond3 = new Condicion(cre2,2,"mayor");
+		Longevidad lon = new Longevidad(t.buscarIndicador("i_NivelDeuda"),t);
+		Condicion cond4 = new Condicion(lon,10.0,">",2); */
 		meto.agregarCondicion(cond1);
 		meto.agregarCondicion(cond2);
 		meto.agregarCondicion(cond3);

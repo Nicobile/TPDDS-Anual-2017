@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import javax.script.ScriptException;
+
+import ar.edu.utn.dds.excepciones.NoHayEmpresasQueCumplanLaCondicion;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicador;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
@@ -118,7 +120,7 @@ public class Metodologia {
 		
 		//Collections.reverse(puntajeEmpresas);
 		if (puntajeEmpresas.isEmpty()) {
-			System.out.println("No hay empresas que cumplan la metodologia aplicada");
+			throw new NoHayEmpresasQueCumplanLaCondicion("No hay empresas que cumplan con la metodologia");
 		}
 		return puntajeEmpresas;
 

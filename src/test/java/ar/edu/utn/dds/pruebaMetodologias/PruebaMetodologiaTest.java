@@ -10,8 +10,11 @@ import javax.script.ScriptException;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
+import ar.edu.utn.dds.excepciones.NoHayEmpresasQueCumplanLaCondicion;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicador;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
@@ -47,6 +50,10 @@ public class PruebaMetodologiaTest {
 
 
 	}
+	
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
+
 	
 	@Test
 	public void pruebaSoloCondicionDecreciente() throws NoSeEncuentraElIndicador, NoSeEncuentraLaEmpresa, ScriptException, NoSePudoOrdenarLaCondicion, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha{
@@ -93,12 +100,7 @@ public class PruebaMetodologiaTest {
 		meto.agregarCondicion(concre);
 		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
 		/*PEPSI incremento su deuda en 123,69 */
-		//assertEquals(empresas.get(0).getNombreEmpresa(),"Pepsico");
-		for(int i = 0; i < empresas.size(); i++){
-			System.out.println(empresas.get(i).getNombreEmpresa());
-			System.out.println(empresas.get(i).getPuntaje());
-		}
-		
+		assertEquals(empresas.get(0).getNombreEmpresa(),"Pepsico");
 	}
 	
 	@Test
@@ -112,6 +114,15 @@ public class PruebaMetodologiaTest {
 		assertEquals(empresas.get(0).getNombreEmpresa(),"Facebook");
 	}
 	
+	@Test
+	public void noHayEmpresasQueCumplan() throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta,NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador, ScriptException, NoSePudoOrdenarLaCondicion {
+		thrown.expect(NoHayEmpresasQueCumplanLaCondicion.class);
+		Sumatoria sum=new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t);
+		Condicion cond2 = new Condicion(sum,700.0,">",2);		
+		meto.agregarCondicion(cond2);
+		meto.aplicarMetodologia();
+	}
+	
 	
 	@Test
 	public void pruebaLongevidadyCreciente()throws NoSeEncuentraElIndicador, NoSeEncuentraLaEmpresa, ScriptException, NoSePudoOrdenarLaCondicion, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha{
@@ -122,7 +133,7 @@ public class PruebaMetodologiaTest {
 		meto.agregarCondicion(condlon);
 		meto.agregarCondicion(condcre);
 		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
-		//assertEquals(empresas.get(1).getNombreEmpresa(),"Pepsico");
+		assertEquals(empresas.get(0).getNombreEmpresa(),"Pepsico");
 	}
 
 	@Test   

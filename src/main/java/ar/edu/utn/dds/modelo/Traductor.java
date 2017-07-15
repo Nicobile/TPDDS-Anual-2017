@@ -67,7 +67,7 @@ public class Traductor {
 		empresas.remove(j);
 
 		if (j == 0) {
-			j = 0;
+			j = -1;
 		} else {
 			j = j - 1;
 		}
@@ -222,10 +222,11 @@ public class Traductor {
 		}
 
 	}
-
+    
+	//REVISAR TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO TODO TODO TODO TODO
 	public ArrayList<Empresa> filtrarCuentasEnUnPeriodo(ArrayList<Empresa> empresas, int periodos) {
 		for (int i = 0; i < empresas.size(); i++) {
-			for (int x = periodos; x < 0; x--)
+			for (int x = periodos; x < 0; x--){
 				for (int j = 0; j < empresas.get(i).getCuentas().size(); j++) {
 					if (!(empresas.get(i).getCuentas().get(j).getFecha().equals(String.valueOf(2016 - x)))) {
 						empresas.get(i).getCuentas().remove(j);
@@ -233,6 +234,7 @@ public class Traductor {
 					}
 
 				}
+			}
 		}
 
 		return empresas;
