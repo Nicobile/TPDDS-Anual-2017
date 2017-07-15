@@ -1,7 +1,5 @@
 package ar.edu.utn.dds.modelo;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -13,8 +11,7 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicion;
-import ar.edu.utn.dds.procesarArchivos.LectorArchivo;
-import ar.edu.utn.dds.procesarArchivos.ProcesarIndicadores;
+
 
 public class Metodologia {
 	private ArrayList<Condicion> condicionesDeMetodologia = new ArrayList<Condicion>();
@@ -53,22 +50,20 @@ public class Metodologia {
 				/* tengo que dejar solo quellas que cumplen la condicion */
 				
 				eliminarDeListaDePuntajesSiNoCumplioLaCondicion(listaDeAplicarCondicion);
-				//sumarPuntosAPuntajesEmpresas(listaDeAplicarCondicion);
+		
 
 			}
 
 		}
 
 	}
-/// esta anda bien faltaba validar algo pero dsps la voy a cambiar por una mas optima pq tiene for if que no hace nada PABLITO MIRA ESTO Y SE DESMAYA
+
 	private void sumarPuntosAPuntajesEmpresas(ArrayList<PuntajeEmpresa> lista) throws NoSeEncuentraLaEmpresa {
 		for (int i = 0; i < lista.size(); i++) {
-
-			int j;
-			
+			int j;			
 			j = this.buscarEmpresa(lista.get(i).getNombreEmpresa(), puntajeEmpresas);
-			if (j==-1){}
-			else{
+			if ( j!=-1){
+			
 			puntajeEmpresas.get(j).suma(buscarEmpresa(lista.get(i).getNombreEmpresa(), lista));}
 
 		}
@@ -76,30 +71,6 @@ public class Metodologia {
 
 	private void eliminarDeListaDePuntajesSiNoCumplioLaCondicion(ArrayList<PuntajeEmpresa> lista) {
 
-		//lo comentado andaba barvaro, por ahora el remove if paso las pruebas 
-		
-		/*for (int j = 0; j < puntajeEmpresas.size(); j++) {
-			PuntajeEmpresa e = puntajeEmpresas.get(j);
-			
-			
-			  if ((lista.stream().filter(unaE ->
-			  unaE.getNombreEmpresa().equals(e.getNombreEmpresa())).findFirst()
-			 .isPresent())){ } 
-			  else{
-				 
-				  puntajeEmpresas.remove(j);
-
-					if (j == 0) {
-						j = 0;
-					} else {
-						j = j - 1;
-					}
-			
-		}
-
-	}
-	
-	*/
 		puntajeEmpresas.removeIf(unElementoDeMetodologia-> ! lista.stream().filter(unElementoQueCumpleUnaCondicion->unElementoQueCumpleUnaCondicion.getNombreEmpresa().equals(unElementoDeMetodologia.getNombreEmpresa())).findFirst().isPresent());
 		
 	
@@ -118,7 +89,6 @@ public class Metodologia {
 		Collections.sort(puntajeEmpresas,
 				(p1, p2) -> new Integer(p1.getPuntaje()).compareTo(new Integer(p2.getPuntaje())));
 		
-		//Collections.reverse(puntajeEmpresas);
 		if (puntajeEmpresas.isEmpty()) {
 			throw new NoHayEmpresasQueCumplanLaCondicion("No hay empresas que cumplan con la metodologia");
 		}
@@ -134,34 +104,7 @@ public class Metodologia {
 		this.nombre = nombre;
 	}
 
-	public static void main(String[] agrs) throws ScriptException, FileNotFoundException, IOException,
-			NoSeEncuentraLaEmpresa, NoSeEncuentraElIndicador, NoSePudoOrdenarLaCondicion, NoSeEncuentraLaCuenta,
-			NoSeEncuentraLaCuentaEnEsaFecha {
-		Traductor t = new Traductor();
-
-		LectorArchivo lector = new LectorArchivo(t);
-		lector.leerArchivo("/home/dds/Desarrollo/workspace/2017-mn-group-12/src/test/resources/Datos.txt");
-		ProcesarIndicadores procesador1 = new ProcesarIndicadores(t);
-		procesador1.leerExcel("/home/dds/Desarrollo/workspace/2017-mn-group-12/src/test/resources/Indicadores.xls");
-
-		Metodologia meto = new Metodologia("sada");
-		Decreciente decre= new Decreciente(t.buscarIndicador("i_NivelDeuda"),t);
-		Sumatoria sum=new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t);
-		Condicion cond2 = new Condicion(sum,7.0,">",2);	
-		meto.agregarCondicion(cond2);
-		Condicion condi = new Condicion(decre,2);
-		
-		meto.agregarCondicion(condi);		
 	
-		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
-		/*for(int i=0;i<empresas.size();i++){
-			System.out.println(empresas.get(i).getNombreEmpresa());
-		}*/
-		
-	
-	
-	
-	}
 	
 	public void agregarCondicion(Condicion cond){
 		this.getCondicionesDeMetodologia().add(cond);
