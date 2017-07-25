@@ -144,7 +144,7 @@ public class Traductor {
 	}
 
 	/*----------------------------------------------------------------------------*/
-	public int buscarEmpresa(String nombreEmpresa) throws NoSeEncuentraLaEmpresa {
+	/*public int buscarEmpresa(String nombreEmpresa) throws NoSeEncuentraLaEmpresa {
 		try {
 			for (int x = 0; x < empresas.size(); x++) {
 				// pregunto si ya existe la empresa
@@ -158,7 +158,7 @@ public class Traductor {
 		}
 		;
 		return -1;
-	}
+	}*/
 
 	public Empresa obtenerEmpresa(String nombreEmpresa) throws NoSeEncuentraLaEmpresa {
 		if (this.getEmpresas().stream().filter(unaEmpresa -> unaEmpresa.getNombre().equals(nombreEmpresa)).findFirst()
@@ -173,8 +173,9 @@ public class Traductor {
 
 	public double consultarValorCuenta(String nombreEmpresa, String nombreCuenta, String fecha)
 			throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha {
-		int i = this.buscarEmpresa(nombreEmpresa);
-		return getEmpresas().get(i).obtenerValorDeCuenta(nombreCuenta, fecha);
+	//	int i = this.buscarEmpresa(nombreEmpresa);
+		Empresa e= this.obtenerEmpresa(nombreEmpresa);
+		return getEmpresas().stream().filter(unaE-> unaE.getNombre().equals(e.getNombre())).findFirst().get().obtenerValorDeCuenta(nombreCuenta, fecha);
 	}
 
 	public void armarListaEmpresas(ArrayList<LineaArchivo> lineasArchivo) throws NoSeEncuentraLaEmpresa {
@@ -182,18 +183,21 @@ public class Traductor {
 		// recorro la lista que contiene todos los datos
 		for (int x = 0; x < lineasArchivo.size(); x++) {
 
-			int i;// indice de donde encuentra el elemento en la lista de
+			/*int i;// indice de donde encuentra el elemento en la lista de
 					// empresas ya existentes
 
-			i = this.buscarEmpresa(lineasArchivo.get(x).getNombreEmpresa());
+			i = this.buscarEmpresa(lineasArchivo.get(x).getNombreEmpresa());*/
+			
 			// pregunto si ya existe la empresa
 
-			if ((i >= 0)) {// si ya existe la empresa
+			//if ((i >= 0)) {// si ya existe la empresa
+			String nombreEmpresa=lineasArchivo.get(x).getNombreEmpresa();
+			if(getEmpresas().stream().filter(unaE-> unaE.getNombre().equals(nombreEmpresa)).findFirst().isPresent()){
 				// creo una nueva cuenta
 				Cuenta cuenta = new Cuenta(lineasArchivo.get(x).getNombreCuenta(),
 						lineasArchivo.get(x).getValorCuenta(), lineasArchivo.get(x).getFecha());
 
-				this.getEmpresas().get(i).getCuentas().add(cuenta);
+				getEmpresas().stream().filter(unaE-> unaE.getNombre().equals(nombreEmpresa)).findFirst().get().getCuentas().add(cuenta);
 
 			}
 			// la empresa no existia entonces la creo
