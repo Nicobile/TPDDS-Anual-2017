@@ -15,7 +15,7 @@ public abstract class ValorCalculable {
 /*de alguna forma en la interfaz a la hora qeu ingresan el indicador deberia buscarlo con el traductor*/
 	private Indicador indicador;
 	private Traductor traductor;
-	private ArrayList<Empresa> empresas=new ArrayList<Empresa>();
+	private ArrayList<Empresa> empresas;
 	
 	
 
@@ -25,15 +25,10 @@ public abstract class ValorCalculable {
 		this.setTraductor(traductor);
 	}
 	public ArrayList<PuntajeEmpresa> calcularValor(int periodos)throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador{
-
-		
-		//me quedo solo con las cuentas de empresa que pertenecen al periodo seria la misma estructura de la lista de emresas con menos cuentas
-		
-		ArrayList<Empresa> empresasAux= new ArrayList<Empresa>(traductor.getEmpresas());
-       empresas=traductor.filtrarCuentasEnUnPeriodo(empresasAux,periodos);	
-		
+			
+		 empresas= new ArrayList<Empresa>(traductor.getEmpresas());	
 		ArrayList<PuntajeEmpresa> listaEmpresa= new ArrayList<PuntajeEmpresa> ();
-		
+	
 		for (int i=0;i<empresas.size();i++){
 			PuntajeEmpresa elementoLista=new PuntajeEmpresa();
 			elementoLista.setNombreEmpresa(empresas.get(i).getNombre());

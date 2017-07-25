@@ -144,21 +144,7 @@ public class Traductor {
 	}
 
 	/*----------------------------------------------------------------------------*/
-	/*public int buscarEmpresa(String nombreEmpresa) throws NoSeEncuentraLaEmpresa {
-		try {
-			for (int x = 0; x < empresas.size(); x++) {
-				// pregunto si ya existe la empresa
-				if (empresas.get(x).getNombre().equals(nombreEmpresa)) {
-					return x;
-				}
 
-			}
-		} catch (Exception e) {
-			throw new NoSeEncuentraLaEmpresa("No se encontro la empresa especificada");
-		}
-		;
-		return -1;
-	}*/
 
 	public Empresa obtenerEmpresa(String nombreEmpresa) throws NoSeEncuentraLaEmpresa {
 		if (this.getEmpresas().stream().filter(unaEmpresa -> unaEmpresa.getNombre().equals(nombreEmpresa)).findFirst()
@@ -173,7 +159,7 @@ public class Traductor {
 
 	public double consultarValorCuenta(String nombreEmpresa, String nombreCuenta, String fecha)
 			throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha {
-	//	int i = this.buscarEmpresa(nombreEmpresa);
+
 		Empresa e= this.obtenerEmpresa(nombreEmpresa);
 		return getEmpresas().stream().filter(unaE-> unaE.getNombre().equals(e.getNombre())).findFirst().get().obtenerValorDeCuenta(nombreCuenta, fecha);
 	}
@@ -182,15 +168,7 @@ public class Traductor {
 
 		// recorro la lista que contiene todos los datos
 		for (int x = 0; x < lineasArchivo.size(); x++) {
-
-			/*int i;// indice de donde encuentra el elemento en la lista de
-					// empresas ya existentes
-
-			i = this.buscarEmpresa(lineasArchivo.get(x).getNombreEmpresa());*/
-			
-			// pregunto si ya existe la empresa
-
-			//if ((i >= 0)) {// si ya existe la empresa
+// si ya existe la empresa
 			String nombreEmpresa=lineasArchivo.get(x).getNombreEmpresa();
 			if(getEmpresas().stream().filter(unaE-> unaE.getNombre().equals(nombreEmpresa)).findFirst().isPresent()){
 				// creo una nueva cuenta
@@ -216,24 +194,7 @@ public class Traductor {
 		}
 
 	}
-    
-	
-	public ArrayList<Empresa> filtrarCuentasEnUnPeriodo(ArrayList<Empresa> empresas, int periodos) {
-		for (int i = 0; i < empresas.size(); i++) {
-			for (int x = periodos; x < 0; x--){
-				for (int j = 0; j < empresas.get(i).getCuentas().size(); j++) {
-					if (!(empresas.get(i).getCuentas().get(j).getFecha().equals(String.valueOf(2016 - x)))) {
-						empresas.get(i).getCuentas().remove(j);
-						j = j - 1;
-					}
-
-				}
-			}
-		}
-
-		return empresas;
-
-	}
+  
 
 	public ArrayList<Empresa> getEmpresas() {
 		return empresas;
