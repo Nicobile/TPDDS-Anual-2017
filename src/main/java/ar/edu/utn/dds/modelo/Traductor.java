@@ -1,6 +1,7 @@
 package ar.edu.utn.dds.modelo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import antlr.ExpressionParser;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
@@ -13,7 +14,7 @@ import ar.edu.utn.dds.procesarArchivos.LineaArchivo;
 public class Traductor {
 
 	// creo lista empresas
-	private ArrayList<Empresa> empresas = new ArrayList<Empresa>();
+	private List<Empresa> empresas = new ArrayList<Empresa>();
 
 	private ArrayList<Indicador> indicadores = new ArrayList<Indicador>();
 
@@ -41,7 +42,7 @@ public class Traductor {
 		return operando.calcular(this.obtenerEmpresa(empresa), fecha);
 	}
 
-	public ArrayList<Double> calcularAListaDeEmpresas(ArrayList<Empresa> empresas, int periodos, Indicador i)
+	public ArrayList<Double> calcularAListaDeEmpresas(List<Empresa> empresas, int periodos, Indicador i)
 			throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha,
 			NoSeEncuentraElIndicador {
 		ArrayList<Double> lista = new ArrayList<Double>();
@@ -60,7 +61,7 @@ public class Traductor {
 		return lista;
 	}
 
-	public int eliminarEmpresa(ArrayList<Empresa> empresas, int j) {
+	public int eliminarEmpresa(List<Empresa> empresas, int j) {
 		empresas.remove(j);
 
 		if (j == 0) {
@@ -70,22 +71,17 @@ public class Traductor {
 		}
 		return j;
 	}
-	
-	
-
-	public ArrayList<Empresa> compararAListaDeEmpresas(ArrayList<Empresa> empresas, int periodos, Indicador i,
-			char criterio) throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha,
+	public List<Empresa> empresasConIndicadorCreciente(List<Empresa> empresas, int periodos, Indicador i) throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha,
 			NoSeEncuentraElIndicador {
 
 		for (int j = 0; j < empresas.size(); j++) {
 			int valorInicial = 2016 - periodos;
-			double periodoAnterior = (this.calcular(empresas.get(j).getNombre(), String.valueOf(valorInicial),
-					i.getNombre()));
+			double periodoAnterior = (this.calcular(empresas.get(j).getNombre(), String.valueOf(valorInicial),i.getNombre()));
 
 			for (int x = periodos; x > 0; x--) {
 				int valor = 2016 - x;
 
-				if (criterio == '>') {
+				{
 					if (periodoAnterior <= this.calcular(empresas.get(j).getNombre(), String.valueOf(valor),
 							i.getNombre())) {
 
@@ -98,11 +94,22 @@ public class Traductor {
 
 						return empresas;
 
-					}
-
+					}}
 				}
+		}
+		return empresas;}
 
-				if (criterio == '<') {
+	public List<Empresa> empresasConIndicadorDecreciente(List<Empresa> empresas, int periodos, Indicador i) throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha,
+	NoSeEncuentraElIndicador{
+
+		for (int j = 0; j < empresas.size(); j++) {
+			int valorInicial = 2016 - periodos;
+			double periodoAnterior = (this.calcular(empresas.get(j).getNombre(), String.valueOf(valorInicial),
+					i.getNombre()));
+
+			for (int x = periodos; x > 0; x--) {
+				int valor = 2016 - x;
+
 					if (periodoAnterior >= this.calcular(empresas.get(j).getNombre(), String.valueOf(valor),
 							i.getNombre())) {
 						periodoAnterior = this.calcular(empresas.get(j).getNombre(), String.valueOf(valor),
@@ -115,12 +122,14 @@ public class Traductor {
 						return empresas;
 
 					}
-				}
+				
 
 			}
 		}
-		return empresas;
-	}
+		return empresas;}
+	
+
+	
 
 	public Indicador buscarIndicador(String ind) throws NoSeEncuentraElIndicador {
 
@@ -196,7 +205,7 @@ public class Traductor {
 	}
   
 
-	public ArrayList<Empresa> getEmpresas() {
+	public List<Empresa> getEmpresas() {
 		return empresas;
 	}
 

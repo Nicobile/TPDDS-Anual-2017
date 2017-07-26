@@ -1,6 +1,8 @@
 package ar.edu.utn.dds.modelo;
 
+
 import java.util.ArrayList;
+import java.util.List;
 
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicador;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
@@ -18,9 +20,7 @@ public class Creciente extends ValorCalculable {
 			NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
 
 		ArrayList<PuntajeEmpresa> listaEmpresas = super.calcularValor(periodos);
-		ArrayList<Empresa> empresas = getTraductor().compararAListaDeEmpresas(getEmpresas(), periodos, getIndicador(),
-				'>');
-
+		List<Empresa> empresas= getTraductor().empresasConIndicadorCreciente(getEmpresas(), periodos,getIndicador());		
 		return eliminarEmpresasQueNoCumplenCondicion(listaEmpresas, empresas);
 
 	}

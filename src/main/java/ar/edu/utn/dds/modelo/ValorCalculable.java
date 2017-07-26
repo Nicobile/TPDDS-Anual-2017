@@ -1,6 +1,8 @@
 package ar.edu.utn.dds.modelo;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicador;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
@@ -15,7 +17,7 @@ public abstract class ValorCalculable {
 /*de alguna forma en la interfaz a la hora qeu ingresan el indicador deberia buscarlo con el traductor*/
 	private Indicador indicador;
 	private Traductor traductor;
-	private ArrayList<Empresa> empresas;
+	private List<Empresa> empresas;
 	
 	
 
@@ -25,8 +27,9 @@ public abstract class ValorCalculable {
 		this.setTraductor(traductor);
 	}
 	public ArrayList<PuntajeEmpresa> calcularValor(int periodos)throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador{
-			
-		 empresas= new ArrayList<Empresa>(traductor.getEmpresas());	
+			//puede fallar
+		empresas=  traductor.getEmpresas().stream().collect(Collectors.toList());
+		
 		ArrayList<PuntajeEmpresa> listaEmpresa= new ArrayList<PuntajeEmpresa> ();
 	
 		for (int i=0;i<empresas.size();i++){
@@ -47,7 +50,7 @@ public abstract class ValorCalculable {
 	      return listaEmpresas;
 	}
 
-	public ArrayList<PuntajeEmpresa> eliminarEmpresasQueNoCumplenCondicion(ArrayList<PuntajeEmpresa> listaEmpresas, ArrayList<Empresa> empresas){
+	public ArrayList<PuntajeEmpresa> eliminarEmpresasQueNoCumplenCondicion(ArrayList<PuntajeEmpresa> listaEmpresas, List<Empresa> empresas){
 
 		
 listaEmpresas.removeIf(unE-> ! empresas.stream().filter(unaE->unaE.getNombre().equals(unE.getNombreEmpresa())).findFirst().isPresent());
@@ -61,7 +64,7 @@ listaEmpresas.removeIf(unE-> ! empresas.stream().filter(unaE->unaE.getNombre().e
 	
 	
 	
-	public ArrayList<Empresa> getEmpresas() {
+	public List<Empresa> getEmpresas() {
 		return empresas;
 	}
 	public void setEmpresas(ArrayList<Empresa> empresas) {
