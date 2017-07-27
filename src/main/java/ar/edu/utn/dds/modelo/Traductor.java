@@ -2,13 +2,14 @@ package ar.edu.utn.dds.modelo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import antlr.ExpressionParser;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 
-import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicador;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFechaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.procesarArchivos.LineaArchivo;
 
 public class Traductor {
@@ -35,16 +36,16 @@ public class Traductor {
 
 	}
 
-	public double calcular(String empresa, String fecha, String nombreIndicador) throws NoSeEncuentraLaEmpresa,
-			NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
+	public double calcular(String empresa, String fecha, String nombreIndicador) throws NoSeEncuentraLaEmpresaException,
+			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException, NoSeEncuentraElIndicadorException {
 		Indicador i = this.buscarIndicador(nombreIndicador);
 		Operando operando = parser.parse(i.getOperacion(), indicadores);
 		return operando.calcular(this.obtenerEmpresa(empresa), fecha);
 	}
-
+//HAY QUE MODIFICAR DEPENDIENDO DE COMO TRABAJEN LOS PERIODOS
 	public ArrayList<Double> calcularAListaDeEmpresas(List<Empresa> empresas, int periodos, Indicador i)
-			throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha,
-			NoSeEncuentraElIndicador {
+			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException,
+			NoSeEncuentraElIndicadorException {
 		ArrayList<Double> lista = new ArrayList<Double>();
 		for (int j = 0; j < empresas.size(); j++) {
 
@@ -71,8 +72,9 @@ public class Traductor {
 		}
 		return j;
 	}
-	public List<Empresa> empresasConIndicadorCreciente(List<Empresa> empresas, int periodos, Indicador i) throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha,
-			NoSeEncuentraElIndicador {
+	// ESTOS DOS METODOS HAY UQE ESPERAR A VER COMO TRABAJAN LOS PERIODOS
+	public List<Empresa> empresasConIndicadorCreciente(List<Empresa> empresas, int periodos, Indicador i) throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException,
+			NoSeEncuentraElIndicadorException {
 
 		for (int j = 0; j < empresas.size(); j++) {
 			int valorInicial = 2016 - periodos;
@@ -99,8 +101,8 @@ public class Traductor {
 		}
 		return empresas;}
 
-	public List<Empresa> empresasConIndicadorDecreciente(List<Empresa> empresas, int periodos, Indicador i) throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha,
-	NoSeEncuentraElIndicador{
+	public List<Empresa> empresasConIndicadorDecreciente(List<Empresa> empresas, int periodos, Indicador i) throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException,
+	NoSeEncuentraElIndicadorException{
 
 		for (int j = 0; j < empresas.size(); j++) {
 			int valorInicial = 2016 - periodos;
@@ -131,14 +133,15 @@ public class Traductor {
 
 	
 
-	public Indicador buscarIndicador(String ind) throws NoSeEncuentraElIndicador {
-
-		if (this.getIndicadores().stream().filter(unInd -> unInd.getNombre().equals(ind)).findFirst().isPresent()) {
-
-			return this.getIndicadores().stream().filter(unIndicador -> unIndicador.getNombre().equals(ind)).findFirst()
-					.get();
+	public Indicador buscarIndicador(String ind) throws NoSeEncuentraElIndicadorException {
+		try{
+			return getIndicadores().stream().filter(unIndicador -> unIndicador.getNombre().equals(ind)).findFirst()
+			.get();
+			
 		}
-		throw new NoSeEncuentraElIndicador("No se encontro en la lista de indicadores el indicador especificado");
+
+		catch(NoSuchElementException e){
+		throw new NoSeEncuentraElIndicadorException("No se encontro en la lista de indicadores el indicador especificado");}
 
 	}
 
@@ -155,51 +158,54 @@ public class Traductor {
 	/*----------------------------------------------------------------------------*/
 
 
-	public Empresa obtenerEmpresa(String nombreEmpresa) throws NoSeEncuentraLaEmpresa {
-		if (this.getEmpresas().stream().filter(unaEmpresa -> unaEmpresa.getNombre().equals(nombreEmpresa)).findFirst()
-				.isPresent()) {
-
-			return this.getEmpresas().stream().filter(unaEmpresa -> unaEmpresa.getNombre().equals(nombreEmpresa))
-					.findFirst().get();
-
+	public Empresa obtenerEmpresa(String nombreEmpresa) throws NoSeEncuentraLaEmpresaException {
+		try{
+			return getEmpresas().stream().filter(unaEmpresa -> unaEmpresa.getNombre().equals(nombreEmpresa)).findFirst().get();
+		
 		}
-		throw new NoSeEncuentraLaEmpresa("No se encontro la empresa especificada");
+		catch( NoSuchElementException e){
+			throw new NoSeEncuentraLaEmpresaException("No se encontro la empresa especificada");
+		}
+		
+	
+
+		
 	}
 
 	public double consultarValorCuenta(String nombreEmpresa, String nombreCuenta, String fecha)
-			throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha {
+			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException {
 
-		Empresa e= this.obtenerEmpresa(nombreEmpresa);
-		return getEmpresas().stream().filter(unaE-> unaE.getNombre().equals(e.getNombre())).findFirst().get().obtenerValorDeCuenta(nombreCuenta, fecha);
+		Empresa e= obtenerEmpresa(nombreEmpresa);
+		return e.obtenerValorDeCuenta(nombreCuenta, fecha);
 	}
 
-	public void armarListaEmpresas(ArrayList<LineaArchivo> lineasArchivo) throws NoSeEncuentraLaEmpresa {
+	public void armarListaEmpresas(ArrayList<LineaArchivo> lineasArchivo) throws NoSeEncuentraLaEmpresaException {
 
 		// recorro la lista que contiene todos los datos
 		for (int x = 0; x < lineasArchivo.size(); x++) {
 // si ya existe la empresa
 			String nombreEmpresa=lineasArchivo.get(x).getNombreEmpresa();
-			if(getEmpresas().stream().filter(unaE-> unaE.getNombre().equals(nombreEmpresa)).findFirst().isPresent()){
+			try{
+				Empresa empresAux = getEmpresas().stream().filter(unaE-> unaE.getNombre().equals(nombreEmpresa)).findFirst().get();
+			
 				// creo una nueva cuenta
-				Cuenta cuenta = new Cuenta(lineasArchivo.get(x).getNombreCuenta(),
-						lineasArchivo.get(x).getValorCuenta(), lineasArchivo.get(x).getFecha());
+				Cuenta cuenta = new Cuenta(lineasArchivo.get(x).getNombreCuenta(),lineasArchivo.get(x).getValorCuenta(), lineasArchivo.get(x).getFecha());
 
-				getEmpresas().stream().filter(unaE-> unaE.getNombre().equals(nombreEmpresa)).findFirst().get().getCuentas().add(cuenta);
+				empresAux.agregarCuenta(cuenta);
 
-			}
-			// la empresa no existia entonces la creo
-			else {
-
-				ArrayList<Cuenta> cuentas = new ArrayList<Cuenta>();
-				Empresa empresa = new Empresa(lineasArchivo.get(x).getNombreEmpresa(), cuentas);
+			}catch(NoSuchElementException e){
+				
+				Empresa empresa = new Empresa(lineasArchivo.get(x).getNombreEmpresa());
 				// creo la cuenta de la nueva empresa
 				Cuenta cuenta = new Cuenta(lineasArchivo.get(x).getNombreCuenta(),
 						lineasArchivo.get(x).getValorCuenta(), lineasArchivo.get(x).getFecha());
-				this.getEmpresas().add(empresa);// agrego la empresa a la lista
+				getEmpresas().add(empresa);// agrego la empresa a la lista
 												// de
 				// empresas
-				empresa.getCuentas().add(cuenta);
+				empresa.agregarCuenta(cuenta);
+				
 			}
+			
 		}
 
 	}

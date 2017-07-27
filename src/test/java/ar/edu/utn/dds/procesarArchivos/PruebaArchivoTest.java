@@ -11,9 +11,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFechaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.modelo.Traductor;
 import ar.edu.utn.dds.procesarArchivos.LectorArchivo;
 
@@ -25,7 +25,7 @@ public class PruebaArchivoTest {
 
 	@Before
 
-	public void initLectura() throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresa {
+	public void initLectura() throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresaException {
 		this.t = new Traductor();
 		this.lector = new LectorArchivo(t);
 		this.lector.leerArchivo(this.getClass().getResource("/Datos.txt").getFile());
@@ -44,8 +44,8 @@ public class PruebaArchivoTest {
 
 	@Test
 
-	public void verficarCuentasEmpresa() throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresa,
-			NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha {
+	public void verficarCuentasEmpresa() throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresaException,
+			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException {
 
 		assertEquals(t.obtenerEmpresa("Facebook").getCuentas().size(), 79);
 		assertEquals(t.consultarValorCuenta("CocaCola", "c_IngresoNetoEnOperacionesDiscontinuadas", "2015"), 452,
@@ -56,16 +56,16 @@ public class PruebaArchivoTest {
 
 	@Test
 
-	public void noSeEncuentraCuenta() throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta {
-		thrown.expect(NoSeEncuentraLaCuenta.class);
+	public void noSeEncuentraCuenta() throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException {
+		thrown.expect(NoSeEncuentraLaCuentaException.class);
 		t.obtenerEmpresa("Pepsico").buscarUnaCuenta("c_cuentaA");
 	}
 
 	@Test
 
 	public void noSeEncuentraCuentaEnUnaFecha()
-			throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha {
-		thrown.expect(NoSeEncuentraLaCuentaEnEsaFecha.class);
+			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException {
+		thrown.expect(NoSeEncuentraLaCuentaEnEsaFechaException.class);
 		this.t.obtenerEmpresa("Pepsico").buscarUnaCuentaPorFecha("c_IngresoNetoEnOperacionesContinuas", "2003");
 	}
 

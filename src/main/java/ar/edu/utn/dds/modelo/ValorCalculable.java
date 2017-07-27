@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicador;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFechaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 
 public abstract class ValorCalculable {
 	
@@ -26,21 +26,17 @@ public abstract class ValorCalculable {
 		this.setIndicador(indicador);
 		this.setTraductor(traductor);
 	}
-	public ArrayList<PuntajeEmpresa> calcularValor(int periodos)throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador{
-			//puede fallar
+	public ArrayList<PuntajeEmpresa> calcularValor(int periodos)throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException, NoSeEncuentraElIndicadorException{
+		
 		empresas=  traductor.getEmpresas().stream().collect(Collectors.toList());
 		
 		ArrayList<PuntajeEmpresa> listaEmpresa= new ArrayList<PuntajeEmpresa> ();
-	
-		for (int i=0;i<empresas.size();i++){
-			PuntajeEmpresa elementoLista=new PuntajeEmpresa();
-			elementoLista.setNombreEmpresa(empresas.get(i).getNombre());
-			listaEmpresa.add(elementoLista);
-		}
+		
+		empresas.stream().forEach(unaE-> listaEmpresa.add(new PuntajeEmpresa(unaE.getNombre())));
 		
 		return listaEmpresa;
 	}
-	public ArrayList<PuntajeEmpresa> sumatoriaIndicadores(ArrayList<PuntajeEmpresa> listaEmpresas, int periodos) throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador{
+	public ArrayList<PuntajeEmpresa> sumatoriaIndicadores(ArrayList<PuntajeEmpresa> listaEmpresas, int periodos) throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException, NoSeEncuentraElIndicadorException{
 		ArrayList<Double> lista = new ArrayList<Double>();
 		lista = this.getTraductor().calcularAListaDeEmpresas(getEmpresas(), periodos, getIndicador());
 

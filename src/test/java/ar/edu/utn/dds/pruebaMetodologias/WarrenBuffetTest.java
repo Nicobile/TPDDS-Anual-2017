@@ -12,11 +12,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicador;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
-import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicion;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFechaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
+import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 import ar.edu.utn.dds.modelo.Condicion;
 import ar.edu.utn.dds.modelo.Creciente;
 import ar.edu.utn.dds.modelo.Longevidad;
@@ -34,7 +34,7 @@ public class WarrenBuffetTest {
 	private Metodologia meto;
 	
 	@Before
-	public void inicializacion() throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresa, NoSeEncuentraElIndicador, ScriptException, NoSePudoOrdenarLaCondicion, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha {
+	public void inicializacion() throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresaException, NoSeEncuentraElIndicadorException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException {
 		this.t = new Traductor();
 		this.lector = new LectorArchivo(t);
 		this.meto = new Metodologia("WarrenBufet");
@@ -58,13 +58,13 @@ public class WarrenBuffetTest {
 	
 	
 	@Test 
-	public void pruebaHayEmpresasQueCumplen() throws NoSeEncuentraLaEmpresa, ScriptException, NoSePudoOrdenarLaCondicion, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador{
+	public void pruebaHayEmpresasQueCumplen() throws NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException, NoSeEncuentraElIndicadorException{
 		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
 		assertTrue(empresas.size() > 0);
 	}
 	
 	@Test
-	public void seDebeInvertirEnFacebook() throws NoSeEncuentraLaEmpresa, ScriptException, NoSePudoOrdenarLaCondicion, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador{
+	public void seDebeInvertirEnFacebook() throws NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException, NoSeEncuentraElIndicadorException{
 		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
 		assertEquals(empresas.get(3).getNombreEmpresa(), "Pepsico");
 		assertEquals(empresas.get(2).getNombreEmpresa(), "Twitter");

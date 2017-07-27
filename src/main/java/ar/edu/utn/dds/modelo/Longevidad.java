@@ -2,10 +2,10 @@ package ar.edu.utn.dds.modelo;
 
 import java.util.ArrayList;
 
-import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicador;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFechaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 
 public class Longevidad extends ValorCalculable {
 
@@ -14,11 +14,11 @@ public class Longevidad extends ValorCalculable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ArrayList<PuntajeEmpresa> calcularValor(int periodos) throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta,
-			NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
+	public ArrayList<PuntajeEmpresa> calcularValor(int periodos) throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
+			NoSeEncuentraLaCuentaEnEsaFechaException, NoSeEncuentraElIndicadorException {
 
 		ArrayList<PuntajeEmpresa> listaEmpresas = super.calcularValor(periodos);
-
+//CREO QUE LA LINGEVIDAD ES TRIBUTO DE LA EMPRESAENTONCES OBTENTER... NO HARIA FALTA
 		for (int i = 0; i < getTraductor().getEmpresas().size(); i++) {
 
 			int x = getTraductor().getEmpresas().get(i).obtenerLaFechaDeLaCuentaMasAntigua();

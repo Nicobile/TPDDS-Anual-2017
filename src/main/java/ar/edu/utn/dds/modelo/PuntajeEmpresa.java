@@ -7,7 +7,12 @@ private double resultadoDeAplicarCondicion;
 
 
 
-public void suma(int v){
+public PuntajeEmpresa(String nombreEmpresa) {
+	super();
+	this.nombreEmpresa = nombreEmpresa;
+}
+
+	public void suma(int v){
 	puntaje=puntaje+v;	
 }
 public String getNombreEmpresa() {

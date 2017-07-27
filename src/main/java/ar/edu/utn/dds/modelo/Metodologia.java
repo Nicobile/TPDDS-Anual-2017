@@ -3,94 +3,109 @@ package ar.edu.utn.dds.modelo;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
+
 import javax.script.ScriptException;
 
-import ar.edu.utn.dds.excepciones.NoHayEmpresasQueCumplanLaCondicion;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicador;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
-import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicion;
-
+import ar.edu.utn.dds.excepciones.NoHayEmpresasQueCumplanLaCondicionException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFechaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
+import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 
 public class Metodologia {
 	private ArrayList<Condicion> condicionesDeMetodologia = new ArrayList<Condicion>();
 	private String nombre;
 	private ArrayList<PuntajeEmpresa> puntajeEmpresas = new ArrayList<PuntajeEmpresa>();
 
-	private int buscarEmpresa(String nomE, ArrayList<PuntajeEmpresa> lista) throws NoSeEncuentraLaEmpresa {
+	private int buscarEmpresa(String nomE, List<PuntajeEmpresa> lista) throws NoSeEncuentraLaEmpresaException {
+
 		for (int i = 0; i < lista.size(); i++) {
+
 			if (lista.get(i).getNombreEmpresa().equals(nomE)) {
 				return i;
 			}
 		}
-		
+
 		return -1;
 	}
 
-	private void aplicarCondicion(Condicion condicion)
-			throws NoSeEncuentraLaEmpresa, ScriptException, NoSePudoOrdenarLaCondicion, NoSeEncuentraLaCuenta,
-			NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
-		ArrayList<PuntajeEmpresa> listaDeAplicarCondicion = new ArrayList<PuntajeEmpresa>();
+	private void aplicarCondicion(Condicion condicion) throws NoSeEncuentraLaEmpresaException, ScriptException,
+			NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException,
+			NoSeEncuentraLaCuentaEnEsaFechaException, NoSeEncuentraElIndicadorException {
+		List<PuntajeEmpresa> listaDeAplicarCondicion = new ArrayList<PuntajeEmpresa>();
 		listaDeAplicarCondicion = condicion.aplicar();
 		if (puntajeEmpresas.isEmpty()) {
+
 			for (int i = 0; i < listaDeAplicarCondicion.size(); i++) {
 				puntajeEmpresas.add(listaDeAplicarCondicion.get(i));
 				puntajeEmpresas.get(i).suma(i);
-
 			}
 		} else {
 			if (!condicion.getFiltro()) {
-				
+
 				eliminarDeListaDePuntajesSiNoCumplioLaCondicion(listaDeAplicarCondicion);
-				
+
 				sumarPuntosAPuntajesEmpresas(listaDeAplicarCondicion);
-				
+
 			} else {
 				/* tengo que dejar solo quellas que cumplen la condicion */
-				
+
 				eliminarDeListaDePuntajesSiNoCumplioLaCondicion(listaDeAplicarCondicion);
-		
 
 			}
 
 		}
 
 	}
+	// esta funcion suma los puntos a las empresas segun la posicion que ocupan
+	// en la lista..... por eso trabajo con los for y si no encuentra la empresa
+	// no hace nada pero no enci
 
-	private void sumarPuntosAPuntajesEmpresas(ArrayList<PuntajeEmpresa> lista) throws NoSeEncuentraLaEmpresa {
+	private void sumarPuntosAPuntajesEmpresas(List<PuntajeEmpresa> lista) throws NoSeEncuentraLaEmpresaException {
+
 		for (int i = 0; i < lista.size(); i++) {
-			int j;			
+			int j;
 			j = this.buscarEmpresa(lista.get(i).getNombreEmpresa(), puntajeEmpresas);
-			if ( j!=-1){
-			
-			puntajeEmpresas.get(j).suma(buscarEmpresa(lista.get(i).getNombreEmpresa(), lista));}
+
+			// si encuentra la empresa suma......
+			try {
+				puntajeEmpresas.get(j).suma(buscarEmpresa(lista.get(i).getNombreEmpresa(), lista));
+			}
+			// si no encuentra la empresa no hago nada, despues se elimina, ams
+			// adelante
+			catch (IndexOutOfBoundsException e) {
+			}
 
 		}
 	}
 
-	private void eliminarDeListaDePuntajesSiNoCumplioLaCondicion(ArrayList<PuntajeEmpresa> lista) {
+	private void eliminarDeListaDePuntajesSiNoCumplioLaCondicion(List<PuntajeEmpresa> lista) {
 
-		puntajeEmpresas.removeIf(unElementoDeMetodologia-> ! lista.stream().filter(unElementoQueCumpleUnaCondicion->unElementoQueCumpleUnaCondicion.getNombreEmpresa().equals(unElementoDeMetodologia.getNombreEmpresa())).findFirst().isPresent());
-		
-	
+		puntajeEmpresas
+				.removeIf(unElementoDeMetodologia -> !lista
+						.stream().filter(unElementoQueCumpleUnaCondicion -> unElementoQueCumpleUnaCondicion
+								.getNombreEmpresa().equals(unElementoDeMetodologia.getNombreEmpresa()))
+						.findFirst().isPresent());
+
 	}
 
-	public ArrayList<PuntajeEmpresa> aplicarMetodologia()
-			throws NoSeEncuentraLaEmpresa, ScriptException, NoSePudoOrdenarLaCondicion, NoSeEncuentraLaCuenta,
-			NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
+	public ArrayList<PuntajeEmpresa> aplicarMetodologia() throws NoSeEncuentraLaEmpresaException, ScriptException,
+			NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException,
+			NoSeEncuentraLaCuentaEnEsaFechaException, NoSeEncuentraElIndicadorException {
 		Iterator<Condicion> condiciones = condicionesDeMetodologia.iterator();
 		while (condiciones.hasNext()) {
-			
-			this.aplicarCondicion(condiciones.next());// aplico condicion
+
+			aplicarCondicion(condiciones.next());// aplico condicion
 
 		}
 
 		Collections.sort(puntajeEmpresas,
 				(p1, p2) -> new Integer(p1.getPuntaje()).compareTo(new Integer(p2.getPuntaje())));
-		
+
 		if (puntajeEmpresas.isEmpty()) {
-			throw new NoHayEmpresasQueCumplanLaCondicion("No hay empresas que cumplan con la metodologia");
+			throw new NoHayEmpresasQueCumplanLaCondicionException("No hay empresas que cumplan con la metodologia");
 		}
 		return puntajeEmpresas;
 
@@ -104,9 +119,7 @@ public class Metodologia {
 		this.nombre = nombre;
 	}
 
-	
-	
-	public void agregarCondicion(Condicion cond){
+	public void agregarCondicion(Condicion cond) {
 		this.getCondicionesDeMetodologia().add(cond);
 	}
 

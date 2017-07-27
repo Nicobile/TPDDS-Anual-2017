@@ -3,10 +3,10 @@ package ar.edu.utn.dds.modelo;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicador;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFechaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 
 public class Mediana extends ValorCalculable {
 
@@ -15,8 +15,9 @@ public class Mediana extends ValorCalculable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ArrayList<PuntajeEmpresa> calcularValor(int periodos) throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta,
-			NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
+	public ArrayList<PuntajeEmpresa> calcularValor(int periodos)
+			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
+			NoSeEncuentraLaCuentaEnEsaFechaException, NoSeEncuentraElIndicadorException {
 		ArrayList<PuntajeEmpresa> listaEmpresas = super.calcularValor(periodos);
 
 		Double[] array = new Double[periodos];

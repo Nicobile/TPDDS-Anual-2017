@@ -2,22 +2,27 @@ package ar.edu.utn.dds.modelo;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+
+import java.util.stream.Collectors;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
-import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicador;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
-import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicion;
+import ar.edu.utn.dds.excepciones.EntradaDeDatosErroneaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFechaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
+import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 
 public class Condicion {
 
 	private ValorCalculable ladoIzq;
 	private Double ladoDer = null;/*
-									 * lado der SIEMPRE va a ser un numero PUEDE							 * NO INGRESARSE
+									 * lado der SIEMPRE va a ser un numero PUEDE
+									 * * NO INGRESARSE
 									 */
 	private String comparador = null;/* PUEDE NO INGRESARSE */
 	private int periodos;
@@ -25,14 +30,13 @@ public class Condicion {
 									// ingreesa en la interfaz grafica
 	private Boolean filtro;
 	/*
-	 * 3 formas de ingresar por interfaz
-	 *  lado izquierdo derecho  comparador y periodos 
-	 * lado izquierdo periodos y criterio 
-	 *  lado izquierdo y periodos
+	 * 3 formas de ingresar por interfaz lado izquierdo derecho comparador y
+	 * periodos lado izquierdo periodos y criterio lado izquierdo y periodos
 	 */
 
-	public ArrayList<PuntajeEmpresa> aplicar() throws ScriptException, NoSePudoOrdenarLaCondicion,
-			NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha, NoSeEncuentraElIndicador {
+	public List<PuntajeEmpresa> aplicar() throws ScriptException, NoSePudoOrdenarLaCondicionException,
+			NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException,
+			NoSeEncuentraElIndicadorException {
 		/*
 		 * ordena a las empresas segun cumplan la condicion
 		 */ setFiltro(false);
@@ -45,7 +49,7 @@ public class Condicion {
 							 * izq y los guarda en la lista SIN ORDENAR
 							 */
 		if ((ladoDer == null && comparador != null) || (comparador == null && ladoDer != null)) {
-			System.out.println("Error");/* dsps crear el error */
+			throw new EntradaDeDatosErroneaException("Se ingresaron mal los datos para armar la condicion");
 		}
 		if (ladoDer == null && comparador == null) {
 			/*
@@ -55,8 +59,8 @@ public class Condicion {
 			if (criterio != null) {
 
 				if (criterio.equals("mayor")) {
-				
-					/* ordena de  mayor a menor */
+
+					/* ordena de mayor a menor */
 					Collections.sort(valoresAizq, (v1, v2) -> new Double(v1.getResultadoDeAplicarCondicion())
 							.compareTo(new Double(v2.getResultadoDeAplicarCondicion())));
 					// ordeno de mayor a menor
@@ -64,7 +68,7 @@ public class Condicion {
 					return valoresAizq;
 				}
 				if (criterio.equals("menor")) {
-				
+
 					Collections.sort(valoresAizq, (v1, v2) -> new Double(v1.getResultadoDeAplicarCondicion())
 							.compareTo(new Double(v2.getResultadoDeAplicarCondicion())));
 
@@ -86,20 +90,20 @@ public class Condicion {
 			ScriptEngineManager manager = new ScriptEngineManager();
 			ScriptEngine interprete = manager
 					.getEngineByName("js"); /* con esto armo la ecuacion */
-			ArrayList<PuntajeEmpresa> empresasQueCumplenCond = new ArrayList<PuntajeEmpresa>();
 			/* y el lado derecho siempre van a hacer los mismos de la formula */
 			String ladoder = String.valueOf(ladoDer);
-			for (int i = 0; i < valoresAizq.size(); i++) {
-				/* aca hago esto para armar las formulas */
-				String ladoizq = String.valueOf(valoresAizq.get(i).getResultadoDeAplicarCondicion());
-				/* armo la formula para filtrar */
-				String formula = ladoizq + comparador + ladoder;
-				if ((boolean) interprete.eval(formula)) {
-					/* con esto evaluo la expresion retorna true o false */
-					/* si cumple antonces agrego a la nueva lista */
-					empresasQueCumplenCond.add(valoresAizq.get(i));
+
+			List<PuntajeEmpresa> empresasQueCumplenCond = valoresAizq.stream().filter(unV -> {
+				try {
+					return (boolean) interprete
+							.eval((String.valueOf(unV.getResultadoDeAplicarCondicion())) + comparador + ladoder);
+				} catch (ScriptException e) {
+
+					e.printStackTrace();
 				}
-			}
+				return false;
+			}).collect(Collectors.toList());
+
 			return empresasQueCumplenCond;
 
 		}

@@ -1,10 +1,11 @@
 package ar.edu.utn.dds.modelo;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuenta;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFecha;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresa;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFechaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 
 public class Empresa {
 
@@ -18,17 +19,24 @@ public class Empresa {
 		this.cuentas = cuentas;
 	}
 
-	public Cuenta buscarUnaCuenta(String nombreDeCuenta) throws NoSeEncuentraLaCuenta {
+	public Cuenta buscarUnaCuenta(String nombreDeCuenta) throws NoSeEncuentraLaCuentaException {
+try{
+	return this.getCuentas().stream().filter(unaCuenta -> unaCuenta.getNombre().equals(nombreDeCuenta))
+			.findFirst().get();
+}
+	catch (NoSuchElementException e){
 
-		if (this.getCuentas().stream().filter(unaCuenta -> unaCuenta.getNombre().equals(nombreDeCuenta)).findFirst()
-				.isPresent()) {
+		throw new NoSeEncuentraLaCuentaException("No se encuentra la cuenta");}
 
-			return this.getCuentas().stream().filter(unaCuenta -> unaCuenta.getNombre().equals(nombreDeCuenta))
-					.findFirst().get();
-		}
+	}
+	public void agregarCuenta(Cuenta cuenta){
+		getCuentas().add(cuenta);
+	}
 
-		throw new NoSeEncuentraLaCuenta("No se encuentra la cuenta");
-
+	public Empresa(String nombre) {
+		super();
+		this.nombre = nombre;
+		this.cuentas= new ArrayList<Cuenta>();
 	}
 
 	@Override
@@ -63,32 +71,35 @@ public class Empresa {
 	}
 
 	public Cuenta buscarUnaCuentaPorFecha(String nombreDeCuenta, String fecha)
-			throws NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha {
-		if (this.getCuentas().stream()
-				.filter(unaCuenta -> unaCuenta.getNombre().equals(nombreDeCuenta) && unaCuenta.getFecha().equals(fecha))
-				.findFirst().isPresent()) {
-			return this.getCuentas().stream().filter(
-					unaCuenta -> unaCuenta.getNombre().equals(nombreDeCuenta) && unaCuenta.getFecha().equals(fecha))
-					.findFirst().get();
-		} else {
-			if (!this.getCuentas().stream().filter(unaCuenta -> unaCuenta.getNombre().equals(nombreDeCuenta))
-					.findFirst().isPresent()) {
-				throw new NoSeEncuentraLaCuenta("No se encuentra la cuenta");
-			} else {
-				throw new NoSeEncuentraLaCuentaEnEsaFecha(
+			throws NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException {
+		try{return this.getCuentas().stream().filter(
+				unaCuenta -> unaCuenta.getNombre().equals(nombreDeCuenta) && unaCuenta.getFecha().equals(fecha))
+				.findFirst().get();}
+		catch (NoSuchElementException e){
+			try{
+				getCuentas().stream().filter(unaCuenta -> unaCuenta.getNombre().equals(nombreDeCuenta))
+				.findFirst().get();
+			}
+			// no encontre la cuenta
+			catch (NoSuchElementException x){
+				throw new NoSeEncuentraLaCuentaException("No se encuentra la cuenta");
+			}
+			// no encontre una cuenta en esa fecha
+		
+				throw new NoSeEncuentraLaCuentaEnEsaFechaException(
 						"No se encontro para la empresa una cuenta en la fecha especificada ");
 			}
 		}
 
-	}
+	
 
 	public void filtraCuentasEnPeriodo(String p) {
-		this.getCuentas().stream().filter(unaC -> unaC.getFecha().equals(p));
+		getCuentas().stream().filter(unaC -> unaC.getFecha().equals(p));
 	}
 
 	public double obtenerValorDeCuenta(String nombreDeCuenta, String fecha)
-			throws NoSeEncuentraLaEmpresa, NoSeEncuentraLaCuenta, NoSeEncuentraLaCuentaEnEsaFecha {
-		return this.buscarUnaCuentaPorFecha(nombreDeCuenta, fecha).getValor();
+			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException {
+		return buscarUnaCuentaPorFecha(nombreDeCuenta, fecha).getValor();
 
 	}
 
@@ -107,7 +118,7 @@ public class Empresa {
 	public void setCuentas(ArrayList<Cuenta> cuentas) {
 		this.cuentas = cuentas;
 	}
-
+// Este metodo habria que sacarlo porque creo que la LONGEVIDAD ES TRIBUTO DE LA EMPRESA
 	public int obtenerLaFechaDeLaCuentaMasAntigua() {
 		int fechaMasAntigua = 0;
 		int xx = Integer.valueOf(this.getCuentas().get(0).getFecha());
