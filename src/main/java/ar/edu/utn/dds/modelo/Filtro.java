@@ -10,9 +10,9 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 
-public class CondicionFiltro extends Condicion {
+public class Filtro extends Condicion {
 
-	public CondicionFiltro(ValorCalculable ladoIzq, int periodos) {
+	public Filtro(ValorCalculable ladoIzq, int periodos) {
 		super.setLadoIzq(ladoIzq);
 		super.setPeriodos(periodos);
 	}

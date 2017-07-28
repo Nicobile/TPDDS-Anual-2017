@@ -12,7 +12,7 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 
-public class CondicionFiltraYOrdenaAplicandoCriterioOrdenamiento extends Condicion {
+public class FiltraYOrdenaAplicandoCriterioOrdenamiento extends Condicion {
 
 
 	private String criterioOrdenamiento;// mayorAmenor o menorAmayor, SON
@@ -52,7 +52,7 @@ public class CondicionFiltraYOrdenaAplicandoCriterioOrdenamiento extends Condici
 
 	}
 
-	public CondicionFiltraYOrdenaAplicandoCriterioOrdenamiento(ValorCalculable ladoIzq, int periodos, String criterioOrdenamiento) {
+	public FiltraYOrdenaAplicandoCriterioOrdenamiento(ValorCalculable ladoIzq, int periodos, String criterioOrdenamiento) {
 		super.setLadoIzq(ladoIzq);
 		super.setPeriodos(periodos);
 		this.criterioOrdenamiento=criterioOrdenamiento;

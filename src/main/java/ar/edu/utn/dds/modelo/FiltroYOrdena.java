@@ -13,7 +13,7 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 
-public class CondicionFiltroYOrdena extends Condicion {
+public class FiltroYOrdena extends Condicion {
 
 	private Double ladoDer;/*
 							 * lado der SIEMPRE va a ser un numero PUEDE
@@ -21,7 +21,7 @@ public class CondicionFiltroYOrdena extends Condicion {
 
 	private String comparador;
 
-	public CondicionFiltroYOrdena(ValorCalculable ladoIzq, Double ladoDer, String comparador, int periodos) {
+	public FiltroYOrdena(ValorCalculable ladoIzq, Double ladoDer, String comparador, int periodos) {
 		super.setLadoIzq(ladoIzq);
 		super.setPeriodos(periodos);
 		this.ladoDer = ladoDer;

@@ -18,8 +18,8 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFechaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 import ar.edu.utn.dds.modelo.Condicion;
-import ar.edu.utn.dds.modelo.CondicionFiltraYOrdenaAplicandoCriterioOrdenamiento;
-import ar.edu.utn.dds.modelo.CondicionFiltroYOrdena;
+import ar.edu.utn.dds.modelo.FiltraYOrdenaAplicandoCriterioOrdenamiento;
+import ar.edu.utn.dds.modelo.FiltroYOrdena;
 import ar.edu.utn.dds.modelo.Creciente;
 import ar.edu.utn.dds.modelo.Longevidad;
 import ar.edu.utn.dds.modelo.Metodologia;
@@ -46,13 +46,13 @@ public class WarrenBuffetTest {
 		this.procesador1 = new ProcesarIndicadores(t);
 		this.procesador1.leerExcel(this.getClass().getResource("/Indicadores.xls").getFile());
 		Creciente cre = new Creciente(t.buscarIndicador("i_ROE"), t);
-		Condicion cond1 = new CondicionFiltraYOrdenaAplicandoCriterioOrdenamiento(cre, 2, "mayorAmenor");
+		Condicion cond1 = new FiltraYOrdenaAplicandoCriterioOrdenamiento(cre, 2, "mayorAmenor");
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
-		Condicion cond2 = new CondicionFiltraYOrdenaAplicandoCriterioOrdenamiento(sum, 2, "menorAmayor");
+		Condicion cond2 = new FiltraYOrdenaAplicandoCriterioOrdenamiento(sum, 2, "menorAmayor");
 		Creciente cre2 = new Creciente(t.buscarIndicador("i_MargenVentas"), t);
-		Condicion cond3 = new CondicionFiltraYOrdenaAplicandoCriterioOrdenamiento(cre2, 2, "mayorAmenor");
+		Condicion cond3 = new FiltraYOrdenaAplicandoCriterioOrdenamiento(cre2, 2, "mayorAmenor");
 		Longevidad lon = new Longevidad(t.buscarIndicador("i_NivelDeuda"), t);
-		Condicion cond4 = new CondicionFiltroYOrdena(lon, 10.0, ">", 2);
+		Condicion cond4 = new FiltroYOrdena(lon, 10.0, ">", 2);
 
 		meto.agregarCondicion(cond1);
 		meto.agregarCondicion(cond2);
