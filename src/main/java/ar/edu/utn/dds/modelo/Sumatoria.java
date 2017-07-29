@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFechaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 
 public class Sumatoria extends ValorCalculable{
@@ -14,7 +14,7 @@ public class Sumatoria extends ValorCalculable{
 		// TODO Auto-generated constructor stub
 	}
 
-	public ArrayList<PuntajeEmpresa> calcularValor(int periodos) throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException, NoSeEncuentraElIndicadorException{
+	public ArrayList<PuntajeEmpresa> calcularValor(Periodo periodos) throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException{
 		ArrayList<PuntajeEmpresa> listaEmpresas= super.calcularValor(periodos);
 		/*
 		 * deberia filtrar la lista de cuentas de le empresa durante los ultimos periodos
@@ -23,7 +23,7 @@ public class Sumatoria extends ValorCalculable{
 		 * y ordeno por */
 		//return super.sumatoriaIndicadores(listaEmpresas, periodos);
 		ArrayList<Double> lista= new ArrayList<Double>();
-	      lista=this.getTraductor().calcularAListaDeEmpresas(getEmpresas(), periodos, getIndicador());
+	     lista=this.getTraductor().calcularAListaDeEmpresas(getEmpresas(), periodos, getIndicador());
 	      
 	      for (int i=0;(i<listaEmpresas.size()) && (i<lista.size());i++){
 	    	  listaEmpresas.get(i).setResultadoDeAplicarCondicion(lista.get(i));

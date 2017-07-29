@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFechaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 
 public abstract class ValorCalculable {
@@ -27,7 +27,7 @@ public abstract class ValorCalculable {
 		this.setTraductor(traductor);
 	}
 
-	public ArrayList<PuntajeEmpresa> calcularValor(int periodos)throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException, NoSeEncuentraElIndicadorException{
+	public ArrayList<PuntajeEmpresa> calcularValor(Periodo periodos)throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException{
 		
 		empresas=  traductor.getEmpresas().stream().collect(Collectors.toList());
 		
@@ -37,9 +37,9 @@ public abstract class ValorCalculable {
 		
 		return listaEmpresa;
 	}
-	public ArrayList<PuntajeEmpresa> sumatoriaIndicadores(ArrayList<PuntajeEmpresa> listaEmpresas, int periodos) throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException, NoSeEncuentraElIndicadorException{
+	public ArrayList<PuntajeEmpresa> sumatoriaIndicadores(ArrayList<PuntajeEmpresa> listaEmpresas, Periodo periodos) throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException{
 		ArrayList<Double> lista = new ArrayList<Double>();
-		lista = this.getTraductor().calcularAListaDeEmpresas(getEmpresas(), periodos, getIndicador());
+	//	lista = this.getTraductor().calcularAListaDeEmpresas(getEmpresas(), periodos, getIndicador());
 
 		for (int i = 0; (i < listaEmpresas.size()) && (i < lista.size()); i++) {
 			listaEmpresas.get(i).setResultadoDeAplicarCondicion(lista.get(i));

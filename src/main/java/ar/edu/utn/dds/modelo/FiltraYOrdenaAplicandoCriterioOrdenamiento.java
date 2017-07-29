@@ -7,7 +7,7 @@ import java.util.List;
 import javax.script.ScriptException;
 
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFechaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
@@ -20,7 +20,7 @@ public class FiltraYOrdenaAplicandoCriterioOrdenamiento extends Condicion {
 	// ingreesa en la interfaz grafica
 
 	public List<PuntajeEmpresa> aplicar() throws ScriptException, NoSePudoOrdenarLaCondicionException,
-			NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException,
+			NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException,
 			NoSeEncuentraElIndicadorException {
 
 		setFiltro(false);
@@ -52,7 +52,7 @@ public class FiltraYOrdenaAplicandoCriterioOrdenamiento extends Condicion {
 
 	}
 
-	public FiltraYOrdenaAplicandoCriterioOrdenamiento(ValorCalculable ladoIzq, int periodos, String criterioOrdenamiento) {
+	public FiltraYOrdenaAplicandoCriterioOrdenamiento(ValorCalculable ladoIzq, Periodo periodos, String criterioOrdenamiento) {
 		super.setLadoIzq(ladoIzq);
 		super.setPeriodos(periodos);
 		this.criterioOrdenamiento=criterioOrdenamiento;

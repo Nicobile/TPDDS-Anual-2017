@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import antlr.ExpressionParser;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFechaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 
 public class NodoIndicador implements Operando {
@@ -31,10 +31,10 @@ public class NodoIndicador implements Operando {
 	}
 
 	@Override
-	public double calcular(Empresa e, String fecha)
-			throws NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException, NoSeEncuentraLaEmpresaException {
+	public double calcular(Empresa e, Periodo periodo)
+			throws NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraLaEmpresaException {
 		// TODO Auto-generated method stub
-		return this.getOperador().operar(operando1.calcular(e, fecha), operando2.calcular(e, fecha));
+		return this.getOperador().operar(operando1.calcular(e, periodo), operando2.calcular(e, periodo));
 	}
 
 	public Operador getOperador() {

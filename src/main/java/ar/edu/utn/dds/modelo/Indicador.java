@@ -1,7 +1,7 @@
 package ar.edu.utn.dds.modelo;
 
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFechaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 
 public class Indicador {
@@ -42,9 +42,9 @@ public class Indicador {
 		this.nombre = nombre;
 	}
 
-	public double calcular(Empresa e, String fecha)
-			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException {
-		return this.nodo.calcular(e, fecha);
+	public double calcular(Empresa e, Periodo periodo)
+			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
+		return this.nodo.calcular(e, periodo);
 	}
 
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFechaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 
 public class Creciente extends ValorCalculable {
@@ -16,8 +16,8 @@ public class Creciente extends ValorCalculable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ArrayList<PuntajeEmpresa> calcularValor(int periodos) throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
-			NoSeEncuentraLaCuentaEnEsaFechaException, NoSeEncuentraElIndicadorException {
+	public ArrayList<PuntajeEmpresa> calcularValor(Periodo periodos) throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
+			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
 
 		ArrayList<PuntajeEmpresa> listaEmpresas = super.calcularValor(periodos);
 		List<Empresa> empresas= getTraductor().empresasConIndicadorCreciente(getEmpresas(), periodos,getIndicador());		

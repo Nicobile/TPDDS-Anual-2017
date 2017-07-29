@@ -1,10 +1,15 @@
 package ar.edu.utn.dds.modelo;
 
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.NoSuchElementException;
 
+import java.util.stream.Collectors;
+
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFechaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 
 public class Empresa {
@@ -30,7 +35,11 @@ try{
 
 	}
 	public void agregarCuenta(Cuenta cuenta){
+		
 		getCuentas().add(cuenta);
+		//ordenado por fecha de inicio
+		Collections.sort(getCuentas(),
+				(p1, p2) -> p1.getPeriodo().getFechaInicio().compareTo(p2.getPeriodo().getFechaInicio()));
 	}
 
 	public Empresa(String nombre) {
@@ -70,12 +79,12 @@ try{
 		return true;
 	}
 
-	public Cuenta buscarUnaCuentaPorFecha(String nombreDeCuenta, String fecha)
-			throws NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException {
-		try{return this.getCuentas().stream().filter(
-				unaCuenta -> unaCuenta.getNombre().equals(nombreDeCuenta) && unaCuenta.getFecha().equals(fecha))
-				.findFirst().get();}
+	public Cuenta buscarUnaCuentaPorPeriodo(String nombreDeCuenta,Periodo periodo)
+			throws NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
+		
+		try{return filtraCuentasEnPeriodo(periodo).stream().filter(unaCuenta -> unaCuenta.getNombre().equals(nombreDeCuenta) && unaCuenta.getPeriodo().equals(periodo) ).findFirst().get();}
 		catch (NoSuchElementException e){
+		
 			try{
 				getCuentas().stream().filter(unaCuenta -> unaCuenta.getNombre().equals(nombreDeCuenta))
 				.findFirst().get();
@@ -86,20 +95,21 @@ try{
 			}
 			// no encontre una cuenta en esa fecha
 		
-				throw new NoSeEncuentraLaCuentaEnEsaFechaException(
-						"No se encontro para la empresa una cuenta en la fecha especificada ");
+				throw new NoSeEncuentraLaCuentaEnElPeriodoException(
+						"No se encontro para la empresa una cuenta en el periodo ");
 			}
 		}
 
 	
 
-	public void filtraCuentasEnPeriodo(String p) {
-		getCuentas().stream().filter(unaC -> unaC.getFecha().equals(p));
+	public List<Cuenta> filtraCuentasEnPeriodo(Periodo periodo) {
+		return  getCuentas().stream().filter(unaC -> (unaC.getPeriodo().getFechaInicio().isAfter(periodo.getFechaInicio()))&&(unaC.getPeriodo().getFechaFin().isBefore(periodo.getFechaFin()))).collect(Collectors.toList());
 	}
 
-	public double obtenerValorDeCuenta(String nombreDeCuenta, String fecha)
-			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException {
-		return buscarUnaCuentaPorFecha(nombreDeCuenta, fecha).getValor();
+	public double obtenerValorDeCuenta(String nombreDeCuenta, Periodo periodo)
+			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
+	
+		return buscarUnaCuentaPorPeriodo(nombreDeCuenta, periodo).getValor();
 
 	}
 
@@ -118,18 +128,6 @@ try{
 	public void setCuentas(ArrayList<Cuenta> cuentas) {
 		this.cuentas = cuentas;
 	}
-// Este metodo habria que sacarlo porque creo que la LONGEVIDAD ES TRIBUTO DE LA EMPRESA
-	public int obtenerLaFechaDeLaCuentaMasAntigua() {
-		int fechaMasAntigua = 0;
-		int xx = Integer.valueOf(this.getCuentas().get(0).getFecha());
-		for (int i = 0; i < this.getCuentas().size(); i++) {
 
-			if (Integer.valueOf(this.getCuentas().get(i).getFecha()) <= xx) {
-				fechaMasAntigua = Integer.valueOf(getCuentas().get(i).getFecha());
-				xx = Integer.valueOf(getCuentas().get(i).getFecha());
-			}
-		}
-		return fechaMasAntigua;
-	}
 
 }

@@ -12,8 +12,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFechaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
+import ar.edu.utn.dds.modelo.Periodo;
 import ar.edu.utn.dds.modelo.Traductor;
 import ar.edu.utn.dds.procesarArchivos.LectorArchivo;
 
@@ -35,7 +36,7 @@ public class PruebaArchivoTest {
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
 
-	@Test
+/*	@Test
 
 	// prueba para verificar que la lista contenga elementos
 	public void listaTieneElementos() throws FileNotFoundException, IOException {
@@ -67,8 +68,27 @@ public class PruebaArchivoTest {
 			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException {
 		thrown.expect(NoSeEncuentraLaCuentaEnEsaFechaException.class);
 		this.t.obtenerEmpresa("Pepsico").buscarUnaCuentaPorFecha("c_IngresoNetoEnOperacionesContinuas", "2003");
+	}*/
+	@Test
+	
+	public void noSeEncuentraCuentaEnUnaFecha(){
+		this.t.getEmpresas();
+		
+		for(int i=0;i<t.getEmpresas().size();i++){
+			
+			for (int j=0;j<t.getEmpresas().get(i).getCuentas().size();j++){
+		
+				
+				System.out.println(t.getEmpresas().get(i).getCuentas().get(j).getNombre());
+				System.out.println(t.getEmpresas().get(i).getCuentas().get(j).getValor());
+				Periodo p=t.getEmpresas().get(i).getCuentas().get(j).getPeriodo();
+				System.out.println(p.getFechaInicio());
+				System.out.println(p.getFechaFin());
+			}
+		}
 	}
-
+			
+		
 	@After
 
 	public void eliminarLista() {

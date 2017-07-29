@@ -6,7 +6,7 @@ import java.util.List;
 import javax.script.ScriptException;
 
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFechaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
@@ -14,17 +14,12 @@ import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 public class Condicion {
 
 	private ValorCalculable ladoIzq;
-	private int periodos;
-
+	private Periodo periodos;
+	
 	public Boolean filtro;
 
-	/*
-	 * 3 formas de ingresar por interfaz lado izquierdo derecho comparador y
-	 * periodos lado izquierdo periodos y criterio lado izquierdo y periodos
-	 */
-
 	public List<PuntajeEmpresa> aplicar() throws ScriptException, NoSePudoOrdenarLaCondicionException,
-			NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException,
+			NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException,
 			NoSeEncuentraElIndicadorException {
 
 		List<PuntajeEmpresa> valoresAizq = new ArrayList<PuntajeEmpresa>();
@@ -45,11 +40,11 @@ public class Condicion {
 		this.ladoIzq = ladoIzq;
 	}
 
-	public int getPeriodos() {
+	public Periodo getPeriodos() {
 		return periodos;
 	}
 
-	public void setPeriodos(int periodos) {
+	public void setPeriodos(Periodo periodos) {
 		this.periodos = periodos;
 	}
 

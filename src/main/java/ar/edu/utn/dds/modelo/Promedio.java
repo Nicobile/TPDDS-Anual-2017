@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFechaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 
 public class Promedio extends ValorCalculable {
@@ -13,14 +13,15 @@ public class Promedio extends ValorCalculable {
 		super(indicador, traductor);
 		// TODO Auto-generated constructor stub
 	}
-	public ArrayList<PuntajeEmpresa> calcularValor(int periodos) throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException, NoSeEncuentraElIndicadorException{
+	public ArrayList<PuntajeEmpresa> calcularValor(Periodo periodos) throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException{
 		ArrayList<PuntajeEmpresa> listaEmpresas= super.calcularValor(periodos);
 	
 		
 		  ArrayList<PuntajeEmpresa> sumatoria =  super.sumatoriaIndicadores(listaEmpresas, periodos);
+		int anios= periodos.getFechaFin().getYear()- periodos.getFechaInicio().getYear();
 	      
 	      for (int i=0;(i<sumatoria.size());i++){
-	    	  sumatoria.get(i).setResultadoDeAplicarCondicion(sumatoria.get(i).getResultadoDeAplicarCondicion()/periodos);
+	    	  sumatoria.get(i).setResultadoDeAplicarCondicion(sumatoria.get(i).getResultadoDeAplicarCondicion()/anios);
 	      }
 	      return sumatoria;		
 			

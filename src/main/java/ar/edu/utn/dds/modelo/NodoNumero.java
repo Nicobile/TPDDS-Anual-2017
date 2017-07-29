@@ -4,7 +4,7 @@ public class NodoNumero implements Operando {
 	private int numero;
 
 	@Override
-	public double calcular(Empresa e, String fecha) {
+	public double calcular(Empresa e, Periodo periodo) {
 
 		return numero;
 	}

@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFechaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 
 public class Mediana extends ValorCalculable {
@@ -15,13 +15,13 @@ public class Mediana extends ValorCalculable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ArrayList<PuntajeEmpresa> calcularValor(int periodos)
+	public ArrayList<PuntajeEmpresa> calcularValor(Periodo periodos)
 			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
-			NoSeEncuentraLaCuentaEnEsaFechaException, NoSeEncuentraElIndicadorException {
+			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
 		ArrayList<PuntajeEmpresa> listaEmpresas = super.calcularValor(periodos);
 
-		Double[] array = new Double[periodos];
-
+	//	Double[] array = new Double[periodos];
+/*
 		for (int j = 0; j < getEmpresas().size(); j++) {
 
 			for (int i = periodos; i > 0; i--) {
@@ -44,7 +44,7 @@ public class Mediana extends ValorCalculable {
 			listaEmpresas.stream()
 					.filter(unaE -> unaE.getNombreEmpresa().equals(getEmpresas().get(empresa).getNombre())).findFirst()
 					.get().setResultadoDeAplicarCondicion(mediana);
-		}
+		}*/
 		return listaEmpresas;
 
 	}

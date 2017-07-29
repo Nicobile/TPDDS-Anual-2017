@@ -1,28 +1,70 @@
 package ar.edu.utn.dds.procesarArchivos;
 
+
+
 public class LineaArchivo {
 
 	String nombreEmpresa;
 	String nombreCuenta;
 	double valorCuenta;
-	String fecha;
+	String fechaInicio;
+	String fechaFin;
 	
 
-	public LineaArchivo(String nombreEmpresa, String nombreCuenta, double valorCuenta, String fecha) {
+	public LineaArchivo(String nombreEmpresa, String nombreCuenta, double valorCuenta,String fechaInicio,String fechaFin)  {
 		this.nombreCuenta = nombreCuenta;
 		this.nombreEmpresa = nombreEmpresa;
 		this.valorCuenta = valorCuenta;
-		this.fecha = fecha;
+		this.fechaInicio=fechaInicio;
+		this.fechaFin=fechaFin;
 
 	}
 
-	public String getFecha() {
-		return fecha;
+	
+
+
+
+
+
+	public String getFechaInicio() {
+		return fechaInicio;
 	}
 
-	public void setFecha(String fecha) {
-		this.fecha = fecha;
+
+
+
+
+
+
+	public void setFechaInicio(String fechaInicio) {
+		this.fechaInicio = fechaInicio;
 	}
+
+
+
+
+
+
+
+	public String getFechaFin() {
+		return fechaFin;
+	}
+
+
+
+
+
+
+
+	public void setFechaFin(String fechaFin) {
+		this.fechaFin = fechaFin;
+	}
+
+
+
+
+
+
 
 	public String getNombreEmpresa() {
 		return nombreEmpresa;

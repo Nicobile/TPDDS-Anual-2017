@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFechaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 import ar.edu.utn.dds.modelo.Condicion;
@@ -38,7 +38,7 @@ public class WarrenBuffetTest {
 	@Before
 	public void inicializacion() throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresaException,
 			NoSeEncuentraElIndicadorException, ScriptException, NoSePudoOrdenarLaCondicionException,
-			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException {
+			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
 		this.t = new Traductor();
 		this.lector = new LectorArchivo(t);
 		this.meto = new Metodologia("WarrenBufet");
@@ -63,7 +63,7 @@ public class WarrenBuffetTest {
 	@Test
 	public void pruebaHayEmpresasQueCumplen() throws NoSeEncuentraLaEmpresaException, ScriptException,
 			NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException,
-			NoSeEncuentraLaCuentaEnEsaFechaException, NoSeEncuentraElIndicadorException {
+			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
 		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
 		assertTrue(empresas.size() > 0);
 	}
@@ -71,7 +71,7 @@ public class WarrenBuffetTest {
 	@Test
 	public void seDebeInvertirEnFacebook() throws NoSeEncuentraLaEmpresaException, ScriptException,
 			NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException,
-			NoSeEncuentraLaCuentaEnEsaFechaException, NoSeEncuentraElIndicadorException {
+			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
 		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
 		assertEquals(empresas.get(3).getNombreEmpresa(), "Pepsico");
 		assertEquals(empresas.get(2).getNombreEmpresa(), "Twitter");

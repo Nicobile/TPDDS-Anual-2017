@@ -10,7 +10,7 @@ import javax.script.ScriptException;
 import ar.edu.utn.dds.excepciones.NoHayEmpresasQueCumplanLaCondicionException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFechaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 
@@ -33,7 +33,7 @@ public class Metodologia {
 
 	private void aplicarCondicion(Condicion condicion) throws NoSeEncuentraLaEmpresaException, ScriptException,
 			NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException,
-			NoSeEncuentraLaCuentaEnEsaFechaException, NoSeEncuentraElIndicadorException {
+			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
 		List<PuntajeEmpresa> listaDeAplicarCondicion = new ArrayList<PuntajeEmpresa>();
 		listaDeAplicarCondicion = condicion.aplicar();
 		if (puntajeEmpresas.isEmpty()) {
@@ -93,7 +93,7 @@ public class Metodologia {
 
 	public ArrayList<PuntajeEmpresa> aplicarMetodologia() throws NoSeEncuentraLaEmpresaException, ScriptException,
 			NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException,
-			NoSeEncuentraLaCuentaEnEsaFechaException, NoSeEncuentraElIndicadorException {
+			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
 		Iterator<Condicion> condiciones = condicionesDeMetodologia.iterator();
 		while (condiciones.hasNext()) {
 

@@ -8,7 +8,7 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFechaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
@@ -21,7 +21,7 @@ public class FiltroYOrdena extends Condicion {
 
 	private String comparador;
 
-	public FiltroYOrdena(ValorCalculable ladoIzq, Double ladoDer, String comparador, int periodos) {
+	public FiltroYOrdena(ValorCalculable ladoIzq, Double ladoDer, String comparador, Periodo periodos) {
 		super.setLadoIzq(ladoIzq);
 		super.setPeriodos(periodos);
 		this.ladoDer = ladoDer;
@@ -30,7 +30,7 @@ public class FiltroYOrdena extends Condicion {
 	}
 
 	public List<PuntajeEmpresa> aplicar() throws ScriptException, NoSePudoOrdenarLaCondicionException,
-			NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException,
+			NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException,
 			NoSeEncuentraElIndicadorException {
 
 		/*

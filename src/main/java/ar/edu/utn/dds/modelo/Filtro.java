@@ -5,20 +5,20 @@ import java.util.List;
 import javax.script.ScriptException;
 
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFechaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 
 public class Filtro extends Condicion {
 
-	public Filtro(ValorCalculable ladoIzq, int periodos) {
+	public Filtro(ValorCalculable ladoIzq, Periodo periodos) {
 		super.setLadoIzq(ladoIzq);
 		super.setPeriodos(periodos);
 	}
 
 	public List<PuntajeEmpresa> aplicar() throws ScriptException, NoSePudoOrdenarLaCondicionException,
-			NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException,
+			NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException,
 			NoSeEncuentraElIndicadorException {
 		setFiltro(false);
 

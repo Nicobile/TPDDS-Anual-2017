@@ -17,7 +17,7 @@ import org.junit.rules.ExpectedException;
 import ar.edu.utn.dds.excepciones.NoHayEmpresasQueCumplanLaCondicionException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnEsaFechaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 import ar.edu.utn.dds.modelo.Condicion;
@@ -59,7 +59,7 @@ public class PruebaMetodologiaTest {
 
 	
 	@Test
-	public void pruebaSoloCondicionDecreciente() throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException{
+	public void pruebaSoloCondicionDecreciente() throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException{
 		Decreciente decre= new Decreciente(t.buscarIndicador("i_NivelDeuda"),t);
 		Condicion cond = new Filtro(decre,2);	
 		meto.agregarCondicion(cond);
@@ -74,7 +74,7 @@ public class PruebaMetodologiaTest {
 	
 	
 	@Test     
-	public void pruebaSoloCondicionSumatoria() throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException{
+	public void pruebaSoloCondicionSumatoria() throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException{
 		Sumatoria sum=new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t);
 		Condicion cond2 = new FiltroYOrdena(sum,7.0,">",2);		
 		meto.agregarCondicion(cond2);
@@ -87,7 +87,7 @@ public class PruebaMetodologiaTest {
 	}
 	
 	@Test
-	public void pruebaSoloCondicionLongevidad() throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException{
+	public void pruebaSoloCondicionLongevidad() throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException{
 		Longevidad lon = new Longevidad(t.buscarIndicador("i_IngresoNeto"),t);
 		Condicion condlon = new FiltroYOrdena(lon,3.0,">",3);	
 		meto.agregarCondicion(condlon);
@@ -97,7 +97,7 @@ public class PruebaMetodologiaTest {
 	}
 	
 	@Test
-	public void pruebaSoloCondicionCreciente()throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException{
+	public void pruebaSoloCondicionCreciente()throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException{
 		Creciente cre = new Creciente(t.buscarIndicador("i_NivelDeuda"),t);
 		Condicion concre = new FiltraYOrdenaAplicandoCriterioOrdenamiento(cre,2,"mayorAmenor");
 		meto.agregarCondicion(concre);
@@ -107,7 +107,7 @@ public class PruebaMetodologiaTest {
 	}
 	
 	@Test
-	public void pruebaSoloPromedio()throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException{
+	public void pruebaSoloPromedio()throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException{
 		Promedio pro = new Promedio(t.buscarIndicador("i_NivelDeuda"),t);
 		Condicion conpro = new FiltroYOrdena (pro,200.0,">",2);
 		meto.agregarCondicion(conpro);
@@ -118,7 +118,7 @@ public class PruebaMetodologiaTest {
 	}
 	
 	@Test
-	public void noHayEmpresasQueCumplan() throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,NoSeEncuentraLaCuentaEnEsaFechaException, NoSeEncuentraElIndicadorException, ScriptException, NoSePudoOrdenarLaCondicionException {
+	public void noHayEmpresasQueCumplan() throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException, ScriptException, NoSePudoOrdenarLaCondicionException {
 		thrown.expect(NoHayEmpresasQueCumplanLaCondicionException.class);
 		Sumatoria sum=new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t);
 		Condicion cond2 = new FiltroYOrdena(sum,700.0,">",2);		
@@ -128,7 +128,7 @@ public class PruebaMetodologiaTest {
 	
 	
 	@Test
-	public void pruebaLongevidadyCreciente()throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException{
+	public void pruebaLongevidadyCreciente()throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException{
 		Longevidad lon = new Longevidad(t.buscarIndicador("i_IngresoNeto"),t);
 		Creciente cre = new Creciente(t.buscarIndicador("i_NivelDeuda"),t);
 		Condicion condlon = new FiltroYOrdena(lon,3.0,">",3);
@@ -140,7 +140,7 @@ public class PruebaMetodologiaTest {
 	}
 
 	@Test   
-	public void pruebaSumtoriayDecreciente() throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException{
+	public void pruebaSumtoriayDecreciente() throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException{
 		Decreciente decre= new Decreciente(t.buscarIndicador("i_NivelDeuda"),t);
 		Sumatoria sum=new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t);
 		Condicion condi = new Filtro(decre,2);
@@ -155,7 +155,7 @@ public class PruebaMetodologiaTest {
 	
 	
 	@Test   
-	public void pruebaPromedioySumatoriaMayoraMenor() throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException{
+	public void pruebaPromedioySumatoriaMayoraMenor() throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException{
 		Promedio prom = new Promedio(t.buscarIndicador("i_NivelDeuda"),t);
 		Sumatoria sum=new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t);
 		Condicion cond1 = new FiltraYOrdenaAplicandoCriterioOrdenamiento(prom,2,"mayorAmenor");
@@ -170,7 +170,7 @@ public class PruebaMetodologiaTest {
 	}
 	
 	@Test   
-	public void pruebaPromedioySumatoriaMenoraMayor() throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException{
+	public void pruebaPromedioySumatoriaMenoraMayor() throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException{
 		Promedio prom = new Promedio(t.buscarIndicador("i_NivelDeuda"),t);
 		Sumatoria sum=new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t);
 		Condicion cond1 = new FiltraYOrdenaAplicandoCriterioOrdenamiento(prom,2,"menorAmayor");
