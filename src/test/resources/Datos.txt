@@ -2,9 +2,18 @@ Facebook c_Utilidades 2313 21/03/2016 22/02/2017
 Facebook c_Ventas 21243 23/04/2013 25/02/2005
 Facebook c_ActivosTotales 4525     	23/04/2013 25/02/2005
 Facebook c_PasivosTotales 4512		21/03/2016 22/02/2017
-
-
-	
+CocaCola c_Utilidades 2313 21/03/2016 22/02/2017
+CocaCola c_Ventas 21243 23/04/2013 25/02/2005
+CocaCola c_ActivosTotales 4525     	23/04/2013 25/02/2005
+CocaCola c_PasivosTotales 4512		21/03/2016 22/02/2017
+Twitter c_Utilidades 2313 21/03/2016 22/02/2017
+Twitter c_Ventas 21243 23/04/2013 25/02/2005
+Twitter c_ActivosTotales 4525     	23/04/2013 25/02/2005
+Twitter c_PasivosTotales 4512		21/03/2016 22/02/2017
+Pepsi c_Utilidades 2313 21/03/2016 22/02/2017
+Pepsi c_Ventas 21243 23/04/2013 25/02/2005
+Pepsi c_ActivosTotales 4525     	23/04/2013 25/02/2005
+Pepsi c_PasivosTotales 4512		21/03/2016 22/02/2017	
 	
 	
 	

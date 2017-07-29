@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.script.ScriptException;
@@ -28,6 +29,7 @@ import ar.edu.utn.dds.modelo.Creciente;
 import ar.edu.utn.dds.modelo.Decreciente;
 import ar.edu.utn.dds.modelo.Longevidad;
 import ar.edu.utn.dds.modelo.Metodologia;
+import ar.edu.utn.dds.modelo.Periodo;
 import ar.edu.utn.dds.modelo.Promedio;
 import ar.edu.utn.dds.modelo.PuntajeEmpresa;
 import ar.edu.utn.dds.modelo.Sumatoria;
@@ -61,7 +63,10 @@ public class PruebaMetodologiaTest {
 	@Test
 	public void pruebaSoloCondicionDecreciente() throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException{
 		Decreciente decre= new Decreciente(t.buscarIndicador("i_NivelDeuda"),t);
-		Condicion cond = new Filtro(decre,2);	
+		LocalDate tiempo1 = LocalDate.of(2016, 3, 12);
+		LocalDate tiempo2 = LocalDate.of(2015, 2, 12);
+		Periodo periododecre = new Periodo(tiempo1,tiempo2);
+		Condicion cond = new Filtro(decre,periododecre);	
 		meto.agregarCondicion(cond);
 		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
 		//Solo Twitter, Cocacola y Facebook cumplen con la condidion de que su deuda sea decreciente
@@ -76,7 +81,10 @@ public class PruebaMetodologiaTest {
 	@Test     
 	public void pruebaSoloCondicionSumatoria() throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException{
 		Sumatoria sum=new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t);
-		Condicion cond2 = new FiltroYOrdena(sum,7.0,">",2);		
+		LocalDate tiempo1 = LocalDate.of(2016, 3, 12);
+		LocalDate tiempo2 = LocalDate.of(2015, 2, 12);
+		Periodo periodocond2 = new Periodo(tiempo1,tiempo2);
+		Condicion cond2 = new FiltroYOrdena(sum,7.0,">",periodocond2);		
 		meto.agregarCondicion(cond2);
 		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
 		//Solo Pepsi y Facebook cumplen con la condicion
@@ -89,7 +97,10 @@ public class PruebaMetodologiaTest {
 	@Test
 	public void pruebaSoloCondicionLongevidad() throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException{
 		Longevidad lon = new Longevidad(t.buscarIndicador("i_IngresoNeto"),t);
-		Condicion condlon = new FiltroYOrdena(lon,3.0,">",3);	
+		LocalDate tiempo1 = LocalDate.of(2016, 3, 12);
+		LocalDate tiempo2 = LocalDate.of(2015, 2, 12);
+		Periodo periodolon = new Periodo(tiempo1,tiempo2);
+		Condicion condlon = new FiltroYOrdena(lon,3.0,">",periodolon);	
 		meto.agregarCondicion(condlon);
 		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
 		/*Todas las empresas tienen mas de 3 años"*/
@@ -99,7 +110,10 @@ public class PruebaMetodologiaTest {
 	@Test
 	public void pruebaSoloCondicionCreciente()throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException{
 		Creciente cre = new Creciente(t.buscarIndicador("i_NivelDeuda"),t);
-		Condicion concre = new FiltraYOrdenaAplicandoCriterioOrdenamiento(cre,2,"mayorAmenor");
+		LocalDate tiempo1 = LocalDate.of(2016, 3, 12);
+		LocalDate tiempo2 = LocalDate.of(2015, 2, 12);
+		Periodo periodocre = new Periodo(tiempo1,tiempo2);
+		Condicion concre = new FiltraYOrdenaAplicandoCriterioOrdenamiento(cre,periodocre,"mayorAmenor");
 		meto.agregarCondicion(concre);
 		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
 		/*PEPSI incremento su deuda en 123,69 */
@@ -109,7 +123,10 @@ public class PruebaMetodologiaTest {
 	@Test
 	public void pruebaSoloPromedio()throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException{
 		Promedio pro = new Promedio(t.buscarIndicador("i_NivelDeuda"),t);
-		Condicion conpro = new FiltroYOrdena (pro,200.0,">",2);
+		LocalDate tiempo1 = LocalDate.of(2016, 3, 12);
+		LocalDate tiempo2 = LocalDate.of(2015, 2, 12);
+		Periodo periodopro = new Periodo(tiempo1,tiempo2);
+		Condicion conpro = new FiltroYOrdena (pro,200.0,">",periodopro);
 		meto.agregarCondicion(conpro);
 		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
 		/*Solo facebook tiene un promedio de deuda mayor a 200. Su promedio es de 282*/
@@ -121,7 +138,10 @@ public class PruebaMetodologiaTest {
 	public void noHayEmpresasQueCumplan() throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException, ScriptException, NoSePudoOrdenarLaCondicionException {
 		thrown.expect(NoHayEmpresasQueCumplanLaCondicionException.class);
 		Sumatoria sum=new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t);
-		Condicion cond2 = new FiltroYOrdena(sum,700.0,">",2);		
+		LocalDate tiempo1 = LocalDate.of(2016, 3, 12);
+		LocalDate tiempo2 = LocalDate.of(2015, 2, 12);
+		Periodo periodosum = new Periodo(tiempo1,tiempo2);
+		Condicion cond2 = new FiltroYOrdena(sum,700.0,">",periodosum);		
 		meto.agregarCondicion(cond2);
 		meto.aplicarMetodologia();
 	}
@@ -131,8 +151,14 @@ public class PruebaMetodologiaTest {
 	public void pruebaLongevidadyCreciente()throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException{
 		Longevidad lon = new Longevidad(t.buscarIndicador("i_IngresoNeto"),t);
 		Creciente cre = new Creciente(t.buscarIndicador("i_NivelDeuda"),t);
-		Condicion condlon = new FiltroYOrdena(lon,3.0,">",3);
-		Condicion condcre = new FiltraYOrdenaAplicandoCriterioOrdenamiento(cre,2,"mayorAmenor");
+		LocalDate tiempo1 = LocalDate.of(2016, 3, 12);
+		LocalDate tiempo2 = LocalDate.of(2015, 2, 12);
+		Periodo periodolon = new Periodo(tiempo1,tiempo2);
+		LocalDate tiempo3 = LocalDate.of(2016, 3, 12);
+		LocalDate tiempo4 = LocalDate.of(2015, 2, 12);
+		Periodo periodocre = new Periodo(tiempo3,tiempo4);
+		Condicion condlon = new FiltroYOrdena(lon,3.0,">",periodolon);
+		Condicion condcre = new FiltraYOrdenaAplicandoCriterioOrdenamiento(cre,periodocre,"mayorAmenor");
 		meto.agregarCondicion(condlon);
 		meto.agregarCondicion(condcre);
 		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
@@ -143,8 +169,14 @@ public class PruebaMetodologiaTest {
 	public void pruebaSumtoriayDecreciente() throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException{
 		Decreciente decre= new Decreciente(t.buscarIndicador("i_NivelDeuda"),t);
 		Sumatoria sum=new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t);
-		Condicion condi = new Filtro(decre,2);
-		Condicion condi2 = new FiltroYOrdena(sum,7.0,">",2);
+		LocalDate tiempo1 = LocalDate.of(2016, 3, 12);
+		LocalDate tiempo2 = LocalDate.of(2015, 2, 12);
+		Periodo periododecre = new Periodo(tiempo1,tiempo2);
+		LocalDate tiempo3 = LocalDate.of(2016, 3, 12);
+		LocalDate tiempo4 = LocalDate.of(2015, 2, 12);
+		Periodo periodosum = new Periodo(tiempo3,tiempo4);
+		Condicion condi = new Filtro(decre,periododecre);
+		Condicion condi2 = new FiltroYOrdena(sum,7.0,">",periodosum);
 		meto.agregarCondicion(condi);		
 		meto.agregarCondicion(condi2);
 		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
@@ -158,8 +190,14 @@ public class PruebaMetodologiaTest {
 	public void pruebaPromedioySumatoriaMayoraMenor() throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException{
 		Promedio prom = new Promedio(t.buscarIndicador("i_NivelDeuda"),t);
 		Sumatoria sum=new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t);
-		Condicion cond1 = new FiltraYOrdenaAplicandoCriterioOrdenamiento(prom,2,"mayorAmenor");
-		Condicion cond2 = new FiltroYOrdena(sum,7.0,">",2);		
+		LocalDate tiempo1 = LocalDate.of(2016, 3, 12);
+		LocalDate tiempo2 = LocalDate.of(2015, 2, 12);
+		Periodo periodoprom = new Periodo(tiempo1,tiempo2);
+		LocalDate tiempo3 = LocalDate.of(2016, 3, 12);
+		LocalDate tiempo4 = LocalDate.of(2015, 2, 12);
+		Periodo periodosum = new Periodo(tiempo3,tiempo4);
+		Condicion cond1 = new FiltraYOrdenaAplicandoCriterioOrdenamiento(prom,periodoprom,"mayorAmenor");
+		Condicion cond2 = new FiltroYOrdena(sum,7.0,">",periodosum);		
 		meto.agregarCondicion(cond1);
 		meto.agregarCondicion(cond2);
 		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
@@ -173,8 +211,14 @@ public class PruebaMetodologiaTest {
 	public void pruebaPromedioySumatoriaMenoraMayor() throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException{
 		Promedio prom = new Promedio(t.buscarIndicador("i_NivelDeuda"),t);
 		Sumatoria sum=new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t);
-		Condicion cond1 = new FiltraYOrdenaAplicandoCriterioOrdenamiento(prom,2,"menorAmayor");
-		Condicion cond2 = new FiltroYOrdena(sum,7.0,">",2);		
+		LocalDate tiempo1 = LocalDate.of(2016, 3, 12);
+		LocalDate tiempo2 = LocalDate.of(2015, 2, 12);
+		Periodo periodoprom = new Periodo(tiempo1,tiempo2);
+		LocalDate tiempo3 = LocalDate.of(2016, 3, 12);
+		LocalDate tiempo4 = LocalDate.of(2015, 2, 12);
+		Periodo periodosum = new Periodo(tiempo3,tiempo4);
+		Condicion cond1 = new FiltraYOrdenaAplicandoCriterioOrdenamiento(prom,periodoprom,"menorAmayor");
+		Condicion cond2 = new FiltroYOrdena(sum,7.0,">",periodosum);		
 		meto.agregarCondicion(cond1);
 		meto.agregarCondicion(cond2);
 		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();

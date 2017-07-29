@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.script.ScriptException;
@@ -26,6 +27,7 @@ import ar.edu.utn.dds.modelo.Metodologia;
 import ar.edu.utn.dds.modelo.PuntajeEmpresa;
 import ar.edu.utn.dds.modelo.Sumatoria;
 import ar.edu.utn.dds.modelo.Traductor;
+import ar.edu.utn.dds.modelo.Periodo;
 import ar.edu.utn.dds.procesarArchivos.LectorArchivo;
 import ar.edu.utn.dds.procesarArchivos.ProcesarIndicadores;
 
@@ -46,13 +48,25 @@ public class WarrenBuffetTest {
 		this.procesador1 = new ProcesarIndicadores(t);
 		this.procesador1.leerExcel(this.getClass().getResource("/Indicadores.xls").getFile());
 		Creciente cre = new Creciente(t.buscarIndicador("i_ROE"), t);
-		Condicion cond1 = new FiltraYOrdenaAplicandoCriterioOrdenamiento(cre, 2, "mayorAmenor");
+		LocalDate tiempo1 = LocalDate.of(2016, 3, 12);
+		LocalDate tiempo2 = LocalDate.of(2015, 2, 12);
+		Periodo periodocreciente = new Periodo(tiempo1,tiempo2);
+		Condicion cond1 = new FiltraYOrdenaAplicandoCriterioOrdenamiento(cre, periodocreciente, "mayorAmenor");
+		LocalDate tiempo3 = LocalDate.of(2016, 3, 12);
+		LocalDate tiempo4 = LocalDate.of(2015, 2, 12);
+		Periodo periodosumatoria = new Periodo(tiempo3,tiempo4);
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
-		Condicion cond2 = new FiltraYOrdenaAplicandoCriterioOrdenamiento(sum, 2, "menorAmayor");
+		Condicion cond2 = new FiltraYOrdenaAplicandoCriterioOrdenamiento(sum, periodosumatoria, "menorAmayor");
 		Creciente cre2 = new Creciente(t.buscarIndicador("i_MargenVentas"), t);
-		Condicion cond3 = new FiltraYOrdenaAplicandoCriterioOrdenamiento(cre2, 2, "mayorAmenor");
+		LocalDate tiempo5 = LocalDate.of(2016, 3, 12);
+		LocalDate tiempo6 = LocalDate.of(2015, 2, 12);
+		Periodo periodocre2 = new Periodo(tiempo5,tiempo6);
+		Condicion cond3 = new FiltraYOrdenaAplicandoCriterioOrdenamiento(cre2, periodocre2, "mayorAmenor");
 		Longevidad lon = new Longevidad(t.buscarIndicador("i_NivelDeuda"), t);
-		Condicion cond4 = new FiltroYOrdena(lon, 10.0, ">", 2);
+		LocalDate tiempo7 = LocalDate.of(2016, 3, 12);
+		LocalDate tiempo8 = LocalDate.of(2015, 2, 12);
+		Periodo periodolon = new Periodo(tiempo7,tiempo8);
+		Condicion cond4 = new FiltroYOrdena(lon, 10.0, ">", periodolon);
 
 		meto.agregarCondicion(cond1);
 		meto.agregarCondicion(cond2);
