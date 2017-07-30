@@ -15,13 +15,12 @@ public class Decreciente extends ValorCalculable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ArrayList<PuntajeEmpresa> calcularValor(Periodo periodos)
+	public ArrayList<PuntajeEmpresa> calcularValor(Periodo periodos, int anios)
 			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
 
-		ArrayList<PuntajeEmpresa> listaEmpresas = super.calcularValor(periodos);
-		List<Empresa> empresas = getTraductor().empresasConIndicadorDecreciente(getEmpresas(), periodos,
-				getIndicador());
+		ArrayList<PuntajeEmpresa> listaEmpresas = super.calcularValor(periodos, anios);
+		List<Empresa> empresas = getTraductor().empresasConIndicadorDecreciente(getEmpresas(), anios, getIndicador());
 
 		return eliminarEmpresasQueNoCumplenCondicion(listaEmpresas, empresas);
 

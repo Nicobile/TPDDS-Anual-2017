@@ -13,19 +13,21 @@ public class Promedio extends ValorCalculable {
 		super(indicador, traductor);
 		// TODO Auto-generated constructor stub
 	}
-	public ArrayList<PuntajeEmpresa> calcularValor(Periodo periodos) throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException{
-		ArrayList<PuntajeEmpresa> listaEmpresas= super.calcularValor(periodos);
-	
-		
-		  ArrayList<PuntajeEmpresa> sumatoria =  super.sumatoriaIndicadores(listaEmpresas, periodos);
-		int anios= periodos.getFechaFin().getYear()- periodos.getFechaInicio().getYear();
-	      
-	      for (int i=0;(i<sumatoria.size());i++){
-	    	  sumatoria.get(i).setResultadoDeAplicarCondicion(sumatoria.get(i).getResultadoDeAplicarCondicion()/anios);
-	      }
-	      return sumatoria;		
-			
-		
+
+	public ArrayList<PuntajeEmpresa> calcularValor(Periodo periodos, int anios)
+			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
+			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
+		ArrayList<PuntajeEmpresa> listaEmpresas = super.calcularValor(periodos, anios);
+
+		ArrayList<PuntajeEmpresa> sumatoria = super.sumatoriaIndicadores(listaEmpresas, periodos);
+		int cantidadDeAnios = periodos.getFechaFin().getYear() - periodos.getFechaInicio().getYear();
+
+		for (int i = 0; (i < sumatoria.size()); i++) {
+			sumatoria.get(i).setResultadoDeAplicarCondicion(
+					sumatoria.get(i).getResultadoDeAplicarCondicion() / cantidadDeAnios);
+		}
+		return sumatoria;
+
 	}
 
 }

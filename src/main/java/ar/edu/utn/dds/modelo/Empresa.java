@@ -1,6 +1,5 @@
 package ar.edu.utn.dds.modelo;
 
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,7 +15,7 @@ public class Empresa {
 
 	private String nombre;
 
-	private ArrayList<Cuenta> cuentas = new ArrayList<Cuenta>();
+	private List<Cuenta> cuentas;
 
 	public Empresa(String nombre, ArrayList<Cuenta> cuentas) {
 		this.nombre = nombre;
@@ -25,19 +24,20 @@ public class Empresa {
 	}
 
 	public Cuenta buscarUnaCuenta(String nombreDeCuenta) throws NoSeEncuentraLaCuentaException {
-try{
-	return this.getCuentas().stream().filter(unaCuenta -> unaCuenta.getNombre().equals(nombreDeCuenta))
-			.findFirst().get();
-}
-	catch (NoSuchElementException e){
+		try {
+			return this.getCuentas().stream().filter(unaCuenta -> unaCuenta.getNombre().equals(nombreDeCuenta))
+					.findFirst().get();
+		} catch (NoSuchElementException e) {
 
-		throw new NoSeEncuentraLaCuentaException("No se encuentra la cuenta");}
+			throw new NoSeEncuentraLaCuentaException("No se encuentra la cuenta");
+		}
 
 	}
-	public void agregarCuenta(Cuenta cuenta){
-		
+
+	public void agregarCuenta(Cuenta cuenta) {
+
 		getCuentas().add(cuenta);
-		//ordenado por fecha de inicio
+		// ordenado por fecha de inicio
 		Collections.sort(getCuentas(),
 				(p1, p2) -> p1.getPeriodo().getFechaInicio().compareTo(p2.getPeriodo().getFechaInicio()));
 	}
@@ -45,7 +45,7 @@ try{
 	public Empresa(String nombre) {
 		super();
 		this.nombre = nombre;
-		this.cuentas= new ArrayList<Cuenta>();
+		this.cuentas = new ArrayList<Cuenta>();
 	}
 
 	@Override
@@ -79,37 +79,45 @@ try{
 		return true;
 	}
 
-	public Cuenta buscarUnaCuentaPorPeriodo(String nombreDeCuenta,Periodo periodo)
+	public List<Cuenta> buscarUnaCuentaPorPeriodo(String nombreDeCuenta, Periodo periodo)
 			throws NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
-		
-		try{return filtraCuentasEnPeriodo(periodo).stream().filter(unaCuenta -> unaCuenta.getNombre().equals(nombreDeCuenta) && unaCuenta.getPeriodo().equals(periodo) ).findFirst().get();}
-		catch (NoSuchElementException e){
-		
-			try{
-				getCuentas().stream().filter(unaCuenta -> unaCuenta.getNombre().equals(nombreDeCuenta))
-				.findFirst().get();
+
+		List<Cuenta> cuentas = filtraCuentasEnPeriodo(periodo).stream()
+				.filter(unaCuenta -> unaCuenta.getNombre().equals(nombreDeCuenta)).collect(Collectors.toList());
+
+		if (cuentas.isEmpty()) {
+			try {
+				buscarUnaCuenta(nombreDeCuenta);
+			} catch (NoSeEncuentraLaCuentaException e) {
+				throw new NoSeEncuentraLaCuentaException("No existe la cuenta para esa empresa");
 			}
-			// no encontre la cuenta
-			catch (NoSuchElementException x){
-				throw new NoSeEncuentraLaCuentaException("No se encuentra la cuenta");
-			}
-			// no encontre una cuenta en esa fecha
-		
-				throw new NoSeEncuentraLaCuentaEnElPeriodoException(
-						"No se encontro para la empresa una cuenta en el periodo ");
-			}
+			throw new NoSeEncuentraLaCuentaEnElPeriodoException(
+					"No se encontro para la empresa la cuenta en el periodo ");
 		}
 
-	
-
-	public List<Cuenta> filtraCuentasEnPeriodo(Periodo periodo) {
-		return  getCuentas().stream().filter(unaC -> (unaC.getPeriodo().getFechaInicio().isAfter(periodo.getFechaInicio()))&&(unaC.getPeriodo().getFechaFin().isBefore(periodo.getFechaFin()))).collect(Collectors.toList());
+		return cuentas;
 	}
 
-	public double obtenerValorDeCuenta(String nombreDeCuenta, Periodo periodo)
-			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
-	
-		return buscarUnaCuentaPorPeriodo(nombreDeCuenta, periodo).getValor();
+	public List<Cuenta> filtraCuentasEnPeriodo(Periodo periodo) {
+
+		return getCuentas().stream()
+				.filter(unaC -> ((unaC.getPeriodo().getFechaInicio().isAfter(periodo.getFechaInicio()))
+						&& (unaC.getPeriodo().getFechaFin().isBefore(periodo.getFechaFin())))
+						|| (unaC.getPeriodo().equals(periodo)))
+				.collect(Collectors.toList());
+
+	}
+
+	public double obtenerValorDeCuenta(String nombreDeCuenta, Periodo periodo) throws NoSeEncuentraLaEmpresaException,
+			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
+
+		List<Cuenta> cuentas = buscarUnaCuentaPorPeriodo(nombreDeCuenta, periodo);
+		double valor = 0;
+		for (int i = 0; i < cuentas.size(); i++) {
+			valor += cuentas.get(i).getValor();
+		}
+
+		return valor;
 
 	}
 
@@ -121,13 +129,12 @@ try{
 		this.nombre = nombre;
 	}
 
-	public ArrayList<Cuenta> getCuentas() {
+	public List<Cuenta> getCuentas() {
 		return cuentas;
 	}
 
-	public void setCuentas(ArrayList<Cuenta> cuentas) {
+	public void setCuentas(List<Cuenta> cuentas) {
 		this.cuentas = cuentas;
 	}
-
 
 }

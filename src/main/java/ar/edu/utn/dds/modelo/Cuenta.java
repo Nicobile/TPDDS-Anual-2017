@@ -11,19 +11,13 @@ public class Cuenta {
 		this.periodo = periodo;
 	}
 
-
-
 	public Periodo getPeriodo() {
 		return periodo;
 	}
 
-
-
 	public void setPeriodo(Periodo periodo) {
 		this.periodo = periodo;
 	}
-
-
 
 	public String getNombre() {
 		return nombre;

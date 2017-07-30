@@ -1,6 +1,5 @@
 package ar.edu.utn.dds.modelo;
 
-
 import java.util.Collections;
 import java.util.List;
 
@@ -13,7 +12,6 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 
 public class FiltraYOrdenaAplicandoCriterioOrdenamiento extends Condicion {
-
 
 	private String criterioOrdenamiento;// mayorAmenor o menorAmayor, SON
 										// PALABRAS NO SIMBOLOS,
@@ -52,13 +50,12 @@ public class FiltraYOrdenaAplicandoCriterioOrdenamiento extends Condicion {
 
 	}
 
-	public FiltraYOrdenaAplicandoCriterioOrdenamiento(ValorCalculable ladoIzq, Periodo periodos, String criterioOrdenamiento) {
+	public FiltraYOrdenaAplicandoCriterioOrdenamiento(ValorCalculable ladoIzq, Periodo periodos,
+			String criterioOrdenamiento) {
 		super.setLadoIzq(ladoIzq);
 		super.setPeriodos(periodos);
-		this.criterioOrdenamiento=criterioOrdenamiento;
-		
-	}
+		this.criterioOrdenamiento = criterioOrdenamiento;
 
-	
+	}
 
 }

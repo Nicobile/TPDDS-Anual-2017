@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ar.edu.utn.dds.modelo.Cuenta;
 import ar.edu.utn.dds.modelo.Empresa;
@@ -64,7 +65,7 @@ public class ProcesarIndicadores {
 		return indicador;
 	}
 
-	ArrayList<Cuenta> buscarDeUnaEmpresaTodasSusCuentas(Empresa e) {
+	List<Cuenta> buscarDeUnaEmpresaTodasSusCuentas(Empresa e) {
 
 		return e.getCuentas();
 	}

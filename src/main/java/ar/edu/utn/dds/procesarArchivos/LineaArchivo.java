@@ -20,21 +20,10 @@ public class LineaArchivo {
 
 	}
 
-	
-
-
-
-
 
 	public String getFechaInicio() {
 		return fechaInicio;
 	}
-
-
-
-
-
-
 
 	public void setFechaInicio(String fechaInicio) {
 		this.fechaInicio = fechaInicio;

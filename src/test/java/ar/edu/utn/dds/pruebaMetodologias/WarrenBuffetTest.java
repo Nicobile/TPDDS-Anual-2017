@@ -36,7 +36,7 @@ public class WarrenBuffetTest {
 	private ProcesarIndicadores procesador1;
 	private Traductor t;
 	private Metodologia meto;
-
+/*
 	@Before
 	public void inicializacion() throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresaException,
 			NoSeEncuentraElIndicadorException, ScriptException, NoSePudoOrdenarLaCondicionException,
@@ -100,6 +100,6 @@ public class WarrenBuffetTest {
 		this.t.getIndicadores().clear();
 		this.meto.getCondicionesDeMetodologia().clear();
 		this.meto.getPuntajeEmpresas().clear();
-	}
+	}*/
 
 }

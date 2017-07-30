@@ -1,6 +1,5 @@
 package ar.edu.utn.dds.modelo;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,11 +15,12 @@ public class Creciente extends ValorCalculable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ArrayList<PuntajeEmpresa> calcularValor(Periodo periodos) throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
+	public ArrayList<PuntajeEmpresa> calcularValor(Periodo periodos, int anios)
+			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
 
-		ArrayList<PuntajeEmpresa> listaEmpresas = super.calcularValor(periodos);
-		List<Empresa> empresas= getTraductor().empresasConIndicadorCreciente(getEmpresas(), periodos,getIndicador());		
+		ArrayList<PuntajeEmpresa> listaEmpresas = super.calcularValor(periodos, anios);
+		List<Empresa> empresas = getTraductor().empresasConIndicadorCreciente(getEmpresas(), anios, getIndicador());
 		return eliminarEmpresasQueNoCumplenCondicion(listaEmpresas, empresas);
 
 	}

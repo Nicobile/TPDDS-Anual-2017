@@ -2,6 +2,8 @@ package ar.edu.utn.dds.procesarArchivos;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import static org.junit.Assert.*;
 
@@ -17,20 +19,30 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.modelo.Empresa;
 import ar.edu.utn.dds.modelo.Operando;
+import ar.edu.utn.dds.modelo.Periodo;
 import ar.edu.utn.dds.modelo.Traductor;
 import ar.edu.utn.dds.procesarArchivos.LectorArchivo;
 import ar.edu.utn.dds.procesarArchivos.ProcesarIndicadores;
+
 
 public class PruebaIndicadoresTest {
 	private LectorArchivo lector;
 	private ProcesarIndicadores procesador1;
 	private Traductor t;
+	private Periodo p;
+	
+	private Periodo periodoSinCuentas;
 	private static final double DELTA = 1e-15;
 
 	@Before
 	public void inicializacion() throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresaException {
 		this.t = new Traductor();
 		this.lector = new LectorArchivo(t);
+		
+		p=new Periodo("21/04/2013", "21/04/2018");
+
+		periodoSinCuentas= new Periodo("21/04/2010", "21/04/2011");
+		
 		this.lector.leerArchivo(this.getClass().getResource("/Datos.txt").getFile());
 		this.procesador1 = new ProcesarIndicadores(t);
 		this.procesador1.leerExcel(this.getClass().getResource("/Indicadores.xls").getFile());
@@ -39,48 +51,46 @@ public class PruebaIndicadoresTest {
 
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
-/*
+
 	@Test
 	public void calcular() throws IndexOutOfBoundsException, NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
 
-		assertEquals(t.getIndicadores().get(1).getNombre(), "i_NivelDeuda");
-		assertEquals(t.calcular("CocaCola", "2015", "i_IngresoNeto"), 6104, DELTA);
+		assertEquals(t.getIndicadores().get(1).getNombre(), "i_NivelDeuda");		
+		assertEquals(t.calcular("Facebook", p, "i_NivelDeuda"), 0.12203366530588197, DELTA);
+		
+		
 
 	}
 
-	@Test
-	public void calcular2() throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException,
-			NoSeEncuentraElIndicadorException {
-		assertEquals(t.calcular("Twitter", "2014", "i_NivelDeuda"), 1.4390243902439024, DELTA);
-
-	}
+	
 
 	@Test
 	public void indicadorRecursivoDosVeces() throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
-		assertEquals(t.calcular("Pepsico", "2015", "i_ROE"), -0.22781721384205855, DELTA);
+	assertEquals(t.calcular("Pepsico", p, "i_ROE"),12.740526524223508, DELTA);
 
 	}
 
 	@Test
 	public void listarIndicadoresyCuentas() throws NoSeEncuentraLaEmpresaException {
-
-		assertTrue(t.listarIndicadodoresyCuentas(t.obtenerEmpresa("Facebook"), "2015").get(0).equals("i_ROE"));
+// facebook tiene 22 cuentas y hasy 7 indicadores
+		assertEquals(t.listarIndicadoresyCuentas(t.obtenerEmpresa("Facebook")).size(),29);
 	}
 
 	@Test
 	public void noSeEncuentraIndicador() throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
 		thrown.expect(NoSeEncuentraElIndicadorException.class);
-		t.calcular("CocaCola", "2017", "i_IndicadorH");
+		t.calcular("CocaCola", p, "i_IndicadorH");
 	}
 
 	@Test
 	public void noSeEncuentraCuentaParaLaEmpresa() throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
 		thrown.expect(NoSeEncuentraLaCuentaException.class);
-		t.calcular("Pepsico", "2015", "i_Solvencia");
+	// pepsico no tiene en sus cuentas las necesarias para calcular ese indicador
+		t.calcular("Pepsico", p, "i_Solvencia");
 	}
 
 	@Test
@@ -88,7 +98,7 @@ public class PruebaIndicadoresTest {
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
 		thrown.expect(IllegalArgumentException.class);
 
-		t.calcular("Facebook", "2015", "i_IndicadorD");
+		t.calcular("Facebook", p, "i_IndicadorD");
 
 	}
 
@@ -97,7 +107,7 @@ public class PruebaIndicadoresTest {
 	public void errorIndicadorMalEscrito() throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
 		thrown.expect(NoSeEncuentraElIndicadorException.class);
-		t.calcular("CocaCola", "2015", "j_ROE");
+		t.calcular("CocaCola", p, "j_ROE");
 	}
 
 	@Test
@@ -105,7 +115,7 @@ public class PruebaIndicadoresTest {
 	public void errorCualquierCosaComoIndicador() throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
 		thrown.expect(NoSeEncuentraElIndicadorException.class);
-		t.calcular("CocaCola", "2014", "abjshdjkasdlksdaj");
+		t.calcular("CocaCola", p, "abjshdjkasdlksdaj");
 	}
 
 	@Test
@@ -113,7 +123,7 @@ public class PruebaIndicadoresTest {
 			NoSeEncuentraElIndicadorException {
 		Operando nodo = t.getParser().parse("c_Ventas + c_Utilidades", t.getIndicadores());
 		Empresa CocaCola = t.obtenerEmpresa("CocaCola");
-		assertEquals(nodo.calcular(CocaCola, "2015"), 101000, DELTA);
+		assertEquals(nodo.calcular(CocaCola, p), 404734, DELTA);
 	}
 
 	@Test
@@ -122,7 +132,7 @@ public class PruebaIndicadoresTest {
 		thrown.expect(ArithmeticException.class);
 		Operando nodo = t.getParser().parse("(c_Ventas + c_Utilidades)/0", t.getIndicadores());
 		Empresa CocaCola = t.obtenerEmpresa("CocaCola");
-		nodo.calcular(CocaCola, "2015");
+		nodo.calcular(CocaCola, p);
 	}
 
 	@Test
@@ -135,7 +145,13 @@ public class PruebaIndicadoresTest {
 	public void parsearCualquierIndicadorDesdeArchivoIndicadores() {
 		thrown.expect(IllegalArgumentException.class);
 		t.getParser().parse("j_IndicadorF", t.getIndicadores());
-	}*/
+	}
+	@Test
+	public void NoSeEncuentraLaCuentaEnElPeriodo() throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException{
+		thrown.expect(NoSeEncuentraLaCuentaEnElPeriodoException.class);
+		
+			t.calcular("Pepsico", periodoSinCuentas, "i_ROE");
+	}
 
 	@After
 	public void eliminarLista() {

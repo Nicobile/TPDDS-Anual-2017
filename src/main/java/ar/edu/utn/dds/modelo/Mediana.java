@@ -15,10 +15,10 @@ public class Mediana extends ValorCalculable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ArrayList<PuntajeEmpresa> calcularValor(Periodo periodos)
+	public ArrayList<PuntajeEmpresa> calcularValor(Periodo periodos,int anios)
 			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
-		ArrayList<PuntajeEmpresa> listaEmpresas = super.calcularValor(periodos);
+		ArrayList<PuntajeEmpresa> listaEmpresas = super.calcularValor(periodos,anios);
 
 	//	Double[] array = new Double[periodos];
 /*

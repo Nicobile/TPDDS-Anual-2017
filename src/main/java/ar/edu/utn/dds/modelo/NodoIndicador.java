@@ -31,8 +31,8 @@ public class NodoIndicador implements Operando {
 	}
 
 	@Override
-	public double calcular(Empresa e, Periodo periodo)
-			throws NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraLaEmpresaException {
+	public double calcular(Empresa e, Periodo periodo) throws NoSeEncuentraLaCuentaException,
+			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraLaEmpresaException {
 		// TODO Auto-generated method stub
 		return this.getOperador().operar(operando1.calcular(e, periodo), operando2.calcular(e, periodo));
 	}

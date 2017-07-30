@@ -1,6 +1,7 @@
 package ar.edu.utn.dds.modelo;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import ar.edu.utn.dds.excepciones.FechaInicioPosteriorAFinException;
 
@@ -50,9 +51,17 @@ public void setFechaFin(LocalDate fechaFin) {
 }
 public Periodo(LocalDate fechaInicio, LocalDate fechaFin) {
 	super();
-	if(fechaInicio.isAfter(fechaFin))throw new FechaInicioPosteriorAFinException("La fecha inicio es posterior a la fecha fin");
 	this.fechaInicio = fechaInicio;
 	this.fechaFin = fechaFin;
+}
+public Periodo(String fechaInicio, String fechaFin) {
+	super();
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+	LocalDate fechaI = LocalDate.parse(fechaInicio, formatter);
+	LocalDate fechaF = LocalDate.parse(fechaFin, formatter);
+	if(fechaI.isAfter(fechaF))throw new FechaInicioPosteriorAFinException("La fecha inicio es posterior a la fecha fin");
+	this.fechaInicio = fechaI;
+	this.fechaFin = fechaF;
 }
 
 

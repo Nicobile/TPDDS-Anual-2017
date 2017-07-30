@@ -2,6 +2,7 @@ package ar.edu.utn.dds.modelo;
 
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 
+import java.util.List;
 
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
@@ -9,22 +10,25 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 public class NodoCuenta implements Operando {
 	private String nomCuenta;
 
-
 	@Override
-	public double calcular(Empresa e, Periodo periodo)
-			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
-		// TODO Auto-generated method stub
-		
-		Cuenta c = e.buscarUnaCuentaPorPeriodo(nomCuenta, periodo);
+	public double calcular(Empresa e, Periodo periodo) throws NoSeEncuentraLaEmpresaException,
+			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
 
-		return c.getValor();
+		List<Cuenta> cuentas = e.buscarUnaCuentaPorPeriodo(nomCuenta, periodo);
+
+		double valor = 0;
+		for (int i = 0; i < cuentas.size(); i++) {
+			valor += cuentas.get(i).getValor();
+		}
+
+		return valor;
 
 	}
 
 	public NodoCuenta(String nomCuenta) {
 
 		this.nomCuenta = nomCuenta;
-		
+
 	}
 
 }

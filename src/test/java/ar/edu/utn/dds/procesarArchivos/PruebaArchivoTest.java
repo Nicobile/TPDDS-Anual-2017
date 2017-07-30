@@ -6,6 +6,8 @@ import org.junit.Rule;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import org.junit.After;
 import org.junit.Before;
@@ -22,7 +24,7 @@ public class PruebaArchivoTest {
 
 	private LectorArchivo lector;
 	private Traductor t;
-	private static final double DELTA = 1e-15;
+private Periodo periodoSinCuentas;
 
 	@Before
 
@@ -30,13 +32,15 @@ public class PruebaArchivoTest {
 		this.t = new Traductor();
 		this.lector = new LectorArchivo(t);
 		this.lector.leerArchivo(this.getClass().getResource("/Datos.txt").getFile());
-
+		
+		periodoSinCuentas=new Periodo("21/04/2010", "21/04/2011");
+		
 	}
 
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
 
-/*	@Test
+	@Test
 
 	// prueba para verificar que la lista contenga elementos
 	public void listaTieneElementos() throws FileNotFoundException, IOException {
@@ -46,13 +50,15 @@ public class PruebaArchivoTest {
 	@Test
 
 	public void verficarCuentasEmpresa() throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresaException,
-			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException {
+			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
 
-		assertEquals(t.obtenerEmpresa("Facebook").getCuentas().size(), 79);
-		assertEquals(t.consultarValorCuenta("CocaCola", "c_IngresoNetoEnOperacionesDiscontinuadas", "2015"), 452,
-				DELTA);
-		assertEquals(t.obtenerEmpresa("Twitter").buscarUnaCuentaPorFecha("c_IngresoNetoEnOperacionesContinuas", "2015")
-				.getValor(), 13453, DELTA);
+		assertEquals(t.obtenerEmpresa("Facebook").getCuentas().size(), 22);
+		assertEquals(t.obtenerEmpresa("Pepsico").getCuentas().size(), 23);
+		assertEquals(t.obtenerEmpresa("Twitter").getCuentas().size(), 22);
+		assertEquals(t.obtenerEmpresa("CocaCola").getCuentas().size(), 22);
+		
+
+		
 	}
 
 	@Test
@@ -65,28 +71,11 @@ public class PruebaArchivoTest {
 	@Test
 
 	public void noSeEncuentraCuentaEnUnaFecha()
-			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnEsaFechaException {
-		thrown.expect(NoSeEncuentraLaCuentaEnEsaFechaException.class);
-		this.t.obtenerEmpresa("Pepsico").buscarUnaCuentaPorFecha("c_IngresoNetoEnOperacionesContinuas", "2003");
-	}*/
-	@Test
-	
-	public void noSeEncuentraCuentaEnUnaFecha(){
-		this.t.getEmpresas();
-		
-		for(int i=0;i<t.getEmpresas().size();i++){
-			
-			for (int j=0;j<t.getEmpresas().get(i).getCuentas().size();j++){
-		
-				
-				System.out.println(t.getEmpresas().get(i).getCuentas().get(j).getNombre());
-				System.out.println(t.getEmpresas().get(i).getCuentas().get(j).getValor());
-				Periodo p=t.getEmpresas().get(i).getCuentas().get(j).getPeriodo();
-				System.out.println(p.getFechaInicio());
-				System.out.println(p.getFechaFin());
-			}
-		}
+			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
+		thrown.expect(NoSeEncuentraLaCuentaEnElPeriodoException.class);
+		this.t.obtenerEmpresa("Pepsico").buscarUnaCuentaPorPeriodo("c_IngresoNetoEnOperacionesContinuas",periodoSinCuentas );
 	}
+
 			
 		
 	@After

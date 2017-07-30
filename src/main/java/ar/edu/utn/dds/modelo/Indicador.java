@@ -7,7 +7,6 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 public class Indicador {
 	private String nombre;
 	private String operacion;
-
 	private NodoIndicador nodo;
 	// ver de sacar la fecha
 
@@ -42,8 +41,8 @@ public class Indicador {
 		this.nombre = nombre;
 	}
 
-	public double calcular(Empresa e, Periodo periodo)
-			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
+	public double calcular(Empresa e, Periodo periodo) throws NoSeEncuentraLaEmpresaException,
+			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
 		return this.nodo.calcular(e, periodo);
 	}
 

@@ -12,9 +12,10 @@ import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 
 public class Filtro extends Condicion {
 
-	public Filtro(ValorCalculable ladoIzq, Periodo periodos) {
+	public Filtro(ValorCalculable ladoIzq, Periodo periodos, int anios) {
 		super.setLadoIzq(ladoIzq);
 		super.setPeriodos(periodos);
+		super.setAnios(anios);
 	}
 
 	public List<PuntajeEmpresa> aplicar() throws ScriptException, NoSePudoOrdenarLaCondicionException,

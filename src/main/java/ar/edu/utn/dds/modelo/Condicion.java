@@ -15,6 +15,7 @@ public class Condicion {
 
 	private ValorCalculable ladoIzq;
 	private Periodo periodos;
+	private int anios;
 	
 	public Boolean filtro;
 
@@ -25,11 +26,19 @@ public class Condicion {
 		List<PuntajeEmpresa> valoresAizq = new ArrayList<PuntajeEmpresa>();
 
 		valoresAizq = ladoIzq.calcularValor(
-				periodos);/*
+				periodos,anios);/*
 							 * esto va a aplicar a todas las empresas el lado
 							 * izq y los guarda en la lista SIN ORDENAR
 							 */
 		return valoresAizq;
+	}
+
+	public int getAnios() {
+		return anios;
+	}
+
+	public void setAnios(int anios) {
+		this.anios = anios;
 	}
 
 	public ValorCalculable getLadoIzq() {
