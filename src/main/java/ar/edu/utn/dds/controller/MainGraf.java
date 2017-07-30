@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import ar.edu.utn.dds.interfazGrafica.Main;
+import ar.edu.utn.dds.modelo.Metodologia;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,11 +23,12 @@ public class MainGraf implements Initializable {
 	public void setProgramaPrincipal(Main ProgramaPrincipal) {
         this.ProgramaPrincipal = ProgramaPrincipal;
     }
-	@FXML
+	
+    @FXML
     private Button idBtnCerrar;
 
     @FXML
-    private Button idBtnAgregar;
+    private Button idBtnSeleccionar;
 
     @FXML
     private ComboBox<String> idBtnCondicion;
@@ -35,7 +37,31 @@ public class MainGraf implements Initializable {
     private TextField idTextMetod;
 
     @FXML
-    private void btnAgregar(ActionEvent event) {
+    private Button idCargar;
+
+    @FXML
+    void btnCerrar(ActionEvent event) {
+
+    }
+
+    @FXML
+    void btnCondicion(ActionEvent event) {
+
+    }
+
+    @FXML
+    void textMetod(ActionEvent event) {
+
+    }
+
+    @FXML
+    void cargar(ActionEvent event) {
+    	String texto = (idTextMetod.getText());
+    	Metodologia metod = new Metodologia(texto);
+    }
+
+    @FXML
+    private void btnSeleccionar(ActionEvent event) {
     	
     	if (idBtnCondicion.getValue().equals("Condicion1")){
     		ProgramaPrincipal.mostrarCondicion1();
@@ -49,22 +75,6 @@ public class MainGraf implements Initializable {
 
     }
 
-    @FXML
-    private void btnCerrar(ActionEvent event) {
-
-    }
-
-    @FXML
-    void btnCondicion(ActionEvent event) {
-    	
-    }
-
-    @FXML
-    void textMetod(ActionEvent event) {
-
-    }
-    
-    
     
 	 @Override
 	 public void initialize(URL location,ResourceBundle resource){

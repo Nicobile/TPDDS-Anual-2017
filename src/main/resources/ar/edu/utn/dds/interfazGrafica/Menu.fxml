@@ -17,13 +17,13 @@
                <font>
                   <Font size="25.0" />
                </font></Text>
-            <Button fx:id="idBtnCerrar" layoutX="420.0" layoutY="593.0" mnemonicParsing="false" onAction="#btnCerrar" text="Cerrar" />
+            <Button fx:id="idBtnCerrar" layoutX="234.0" layoutY="611.0" mnemonicParsing="false" onAction="#btnCerrar" text="Cerrar" />
             <ButtonBar layoutX="13.0" layoutY="141.0" prefHeight="40.0" prefWidth="200.0">
                <buttons>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Seleccione una condicion:" wrappingWidth="194.7294921875" />
                </buttons>
             </ButtonBar>
-          <Button fx:id="idBtnAgregar" layoutX="305.0" layoutY="593.0" mnemonicParsing="false" onAction="#btnAgregar" text="Agregar" />
+          <Button fx:id="idBtnSeleccionar" layoutX="229.0" layoutY="227.0" mnemonicParsing="false" onAction="#btnSeleccionar" text="Seleccionar" />
             <ComboBox fx:id="idBtnCondicion" layoutX="223.0" layoutY="148.0" onAction="#btnCondicion" prefHeight="26.0" prefWidth="192.0" promptText="Opciones" />
             <TextField fx:id="idTextMetod" layoutX="170.0" layoutY="40.0" onAction="#textMetod" />
             <Text layoutX="13.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre Metodologia:" />
@@ -32,11 +32,12 @@
                   <Font size="29.0" />
                </font>
             </Text>
-            <Text fill="#b52828" layoutX="116.0" layoutY="224.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Condición de la Metodologia" textAlignment="RIGHT">
+            <Text fill="#b52828" layoutX="120.0" layoutY="287.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Condición de la Metodologia" textAlignment="RIGHT">
                <font>
                   <Font size="19.0" />
                </font>
             </Text>
+            <Button fx:id="idCargar" layoutX="389.0" layoutY="39.0" mnemonicParsing="false" onAction="#cargar" text="Cargar" />
          </children>
       </Pane>
    </bottom>

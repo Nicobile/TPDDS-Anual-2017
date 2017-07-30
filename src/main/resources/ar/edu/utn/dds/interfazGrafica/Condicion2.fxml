@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
@@ -13,12 +14,12 @@
    <top>
       <Pane prefHeight="363.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Text layoutX="155.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lado Izquierdo:" />
-            <TextField fx:id="idLadoIzq" layoutX="275.0" layoutY="69.0" onAction="#ladoIzq" />
             <TextField fx:id="idPeriodos" layoutX="275.0" layoutY="139.0" onAction="#periodos" />
             <TextField fx:id="idCriterio" layoutX="275.0" layoutY="198.0" onAction="#criterio" />
             <Text layoutX="191.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Periodos:" />
             <Text layoutX="195.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Criterio:" />
+            <Button fx:id="idCargar" layoutX="329.0" layoutY="265.0" mnemonicParsing="false" onAction="#cargar" text="Cargar" />
+            <ComboBox fx:id="idLadoIzq" layoutX="274.0" layoutY="86.0" onAction="#ladoIzq" prefHeight="26.0" prefWidth="172.0" promptText="Lado Izquierdo" />
          </children></Pane>
    </top>
 </BorderPane>
