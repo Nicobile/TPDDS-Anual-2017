@@ -103,24 +103,24 @@ public class PruebaMetodologiaTest {
 
 	}
 
-	/*
-	 * @Test public void pruebaSoloCondicionSumatoria() throws
-	 * NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException,
-	 * ScriptException, NoSePudoOrdenarLaCondicionException,
-	 * NoSeEncuentraLaCuentaException,
-	 * NoSeEncuentraLaCuentaEnElPeriodoException{ Sumatoria sum=new
-	 * Sumatoria(t.buscarIndicador("i_NivelDeuda"),t); LocalDate tiempo1 =
-	 * LocalDate.of(2016, 3, 12); LocalDate tiempo2 = LocalDate.of(2015, 2, 12);
-	 * Periodo periodocond2 = new Periodo(tiempo1,tiempo2); Condicion cond2 =
-	 * new FiltroYOrdena(sum,7.0,">",periodocond2);
-	 * meto.agregarCondicion(cond2); ArrayList<PuntajeEmpresa> empresas =
-	 * meto.aplicarMetodologia(); //Solo Pepsi y Facebook cumplen con la
-	 * condicion assertEquals(empresas.get(1).getNombreEmpresa(),"Pepsico");
-	 * assertEquals(empresas.get(0).getNombreEmpresa(),"Facebook");
-	 * 
-	 * 
-	 * }
-	 * 
+	
+	  @Test 
+	  public void pruebaSoloCondicionSumatoria() throws
+	  NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException,
+	 ScriptException, NoSePudoOrdenarLaCondicionException,
+	 NoSeEncuentraLaCuentaException,
+	  NoSeEncuentraLaCuentaEnElPeriodoException{ 
+		  Sumatoria sum=new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t); 
+		  Periodo periodo = new Periodo("21/04/2010", "21/07/2017");
+		  
+	  Condicion cond2 = new FiltroYOrdena(sum,400.0,">",periodo);
+	  meto.agregarCondicion(cond2);
+	 ArrayList<PuntajeEmpresa> empresas= meto.aplicarMetodologia();
+	 assertEquals(empresas.size(), 1);
+	  
+	   
+	  }
+	 /* 
 	 * @Test public void pruebaSoloCondicionLongevidad() throws
 	 * NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException,
 	 * ScriptException, NoSePudoOrdenarLaCondicionException,
