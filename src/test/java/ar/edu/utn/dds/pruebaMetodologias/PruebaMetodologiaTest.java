@@ -120,33 +120,27 @@ public class PruebaMetodologiaTest {
 	  
 	   
 	  }
-	 /* 
-	 * @Test public void pruebaSoloCondicionLongevidad() throws
-	 * NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException,
-	 * ScriptException, NoSePudoOrdenarLaCondicionException,
-	 * NoSeEncuentraLaCuentaException,
-	 * NoSeEncuentraLaCuentaEnElPeriodoException{ Longevidad lon = new
-	 * Longevidad(t.buscarIndicador("i_IngresoNeto"),t); LocalDate tiempo1 =
-	 * LocalDate.of(2016, 3, 12); LocalDate tiempo2 = LocalDate.of(2015, 2, 12);
-	 * Periodo periodolon = new Periodo(tiempo1,tiempo2); Condicion condlon =
-	 * new FiltroYOrdena(lon,3.0,">",periodolon);
-	 * meto.agregarCondicion(condlon); ArrayList<PuntajeEmpresa> empresas =
-	 * meto.aplicarMetodologia(); //Todas las empresas tienen mas de 3 años"
-	 * assertEquals(empresas.size(),4); }
-	 * 
-	 * @Test public void pruebaSoloCondicionCreciente()throws
-	 * NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException,
-	 * ScriptException, NoSePudoOrdenarLaCondicionException,
-	 * NoSeEncuentraLaCuentaException,
-	 * NoSeEncuentraLaCuentaEnElPeriodoException{ Creciente cre = new
-	 * Creciente(t.buscarIndicador("i_NivelDeuda"),t); LocalDate tiempo1 =
-	 * LocalDate.of(2016, 3, 12); LocalDate tiempo2 = LocalDate.of(2015, 2, 12);
-	 * Periodo periodocre = new Periodo(tiempo1,tiempo2); Condicion concre = new
-	 * FiltraYOrdenaAplicandoCriterioOrdenamiento(cre,periodocre,"mayorAmenor");
-	 * meto.agregarCondicion(concre); ArrayList<PuntajeEmpresa> empresas =
-	 * meto.aplicarMetodologia(); //PEPSI incremento su deuda en 123,69
-	 * assertEquals(empresas.get(0).getNombreEmpresa(),"Pepsico"); }
-	 * 
+	  
+	  @Test 
+	  public void pruebaSoloCondicionLongevidad() throws
+	  NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException,
+	 ScriptException, NoSePudoOrdenarLaCondicionException,
+	 NoSeEncuentraLaCuentaException,
+	  NoSeEncuentraLaCuentaEnElPeriodoException{ 
+		  Longevidad lon = new Longevidad(t); 
+		  Periodo periodo = new Periodo("21/04/2010", "21/07/2017");
+		 Filtro condlon=new Filtro(lon,periodo,20);
+					 meto.agregarCondicion(condlon); 
+					 ArrayList<PuntajeEmpresa> empresas =meto.aplicarMetodologia(); //Solo CocacolaYpesico tienen mas de 20"
+					  assertEquals(empresas.size(),2); 
+					  
+	  }
+	  
+	   
+	  
+
+	 
+	/*
 	 * @Test public void pruebaSoloPromedio()throws
 	 * NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException,
 	 * ScriptException, NoSePudoOrdenarLaCondicionException,

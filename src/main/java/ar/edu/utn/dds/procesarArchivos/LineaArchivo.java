@@ -9,15 +9,26 @@ public class LineaArchivo {
 	double valorCuenta;
 	String fechaInicio;
 	String fechaFin;
+	String fechaInscripcion;
 	
 
-	public LineaArchivo(String nombreEmpresa, String nombreCuenta, double valorCuenta,String fechaInicio,String fechaFin)  {
+	public LineaArchivo(String nombreEmpresa,String fechaInscripcion, String nombreCuenta, double valorCuenta,String fechaInicio,String fechaFin)  {
 		this.nombreCuenta = nombreCuenta;
 		this.nombreEmpresa = nombreEmpresa;
 		this.valorCuenta = valorCuenta;
 		this.fechaInicio=fechaInicio;
 		this.fechaFin=fechaFin;
+		this.fechaInscripcion=fechaInscripcion;
+	}
 
+
+	public String getFechaInscripcion() {
+		return fechaInscripcion;
+	}
+
+
+	public void setFechaInscripcion(String fechaInscripcion) {
+		this.fechaInscripcion = fechaInscripcion;
 	}
 
 

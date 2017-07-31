@@ -56,7 +56,7 @@ public Periodo(LocalDate fechaInicio, LocalDate fechaFin) {
 }
 public Periodo(String fechaInicio, String fechaFin) {
 	super();
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	LocalDate fechaI = LocalDate.parse(fechaInicio, formatter);
 	LocalDate fechaF = LocalDate.parse(fechaFin, formatter);
 	if(fechaI.isAfter(fechaF))throw new FechaInicioPosteriorAFinException("La fecha inicio es posterior a la fecha fin");

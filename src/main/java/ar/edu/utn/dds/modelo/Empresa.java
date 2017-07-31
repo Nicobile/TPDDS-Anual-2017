@@ -1,5 +1,7 @@
 package ar.edu.utn.dds.modelo;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,7 +16,7 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 public class Empresa {
 
 	private String nombre;
-
+	private LocalDate fechaInscripcion;
 	private List<Cuenta> cuentas;
 
 	public Empresa(String nombre, ArrayList<Cuenta> cuentas) {
@@ -42,10 +44,23 @@ public class Empresa {
 				(p1, p2) -> p1.getPeriodo().getFechaInicio().compareTo(p2.getPeriodo().getFechaInicio()));
 	}
 
-	public Empresa(String nombre) {
+	public Empresa(String nombre,String fechaInscripcion) {
 		super();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate fechaI = LocalDate.parse(fechaInscripcion, formatter);
 		this.nombre = nombre;
+		this.fechaInscripcion=fechaI;
 		this.cuentas = new ArrayList<Cuenta>();
+	}
+
+
+
+	public LocalDate getFechaInscripcion() {
+		return fechaInscripcion;
+	}
+
+	public void setFechaInscripcion(LocalDate fechaInscripcion) {
+		this.fechaInscripcion = fechaInscripcion;
 	}
 
 	@Override
@@ -53,6 +68,7 @@ public class Empresa {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((cuentas == null) ? 0 : cuentas.hashCode());
+		result = prime * result + ((fechaInscripcion == null) ? 0 : fechaInscripcion.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		return result;
 	}
@@ -70,6 +86,11 @@ public class Empresa {
 			if (other.cuentas != null)
 				return false;
 		} else if (!cuentas.equals(other.cuentas))
+			return false;
+		if (fechaInscripcion == null) {
+			if (other.fechaInscripcion != null)
+				return false;
+		} else if (!fechaInscripcion.equals(other.fechaInscripcion))
 			return false;
 		if (nombre == null) {
 			if (other.nombre != null)

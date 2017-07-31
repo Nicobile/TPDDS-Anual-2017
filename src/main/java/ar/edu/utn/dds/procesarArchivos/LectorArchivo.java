@@ -25,7 +25,7 @@ public class LectorArchivo {
 
 		String cadena;
 		String s;// donde voy guardando las palabrast
-		String nomEmpresa = null, nomCuenta = null, valorCuenta = null, fechaInicio = null,fechaFin=null;
+		String nomEmpresa = null, nomCuenta = null, valorCuenta = null, fechaInicio = null,fechaFin=null, fechaInscripcion=null;
 		LineaArchivo elementoColeccion;
 
 		while ((cadena = b.readLine()) != null) {
@@ -39,20 +39,25 @@ public class LectorArchivo {
 					nomEmpresa = s;
 				}
 				if (numTokens == 2) {
+					fechaInscripcion = s;
+				}
+				
+				if (numTokens == 3) {
 					nomCuenta = s;
 				}
-				if (numTokens == 3) {
+				if (numTokens == 4) {
 					valorCuenta = s;
 				}
-				if (numTokens == 4) {
+				if (numTokens == 5) {
 					fechaInicio = s;
 				}
-				if (numTokens == 5) {
+				if (numTokens ==6) {
 					fechaFin = s;
 				}
 			}
 
-			elementoColeccion = new LineaArchivo(nomEmpresa, nomCuenta, Integer.parseInt(valorCuenta), fechaInicio,fechaFin);
+
+			elementoColeccion = new LineaArchivo(nomEmpresa,fechaInscripcion, nomCuenta, Integer.parseInt(valorCuenta),fechaInicio,fechaFin);
 			lineasArchivo.add(elementoColeccion);
 
 		}

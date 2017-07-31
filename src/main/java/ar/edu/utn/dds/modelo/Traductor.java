@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -94,7 +94,7 @@ public class Traductor {
 			
 		});
 
-			lista.forEach(unV->System.out.println(unV));
+			
 
 		return lista;
 	}
@@ -269,7 +269,7 @@ public class Traductor {
 
 			} catch (NoSuchElementException e) {
 
-				Empresa empresa = new Empresa(lineasArchivo.get(x).getNombreEmpresa());
+				Empresa empresa = new Empresa(lineasArchivo.get(x).getNombreEmpresa(),lineasArchivo.get(x).getFechaInscripcion());
 				// creo la cuenta de la nueva empresa
 				Cuenta cuenta = new Cuenta(lineasArchivo.get(x).getNombreCuenta(),
 						lineasArchivo.get(x).getValorCuenta(), periodo);

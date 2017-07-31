@@ -16,6 +16,11 @@ public abstract class ValorCalculable {
 	 * izquierdo estoy creando y el indicador tambien
 	 */
 
+	public ValorCalculable(Traductor traductor) {
+		super();
+		this.traductor = traductor;
+	}
+
 	/*
 	 * de alguna forma en la interfaz a la hora qeu ingresan el indicador
 	 * deberia buscarlo con el traductor
@@ -69,7 +74,7 @@ public abstract class ValorCalculable {
 		return empresas;
 	}
 
-	public void setEmpresas(ArrayList<Empresa> empresas) {
+	public void setEmpresas(List<Empresa> empresas) {
 		this.empresas = empresas;
 	}
 
