@@ -26,7 +26,7 @@ import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 import ar.edu.utn.dds.modelo.Condicion;
 import ar.edu.utn.dds.modelo.FiltraYOrdenaAplicandoCriterioOrdenamiento;
 import ar.edu.utn.dds.modelo.Filtro;
-import ar.edu.utn.dds.modelo.FiltroYOrdena;
+import ar.edu.utn.dds.modelo.FiltroSegunEcuacion;
 import ar.edu.utn.dds.modelo.Creciente;
 import ar.edu.utn.dds.modelo.Decreciente;
 import ar.edu.utn.dds.modelo.Longevidad;
@@ -103,72 +103,67 @@ public class PruebaMetodologiaTest {
 
 	}
 
-	
-	  @Test 
-	  public void pruebaSoloCondicionSumatoria() throws
-	  NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException,
-	 ScriptException, NoSePudoOrdenarLaCondicionException,
-	 NoSeEncuentraLaCuentaException,
-	  NoSeEncuentraLaCuentaEnElPeriodoException{ 
-		  Sumatoria sum=new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t); 
-		  Periodo periodo = new Periodo("21/04/2010", "21/07/2017");
-		  
-	  Condicion cond2 = new FiltroYOrdena(sum,400.0,">",periodo);
-	  meto.agregarCondicion(cond2);
-	 ArrayList<PuntajeEmpresa> empresas= meto.aplicarMetodologia();
-	 assertEquals(empresas.size(), 1);
-	  
-	   
-	  }
-	  
-	  @Test 
-	  public void pruebaSoloCondicionLongevidad() throws
-	  NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException,
-	 ScriptException, NoSePudoOrdenarLaCondicionException,
-	 NoSeEncuentraLaCuentaException,
-	  NoSeEncuentraLaCuentaEnElPeriodoException{ 
-		  Longevidad lon = new Longevidad(t); 
-		  Periodo periodo = new Periodo("21/04/2010", "21/07/2017");
-		 Filtro condlon=new Filtro(lon,periodo,20);
-					 meto.agregarCondicion(condlon); 
-					 ArrayList<PuntajeEmpresa> empresas =meto.aplicarMetodologia(); //Solo CocacolaYpesico tienen mas de 20"
-					  assertEquals(empresas.size(),2); 
-					  
-	  }
-	  
-	   
-	  
+	@Test
+	public void pruebaSoloCondicionSumatoria() throws NoSeEncuentraElIndicadorException,
+			NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException,
+			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
+		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
+		Periodo periodo = new Periodo("21/04/2010", "21/07/2017");
 
+		Condicion cond2 = new FiltroSegunEcuacion(sum, 400.0, ">", periodo);
+		meto.agregarCondicion(cond2);
+		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
+		assertEquals(empresas.size(), 1);
+
+	}
+
+	@Test
+	public void pruebaSoloCondicionLongevidad() throws NoSeEncuentraElIndicadorException,
+			NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException,
+			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
+		Longevidad lon = new Longevidad(t);
+		Periodo periodo = new Periodo("21/04/2010", "21/07/2017");
+		Filtro condlon = new Filtro(lon, periodo, 20);
+		meto.agregarCondicion(condlon);
+		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia(); // Solo
+																		// CocacolaYpesico
+																		// tienen
+																		// mas
+																		// de
+																		// 20"
+		assertEquals(empresas.size(), 2);
+
+	}
+
+	@Test
+	public void pruebaSoloPromedio()throws
+	  NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException,
+	 ScriptException, NoSePudoOrdenarLaCondicionException,
+	  NoSeEncuentraLaCuentaException,
+	  NoSeEncuentraLaCuentaEnElPeriodoException{ 
+		 Promedio pro = new Promedio(t.buscarIndicador("i_NivelDeuda"),t); 
+		 Periodo periodo = new Periodo("21/04/2010", "21/07/2017");
+		 Condicion conpro = new FiltroSegunEcuacion(pro, 50.0, ">", periodo) ; 
+		 meto.agregarCondicion(conpro);
+	  ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia(); 	  	  
+	  assertEquals(empresas.size(),1);
+	  assertEquals(empresas.get(0).getNombreEmpresa(),"Pepsico"); }
+
+	
+	 /* @Test public void noHayEmpresasQueCumplan() throws
+	  NoSeEncuentraLaEmpresaException,
+	  NoSeEncuentraLaCuentaException,NoSeEncuentraLaCuentaEnElPeriodoException,
+	  NoSeEncuentraElIndicadorException, ScriptException,
+	  NoSePudoOrdenarLaCondicionException {
+	  thrown.expect(NoHayEmpresasQueCumplanLaCondicionException.class);
+	  Sumatoria sum=new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t);
+	  LocalDate tiempo1 = LocalDate.of(2016, 3, 12); LocalDate tiempo2 =
+	  LocalDate.of(2015, 2, 12); Periodo periodosum = new
+	  Periodo(tiempo1,tiempo2); Condicion cond2 = new
+	  FiltroYOrdena(sum,700.0,">",periodosum); meto.agregarCondicion(cond2);
+	  meto.aplicarMetodologia(); }*/
 	 
-	/*
-	 * @Test public void pruebaSoloPromedio()throws
-	 * NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException,
-	 * ScriptException, NoSePudoOrdenarLaCondicionException,
-	 * NoSeEncuentraLaCuentaException,
-	 * NoSeEncuentraLaCuentaEnElPeriodoException{ Promedio pro = new
-	 * Promedio(t.buscarIndicador("i_NivelDeuda"),t); LocalDate tiempo1 =
-	 * LocalDate.of(2016, 3, 12); LocalDate tiempo2 = LocalDate.of(2015, 2, 12);
-	 * Periodo periodopro = new Periodo(tiempo1,tiempo2); Condicion conpro = new
-	 * FiltroYOrdena (pro,200.0,">",periodopro); meto.agregarCondicion(conpro);
-	 * ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia(); //Solo
-	 * facebook tiene un promedio de deuda mayor a 200. Su promedio es de 282
-	 * assertEquals(empresas.size(),1);
-	 * assertEquals(empresas.get(0).getNombreEmpresa(),"Facebook"); }
-	 * 
-	 * @Test public void noHayEmpresasQueCumplan() throws
-	 * NoSeEncuentraLaEmpresaException,
-	 * NoSeEncuentraLaCuentaException,NoSeEncuentraLaCuentaEnElPeriodoException,
-	 * NoSeEncuentraElIndicadorException, ScriptException,
-	 * NoSePudoOrdenarLaCondicionException {
-	 * thrown.expect(NoHayEmpresasQueCumplanLaCondicionException.class);
-	 * Sumatoria sum=new Sumatoria(t.buscarIndicador("i_NivelDeuda"),t);
-	 * LocalDate tiempo1 = LocalDate.of(2016, 3, 12); LocalDate tiempo2 =
-	 * LocalDate.of(2015, 2, 12); Periodo periodosum = new
-	 * Periodo(tiempo1,tiempo2); Condicion cond2 = new
-	 * FiltroYOrdena(sum,700.0,">",periodosum); meto.agregarCondicion(cond2);
-	 * meto.aplicarMetodologia(); }
-	 * 
-	 * 
+	/* 
 	 * @Test public void pruebaLongevidadyCreciente()throws
 	 * NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException,
 	 * ScriptException, NoSePudoOrdenarLaCondicionException,

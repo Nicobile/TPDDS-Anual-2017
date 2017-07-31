@@ -16,7 +16,15 @@ public class Condicion {
 	private ValorCalculable ladoIzq;
 	private Periodo periodos;
 	private int anios;
-	
+	private String comparador;
+	public String getComparador() {
+		return comparador;
+	}
+
+	public void setComparador(String comparador) {
+		this.comparador = comparador;
+	}
+
 	public Boolean filtro;
 
 	public List<PuntajeEmpresa> aplicar() throws ScriptException, NoSePudoOrdenarLaCondicionException,

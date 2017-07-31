@@ -20,7 +20,7 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 import ar.edu.utn.dds.modelo.Condicion;
 import ar.edu.utn.dds.modelo.FiltraYOrdenaAplicandoCriterioOrdenamiento;
-import ar.edu.utn.dds.modelo.FiltroYOrdena;
+import ar.edu.utn.dds.modelo.FiltroSegunEcuacion;
 import ar.edu.utn.dds.modelo.Creciente;
 import ar.edu.utn.dds.modelo.Longevidad;
 import ar.edu.utn.dds.modelo.Metodologia;

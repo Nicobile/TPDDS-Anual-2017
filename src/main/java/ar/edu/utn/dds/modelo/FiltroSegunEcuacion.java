@@ -13,19 +13,19 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 
-public class FiltroYOrdena extends Condicion {
+public class FiltroSegunEcuacion extends Condicion {
 
 	private Double ladoDer;/*
 							 * lado der SIEMPRE va a ser un numero PUEDE
 							 */
 
-	private String comparador;
+	
 
-	public FiltroYOrdena(ValorCalculable ladoIzq, Double ladoDer, String comparador, Periodo periodos) {
+	public FiltroSegunEcuacion(ValorCalculable ladoIzq, Double ladoDer, String comparador, Periodo periodos) {
 		super.setLadoIzq(ladoIzq);
 		super.setPeriodos(periodos);
 		this.ladoDer = ladoDer;
-		this.comparador = comparador;
+		super.setComparador(comparador);
 
 	}
 
@@ -49,7 +49,7 @@ public class FiltroYOrdena extends Condicion {
 		List<PuntajeEmpresa> empresasQueCumplenCond = valoresAizq.stream().filter(unV -> {
 			try {
 				return (boolean) interprete
-						.eval((String.valueOf(unV.getResultadoDeAplicarCondicion())) + comparador + ladoder);
+						.eval((String.valueOf(unV.getResultadoDeAplicarCondicion())) + super.getComparador() + ladoder);
 			} catch (ScriptException e) {
 
 				e.printStackTrace();

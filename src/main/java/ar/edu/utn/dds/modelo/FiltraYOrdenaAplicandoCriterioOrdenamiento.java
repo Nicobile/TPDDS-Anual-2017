@@ -50,10 +50,11 @@ public class FiltraYOrdenaAplicandoCriterioOrdenamiento extends Condicion {
 
 	}
 
-	public FiltraYOrdenaAplicandoCriterioOrdenamiento(ValorCalculable ladoIzq, Periodo periodos,
+	public FiltraYOrdenaAplicandoCriterioOrdenamiento(ValorCalculable ladoIzq, Periodo periodos, String comparador,
 			String criterioOrdenamiento) {
 		super.setLadoIzq(ladoIzq);
 		super.setPeriodos(periodos);
+		super.setComparador(comparador);
 		this.criterioOrdenamiento = criterioOrdenamiento;
 
 	}
