@@ -3,10 +3,13 @@ package ar.edu.utn.dds.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -22,13 +25,31 @@ public class Condicion2 implements Initializable{
     private Button idCerrar;
 
     @FXML
-    private TextField idLadoIzq;
-
-    @FXML
     private TextField idPeriodos;
 
     @FXML
     private TextField idCriterio;
+
+    @FXML
+    private Button idCargar;
+
+    @FXML
+    private ComboBox<String> idLadoIzq;
+
+    @FXML
+    void cargar(ActionEvent event) {
+    	
+    	if (idLadoIzq.getValue().equals("Longevidad")){
+    	    
+    	}
+    	if (idLadoIzq.getValue().equals("Creciente")){
+
+    	}
+    	if (idLadoIzq.getValue().equals("Decreciente")){
+    
+    	}
+
+    }
 
     @FXML
     void criterio(ActionEvent event) {
@@ -43,7 +64,9 @@ public class Condicion2 implements Initializable{
     @FXML
     void periodos(ActionEvent event) {
 
-    }	
+    }
+	
+   
 	@FXML
     void cerrar(ActionEvent event) {
 	  	stagePrincipal.close();
@@ -53,6 +76,10 @@ public class Condicion2 implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+    	ObservableList<String> ladoIzq = FXCollections.observableArrayList("Longevidad","Creciente","Decreciente");
+		
+		idLadoIzq.setItems(ladoIzq);
+		idLadoIzq.getSelectionModel().select(0);
     } 
 
 }
