@@ -18,10 +18,15 @@ public class Filtro extends Condicion {
 		super.setAnios(anios);
 	}
 
+	public Filtro(ValorCalculable ladoIzq, int anios) {
+		super.setLadoIzq(ladoIzq);
+		super.setAnios(anios);
+	}
+
 	public List<PuntajeEmpresa> aplicar() throws ScriptException, NoSePudoOrdenarLaCondicionException,
 			NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException,
 			NoSeEncuentraElIndicadorException {
-		setFiltro(false);
+		setFiltro(true);
 
 		return super.aplicar();
 	}

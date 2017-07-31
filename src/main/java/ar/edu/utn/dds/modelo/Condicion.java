@@ -16,14 +16,6 @@ public class Condicion {
 	private ValorCalculable ladoIzq;
 	private Periodo periodos;
 	private int anios;
-	private String comparador;
-	public String getComparador() {
-		return comparador;
-	}
-
-	public void setComparador(String comparador) {
-		this.comparador = comparador;
-	}
 
 	public Boolean filtro;
 
@@ -33,11 +25,12 @@ public class Condicion {
 
 		List<PuntajeEmpresa> valoresAizq = new ArrayList<PuntajeEmpresa>();
 
-		valoresAizq = ladoIzq.calcularValor(
-				periodos,anios);/*
-							 * esto va a aplicar a todas las empresas el lado
-							 * izq y los guarda en la lista SIN ORDENAR
-							 */
+		valoresAizq = ladoIzq.calcularValor(periodos,
+				anios);/*
+						 * esto va a aplicar a todas las empresas el lado izq y
+						 * los guarda en la lista SIN ORDENAR
+						 */
+
 		return valoresAizq;
 	}
 

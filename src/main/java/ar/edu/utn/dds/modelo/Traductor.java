@@ -200,6 +200,9 @@ public class Traductor {
 		return empresasConIndicadorDecreciente;
 
 	}
+	public PuntajeEmpresa buscarEmpresaEnPuntajeEmpresa(List<PuntajeEmpresa> lista, String pe ){
+		return lista.stream().filter(unaE->unaE.getNombreEmpresa().equals(pe)).findFirst().get();
+	}
 
 	public Indicador buscarIndicador(String ind) throws NoSeEncuentraElIndicadorException {
 		try {

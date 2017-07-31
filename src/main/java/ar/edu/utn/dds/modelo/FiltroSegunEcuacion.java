@@ -18,6 +18,7 @@ public class FiltroSegunEcuacion extends Condicion {
 	private Double ladoDer;/*
 							 * lado der SIEMPRE va a ser un numero PUEDE
 							 */
+	private String comparador;
 
 	
 
@@ -25,7 +26,7 @@ public class FiltroSegunEcuacion extends Condicion {
 		super.setLadoIzq(ladoIzq);
 		super.setPeriodos(periodos);
 		this.ladoDer = ladoDer;
-		super.setComparador(comparador);
+		this.comparador=comparador;
 
 	}
 
@@ -49,7 +50,7 @@ public class FiltroSegunEcuacion extends Condicion {
 		List<PuntajeEmpresa> empresasQueCumplenCond = valoresAizq.stream().filter(unV -> {
 			try {
 				return (boolean) interprete
-						.eval((String.valueOf(unV.getResultadoDeAplicarCondicion())) + super.getComparador() + ladoder);
+						.eval((String.valueOf(unV.getResultadoDeAplicarCondicion())) + comparador + ladoder);
 			} catch (ScriptException e) {
 
 				e.printStackTrace();

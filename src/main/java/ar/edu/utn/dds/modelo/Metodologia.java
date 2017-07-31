@@ -18,6 +18,7 @@ public class Metodologia {
 	private ArrayList<Condicion> condicionesDeMetodologia = new ArrayList<Condicion>();
 	private String nombre;
 	private ArrayList<PuntajeEmpresa> puntajeEmpresas = new ArrayList<PuntajeEmpresa>();
+	private int contador = 0;
 
 	private int buscarEmpresa(String nomE, List<PuntajeEmpresa> lista) throws NoSeEncuentraLaEmpresaException {
 
@@ -37,22 +38,44 @@ public class Metodologia {
 		List<PuntajeEmpresa> listaDeAplicarCondicion = new ArrayList<PuntajeEmpresa>();
 		listaDeAplicarCondicion = condicion.aplicar();
 		if (puntajeEmpresas.isEmpty()) {
-
-			for (int i = 0; i < listaDeAplicarCondicion.size(); i++) {
-				puntajeEmpresas.add(listaDeAplicarCondicion.get(i));
-				puntajeEmpresas.get(i).suma(i);
+			// lo del contador lo hago pq si no se cumple la primer condicion,
+			// que es de filtrar, entonces la lista va a estar vacia
+			// con lo cual al aplicar la siguiente condicion que , por ejemplo
+			// la cumplen todas, va a convertir en todas las empresas
+			// aun asi que no cumplan la primer condicion
+			if (contador == 0) {
+				contador++;
+				for (int i = 0; i < listaDeAplicarCondicion.size(); i++) {
+					puntajeEmpresas.add(listaDeAplicarCondicion.get(i));
+					// puntajeEmpresas.get(i).suma(i); esto estaba mal pq sumaba
+					// puntos aun cuando no habi que sumar...
+				}
+			} else {
+				throw new NoHayEmpresasQueCumplanLaCondicionException("Ninguna empresa cumple con la condicion");
 			}
 		} else {
 			if (!condicion.getFiltro()) {
 
-				eliminarDeListaDePuntajesSiNoCumplioLaCondicion(listaDeAplicarCondicion);
+				eliminarDeListaDePuntajesSiNoCumplioLaCondicion(puntajeEmpresas, listaDeAplicarCondicion);
+
+				// de la lista que cumple la condicion elimino aquellos que no
+				// estan en la lista de puntaje empresas
+				// para sumar correctamente los puntajes, si no hago esto, al
+				// ordenar de mayor a menor o viceversa
+				// una empresa podria ocupar la posicion 3, pero en realidad las
+				// primeras 2 empresas no estan en la lista de puntajes
+				// con lo cual deberia sumar 1, que seria su posicion real ,
+				// respecto a las que cumplen condicion en puntaje empresas, y
+				// no 3
+
+				eliminarDeListaDePuntajesSiNoCumplioLaCondicion(listaDeAplicarCondicion, puntajeEmpresas);
 
 				sumarPuntosAPuntajesEmpresas(listaDeAplicarCondicion);
 
 			} else {
 				/* tengo que dejar solo quellas que cumplen la condicion */
 
-				eliminarDeListaDePuntajesSiNoCumplioLaCondicion(listaDeAplicarCondicion);
+				eliminarDeListaDePuntajesSiNoCumplioLaCondicion(puntajeEmpresas, listaDeAplicarCondicion);
 
 			}
 
@@ -81,10 +104,11 @@ public class Metodologia {
 		}
 	}
 
-	private void eliminarDeListaDePuntajesSiNoCumplioLaCondicion(List<PuntajeEmpresa> lista) {
+	private void eliminarDeListaDePuntajesSiNoCumplioLaCondicion(List<PuntajeEmpresa> listaAremoverElementos,
+			List<PuntajeEmpresa> listaAcomparar) {
 
-		puntajeEmpresas
-				.removeIf(unElementoDeMetodologia -> !lista
+		listaAremoverElementos
+				.removeIf(unElementoDeMetodologia -> !listaAcomparar
 						.stream().filter(unElementoQueCumpleUnaCondicion -> unElementoQueCumpleUnaCondicion
 								.getNombreEmpresa().equals(unElementoDeMetodologia.getNombreEmpresa()))
 						.findFirst().isPresent());
@@ -107,6 +131,7 @@ public class Metodologia {
 		if (puntajeEmpresas.isEmpty()) {
 			throw new NoHayEmpresasQueCumplanLaCondicionException("No hay empresas que cumplan con la metodologia");
 		}
+
 		return puntajeEmpresas;
 
 	}

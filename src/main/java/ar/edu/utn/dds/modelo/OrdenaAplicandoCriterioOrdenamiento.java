@@ -11,7 +11,7 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 
-public class FiltraYOrdenaAplicandoCriterioOrdenamiento extends Condicion {
+public class OrdenaAplicandoCriterioOrdenamiento extends Condicion {
 
 	private String criterioOrdenamiento;// mayorAmenor o menorAmayor, SON
 										// PALABRAS NO SIMBOLOS,
@@ -50,11 +50,10 @@ public class FiltraYOrdenaAplicandoCriterioOrdenamiento extends Condicion {
 
 	}
 
-	public FiltraYOrdenaAplicandoCriterioOrdenamiento(ValorCalculable ladoIzq, Periodo periodos, String comparador,
+	public OrdenaAplicandoCriterioOrdenamiento(ValorCalculable ladoIzq, Periodo periodos,
 			String criterioOrdenamiento) {
 		super.setLadoIzq(ladoIzq);
 		super.setPeriodos(periodos);
-		super.setComparador(comparador);
 		this.criterioOrdenamiento = criterioOrdenamiento;
 
 	}
