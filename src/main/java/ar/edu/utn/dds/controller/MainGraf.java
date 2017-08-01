@@ -19,6 +19,9 @@ import javafx.scene.control.TextField;
 public class MainGraf implements Initializable {
 
 	private Main ProgramaPrincipal;
+	//private Metodologia metod;
+	private String texto;
+	private Condicion3 condicion3 = new Condicion3();
 	
 	public void setProgramaPrincipal(Main ProgramaPrincipal) {
         this.ProgramaPrincipal = ProgramaPrincipal;
@@ -56,9 +59,15 @@ public class MainGraf implements Initializable {
 
     @FXML
     void cargar(ActionEvent event) {
-    	String texto = (idTextMetod.getText());
-    	Metodologia metod = new Metodologia(texto);
+    	texto = (idTextMetod.getText());
+    	condicion3.setNombreMetod(texto);
+    	//metod = new Metodologia(texto);
     }
+    
+    public String getNombre(){ 
+    	return this.texto; 
+    	} 
+    
 
     @FXML
     private void btnSeleccionar(ActionEvent event) {
