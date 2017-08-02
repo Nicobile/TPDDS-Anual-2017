@@ -1,12 +1,11 @@
 package ar.edu.utn.dds.modelo;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import ar.edu.utn.dds.excepciones.FechaInicioPosteriorAFinException;
 
 public class Periodo {
-@Override
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -14,6 +13,7 @@ public class Periodo {
 		result = prime * result + ((fechaInicio == null) ? 0 : fechaInicio.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -35,35 +35,32 @@ public class Periodo {
 			return false;
 		return true;
 	}
-private LocalDate fechaInicio;
-private LocalDate fechaFin;
-public LocalDate getFechaInicio() {
-	return fechaInicio;
-}
-public void setFechaInicio(LocalDate fechaInicio) {
-	this.fechaInicio = fechaInicio;
-}
-public LocalDate getFechaFin() {
-	return fechaFin;
-}
-public void setFechaFin(LocalDate fechaFin) {
-	this.fechaFin = fechaFin;
-}
-public Periodo(LocalDate fechaInicio, LocalDate fechaFin) {
-	super();
-	this.fechaInicio = fechaInicio;
-	this.fechaFin = fechaFin;
-}
-public Periodo(String fechaInicio, String fechaFin) {
-	super();
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-	LocalDate fechaI = LocalDate.parse(fechaInicio, formatter);
-	LocalDate fechaF = LocalDate.parse(fechaFin, formatter);
-	if(fechaI.isAfter(fechaF))throw new FechaInicioPosteriorAFinException("La fecha inicio es posterior a la fecha fin");
-	this.fechaInicio = fechaI;
-	this.fechaFin = fechaF;
-}
 
+	private LocalDate fechaInicio;
+	private LocalDate fechaFin;
 
+	public LocalDate getFechaInicio() {
+		return fechaInicio;
+	}
+
+	public void setFechaInicio(LocalDate fechaInicio) {
+		this.fechaInicio = fechaInicio;
+	}
+
+	public LocalDate getFechaFin() {
+		return fechaFin;
+	}
+
+	public void setFechaFin(LocalDate fechaFin) {
+		this.fechaFin = fechaFin;
+	}
+
+	public Periodo(LocalDate fechaInicio, LocalDate fechaFin) {
+		super();
+		if (fechaInicio.isAfter(fechaFin))
+			throw new FechaInicioPosteriorAFinException("La fecha inicio es posterior a la fecha fin");
+		this.fechaInicio = fechaInicio;
+		this.fechaFin = fechaFin;
+	}
 
 }

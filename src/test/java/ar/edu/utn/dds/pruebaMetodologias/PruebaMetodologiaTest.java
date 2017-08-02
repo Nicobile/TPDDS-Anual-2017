@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.script.ScriptException;
@@ -42,6 +42,7 @@ public class PruebaMetodologiaTest {
 	private ProcesarIndicadores procesador1;
 	private Traductor t;
 	private Metodologia meto;
+	private Periodo periodo;
 
 	@Before
 	public void inicializacion() throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresaException,
@@ -53,6 +54,8 @@ public class PruebaMetodologiaTest {
 		this.procesador1 = new ProcesarIndicadores(t);
 		this.procesador1.leerExcel(this.getClass().getResource("/Indicadores.xls").getFile());
 
+		periodo = new Periodo(LocalDate.of(2010, 04, 21), LocalDate.of(2017, 07, 21));
+
 	}
 
 	@Rule
@@ -63,7 +66,6 @@ public class PruebaMetodologiaTest {
 			NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException,
 			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
 
-		Periodo periodo = new Periodo("21/04/2010", "21/07/2017");
 		Decreciente decre = new Decreciente(t.buscarIndicador("i_NivelDeuda"), t);
 
 		Condicion cond = new Filtro(decre, periodo, 4);
@@ -74,7 +76,7 @@ public class PruebaMetodologiaTest {
 
 		// Solo Pepsico cumplen con la condidion de que su deuda sea decreciente
 		assertEquals(empresas.size(), 1);
-		assertEquals(empresas.get(0).getNombreEmpresa(), "Pepsico");
+		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Pepsico"), empresas.get(0));
 
 	}
 
@@ -83,7 +85,6 @@ public class PruebaMetodologiaTest {
 			NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException,
 			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
 
-		Periodo periodo = new Periodo("21/04/2010", "21/07/2017");
 		Creciente creciente = new Creciente(t.buscarIndicador("i_NivelDeuda"), t);
 
 		Condicion cond = new Filtro(creciente, periodo, 4);
@@ -95,9 +96,9 @@ public class PruebaMetodologiaTest {
 		// Solo Twitter, Cocacola y Facebook cumplen con la condidion de que su
 		// deuda sea decreciente
 		assertEquals(empresas.size(), 3);
-		assertEquals(empresas.get(0).getNombreEmpresa(), "Facebook");
-		assertEquals(empresas.get(1).getNombreEmpresa(), "CocaCola");
-		assertEquals(empresas.get(2).getNombreEmpresa(), "Twitter");
+		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Facebook"), empresas.get(0));
+		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "CocaCola"), empresas.get(1));
+		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Twitter"), empresas.get(2));
 
 	}
 
@@ -106,7 +107,6 @@ public class PruebaMetodologiaTest {
 			NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException,
 			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
-		Periodo periodo = new Periodo("21/04/2010", "21/07/2017");
 
 		Condicion cond2 = new FiltroSegunEcuacion(sum, 400.0, ">", periodo);
 		meto.agregarCondicion(cond2);
@@ -120,7 +120,7 @@ public class PruebaMetodologiaTest {
 			NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException,
 			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
 		Longevidad lon = new Longevidad(t);
-		Periodo periodo = new Periodo("21/04/2010", "21/07/2017");
+
 		Filtro condlon = new Filtro(lon, periodo, 20);
 		meto.agregarCondicion(condlon);
 		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia(); // Solo
@@ -138,13 +138,13 @@ public class PruebaMetodologiaTest {
 			ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException {
 		Promedio pro = new Promedio(t.buscarIndicador("i_NivelDeuda"), t);
-		Periodo periodo = new Periodo("21/04/2010", "21/07/2017");
+
 		Condicion conpro = new FiltroSegunEcuacion(pro, 50.0, ">", periodo);
 		meto.agregarCondicion(conpro);
 		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
 
 		assertEquals(empresas.size(), 1);
-		assertEquals(empresas.get(0).getNombreEmpresa(), "Pepsico");
+		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Pepsico"), empresas.get(0));
 	}
 
 	@Test
@@ -154,7 +154,7 @@ public class PruebaMetodologiaTest {
 
 		thrown.expect(NoHayEmpresasQueCumplanLaCondicionException.class);
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
-		Periodo periodo = new Periodo("21/04/2010", "21/07/2017");
+
 		Condicion cond2 = new FiltroSegunEcuacion(sum, 500.0, ">", periodo);
 		Condicion cond = new OrdenaAplicandoCriterioOrdenamiento(sum, periodo, "mayorAmenor");
 		meto.agregarCondicion(cond2);
@@ -169,7 +169,7 @@ public class PruebaMetodologiaTest {
 			NoSePudoOrdenarLaCondicionException {
 
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
-		Periodo periodo = new Periodo("21/04/2010", "21/07/2017");
+
 		Condicion cond2 = new FiltroSegunEcuacion(sum, 200.0, ">", periodo);
 		Condicion cond = new OrdenaAplicandoCriterioOrdenamiento(sum, periodo, "mayorAmenor");
 		meto.agregarCondicion(cond2);
@@ -189,7 +189,7 @@ public class PruebaMetodologiaTest {
 			NoSeEncuentraElIndicadorException, ScriptException, NoSePudoOrdenarLaCondicionException {
 
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
-		Periodo periodo = new Periodo("21/04/2010", "21/07/2017");
+
 		Condicion cond2 = new FiltroSegunEcuacion(sum, 348.0, ">", periodo);
 		Condicion cond = new OrdenaAplicandoCriterioOrdenamiento(sum, periodo, "mayorAmenor");
 		meto.agregarCondicion(cond2);
@@ -208,7 +208,7 @@ public class PruebaMetodologiaTest {
 			NoSeEncuentraElIndicadorException, ScriptException, NoSePudoOrdenarLaCondicionException {
 
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
-		Periodo periodo = new Periodo("21/04/2010", "21/07/2017");
+
 		Condicion cond2 = new FiltroSegunEcuacion(sum, 349.0, ">", periodo);
 		Condicion cond = new OrdenaAplicandoCriterioOrdenamiento(sum, periodo, "menorAmayor");
 		meto.agregarCondicion(cond2);
@@ -248,7 +248,7 @@ public class PruebaMetodologiaTest {
 			ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException {
 		Decreciente decre = new Decreciente(t.buscarIndicador("i_NivelDeuda"), t);
-		Periodo periodo = new Periodo("21/04/2010", "21/07/2017");
+
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
 		Condicion condi = new Filtro(decre, 10);
 		Condicion condi2 = new FiltroSegunEcuacion(sum, 400.0, ">", periodo);
@@ -269,7 +269,7 @@ public class PruebaMetodologiaTest {
 
 		Promedio prom = new Promedio(t.buscarIndicador("i_NivelDeuda"), t);
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
-		Periodo periodo = new Periodo("21/04/2010", "21/07/2017");
+
 		Condicion cond1 = new OrdenaAplicandoCriterioOrdenamiento(prom, periodo, "menorAmayor");
 		Condicion cond2 = new FiltroSegunEcuacion(sum, 348.0, ">", periodo);
 		meto.agregarCondicion(cond1);
@@ -292,7 +292,7 @@ public class PruebaMetodologiaTest {
 
 		Promedio prom = new Promedio(t.buscarIndicador("i_NivelDeuda"), t);
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
-		Periodo periodo = new Periodo("21/04/2010", "21/07/2017");
+
 		Condicion cond1 = new OrdenaAplicandoCriterioOrdenamiento(prom, periodo, "mayorAmenor");
 		Condicion cond2 = new FiltroSegunEcuacion(sum, 348.0, ">", periodo);
 		meto.agregarCondicion(cond1);
@@ -306,6 +306,76 @@ public class PruebaMetodologiaTest {
 		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Twitter"), empresas.get(1));
 		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Pepsico"), empresas.get(0));
 
+	}
+
+	public void sinCuentasEnPeriodo() throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException,
+			ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException,
+			NoSeEncuentraLaCuentaEnElPeriodoException {
+		thrown.expect(NoSeEncuentraLaCuentaEnElPeriodoException.class);
+		Promedio prom = new Promedio(t.buscarIndicador("i_NivelDeuda"), t);
+		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
+		Periodo periodoSinCuentas = new Periodo(LocalDate.of(2000, 1, 20), LocalDate.of(2001, 1, 20));
+		Condicion cond1 = new OrdenaAplicandoCriterioOrdenamiento(prom, periodoSinCuentas, "mayorAmenor");
+		Condicion cond2 = new FiltroSegunEcuacion(sum, 348.0, ">", periodoSinCuentas);
+		meto.agregarCondicion(cond1);
+		meto.agregarCondicion(cond2);
+		meto.aplicarMetodologia();
+
+	}
+
+	@Test
+	public void noSeEncuentraIndicador() throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException,
+			ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException,
+			NoSeEncuentraLaCuentaEnElPeriodoException {
+		thrown.expect(NoSeEncuentraElIndicadorException.class);
+		Promedio prom = new Promedio(t.buscarIndicador("i_Solvecia"), t);
+		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_Solvecia"), t);
+
+		Condicion cond1 = new OrdenaAplicandoCriterioOrdenamiento(prom, periodo, "mayorAmenor");
+		Condicion cond2 = new FiltroSegunEcuacion(sum, 348.0, ">", periodo);
+		meto.agregarCondicion(cond1);
+		meto.agregarCondicion(cond2);
+		meto.aplicarMetodologia();
+
+	}
+
+	// pruebo que devuelva errores sobre otras condiciones
+	@Test
+	public void noSeEncuentraIndicador2() throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException,
+			ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException,
+			NoSeEncuentraLaCuentaEnElPeriodoException {
+		thrown.expect(NoSeEncuentraElIndicadorException.class);
+		Creciente cre = new Creciente(t.buscarIndicador("i_Solvecia"), t);
+		Condicion cond1 = new Filtro(cre, 2);
+		meto.agregarCondicion(cond1);
+		meto.aplicarMetodologia();
+
+	}
+
+	public void sinCuentasEnPeriodo2() throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException,
+			ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException,
+			NoSeEncuentraLaCuentaEnElPeriodoException {
+		thrown.expect(NoSeEncuentraLaCuentaEnElPeriodoException.class);
+
+		Creciente cre = new Creciente(t.buscarIndicador("i_Solvecia"), t);
+		Condicion cond1 = new Filtro(cre, 1);
+
+		meto.agregarCondicion(cond1);
+		meto.aplicarMetodologia();
+
+	}
+
+	public void PruebaCrecienteYDecrecienteMismosAños() throws ScriptException, NoSePudoOrdenarLaCondicionException,
+			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException,
+			NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException {
+		thrown.expect(NoHayEmpresasQueCumplanLaCondicionException.class);
+		Creciente cre = new Creciente(t.buscarIndicador("i_ROE"), t);
+		Condicion cond1 = new Filtro(cre, 10);
+		Decreciente decre = new Decreciente(t.buscarIndicador("i_NivelDeuda"), t);
+		Condicion cond2 = new Filtro(decre, 10);
+		meto.agregarCondicion(cond1);
+		meto.agregarCondicion(cond2);
+		meto.aplicarMetodologia();
 	}
 
 	@After
