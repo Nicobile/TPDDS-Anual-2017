@@ -6,7 +6,7 @@ import org.junit.Rule;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
+import java.time.LocalDate;
 
 import org.junit.After;
 import org.junit.Before;
@@ -23,7 +23,7 @@ public class PruebaArchivoTest {
 
 	private LectorArchivo lector;
 	private Traductor t;
-private Periodo periodoSinCuentas;
+	private Periodo periodoSinCuentas;
 
 	@Before
 
@@ -31,9 +31,8 @@ private Periodo periodoSinCuentas;
 		this.t = new Traductor();
 		this.lector = new LectorArchivo(t);
 		this.lector.leerArchivo(this.getClass().getResource("/Datos.txt").getFile());
-		
-		periodoSinCuentas=new Periodo("21/04/2010", "21/04/2011");
-		
+
+		periodoSinCuentas = new Periodo(LocalDate.of(2010, 04, 21), LocalDate.of(2011, 04, 21));
 	}
 
 	@Rule
@@ -55,9 +54,7 @@ private Periodo periodoSinCuentas;
 		assertEquals(t.obtenerEmpresa("Pepsico").getCuentas().size(), 23);
 		assertEquals(t.obtenerEmpresa("Twitter").getCuentas().size(), 22);
 		assertEquals(t.obtenerEmpresa("CocaCola").getCuentas().size(), 22);
-		
 
-		
 	}
 
 	@Test
@@ -69,14 +66,13 @@ private Periodo periodoSinCuentas;
 
 	@Test
 
-	public void noSeEncuentraCuentaEnUnaFecha()
-			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
+	public void noSeEncuentraCuentaEnUnaFecha() throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
+			NoSeEncuentraLaCuentaEnElPeriodoException {
 		thrown.expect(NoSeEncuentraLaCuentaEnElPeriodoException.class);
-		this.t.obtenerEmpresa("Pepsico").buscarUnaCuentaPorPeriodo("c_IngresoNetoEnOperacionesContinuas",periodoSinCuentas );
+		this.t.obtenerEmpresa("Pepsico").buscarUnaCuentaPorPeriodo("c_IngresoNetoEnOperacionesContinuas",
+				periodoSinCuentas);
 	}
 
-			
-		
 	@After
 
 	public void eliminarLista() {

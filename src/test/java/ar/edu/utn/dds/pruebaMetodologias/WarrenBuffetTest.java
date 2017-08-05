@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.script.ScriptException;
@@ -41,6 +41,7 @@ public class WarrenBuffetTest {
 	private ProcesarIndicadores procesador1;
 	private Traductor t;
 	private Metodologia meto;
+	private Periodo periodo;
 
 	@Before
 	public void inicializacion() throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresaException,
@@ -52,6 +53,7 @@ public class WarrenBuffetTest {
 		this.lector.leerArchivo(this.getClass().getResource("/Datos.txt").getFile());
 		this.procesador1 = new ProcesarIndicadores(t);
 		this.procesador1.leerExcel(this.getClass().getResource("/Indicadores.xls").getFile());
+		periodo = new Periodo(LocalDate.of(2010, 04, 21), LocalDate.of(2017, 07, 21));
 
 	}
 
@@ -63,7 +65,7 @@ public class WarrenBuffetTest {
 			NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
 		thrown.expect(NoHayEmpresasQueCumplanLaCondicionException.class);
-		Periodo periodo = new Periodo("21/04/2010", "21/07/2017");
+
 		Sumatoria maximizarROE = new Sumatoria(t.buscarIndicador("i_ROE"), t);
 
 		// habria que poner un periodo de 10 años, pq si no habria que poner un
@@ -98,7 +100,7 @@ public class WarrenBuffetTest {
 	public void seDebeInvertirEnFacebook() throws NoSeEncuentraLaEmpresaException, ScriptException,
 			NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
-		Periodo periodo = new Periodo("21/04/2010", "21/07/2017");
+
 		Sumatoria maximizarROE = new Sumatoria(t.buscarIndicador("i_ROE"), t);
 
 		// habria que poner un periodo de 10 años, pq si no habria que poner un

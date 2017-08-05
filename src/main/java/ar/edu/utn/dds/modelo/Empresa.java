@@ -30,8 +30,9 @@ public class Empresa {
 			return this.getCuentas().stream().filter(unaCuenta -> unaCuenta.getNombre().equals(nombreDeCuenta))
 					.findFirst().get();
 		} catch (NoSuchElementException e) {
-
+		
 			throw new NoSeEncuentraLaCuentaException("No se encuentra la cuenta");
+		
 		}
 
 	}
@@ -53,7 +54,13 @@ public class Empresa {
 		this.cuentas = new ArrayList<Cuenta>();
 	}
 
+	public double consultarValorCuenta( String nombreCuenta, Periodo periodo)
+			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
+			NoSeEncuentraLaCuentaEnElPeriodoException {
 
+		
+		return obtenerValorDeCuenta(nombreCuenta, periodo);
+	}
 
 	public LocalDate getFechaInscripcion() {
 		return fechaInscripcion;
@@ -107,11 +114,14 @@ public class Empresa {
 				.filter(unaCuenta -> unaCuenta.getNombre().equals(nombreDeCuenta)).collect(Collectors.toList());
 
 		if (cuentas.isEmpty()) {
+			
 			try {
 				buscarUnaCuenta(nombreDeCuenta);
 			} catch (NoSeEncuentraLaCuentaException e) {
+				
 				throw new NoSeEncuentraLaCuentaException("No existe la cuenta para esa empresa");
 			}
+		
 			throw new NoSeEncuentraLaCuentaEnElPeriodoException(
 					"No se encontro para la empresa la cuenta en el periodo ");
 		}

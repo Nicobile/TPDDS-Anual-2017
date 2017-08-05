@@ -1,7 +1,7 @@
 package ar.edu.utn.dds.modelo;
 
 import java.time.LocalDate;
-
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -49,52 +49,60 @@ public class Traductor {
 		Operando operando = parser.parse(i.getOperacion(), indicadores);
 		return operando.calcular(this.obtenerEmpresa(empresa), periodo);
 	}
+	
 
-	// por cada periodo perteneciente al PERIODO INGRESADO POR INTERFAZ, por cada empresa, calculo el indicador en cada uno de esos periodos y los sumo
+	// por cada periodo perteneciente al PERIODO INGRESADO POR INTERFAZ, por
+	// cada empresa, calculo el indicador en cada uno de esos periodos y los
+	// sumo
 	public ArrayList<Double> calcularAListaDeEmpresas(List<Empresa> empresas, Periodo periodo, Indicador i)
 			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
 		ArrayList<Double> listaAux = new ArrayList<Double>();
 		ArrayList<Double> lista = new ArrayList<Double>();
-		
-		
-		empresas.stream().forEach(unaE->{
-			
+
+		empresas.stream().forEach(unaE -> {
 
 			// solo a las cuentas que pertenecen al periodo
 			List<Cuenta> cuentas = unaE.filtraCuentasEnPeriodo(periodo);
-			
+
 			// de las cuentas me quedo con los periodos
-						List<Periodo> periodos = cuentas.stream().map(unaC -> unaC.getPeriodo()).collect(Collectors.toList());
-						// elimino periodos iguales
-						List<Periodo> listaPeriodos = new ArrayList<>(new HashSet<>(periodos));
-						// periodo es anterior, y calculo su valor
-						Collections.sort(listaPeriodos, (p1, p2) -> p1.getFechaInicio().compareTo(p2.getFechaInicio()));
-						
-			listaPeriodos.stream().forEach(unP->{
-				try {
+			List<Periodo> periodos = cuentas.stream().map(unaC -> unaC.getPeriodo()).collect(Collectors.toList());
+			// elimino periodos iguales
+			List<Periodo> listaPeriodos = new ArrayList<>(new HashSet<>(periodos));
+			// periodo es anterior, y calculo su valor
+			Collections.sort(listaPeriodos, (p1, p2) -> p1.getFechaInicio().compareTo(p2.getFechaInicio()));
+
+			listaPeriodos.stream().forEach(unP -> {
 				
+
 					// avanzo en la lista de cuentas que pertenecen al periodo
 					// calculo el indicador a la empresa en el periodo
-					// en realidad no uso las cuentas.... solo los periodos en los
+					// en realidad no uso las cuentas.... solo los periodos en
+					// los
 					// que existen cuentes que estan ,comprendidos entre los
 					// periodos que me piden desde la interfaz
-					listaAux.add(calcular(unaE.getNombre(), unP,
-							i.getNombre()));
-				} catch (NoSeEncuentraLaEmpresaException | NoSeEncuentraLaCuentaException
-						| NoSeEncuentraLaCuentaEnElPeriodoException | NoSeEncuentraElIndicadorException e) {
+					try {
+						listaAux.add(calcular(unaE.getNombre(), unP, i.getNombre()));
+					} catch (NoSeEncuentraLaEmpresaException e) {
+						 
+						
+					} catch (NoSeEncuentraLaCuentaException e) {
+						
 					
-				}
-			
-			});	
-			
-			double sum = listaAux.stream().mapToDouble(unV->unV).sum();
-			lista.add(sum);
-			
-			
-		});
+					} catch (NoSeEncuentraLaCuentaEnElPeriodoException e) {
+					
+					
+					} catch (NoSeEncuentraElIndicadorException e) {
+						
+						
+					}
+				
+			});
 
-			
+			double sum = listaAux.stream().mapToDouble(unV -> unV).sum();
+			lista.add(sum);
+
+		});
 
 		return lista;
 	}
@@ -104,7 +112,6 @@ public class Traductor {
 			empresas.remove(e);
 	}
 
-	
 	public List<Empresa> empresasConIndicadorCreciente(List<Empresa> empresas, int anio, Indicador i)
 			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
@@ -130,14 +137,14 @@ public class Traductor {
 
 				try {
 					valorEnperiodos.add((this.calcular(unaE.getNombre(), unP, i.getNombre())));
-
+//PREGUNTAR ACA CREO QUE ESTA EL ERROR DE QUE NO TIRA QUE NO ENCONTRO LA EMPRESA
 				} catch (NoSeEncuentraLaCuentaEnElPeriodoException e) {
 				} catch (NoSeEncuentraLaEmpresaException e) {
-					
+
 				} catch (NoSeEncuentraLaCuentaException e) {
-					
+
 				} catch (NoSeEncuentraElIndicadorException e) {
-					
+
 				}
 
 			});
@@ -200,8 +207,9 @@ public class Traductor {
 		return empresasConIndicadorDecreciente;
 
 	}
-	public PuntajeEmpresa buscarEmpresaEnPuntajeEmpresa(List<PuntajeEmpresa> lista, String pe ){
-		return lista.stream().filter(unaE->unaE.getNombreEmpresa().equals(pe)).findFirst().get();
+
+	public PuntajeEmpresa buscarEmpresaEnPuntajeEmpresa(List<PuntajeEmpresa> lista, String pe) {
+		return lista.stream().filter(unaE -> unaE.getNombreEmpresa().equals(pe)).findFirst().get();
 	}
 
 	public Indicador buscarIndicador(String ind) throws NoSeEncuentraElIndicadorException {
@@ -241,41 +249,37 @@ public class Traductor {
 
 	}
 
-	public double consultarValorCuenta(String nombreEmpresa, String nombreCuenta, Periodo periodo)
-			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
-			NoSeEncuentraLaCuentaEnElPeriodoException {
 
-		Empresa e = obtenerEmpresa(nombreEmpresa);
-		return e.obtenerValorDeCuenta(nombreCuenta, periodo);
-	}
 
 	public void armarListaEmpresas(ArrayList<LineaArchivo> lineasArchivo) throws NoSeEncuentraLaEmpresaException {
 
 		// recorro la lista que contiene todos los datos
-		for (int x = 0; x < lineasArchivo.size(); x++) {
+		
+		lineasArchivo.stream().forEach(unaLinea -> {
 
 			// si ya existe la empresa
-			String nombreEmpresa = lineasArchivo.get(x).getNombreEmpresa();
+			String nombreEmpresa = unaLinea.getNombreEmpresa();
 			// creo un nuevo periodo
-
-			Periodo periodo = new Periodo(lineasArchivo.get(x).getFechaInicio(), lineasArchivo.get(x).getFechaFin());
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+			
+			LocalDate fechaI = LocalDate.parse(unaLinea.getFechaInicio(), formatter);
+			LocalDate fechaF = LocalDate.parse(unaLinea.getFechaFin(), formatter);
+			Periodo periodo = new Periodo(fechaI, fechaF);
 
 			try {
 				Empresa empresAux = getEmpresas().stream().filter(unaE -> unaE.getNombre().equals(nombreEmpresa))
 						.findFirst().get();
 
 				// creo una nueva cuenta
-				Cuenta cuenta = new Cuenta(lineasArchivo.get(x).getNombreCuenta(),
-						lineasArchivo.get(x).getValorCuenta(), periodo);
+				Cuenta cuenta = new Cuenta(unaLinea.getNombreCuenta(), unaLinea.getValorCuenta(), periodo);
 
 				empresAux.agregarCuenta(cuenta);
 
 			} catch (NoSuchElementException e) {
 
-				Empresa empresa = new Empresa(lineasArchivo.get(x).getNombreEmpresa(),lineasArchivo.get(x).getFechaInscripcion());
+				Empresa empresa = new Empresa(unaLinea.getNombreEmpresa(), unaLinea.getFechaInscripcion());
 				// creo la cuenta de la nueva empresa
-				Cuenta cuenta = new Cuenta(lineasArchivo.get(x).getNombreCuenta(),
-						lineasArchivo.get(x).getValorCuenta(), periodo);
+				Cuenta cuenta = new Cuenta(unaLinea.getNombreCuenta(), unaLinea.getValorCuenta(), periodo);
 				empresa.agregarCuenta(cuenta);
 				getEmpresas().add(empresa);// agrego la empresa a la lista
 											// de
@@ -285,6 +289,7 @@ public class Traductor {
 
 		}
 
+		);
 	}
 
 	public List<Empresa> getEmpresas() {

@@ -2,7 +2,7 @@ package ar.edu.utn.dds.procesarArchivos;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
+import java.time.LocalDate;
 
 import static org.junit.Assert.*;
 
@@ -38,10 +38,9 @@ public class PruebaIndicadoresTest {
 		this.t = new Traductor();
 		this.lector = new LectorArchivo(t);
 		
-		p=new Periodo("21/04/2013", "21/04/2018");
+		p=new Periodo(LocalDate.of(2013,04, 21),LocalDate.of(2018,04, 21) );
 
-		periodoSinCuentas= new Periodo("21/04/2010", "21/04/2011");
-		
+		periodoSinCuentas = new Periodo(LocalDate.of(2010, 04, 21), LocalDate.of(2011, 04, 21)); 		
 		this.lector.leerArchivo(this.getClass().getResource("/Datos.txt").getFile());
 		this.procesador1 = new ProcesarIndicadores(t);
 		this.procesador1.leerExcel(this.getClass().getResource("/Indicadores.xls").getFile());

@@ -3,6 +3,8 @@ package ar.edu.utn.dds.controller;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -35,8 +37,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class Condicion3 implements Initializable{
-	
+public class Condicion3 implements Initializable {
+
 	private Stage stagePrincipal;
 	private Traductor t;
 	private Metodologia meto;
@@ -44,69 +46,80 @@ public class Condicion3 implements Initializable{
 	private LectorArchivo lector;
 	private ProcesarIndicadores procesador1;
 
-	public void setNombreMetod(String nombre){
+	public void setNombreMetod(String nombre) {
 		this.nombre = nombre;
 	}
-	
-	
-	
-	
+
 	public void setStagePrincipal3(Stage stagePrincipal) {
-	       this.stagePrincipal = stagePrincipal;
-	 }
-	 @FXML
-	 private Button idCerrar;
+		this.stagePrincipal = stagePrincipal;
+	}
 
+	@FXML
+	private Button idCerrar;
 
-	 @FXML
-	 private ComboBox<String> idLadoIzq;
-	 
-	 @FXML
-	 private ComboBox<String> idIndicador;
-	 
-	  @FXML
-	 private ListView<String> idLista;
-	 
-	 @FXML
-	 private TextField idPeriodoIni;
+	@FXML
+	private ComboBox<String> idLadoIzq;
 
-	 @FXML
-	 private TextField idPeriodoFin;
-	 
-	 @FXML
-	 private Button idCargar;
+	@FXML
+	private ComboBox<String> idIndicador;
 
-	 @FXML
-	 void periodoFin(ActionEvent event) {
+	@FXML
+	private ListView<String> idLista;
 
-	 }
+	@FXML
+	private TextField idPeriodoIni;
 
-	 @FXML
-	 void periodoIni(ActionEvent event) {
+	@FXML
+	private TextField idPeriodoFin;
 
-	 }
+	@FXML
+	private Button idCargar;
 
-	 @FXML
-	 void cerrar(ActionEvent event) {
-			stagePrincipal.close();
-	 }
+	@FXML
+	void periodoFin(ActionEvent event) {
 
-	 @FXML
-	 void ladoIzq(ActionEvent event) {
+	}
 
-	 }
+	@FXML
+	void periodoIni(ActionEvent event) {
 
-	 @FXML
-	 void indicador(ActionEvent event) {
+	}
 
+	@FXML
+	void cerrar(ActionEvent event) {
+		stagePrincipal.close();
+	}
+
+	@FXML
+	void ladoIzq(ActionEvent event) {
+
+	}
+
+	@FXML
+	void indicador(ActionEvent event) {
+
+	}
+
+<<<<<<< HEAD
 	 }
 	 
 	 @FXML
 	 void lista(ActionEvent event) {
 		 idLista.getItems().clear();
 	 }
+=======
+	@FXML
+	void lista(ActionEvent event) {
 
+	}
+>>>>>>> 98369f843642c9e5be7c54f9b2ba3de0cf67845d
 
+	@FXML
+	void cargar(ActionEvent event) throws NoSeEncuentraElIndicadorException, FileNotFoundException, IOException,
+			NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException,
+			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
+
+<<<<<<< HEAD
     @FXML
     void cargar(ActionEvent event) throws NoSeEncuentraElIndicadorException, FileNotFoundException, IOException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
     	
@@ -175,12 +188,65 @@ public class Condicion3 implements Initializable{
 		this.meto = new Metodologia("metod");
     	ObservableList<String> ladoIzq = FXCollections.observableArrayList("Longevidad","Creciente","Decreciente");
 		
+=======
+		// inicializar los recursos necesarios
+		this.t = new Traductor();
+		this.lector = new LectorArchivo(t);
+		this.lector.leerArchivo(this.getClass().getResource("/Datos.txt").getFile());
+		this.procesador1 = new ProcesarIndicadores(t);
+		this.procesador1.leerExcel(this.getClass().getResource("/Indicadores.xls").getFile());
+		this.meto = new Metodologia("metod");
+
+		// esto lo hago pq pablo me recomendo que le cambie el tipo de dato del
+		// constructor de periodo
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+		LocalDate fechaI = LocalDate.parse(idPeriodoIni.getText(), formatter);
+		LocalDate fechaF = LocalDate.parse(idPeriodoFin.getText(), formatter);
+
+		Periodo periodo = new Periodo(fechaI, fechaF);
+
+		String indicador = idIndicador.getValue();
+
+		if (idLadoIzq.getValue().equals("Longevidad")) {
+			Longevidad longevidad = new Longevidad(t);
+
+			Condicion cond = new Filtro(longevidad, periodo, 20);
+			meto.agregarCondicion(cond);
+
+		}
+		if (idLadoIzq.getValue().equals("Creciente")) {
+			Creciente creciente = new Creciente(t.buscarIndicador(indicador), t);
+
+			Condicion cond = new Filtro(creciente, periodo, 4);
+			meto.agregarCondicion(cond);
+
+		}
+		if (idLadoIzq.getValue().equals("Decreciente")) {
+			Decreciente decre = new Decreciente(t.buscarIndicador(indicador), t);
+			Condicion cond = new Filtro(decre, periodo, 4);
+			meto.agregarCondicion(cond);
+		}
+
+		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
+
+		for (int j = 0; j < empresas.size(); j++) {
+			idLista.getItems().addAll(empresas.get(j).getNombreEmpresa());
+		}
+
+	}
+
+	public void initialize(URL url, ResourceBundle rb) {
+		// TODO
+		ObservableList<String> ladoIzq = FXCollections.observableArrayList("Longevidad", "Creciente", "Decreciente");
+
+>>>>>>> 98369f843642c9e5be7c54f9b2ba3de0cf67845d
 		idLadoIzq.setItems(ladoIzq);
 		idLadoIzq.getSelectionModel().select(0);
-		
-		ObservableList<String> indicador = FXCollections.observableArrayList("i_ROE","i_NivelDeuda","i_MargenVentas",
-				"i_IndicadorD","i_IngresoNeto","i_Solvencia","j_IndicadorF");
+
+		ObservableList<String> indicador = FXCollections.observableArrayList("i_ROE", "i_NivelDeuda", "i_MargenVentas",
+				"i_IndicadorD", "i_IngresoNeto", "i_Solvencia", "j_IndicadorF");
 		idIndicador.setItems(indicador);
 
-    } 
+	}
 }
