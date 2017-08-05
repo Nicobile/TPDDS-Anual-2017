@@ -103,28 +103,19 @@ public class Condicion3 implements Initializable{
 	 
 	 @FXML
 	 void lista(ActionEvent event) {
-
+		 idLista.getItems().clear();
 	 }
 
 
     @FXML
     void cargar(ActionEvent event) throws NoSeEncuentraElIndicadorException, FileNotFoundException, IOException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
     	
-    	//inicializar los recursos necesarios 
-    	this.t = new Traductor();
-    	this.lector = new LectorArchivo(t);
-    	this.lector.leerArchivo(this.getClass().getResource("/Datos.txt").getFile());
-		this.procesador1 = new ProcesarIndicadores(t);
-		this.procesador1.leerExcel(this.getClass().getResource("/Indicadores.xls").getFile());
-		this.meto = new Metodologia("metod");
-		
-		
     	String periodoIni = (idPeriodoIni.getText());
     	String periodoFin = (idPeriodoFin.getText());
     	Periodo periodo = new Periodo(periodoIni,periodoFin);
 
     	String indicador = idIndicador.getValue();
-
+    	idLista.getItems().clear();
     	
 
     	
@@ -154,12 +145,34 @@ public class Condicion3 implements Initializable{
     		idLista.getItems().addAll(empresas.get(j).getNombreEmpresa());
     	}
     	
+    	if (empresas.size()>0){
+    	//	empresas.clear();
+    		
+    	}
+    		
    
     }
 
 	 
     public void initialize(URL url, ResourceBundle rb) {
 	       // TODO
+    	//inicializar los recursos necesarios 
+    	this.t = new Traductor();
+    	this.lector = new LectorArchivo(t);
+    	try {
+			this.lector.leerArchivo(this.getClass().getResource("/Datos.txt").getFile());
+		} catch (IOException | NoSeEncuentraLaEmpresaException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.procesador1 = new ProcesarIndicadores(t);
+		try {
+			this.procesador1.leerExcel(this.getClass().getResource("/Indicadores.xls").getFile());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.meto = new Metodologia("metod");
     	ObservableList<String> ladoIzq = FXCollections.observableArrayList("Longevidad","Creciente","Decreciente");
 		
 		idLadoIzq.setItems(ladoIzq);
