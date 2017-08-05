@@ -121,7 +121,7 @@ public class PruebaMetodologiaTest {
 			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
 		Longevidad lon = new Longevidad(t);
 
-		Filtro condlon = new Filtro(lon, periodo, 20);
+		Filtro condlon = new Filtro(lon, 20);
 		meto.agregarCondicion(condlon);
 		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia(); // Solo
 																		// CocacolaYpesico
