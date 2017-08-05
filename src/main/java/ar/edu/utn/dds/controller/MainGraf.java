@@ -21,7 +21,7 @@ public class MainGraf implements Initializable {
 	private Main ProgramaPrincipal;
 	//private Metodologia metod;
 	private String texto;
-	private Condicion3 condicion3 = new Condicion3();
+	private Metodologia metod; //primero cargar la metodologia
 	
 	public void setProgramaPrincipal(Main ProgramaPrincipal) {
         this.ProgramaPrincipal = ProgramaPrincipal;
@@ -59,9 +59,9 @@ public class MainGraf implements Initializable {
 
     @FXML
     void cargar(ActionEvent event) {
-    	texto = (idTextMetod.getText());
-    	condicion3.setNombreMetod(texto);
-    	//metod = new Metodologia(texto);
+    	
+    	//condicion3.setNombreMetod(texto);
+    	metod = new Metodologia(idTextMetod.getText());
     }
     
     public String getNombre(){ 
@@ -79,7 +79,7 @@ public class MainGraf implements Initializable {
     		ProgramaPrincipal.mostrarCondicion2();
     	}
     	if (idBtnCondicion.getValue().equals("Condicion3")){
-    		ProgramaPrincipal.mostrarCondicion3();
+    		ProgramaPrincipal.mostrarCondicion3(metod);
     	}
 
     }

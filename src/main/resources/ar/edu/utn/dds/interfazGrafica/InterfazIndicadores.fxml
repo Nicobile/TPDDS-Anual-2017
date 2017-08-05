@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="547.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ar.edu.utn.dds.controller.InterfazIndicador">
+   <bottom>
+      <Button fx:id="idCerrar" mnemonicParsing="false" onAction="#cerrar" text="Cerrar" BorderPane.alignment="CENTER" />
+   </bottom>
+   <center>
+      <Pane prefHeight="504.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <TextField fx:id="idRuta" layoutX="169.0" layoutY="43.0" onAction="#ruta" prefHeight="26.0" prefWidth="242.0" promptText="Ruta" />
+            <Text layoutX="23.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre Indicador:" />
+            <Button fx:id="idCargarArchivo" layoutX="426.0" layoutY="43.0" mnemonicParsing="false" onAction="#cargaArchivo" text="Cargar" />
+            <TextField fx:id="idNomInd" layoutX="168.0" layoutY="139.0" onAction="#nomInd" />
+            <Text layoutX="28.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Expresion:" />
+            <ListView fx:id="idListInd" layoutX="168.0" layoutY="237.0" onEditStart="#listInd" prefHeight="253.0" prefWidth="200.0" />
+            <TextField fx:id="idexpresion" layoutX="168.0" layoutY="185.0" onAction="#expresion" />
+            <Button fx:id="idCargar" layoutX="364.0" layoutY="185.0" mnemonicParsing="false" onAction="#cargar" text="Cargar" />
+            <Text layoutX="35.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cargar Archivo:" />
+         </children></Pane>
+   </center>
+</BorderPane>

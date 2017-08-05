@@ -1,14 +1,21 @@
 package ar.edu.utn.dds.interfazGrafica;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import ar.edu.utn.dds.controller.Condicion1;
 import ar.edu.utn.dds.controller.Condicion2;
 import ar.edu.utn.dds.controller.Condicion3;
+import ar.edu.utn.dds.controller.InterfazIndicador;
 import ar.edu.utn.dds.controller.MainGraf;
+import ar.edu.utn.dds.controller.MenuPrincipal;
+import ar.edu.utn.dds.modelo.Empresa;
+import ar.edu.utn.dds.modelo.Metodologia;
+import ar.edu.utn.dds.modelo.PuntajeEmpresa;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -23,13 +30,32 @@ public class Main extends Application {
 		//primaryStage.show();
 	private Stage stagePrincipal;
 	private BorderPane rootPane;
+	ArrayList<Empresa> empresas;
+	ArrayList<Metodologia> metodologias;
+
+	
 
 	@Override
 	public void start(Stage stagePrincipal) throws Exception {
 		   this.stagePrincipal = stagePrincipal;
-		   mostrarVentanaPrincipal();
+		   mostrataMenuPrincipal();
 	}
 
+	
+	public void mostrataMenuPrincipal(){
+		try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/MenuPrincipal.fxml"));
+            rootPane=(BorderPane) loader.load();
+            Scene scene = new Scene(rootPane);
+            stagePrincipal.setTitle("Menu Princpal");
+            stagePrincipal.setScene(scene);
+            MenuPrincipal controller = loader.getController();
+            controller.setProgramaPrincipal(this);
+            stagePrincipal.show();
+        } 
+        catch (IOException e) {
+        }
+	}
 	
 	 /*
      * cargamos la ventana principal
@@ -86,7 +112,7 @@ public class Main extends Application {
         }
     }
     
-    public void mostrarCondicion3() {
+    public void mostrarCondicion3(Metodologia metod) {
         try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/Condicion3.fxml"));
             BorderPane ventanaCond3 = (BorderPane) loader.load();
@@ -96,6 +122,7 @@ public class Main extends Application {
             Scene scene = new Scene(ventanaCond3);
             ventana3.setScene(scene);
             Condicion3 controller = loader.getController();
+            controller.setMetodologia(metod);
             controller.setStagePrincipal3(ventana3);
             ventana3.show();
 
@@ -103,9 +130,27 @@ public class Main extends Application {
         catch (Exception e) {
         }
     }
+    
+    public void menuInterfazIndicadores() {
+    	try {
+    		FXMLLoader loader = new FXMLLoader(Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/InterfazIndicadores.fxml"));
+            BorderPane ventanaCond3 = (BorderPane) loader.load();
+            Stage ventana3 = new Stage();
+            ventana3.setTitle("Indicadores");
+            ventana3.initOwner(stagePrincipal);
+            Scene scene = new Scene(ventanaCond3);
+            ventana3.setScene(scene);
+            InterfazIndicador controller = loader.getController();
+            controller.setStagePrincipalInd(ventana3);
+            ventana3.show();
+        } 
+        catch (IOException e) {
+        }
+    }
 	
 	public static void main(String[] args){
 		launch(args);
 		
 	}
+	
 }

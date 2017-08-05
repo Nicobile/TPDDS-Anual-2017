@@ -42,12 +42,11 @@ public class Condicion3 implements Initializable {
 	private Stage stagePrincipal;
 	private Traductor t;
 	private Metodologia meto;
-	private String nombre;
 	private LectorArchivo lector;
 	private ProcesarIndicadores procesador1;
 
-	public void setNombreMetod(String nombre) {
-		this.nombre = nombre;
+	public void setMetodologia(Metodologia metod) {
+		this.meto = metod;
 	}
 
 	public void setStagePrincipal3(Stage stagePrincipal) {
@@ -63,17 +62,23 @@ public class Condicion3 implements Initializable {
 	@FXML
 	private ComboBox<String> idIndicador;
 
-	@FXML
-	private ListView<String> idLista;
+	
 
 	@FXML
 	private TextField idPeriodoIni;
 
 	@FXML
 	private TextField idPeriodoFin;
+	
+	@FXML
+	private TextField idAnios;
 
 	@FXML
 	private Button idCargar;
+	
+	@FXML
+	private ListView<String> idLista;
+
 
 	@FXML
 	void periodoFin(ActionEvent event) {
@@ -82,6 +87,10 @@ public class Condicion3 implements Initializable {
 
 	@FXML
 	void periodoIni(ActionEvent event) {
+
+	}
+	@FXML
+	void anios(ActionEvent event) {
 
 	}
 
@@ -120,7 +129,9 @@ public class Condicion3 implements Initializable {
    		LocalDate fechaI = LocalDate.parse(idPeriodoIni.getText(), formatter);
     	LocalDate fechaF = LocalDate.parse(idPeriodoFin.getText(), formatter);
     	Periodo periodo = new Periodo(fechaI,fechaF);
-
+    	
+    	int anios = Integer.parseInt(idAnios.getText());
+    	
     	String indicador = idIndicador.getValue();
     	idLista.getItems().clear();
     	
@@ -128,8 +139,9 @@ public class Condicion3 implements Initializable {
     	
     	if (idLadoIzq.getValue().equals("Longevidad")){
     		Longevidad longevidad = new Longevidad(t);
-
-    		Condicion cond = new Filtro(longevidad, periodo, 20);
+    		
+    		
+    		Condicion cond = new Filtro(longevidad, periodo, anios);
     		meto.agregarCondicion(cond);
     
     	}
@@ -174,7 +186,8 @@ public class Condicion3 implements Initializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.meto = new Metodologia("metod");
+		
+		
     	ObservableList<String> ladoIzq = FXCollections.observableArrayList("Longevidad","Creciente","Decreciente");
     	
 		idLadoIzq.setItems(ladoIzq);
