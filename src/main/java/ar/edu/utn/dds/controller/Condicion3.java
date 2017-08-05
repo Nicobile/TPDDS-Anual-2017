@@ -100,32 +100,26 @@ public class Condicion3 implements Initializable {
 
 	}
 
-<<<<<<< HEAD
-	 }
 	 
 	 @FXML
 	 void lista(ActionEvent event) {
 		 idLista.getItems().clear();
 	 }
-=======
-	@FXML
-	void lista(ActionEvent event) {
 
-	}
->>>>>>> 98369f843642c9e5be7c54f9b2ba3de0cf67845d
 
-	@FXML
-	void cargar(ActionEvent event) throws NoSeEncuentraElIndicadorException, FileNotFoundException, IOException,
-			NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException,
-			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
-
-<<<<<<< HEAD
     @FXML
     void cargar(ActionEvent event) throws NoSeEncuentraElIndicadorException, FileNotFoundException, IOException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
     	
-    	String periodoIni = (idPeriodoIni.getText());
-    	String periodoFin = (idPeriodoFin.getText());
-    	Periodo periodo = new Periodo(periodoIni,periodoFin);
+    	//String periodoIni = (idPeriodoIni.getText());
+    	//String periodoFin = (idPeriodoFin.getText());
+    	
+    	// esto lo hago pq pablo me recomendo que le cambie el tipo de dato del
+    	// constructor de periodo
+   		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+   		LocalDate fechaI = LocalDate.parse(idPeriodoIni.getText(), formatter);
+    	LocalDate fechaF = LocalDate.parse(idPeriodoFin.getText(), formatter);
+    	Periodo periodo = new Periodo(fechaI,fechaF);
 
     	String indicador = idIndicador.getValue();
     	idLista.getItems().clear();
@@ -158,12 +152,7 @@ public class Condicion3 implements Initializable {
     		idLista.getItems().addAll(empresas.get(j).getNombreEmpresa());
     	}
     	
-    	if (empresas.size()>0){
-    	//	empresas.clear();
-    		
-    	}
-    		
-   
+    	   
     }
 
 	 
@@ -187,66 +176,15 @@ public class Condicion3 implements Initializable {
 		}
 		this.meto = new Metodologia("metod");
     	ObservableList<String> ladoIzq = FXCollections.observableArrayList("Longevidad","Creciente","Decreciente");
-		
-=======
-		// inicializar los recursos necesarios
-		this.t = new Traductor();
-		this.lector = new LectorArchivo(t);
-		this.lector.leerArchivo(this.getClass().getResource("/Datos.txt").getFile());
-		this.procesador1 = new ProcesarIndicadores(t);
-		this.procesador1.leerExcel(this.getClass().getResource("/Indicadores.xls").getFile());
-		this.meto = new Metodologia("metod");
-
-		// esto lo hago pq pablo me recomendo que le cambie el tipo de dato del
-		// constructor de periodo
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-		LocalDate fechaI = LocalDate.parse(idPeriodoIni.getText(), formatter);
-		LocalDate fechaF = LocalDate.parse(idPeriodoFin.getText(), formatter);
-
-		Periodo periodo = new Periodo(fechaI, fechaF);
-
-		String indicador = idIndicador.getValue();
-
-		if (idLadoIzq.getValue().equals("Longevidad")) {
-			Longevidad longevidad = new Longevidad(t);
-
-			Condicion cond = new Filtro(longevidad, periodo, 20);
-			meto.agregarCondicion(cond);
-
-		}
-		if (idLadoIzq.getValue().equals("Creciente")) {
-			Creciente creciente = new Creciente(t.buscarIndicador(indicador), t);
-
-			Condicion cond = new Filtro(creciente, periodo, 4);
-			meto.agregarCondicion(cond);
-
-		}
-		if (idLadoIzq.getValue().equals("Decreciente")) {
-			Decreciente decre = new Decreciente(t.buscarIndicador(indicador), t);
-			Condicion cond = new Filtro(decre, periodo, 4);
-			meto.agregarCondicion(cond);
-		}
-
-		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
-
-		for (int j = 0; j < empresas.size(); j++) {
-			idLista.getItems().addAll(empresas.get(j).getNombreEmpresa());
-		}
-
-	}
-
-	public void initialize(URL url, ResourceBundle rb) {
-		// TODO
-		ObservableList<String> ladoIzq = FXCollections.observableArrayList("Longevidad", "Creciente", "Decreciente");
-
->>>>>>> 98369f843642c9e5be7c54f9b2ba3de0cf67845d
+    	
 		idLadoIzq.setItems(ladoIzq);
 		idLadoIzq.getSelectionModel().select(0);
 
 		ObservableList<String> indicador = FXCollections.observableArrayList("i_ROE", "i_NivelDeuda", "i_MargenVentas",
 				"i_IndicadorD", "i_IngresoNeto", "i_Solvencia", "j_IndicadorF");
-		idIndicador.setItems(indicador);
 
+		idIndicador.setItems(indicador);
+		
 	}
+
 }
