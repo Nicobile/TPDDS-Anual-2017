@@ -1,9 +1,11 @@
 package ar.edu.utn.dds.controller;
 
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.security.GeneralSecurityException;
 import java.util.ResourceBundle;
 
 import ar.edu.utn.dds.modelo.Indicador;
@@ -59,7 +61,8 @@ public class InterfazIndicador  implements Initializable {
     @FXML
     void cargaArchivo(ActionEvent event) throws FileNotFoundException, IOException {
     	
-    	this.procesador1.leerExcel(this.getClass().getResource(idRuta.getText()).getFile());
+    
+    	this.procesador1.leerExcel(this.getClass().getResource("/"+idRuta.getText()).getFile());
 		
 		t.getIndicadores().forEach(unIndicador -> idListInd.getItems().add(unIndicador.getNombre()));
     }

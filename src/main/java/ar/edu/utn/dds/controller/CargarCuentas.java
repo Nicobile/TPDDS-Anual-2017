@@ -58,7 +58,7 @@ public class CargarCuentas {
 
     @FXML
     void cargaArchivo(ActionEvent event) throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresaException {
-    	this.lectorArchivo.leerArchivo(this.getClass().getResource(idRuta.getText()).getFile());
+    	this.lectorArchivo.leerArchivo(this.getClass().getResource("/"+idRuta.getText()).getFile());
     	//idEmpresa.addAll(
     	t.getEmpresas().forEach(unaEmpresa -> idEmpresa.getItems().add(unaEmpresa.getNombre()));
     }
