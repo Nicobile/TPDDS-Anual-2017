@@ -13,6 +13,7 @@ import ar.edu.utn.dds.modelo.Empresa;
 import ar.edu.utn.dds.modelo.Metodologia;
 import ar.edu.utn.dds.modelo.PuntajeEmpresa;
 import ar.edu.utn.dds.modelo.Traductor;
+import ar.edu.utn.dds.procesarArchivos.ProcesarIndicadores;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -31,7 +32,8 @@ public class Main extends Application {
 		//primaryStage.show();
 	private Stage stagePrincipal;
 	private BorderPane rootPane;
-    public Traductor traductor;
+    private Traductor traductor;
+    private ProcesarIndicadores procesador1;
 
 	
 
@@ -39,6 +41,7 @@ public class Main extends Application {
 	public void start(Stage stagePrincipal) throws Exception {
 		   this.stagePrincipal = stagePrincipal;
 		   traductor = new Traductor();
+		   procesador1 = new ProcesarIndicadores(traductor);
 		   mostrataMenuPrincipal();
 	}
 
@@ -143,6 +146,7 @@ public class Main extends Application {
             ventana3.setScene(scene);
             InterfazIndicador controller = loader.getController();
             controller.setTraductor(traductor);
+            controller.setProcesador(procesador1);
             controller.setStagePrincipalInd(ventana3);
             ventana3.show();
         } 

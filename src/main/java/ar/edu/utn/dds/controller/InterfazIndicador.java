@@ -24,6 +24,10 @@ public class InterfazIndicador  implements Initializable {
 	   this.t = tradu;
 	}
 	
+	public void setProcesador(ProcesarIndicadores procesador){
+		   this.procesador1 = procesador;
+		}
+	
 	public void setStagePrincipalInd(Stage stagePrincipal) {
 		this.stagePrincipal = stagePrincipal;
 	}
@@ -91,7 +95,7 @@ public class InterfazIndicador  implements Initializable {
    
     @Override
 	 public void initialize(URL location,ResourceBundle resource){
-    	this.procesador1 = new ProcesarIndicadores(t);
+    	
     	idListInd.getItems().clear();
     }	
 }
