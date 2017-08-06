@@ -12,6 +12,7 @@ import ar.edu.utn.dds.controller.MenuPrincipal;
 import ar.edu.utn.dds.modelo.Empresa;
 import ar.edu.utn.dds.modelo.Metodologia;
 import ar.edu.utn.dds.modelo.PuntajeEmpresa;
+import ar.edu.utn.dds.modelo.Traductor;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -30,14 +31,14 @@ public class Main extends Application {
 		//primaryStage.show();
 	private Stage stagePrincipal;
 	private BorderPane rootPane;
-	ArrayList<Empresa> empresas;
-	ArrayList<Metodologia> metodologias;
+    public Traductor traductor;
 
 	
 
 	@Override
 	public void start(Stage stagePrincipal) throws Exception {
 		   this.stagePrincipal = stagePrincipal;
+		   traductor = new Traductor();
 		   mostrataMenuPrincipal();
 	}
 
@@ -141,6 +142,7 @@ public class Main extends Application {
             Scene scene = new Scene(ventanaCond3);
             ventana3.setScene(scene);
             InterfazIndicador controller = loader.getController();
+            controller.setTraductor(traductor);
             controller.setStagePrincipalInd(ventana3);
             ventana3.show();
         } 
