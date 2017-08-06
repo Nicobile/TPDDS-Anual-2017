@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import ar.edu.utn.dds.interfazGrafica.Main;
 import ar.edu.utn.dds.modelo.Metodologia;
+import ar.edu.utn.dds.modelo.Traductor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,13 +20,16 @@ import javafx.scene.control.TextField;
 public class MainGraf implements Initializable {
 
 	private Main ProgramaPrincipal;
-	//private Metodologia metod;
+	private Traductor t;
 	private String texto;
 	private Metodologia metod; //primero cargar la metodologia
 	
 	public void setProgramaPrincipal(Main ProgramaPrincipal) {
         this.ProgramaPrincipal = ProgramaPrincipal;
     }
+	public void setTraductor(Traductor tradu){
+		   this.t = tradu;
+	}
 	
     @FXML
     private Button idBtnCerrar;
@@ -62,6 +66,7 @@ public class MainGraf implements Initializable {
     	
     	//condicion3.setNombreMetod(texto);
     	metod = new Metodologia(idTextMetod.getText());
+    	t.agregarMetogologia(metod);
     }
     
     public String getNombre(){ 

@@ -24,6 +24,8 @@ public class Traductor {
 	private List<Empresa> empresas = new ArrayList<Empresa>();
 
 	private ArrayList<Indicador> indicadores = new ArrayList<Indicador>();
+	private ArrayList<Metodologia> metodologias = new ArrayList<Metodologia>(); //esta e la unica forma de almacenar metodologia en memoria.
+	
 
 	private ExpressionParser parser = new ExpressionParser();
 
@@ -59,6 +61,8 @@ public class Traductor {
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
 		ArrayList<Double> listaAux = new ArrayList<Double>();
 		ArrayList<Double> lista = new ArrayList<Double>();
+		
+		
 
 		empresas.stream().forEach(unaE -> {
 
@@ -235,9 +239,25 @@ public class Traductor {
 		getIndicadores().add(i);
 
 	}
+	
+	public void agregarMetogologia(Metodologia meto) {
+
+		getMetodologias().add(meto);
+
+	}
+	
 
 	/*----------------------------------------------------------------------------*/
 
+	public ArrayList<Metodologia> getMetodologias() {
+		return metodologias;
+	}
+
+	public void setMetodologias(ArrayList<Metodologia> metodologias) {
+		this.metodologias = metodologias;
+	}
+
+	
 	public Empresa obtenerEmpresa(String nombreEmpresa) throws NoSeEncuentraLaEmpresaException {
 		try {
 			return getEmpresas().stream().filter(unaEmpresa -> unaEmpresa.getNombre().equals(nombreEmpresa)).findFirst()

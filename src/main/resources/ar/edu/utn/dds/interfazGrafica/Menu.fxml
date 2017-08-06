@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Text?>
 
 <BorderPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ar.edu.utn.dds.controller.MainGraf">
-   <bottom>
+   <top>
       <Pane prefHeight="651.0" prefWidth="528.0" BorderPane.alignment="CENTER">
          <children>
             <Text layoutX="230.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Menu" textAlignment="JUSTIFY" underline="true">
@@ -37,8 +37,8 @@
                   <Font size="19.0" />
                </font>
             </Text>
-            <Button fx:id="idCargar" layoutX="389.0" layoutY="39.0" mnemonicParsing="false" onAction="#cargar" text="Cargar" />
+            <Button fx:id="idCargar" layoutX="186.0" layoutY="313.0" mnemonicParsing="false" onAction="#cargar" text="Crear Metodologia" />
          </children>
       </Pane>
-   </bottom>
+   </top>
 </BorderPane>

@@ -3,6 +3,7 @@ package ar.edu.utn.dds.interfazGrafica;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import ar.edu.utn.dds.controller.CargarCuentas;
 import ar.edu.utn.dds.controller.Condicion1;
 import ar.edu.utn.dds.controller.Condicion2;
 import ar.edu.utn.dds.controller.Condicion3;
@@ -13,6 +14,7 @@ import ar.edu.utn.dds.modelo.Empresa;
 import ar.edu.utn.dds.modelo.Metodologia;
 import ar.edu.utn.dds.modelo.PuntajeEmpresa;
 import ar.edu.utn.dds.modelo.Traductor;
+import ar.edu.utn.dds.procesarArchivos.LectorArchivo;
 import ar.edu.utn.dds.procesarArchivos.ProcesarIndicadores;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -34,6 +36,7 @@ public class Main extends Application {
 	private BorderPane rootPane;
     private Traductor traductor;
     private ProcesarIndicadores procesador1;
+    private LectorArchivo lectorArchivo;
 
 	
 
@@ -42,6 +45,7 @@ public class Main extends Application {
 		   this.stagePrincipal = stagePrincipal;
 		   traductor = new Traductor();
 		   procesador1 = new ProcesarIndicadores(traductor);
+		   lectorArchivo = new LectorArchivo(traductor);
 		   mostrataMenuPrincipal();
 	}
 
@@ -72,7 +76,9 @@ public class Main extends Application {
             stagePrincipal.setTitle("Menu");
             stagePrincipal.setScene(scene);
             MainGraf controller = loader.getController();
+            controller.setTraductor(traductor);
             controller.setProgramaPrincipal(this);
+            
             stagePrincipal.show();
         } 
         catch (IOException e) {
@@ -149,6 +155,25 @@ public class Main extends Application {
             controller.setProcesador(procesador1);
             controller.setStagePrincipalInd(ventana3);
             ventana3.show();
+        } 
+        catch (IOException e) {
+        }
+    }
+    
+    public void menuCuentas() {
+    	try {
+    		FXMLLoader loader = new FXMLLoader(Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/MenuCuentas.fxml"));
+            BorderPane ventanaCond3 = (BorderPane) loader.load();
+            Stage ventanaCta = new Stage();
+            ventanaCta.setTitle("Empresas Y Cuentas");
+            ventanaCta.initOwner(stagePrincipal);
+            Scene scene = new Scene(ventanaCond3);
+            ventanaCta.setScene(scene);
+            CargarCuentas controller = loader.getController();
+            controller.setTraductor(traductor);
+            controller.setLectorArchivo(lectorArchivo);
+            controller.setStagePrincipalCuenta(ventanaCta);
+            ventanaCta.show();
         } 
         catch (IOException e) {
         }

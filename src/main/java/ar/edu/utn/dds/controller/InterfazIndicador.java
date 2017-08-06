@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import ar.edu.utn.dds.modelo.Indicador;
 import ar.edu.utn.dds.modelo.Traductor;
 import ar.edu.utn.dds.procesarArchivos.ProcesarIndicadores;
 import javafx.event.ActionEvent;
@@ -26,6 +28,7 @@ public class InterfazIndicador  implements Initializable {
 	
 	public void setProcesador(ProcesarIndicadores procesador){
 		   this.procesador1 = procesador;
+		   t.getIndicadores().forEach(unIndicador -> idListInd.getItems().add(unIndicador.getNombre()));
 		}
 	
 	public void setStagePrincipalInd(Stage stagePrincipal) {
@@ -63,7 +66,9 @@ public class InterfazIndicador  implements Initializable {
 
     @FXML
     void cargar(ActionEvent event) {
-
+    	Indicador ind1 = new Indicador(idNomInd.getText(),idexpresion.getText());
+    	t.agregarIndicador(ind1);
+    	idListInd.getItems().add(ind1.getNombre());
     }
 
     @FXML
@@ -95,8 +100,10 @@ public class InterfazIndicador  implements Initializable {
    
     @Override
 	 public void initialize(URL location,ResourceBundle resource){
-    	
-    	idListInd.getItems().clear();
+    	//if(t.getIndicadores().size()>0){
+    	//(t.getIndicadores().forEach(unIndicador -> idListInd.getItems().add(unIndicador.getNombre()));
+    	//}
+    	//idListInd.getItems().clear();
     }	
 }
 

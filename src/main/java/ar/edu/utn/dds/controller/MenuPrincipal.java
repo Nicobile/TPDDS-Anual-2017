@@ -35,7 +35,7 @@ public class MenuPrincipal implements Initializable  {
     @FXML
     void ingresar(ActionEvent event) {
     	if (idOpciones.getValue().equals("Cargar Empresas y Cuentas")){
-       		//ProgramaPrincipal.mostrarEmpresas();
+    		ProgramaPrincipal.menuCuentas();
   
     	}
     	if (idOpciones.getValue().equals("Menu Metodologia")){
