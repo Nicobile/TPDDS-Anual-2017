@@ -37,13 +37,14 @@ public class Main extends Application {
     private Traductor traductor;
     private ProcesarIndicadores procesador1;
     private LectorArchivo lectorArchivo;
-
+    private Archivos archivos;
 	
 
 	@Override
 	public void start(Stage stagePrincipal) throws Exception {
 		   this.stagePrincipal = stagePrincipal;
 		   traductor = new Traductor();
+		   archivos = new Archivos();
 		   procesador1 = new ProcesarIndicadores(traductor);
 		   lectorArchivo = new LectorArchivo(traductor);
 		   mostrataMenuPrincipal();
@@ -153,6 +154,7 @@ public class Main extends Application {
             InterfazIndicador controller = loader.getController();
             controller.setTraductor(traductor);
             controller.setProcesador(procesador1);
+            controller.setListaArchivos(archivos);
             controller.setStagePrincipalInd(ventana3);
             ventana3.show();
         } 
@@ -172,6 +174,7 @@ public class Main extends Application {
             CargarCuentas controller = loader.getController();
             controller.setTraductor(traductor);
             controller.setLectorArchivo(lectorArchivo);
+            controller.setListaArchivos(archivos);
             controller.setStagePrincipalCuenta(ventanaCta);
             ventanaCta.show();
         } 

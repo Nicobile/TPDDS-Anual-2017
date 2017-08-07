@@ -5,7 +5,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
+import ar.edu.utn.dds.interfazGrafica.Archivos;
 import ar.edu.utn.dds.modelo.Traductor;
 import ar.edu.utn.dds.procesarArchivos.LectorArchivo;
 import javafx.collections.FXCollections;
@@ -23,6 +27,7 @@ public class CargarCuentas {
 	Stage stagePrincipalCta;
 	private Traductor t;
 	private LectorArchivo lectorArchivo;
+	private Archivos archivosCuentas;
 	
 	public void setStagePrincipalCuenta(Stage stagePrincipal) {
 		this.stagePrincipalCta = stagePrincipal;
@@ -58,9 +63,15 @@ public class CargarCuentas {
 
     @FXML
     void cargaArchivo(ActionEvent event) throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresaException {
+    	if (!archivosCuentas.buscarArchivo(idRuta.getText())) {
     	this.lectorArchivo.leerArchivo(this.getClass().getResource("/"+idRuta.getText()).getFile());
-    	//idEmpresa.addAll(
+        archivosCuentas.agregarArchivo(idRuta.getText());    	
     	t.getEmpresas().forEach(unaEmpresa -> idEmpresa.getItems().add(unaEmpresa.getNombre()));
+    	}
+    	else{
+    		final JPanel panel = new JPanel();
+    		JOptionPane.showMessageDialog(panel, "El archivo ya fue cargado", "Error", JOptionPane.ERROR_MESSAGE);
+    	}
     }
 
     @FXML
@@ -93,5 +104,11 @@ public class CargarCuentas {
 
 		idEmpresa.setItems(empresa);
     }
+
+	public void setListaArchivos(Archivos archivos) {
+		archivosCuentas = archivos;
+	}
+    
+    
 }
 
