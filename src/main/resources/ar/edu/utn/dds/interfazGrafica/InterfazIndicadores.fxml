@@ -7,22 +7,37 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="547.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ar.edu.utn.dds.controller.InterfazIndicador">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="621.0" prefWidth="667.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ar.edu.utn.dds.controller.InterfazIndicador">
    <bottom>
       <Button fx:id="idCerrar" mnemonicParsing="false" onAction="#cerrar" text="Cerrar" BorderPane.alignment="CENTER" />
    </bottom>
-   <center>
-      <Pane prefHeight="504.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+   <left>
+      <Pane prefHeight="598.0" prefWidth="671.0" BorderPane.alignment="CENTER">
          <children>
             <TextField fx:id="idRuta" layoutX="169.0" layoutY="43.0" onAction="#ruta" prefHeight="26.0" prefWidth="242.0" promptText="Ruta" />
-            <Text layoutX="23.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre Indicador:" />
+            <Text layoutX="35.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre Indicador:" />
             <Button fx:id="idCargarArchivo" layoutX="426.0" layoutY="43.0" mnemonicParsing="false" onAction="#cargaArchivo" text="Cargar" />
-            <TextField fx:id="idNomInd" layoutX="168.0" layoutY="139.0" onAction="#nomInd" />
-            <Text layoutX="28.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Expresion:" />
-            <ListView fx:id="idListInd" layoutX="168.0" layoutY="237.0" onEditStart="#listInd" prefHeight="253.0" prefWidth="200.0" />
-            <TextField fx:id="idexpresion" layoutX="168.0" layoutY="185.0" onAction="#expresion" />
-            <Button fx:id="idCargar" layoutX="364.0" layoutY="185.0" mnemonicParsing="false" onAction="#cargar" text="Cargar" />
+            <TextField fx:id="idNomInd" layoutX="168.0" layoutY="106.0" onAction="#nomInd" />
+            <Text layoutX="35.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Expresion:" />
+            <ListView fx:id="idListInd" layoutX="190.0" layoutY="410.0" onEditStart="#listInd" prefHeight="162.0" prefWidth="200.0" />
+            <TextField fx:id="idexpresion" layoutX="168.0" layoutY="145.0" onAction="#expresion" />
+            <Button fx:id="idCargar" layoutX="368.0" layoutY="145.0" mnemonicParsing="false" onAction="#cargar" text="Cargar" />
             <Text layoutX="35.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cargar Archivo:" />
+            <Text disable="true" layoutX="35.0" layoutY="34.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0" text="Carga de indicadores por archivo" />
+            <Text disable="true" layoutX="35.0" layoutY="103.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0" text="Cargar indicador nuevo" />
+            <Text disable="true" layoutX="190.0" layoutY="393.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0" text="Indicadores cargados:" />
+            <Text disable="true" layoutX="37.0" layoutY="204.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0" text="Calcular Indicador" />
+            <Text layoutX="35.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre Empresa:" />
+            <TextField fx:id="idNombreEmpresa" layoutX="169.0" layoutY="218.0" onAction="#nomEmp" />
+            <Text layoutX="35.0" layoutY="271.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha inicio:" />
+            <TextField fx:id="idFechaIni" layoutX="169.0" layoutY="252.0" onAction="#fechaini" prefHeight="27.0" prefWidth="164.0" promptText="dd/mm/yyyy" />
+            <Text layoutX="35.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre Indicador:" />
+            <TextField fx:id="idNomIndca" layoutX="169.0" layoutY="314.0" onAction="#nomIndca" />
+            <Text layoutX="398.0" layoutY="263.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Resultado:" wrappingWidth="121.0498046875" />
+            <TextField fx:id="idResult" editable="false" layoutX="480.0" layoutY="244.0" onAction="#result" prefHeight="26.0" prefWidth="144.0" />
+            <Button fx:id="idCalculo" layoutX="211.0" layoutY="351.0" mnemonicParsing="false" onAction="#calcular" text="Calcular" />
+            <Text layoutX="35.0" layoutY="304.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha fin:" />
+            <TextField fx:id="idFechaFin" layoutX="169.0" layoutY="285.0" onAction="#fechafin" prefHeight="27.0" prefWidth="165.0" promptText="dd/mm/yyyy" />
          </children></Pane>
-   </center>
+   </left>
 </BorderPane>
