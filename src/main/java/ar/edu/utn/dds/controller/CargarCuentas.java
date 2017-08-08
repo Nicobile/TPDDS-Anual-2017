@@ -64,7 +64,15 @@ public class CargarCuentas {
     @FXML
     void cargaArchivo(ActionEvent event) throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresaException {
     	if (!archivosCuentas.buscarArchivo(idRuta.getText())) {
+    	try{
     	this.lectorArchivo.leerArchivo(this.getClass().getResource("/"+idRuta.getText()).getFile());
+    	}catch(FileNotFoundException e){
+    		final JPanel panel = new JPanel();
+    		JOptionPane.showMessageDialog(panel, "No se encuentra el archivo", "Error", JOptionPane.ERROR_MESSAGE);
+    	}catch(IOException e){
+    		final JPanel panel = new JPanel();
+    		JOptionPane.showMessageDialog(panel, "No se encuentra el archivo", "Error", JOptionPane.ERROR_MESSAGE);
+    	}
         archivosCuentas.agregarArchivo(idRuta.getText());    	
     	t.getEmpresas().forEach(unaEmpresa -> idEmpresa.getItems().add(unaEmpresa.getNombre()));
     	}

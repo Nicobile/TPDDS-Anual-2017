@@ -16,6 +16,7 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
+import ar.edu.utn.dds.excepciones.YaHayUnIndicadorConEseNombreException;
 import ar.edu.utn.dds.procesarArchivos.LineaArchivo;
 
 public class Traductor {
@@ -236,6 +237,9 @@ public class Traductor {
 
 	public void agregarIndicador(Indicador i) {
 
+		if(getIndicadores().contains(i)){
+			throw new YaHayUnIndicadorConEseNombreException("Ya existe un indicador con ese nombre");
+		}
 		getIndicadores().add(i);
 
 	}
