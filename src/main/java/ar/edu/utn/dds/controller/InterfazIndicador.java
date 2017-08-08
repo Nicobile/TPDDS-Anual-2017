@@ -149,7 +149,7 @@ public class InterfazIndicador implements Initializable {
 	}
 		
 	@FXML
-	void idNomIndca(ActionEvent event) {
+	void nomIndca(ActionEvent event) {
 
 	}
 	
@@ -160,9 +160,15 @@ public class InterfazIndicador implements Initializable {
 	
 	@FXML
 	void calcular(ActionEvent event) throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException{
-	  String fechain[] = idFechaIni.getText().split("/");
+	  
+		System.out.println(idNomInd.getText());
+		String fechain[] = idFechaIni.getText().split("/");
 	  String fechafin[] = idFechaFin.getText().split("/");
       Periodo p = new Periodo(LocalDate.of(cambiarFechaInt(2,fechain),cambiarFechaInt(1,fechain), cambiarFechaInt(0,fechain)),LocalDate.of(cambiarFechaInt(2,fechafin),cambiarFechaInt(1,fechafin), cambiarFechaInt(0,fechafin)) );
+      System.out.println(idNomInd.getText());
+      System.out.println(p.getFechaInicio());
+      System.out.println(p.getFechaFin());
+      
       idResult.setText(String.valueOf(t.calcular(idNombreEmpresa.getText(), p, idNomInd.getText()))); 
 	}
 	@Override

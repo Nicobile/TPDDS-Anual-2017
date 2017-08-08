@@ -365,7 +365,7 @@ public class PruebaMetodologiaTest {
 
 	}
 
-	public void PruebaCrecienteYDecrecienteMismosAños() throws ScriptException, NoSePudoOrdenarLaCondicionException,
+	public void PruebaCrecienteYDecrecienteMismosAnios() throws ScriptException, NoSePudoOrdenarLaCondicionException,
 			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException,
 			NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException {
 		thrown.expect(NoHayEmpresasQueCumplanLaCondicionException.class);
