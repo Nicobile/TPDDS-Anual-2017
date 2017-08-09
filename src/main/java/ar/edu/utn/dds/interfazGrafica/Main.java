@@ -175,6 +175,24 @@ public class Main extends Application {
 		} catch (Exception e) {
 		}
 	}
+	
+	public void mostrarCondicionCrecienteODecreciente(Metodologia metod) {
+		try {
+			FXMLLoader loader = new FXMLLoader(
+					Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/CondicionCrecienteODecreciente.fxml"));
+			BorderPane ventanaCondCrecDec = (BorderPane) loader.load();
+			Stage ventana5 = new Stage();
+			ventana5.setTitle("CondCrecienteoDecreciente");
+			ventana5.initOwner(stagePrincipal);
+			Scene scene = new Scene(ventanaCondCrecDec);
+			ventana5.setScene(scene);
+			CondicionCrecienteODecreciente controller = loader.getController();
+			controller.setMetodologia(metod);
+			controller.setStagePrincipal3(ventana5);
+			ventana5.show();
+		} catch (Exception e) {
+		}
+	}
 
 	public static void main(String[] args) {
 		launch(args);

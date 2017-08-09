@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.ListView?>
@@ -12,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ar.edu.utn.dds.interfazGrafica.CondicionCrecienteODecreciente">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ar.edu.utn.dds.interfazGrafica.CondicionCrecienteODecreciente">
    <bottom>
       <Button fx:id="idCerrar" mnemonicParsing="false" onAction="#cerrar" text="Cerrar" BorderPane.alignment="CENTER" />
    </bottom>
@@ -23,7 +19,7 @@
             <Text layoutX="37.0" layoutY="156.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha Iniclal:" />
             <Button fx:id="idCargar" layoutX="174.0" layoutY="309.0" mnemonicParsing="false" onAction="#cargar" text="Cargar" />
             <TextField fx:id="idPeriodoFin" layoutX="129.0" layoutY="185.0" onAction="#periodoFin" />
-            <Text layoutX="35.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha final:" wrappingWidth="71.927734375" />
+            <Text layoutX="39.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha final:" wrappingWidth="80.927734375" />
             <ComboBox fx:id="idIndicador" layoutX="129.0" layoutY="69.0" onAction="#indicador" prefHeight="26.0" prefWidth="167.0" promptText="Elegir Indicador" />
             <ListView fx:id="idLista" layoutX="352.0" layoutY="82.0" onEditStart="#lista" prefHeight="253.0" prefWidth="200.0" />
             <TextField fx:id="idAnios" layoutX="129.0" layoutY="226.0" onAction="#anios" />

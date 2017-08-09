@@ -52,8 +52,8 @@ public class MainGraf implements Initializable {
 		if (idBtnCondicion.getValue().equals("Longevidad")) {
 			ProgramaPrincipal.mostrarCondicionLongevidad(metod);
 		}
-		if (idBtnCondicion.getValue().equals("Condicion2")) {
-			ProgramaPrincipal.mostrarCondicion2();
+		if (idBtnCondicion.getValue().equals("Creciente") || idBtnCondicion.getValue().equals("Decreciente") ) {
+			ProgramaPrincipal.mostrarCondicionCrecienteODecreciente(metod);
 		}
 		if (idBtnCondicion.getValue().equals("Condicion3")) {
 			ProgramaPrincipal.mostrarCondicion3(metod);
@@ -62,7 +62,7 @@ public class MainGraf implements Initializable {
 
 	@FXML
 	void btnCerrar(ActionEvent event) {
-	
+		
 	}
 
 	@FXML
