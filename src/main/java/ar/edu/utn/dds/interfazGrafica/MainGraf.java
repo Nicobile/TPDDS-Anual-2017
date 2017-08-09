@@ -47,8 +47,8 @@ public class MainGraf implements Initializable {
 	@FXML
 	private void btnSeleccionar(ActionEvent event) {
 
-		if (idBtnCondicion.getValue().equals("Condicion1")) {
-			ProgramaPrincipal.mostrarCondicion1();
+		if (idBtnCondicion.getValue().equals("Longevidad")) {
+			ProgramaPrincipal.mostrarCondicionLongevidad(metod);
 		}
 		if (idBtnCondicion.getValue().equals("Condicion2")) {
 			ProgramaPrincipal.mostrarCondicion2();
@@ -75,8 +75,8 @@ public class MainGraf implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resource) {
 
-		ObservableList<String> condiciones = FXCollections.observableArrayList("Condicion1", "Condicion2",
-				"Condicion3");
+		ObservableList<String> condiciones = FXCollections.observableArrayList("Longevidad", "Creciente",
+				"Decreciente","Mediana","Promedio","Sumatoria");
 
 		idBtnCondicion.setItems(condiciones);
 		idBtnCondicion.getSelectionModel().select(0);

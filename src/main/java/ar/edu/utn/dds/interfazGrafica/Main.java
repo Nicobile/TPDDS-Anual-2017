@@ -157,6 +157,24 @@ public class Main extends Application {
 		} catch (Exception e) {
 		}
 	}
+	
+	public void mostrarCondicionLongevidad(Metodologia metod) {
+		try {
+			FXMLLoader loader = new FXMLLoader(
+					Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/CondicionLongevidad.fxml"));
+			BorderPane ventanaCond3 = (BorderPane) loader.load();
+			Stage ventana4 = new Stage();
+			ventana4.setTitle("Longevidad");
+			ventana4.initOwner(stagePrincipal);
+			Scene scene = new Scene(ventanaCond3);
+			ventana4.setScene(scene);
+			CondicionLongevidad controller = loader.getController();
+			controller.setMetodologia(metod);
+			controller.setStagePrincipal(ventana4);
+			ventana4.show();
+		} catch (Exception e) {
+		}
+	}
 
 	public static void main(String[] args) {
 		launch(args);

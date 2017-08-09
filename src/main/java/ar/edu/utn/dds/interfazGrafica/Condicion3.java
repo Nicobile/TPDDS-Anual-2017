@@ -96,7 +96,7 @@ public class Condicion3 implements Initializable {
 		if (idLadoIzq.getValue().equals("Longevidad")) {
 
 			Longevidad longevidad = new Longevidad(t);
-			Condicion cond = new Filtro(longevidad, periodo, anios);
+			Condicion cond = new Filtro(longevidad, anios);
 
 			meto.agregarCondicion(cond);
 

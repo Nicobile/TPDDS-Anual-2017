@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="235.0" prefWidth="366.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ar.edu.utn.dds.interfazGrafica.CondicionLongevidad">
+   <bottom>
+      <Button fx:id="idCerrar" mnemonicParsing="false" onAction="#cerrar" onDragDetected="#cerrar" text="Cerrar" BorderPane.alignment="CENTER" />
+   </bottom>
+   <top>
+      <Pane fx:id="idCerrar" prefHeight="363.0" prefWidth="580.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="idCargar" layoutX="290.0" layoutY="96.0" mnemonicParsing="false" onAction="#cargar" text="Cargar" />
+            <TextField fx:id="idAnios" layoutX="98.0" layoutY="96.0" onAction="#anios" />
+            <Text layoutX="43.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Años:" />
+            <Text layoutX="117.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Longevidad">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+         </children></Pane>
+   </top>
+</BorderPane>
