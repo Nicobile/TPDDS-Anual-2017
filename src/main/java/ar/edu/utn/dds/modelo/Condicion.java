@@ -2,9 +2,7 @@ package ar.edu.utn.dds.modelo;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.script.ScriptException;
-
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
@@ -16,8 +14,11 @@ public class Condicion {
 	private ValorCalculable ladoIzq;
 	private Periodo periodos;
 	private int anios;
-
 	public Boolean filtro;
+
+	/*
+	 * Aplica a todas las empresas el lado izq y los guarda en la lista SIN ORDENAR
+	 */
 
 	public List<PuntajeEmpresa> aplicar() throws ScriptException, NoSePudoOrdenarLaCondicionException,
 			NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException,
@@ -25,11 +26,7 @@ public class Condicion {
 
 		List<PuntajeEmpresa> valoresAizq = new ArrayList<PuntajeEmpresa>();
 
-		valoresAizq = ladoIzq.calcularValor(periodos,
-				anios);/*
-						 * esto va a aplicar a todas las empresas el lado izq y
-						 * los guarda en la lista SIN ORDENAR
-						 */
+		valoresAizq = ladoIzq.calcularValor(periodos, anios);
 
 		return valoresAizq;
 	}
@@ -65,5 +62,4 @@ public class Condicion {
 	public void setFiltro(Boolean filtro) {
 		this.filtro = filtro;
 	}
-
 }

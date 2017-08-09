@@ -12,18 +12,8 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 public abstract class ValorCalculable {
 
 	/*
-	 * a la hora de crear la metodologia siempre voy a saber que tipo de lado
-	 * izquierdo estoy creando y el indicador tambien
-	 */
-
-	public ValorCalculable(Traductor traductor) {
-		super();
-		this.traductor = traductor;
-	}
-
-	/*
-	 * de alguna forma en la interfaz a la hora qeu ingresan el indicador
-	 * deberia buscarlo con el traductor
+	 * de alguna forma en la interfaz a la hora qeu ingresan el indicador deberia
+	 * buscarlo con el traductor
 	 */
 	private Indicador indicador;
 	private Traductor traductor;
@@ -33,6 +23,16 @@ public abstract class ValorCalculable {
 		super();
 		this.setIndicador(indicador);
 		this.setTraductor(traductor);
+	}
+
+	/*
+	 * a la hora de crear la metodologia siempre voy a saber que tipo de lado
+	 * izquierdo estoy creando y el indicador tambien
+	 */
+
+	public ValorCalculable(Traductor traductor) {
+		super();
+		this.traductor = traductor;
 	}
 
 	public ArrayList<PuntajeEmpresa> calcularValor(Periodo periodos, int anios)

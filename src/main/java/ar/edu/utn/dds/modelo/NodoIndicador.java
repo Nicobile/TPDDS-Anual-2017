@@ -1,7 +1,6 @@
 package ar.edu.utn.dds.modelo;
 
 import java.util.ArrayList;
-
 import antlr.ExpressionParser;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
@@ -27,13 +26,11 @@ public class NodoIndicador implements Operando {
 		operador = o.getOperador();
 		operando1 = o.getOperando1();
 		operando2 = o.getOperando2();
-
 	}
 
 	@Override
 	public double calcular(Empresa e, Periodo periodo) throws NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraLaEmpresaException {
-		// TODO Auto-generated method stub
 		return this.getOperador().operar(operando1.calcular(e, periodo), operando2.calcular(e, periodo));
 	}
 
@@ -60,5 +57,4 @@ public class NodoIndicador implements Operando {
 	public void setOperando2(Operando operando2) {
 		this.operando2 = operando2;
 	}
-
 }

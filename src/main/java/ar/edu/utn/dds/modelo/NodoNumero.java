@@ -5,7 +5,6 @@ public class NodoNumero implements Operando {
 
 	@Override
 	public double calcular(Empresa e, Periodo periodo) {
-
 		return numero;
 	}
 
@@ -13,5 +12,4 @@ public class NodoNumero implements Operando {
 		super();
 		this.numero = numero;
 	}
-
 }

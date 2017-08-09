@@ -1,6 +1,7 @@
 package ar.edu.utn.dds.modelo;
 
 public class Cuenta {
+	
 	private Periodo periodo;
 	private String nombre;
 	private double valor;
@@ -34,5 +35,4 @@ public class Cuenta {
 	public void setValor(int valor) {
 		this.valor = valor;
 	}
-
 }

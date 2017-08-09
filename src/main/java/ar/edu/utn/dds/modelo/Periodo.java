@@ -1,10 +1,21 @@
 package ar.edu.utn.dds.modelo;
 
 import java.time.LocalDate;
-
 import ar.edu.utn.dds.excepciones.FechaInicioPosteriorAFinException;
 
 public class Periodo {
+
+	private LocalDate fechaInicio;
+	private LocalDate fechaFin;
+
+	public Periodo(LocalDate fechaInicio, LocalDate fechaFin) {
+		super();
+		if (fechaInicio.isAfter(fechaFin))
+			throw new FechaInicioPosteriorAFinException("La fecha inicio es posterior a la fecha fin");
+		this.fechaInicio = fechaInicio;
+		this.fechaFin = fechaFin;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -36,9 +47,6 @@ public class Periodo {
 		return true;
 	}
 
-	private LocalDate fechaInicio;
-	private LocalDate fechaFin;
-
 	public LocalDate getFechaInicio() {
 		return fechaInicio;
 	}
@@ -54,13 +62,4 @@ public class Periodo {
 	public void setFechaFin(LocalDate fechaFin) {
 		this.fechaFin = fechaFin;
 	}
-
-	public Periodo(LocalDate fechaInicio, LocalDate fechaFin) {
-		super();
-		if (fechaInicio.isAfter(fechaFin))
-			throw new FechaInicioPosteriorAFinException("La fecha inicio es posterior a la fecha fin");
-		this.fechaInicio = fechaInicio;
-		this.fechaFin = fechaFin;
-	}
-
 }

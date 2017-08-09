@@ -2,7 +2,6 @@ package ar.edu.utn.dds.modelo;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
@@ -12,7 +11,6 @@ public class Decreciente extends ValorCalculable {
 
 	public Decreciente(Indicador indicador, Traductor traductor) {
 		super(indicador, traductor);
-		// TODO Auto-generated constructor stub
 	}
 
 	public ArrayList<PuntajeEmpresa> calcularValor(Periodo periodos, int anios)
@@ -23,6 +21,5 @@ public class Decreciente extends ValorCalculable {
 		List<Empresa> empresas = getTraductor().empresasConIndicadorDecreciente(getEmpresas(), anios, getIndicador());
 
 		return eliminarEmpresasQueNoCumplenCondicion(listaEmpresas, empresas);
-
 	}
 }
