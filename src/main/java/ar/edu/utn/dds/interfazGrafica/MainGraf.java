@@ -2,7 +2,6 @@ package ar.edu.utn.dds.interfazGrafica;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import ar.edu.utn.dds.modelo.Metodologia;
 import ar.edu.utn.dds.modelo.Traductor;
 import javafx.collections.FXCollections;

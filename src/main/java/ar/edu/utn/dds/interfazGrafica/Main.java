@@ -1,16 +1,13 @@
 package ar.edu.utn.dds.interfazGrafica;
 
 import java.io.IOException;
-
 import ar.edu.utn.dds.modelo.Metodologia;
-
 import ar.edu.utn.dds.modelo.Traductor;
 import ar.edu.utn.dds.procesarArchivos.LectorArchivo;
 import ar.edu.utn.dds.procesarArchivos.ProcesarIndicadores;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 

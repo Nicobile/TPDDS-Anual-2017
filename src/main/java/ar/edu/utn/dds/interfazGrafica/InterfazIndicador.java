@@ -3,14 +3,10 @@ package ar.edu.utn.dds.interfazGrafica;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-
 import java.time.LocalDate;
-
 import java.util.ResourceBundle;
-
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;

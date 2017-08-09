@@ -2,7 +2,6 @@ package ar.edu.utn.dds.interfazGrafica;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

@@ -2,9 +2,7 @@ package antlr;
 
 import java.util.ArrayList;
 import java.util.BitSet;
-
 import java.util.Locale;
-
 import org.antlr.v4.runtime.ANTLRErrorListener;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -13,16 +11,13 @@ import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
-
 import antlr.SimpleParser.ExprContext;
 import ar.edu.utn.dds.modelo.Operando;
-
 import ar.edu.utn.dds.modelo.Multiplicacion;
 import ar.edu.utn.dds.modelo.NodoCuenta;
 import ar.edu.utn.dds.modelo.NodoIndicador;
 import ar.edu.utn.dds.modelo.NodoNumero;
 import ar.edu.utn.dds.modelo.Division;
-
 import ar.edu.utn.dds.modelo.Indicador;
 import ar.edu.utn.dds.modelo.Resta;
 import ar.edu.utn.dds.modelo.Suma;
