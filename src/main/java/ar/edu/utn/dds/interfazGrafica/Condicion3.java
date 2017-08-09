@@ -45,14 +45,6 @@ public class Condicion3 implements Initializable {
 	private LectorArchivo lector;
 	private ProcesarIndicadores procesador1;
 
-	public void setMetodologia(Metodologia metod) {
-		this.meto = metod;
-	}
-
-	public void setStagePrincipal3(Stage stagePrincipal) {
-		this.stagePrincipal = stagePrincipal;
-	}
-
 	@FXML
 	private Button idCerrar;
 
@@ -62,23 +54,88 @@ public class Condicion3 implements Initializable {
 	@FXML
 	private ComboBox<String> idIndicador;
 
-	
-
 	@FXML
 	private TextField idPeriodoIni;
 
 	@FXML
 	private TextField idPeriodoFin;
-	
+
 	@FXML
 	private TextField idAnios;
 
 	@FXML
 	private Button idCargar;
-	
+
 	@FXML
 	private ListView<String> idLista;
 
+	@FXML
+	void cargar(ActionEvent event) throws NoSeEncuentraElIndicadorException, FileNotFoundException, IOException,
+			NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException,
+			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
+
+		// String periodoIni = (idPeriodoIni.getText());
+		// String periodoFin = (idPeriodoFin.getText());
+
+		/*
+		 * esto lo hago pq pablo me recomendo que le cambie el tipo de dato del
+		 * constructor de periodo
+		 */
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+		LocalDate fechaI = LocalDate.parse(idPeriodoIni.getText(), formatter);
+		LocalDate fechaF = LocalDate.parse(idPeriodoFin.getText(), formatter);
+
+		Periodo periodo = new Periodo(fechaI, fechaF);
+
+		int anios = Integer.parseInt(idAnios.getText());
+
+		String indicador = idIndicador.getValue();
+
+		idLista.getItems().clear();
+
+		if (idLadoIzq.getValue().equals("Longevidad")) {
+
+			Longevidad longevidad = new Longevidad(t);
+			Condicion cond = new Filtro(longevidad, periodo, anios);
+
+			meto.agregarCondicion(cond);
+
+		}
+		if (idLadoIzq.getValue().equals("Creciente")) {
+
+			Creciente creciente = new Creciente(t.buscarIndicador(indicador), t);
+			Condicion cond = new Filtro(creciente, periodo, 4);
+
+			meto.agregarCondicion(cond);
+
+		}
+		if (idLadoIzq.getValue().equals("Decreciente")) {
+
+			Decreciente decre = new Decreciente(t.buscarIndicador(indicador), t);
+			Condicion cond = new Filtro(decre, periodo, 4);
+
+			meto.agregarCondicion(cond);
+		}
+
+		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
+
+		for (int j = 0; j < empresas.size(); j++) {
+			idLista.getItems().addAll(empresas.get(j).getNombreEmpresa());
+		}
+
+	}
+
+	@FXML
+	void lista(ActionEvent event) {
+		idLista.getItems().clear();
+	}
+
+	@FXML
+	void cerrar(ActionEvent event) {
+		stagePrincipal.close();
+	}
 
 	@FXML
 	void periodoFin(ActionEvent event) {
@@ -89,14 +146,10 @@ public class Condicion3 implements Initializable {
 	void periodoIni(ActionEvent event) {
 
 	}
+
 	@FXML
 	void anios(ActionEvent event) {
 
-	}
-
-	@FXML
-	void cerrar(ActionEvent event) {
-		stagePrincipal.close();
 	}
 
 	@FXML
@@ -109,87 +162,31 @@ public class Condicion3 implements Initializable {
 
 	}
 
-	 
-	 @FXML
-	 void lista(ActionEvent event) {
-		 idLista.getItems().clear();
-	 }
+	/* JAVA */
 
+	public void initialize(URL url, ResourceBundle rb) {
 
-    @FXML
-    void cargar(ActionEvent event) throws NoSeEncuentraElIndicadorException, FileNotFoundException, IOException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
-    	
-    	//String periodoIni = (idPeriodoIni.getText());
-    	//String periodoFin = (idPeriodoFin.getText());
-    	
-    	// esto lo hago pq pablo me recomendo que le cambie el tipo de dato del
-    	// constructor de periodo
-   		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		/* inicializar los recursos necesarios */
 
-   		LocalDate fechaI = LocalDate.parse(idPeriodoIni.getText(), formatter);
-    	LocalDate fechaF = LocalDate.parse(idPeriodoFin.getText(), formatter);
-    	Periodo periodo = new Periodo(fechaI,fechaF);
-    	
-    	int anios = Integer.parseInt(idAnios.getText());
-    	
-    	String indicador = idIndicador.getValue();
-    	idLista.getItems().clear();
-    	
+		this.t = new Traductor();
+		this.lector = new LectorArchivo(t);
 
-    	
-    	if (idLadoIzq.getValue().equals("Longevidad")){
-    		Longevidad longevidad = new Longevidad(t);
-    		
-    		
-    		Condicion cond = new Filtro(longevidad, periodo, anios);
-    		meto.agregarCondicion(cond);
-    
-    	}
-    	if (idLadoIzq.getValue().equals("Creciente")){
-    		Creciente creciente = new Creciente(t.buscarIndicador(indicador), t);
-
-    		Condicion cond = new Filtro(creciente, periodo, 4);
-    		meto.agregarCondicion(cond);
-
-    	}
-    	if (idLadoIzq.getValue().equals("Decreciente")){
-    		Decreciente decre = new Decreciente(t.buscarIndicador(indicador), t);
-        	Condicion cond = new Filtro(decre, periodo, 4);
-        	meto.agregarCondicion(cond);
-    	}
-    	
-    	ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
-    	
-    	for (int j = 0; j < empresas.size(); j++){
-    		idLista.getItems().addAll(empresas.get(j).getNombreEmpresa());
-    	}
-    	
-    	   
-    }
-
-	 
-    public void initialize(URL url, ResourceBundle rb) {
-	       // TODO
-    	//inicializar los recursos necesarios 
-    	this.t = new Traductor();
-    	this.lector = new LectorArchivo(t);
-    	try {
+		try {
 			this.lector.leerArchivo(this.getClass().getResource("/Datos.txt").getFile());
 		} catch (IOException | NoSeEncuentraLaEmpresaException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		this.procesador1 = new ProcesarIndicadores(t);
+
 		try {
 			this.procesador1.leerExcel(this.getClass().getResource("/Indicadores.xls").getFile());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-    	ObservableList<String> ladoIzq = FXCollections.observableArrayList("Longevidad","Creciente","Decreciente");
-    	
+
+		ObservableList<String> ladoIzq = FXCollections.observableArrayList("Longevidad", "Creciente", "Decreciente");
+
 		idLadoIzq.setItems(ladoIzq);
 		idLadoIzq.getSelectionModel().select(0);
 
@@ -197,7 +194,14 @@ public class Condicion3 implements Initializable {
 				"i_IndicadorD", "i_IngresoNeto", "i_Solvencia", "j_IndicadorF");
 
 		idIndicador.setItems(indicador);
-		
+
 	}
 
+	public void setMetodologia(Metodologia metod) {
+		this.meto = metod;
+	}
+
+	public void setStagePrincipal3(Stage stagePrincipal) {
+		this.stagePrincipal = stagePrincipal;
+	}
 }
