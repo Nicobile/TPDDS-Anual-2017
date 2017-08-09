@@ -22,10 +22,14 @@ public class Traductor {
 
 	private List<Empresa> empresas = new ArrayList<Empresa>();
 	private ArrayList<Indicador> indicadores = new ArrayList<Indicador>();
+	private List<Metodologia> metodologias = new ArrayList<Metodologia>();
 	private ExpressionParser parser = new ExpressionParser();
 
 	public ArrayList<Indicador> getIndicadores() {
 		return indicadores;
+	}
+	public void agregarMetodologia(Metodologia metodologia) {
+		metodologias.add(metodologia);
 	}
 
 	public ArrayList<String> listarIndicadoresyCuentas(Empresa e) {

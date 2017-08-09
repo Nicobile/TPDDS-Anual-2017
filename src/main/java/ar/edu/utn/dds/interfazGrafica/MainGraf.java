@@ -41,7 +41,7 @@ public class MainGraf implements Initializable {
 		// condicion3.setNombreMetod(texto);
 
 		metod = new Metodologia(idTextMetod.getText());
-		t.agregarMetogologia(metod);
+		t.agregarMetodologia(metod);
 	}
 
 	@FXML
