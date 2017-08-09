@@ -10,28 +10,31 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.modelo.Traductor;
 
 public class LectorArchivo {
+
 	private Traductor t = new Traductor();
+	static ArrayList<LineaArchivo> lineasArchivo = new ArrayList<LineaArchivo>();
 
 	public LectorArchivo(Traductor t) {
 		super();
 		this.t = t;
 	}
 
-	static ArrayList<LineaArchivo> lineasArchivo = new ArrayList<LineaArchivo>();
-
 	public void leerArchivo(String archivo) throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresaException {
 
 		BufferedReader b = new BufferedReader(new FileReader(archivo));
 
+		String s; /* donde voy guardando las palabrast */
 		String cadena;
-		String s;// donde voy guardando las palabrast
-		String nomEmpresa = null, nomCuenta = null, valorCuenta = null, fechaInicio = null,fechaFin=null, fechaInscripcion=null;
 		LineaArchivo elementoColeccion;
+
+		String nomEmpresa = null, nomCuenta = null, valorCuenta = null, fechaInicio = null, fechaFin = null,
+				fechaInscripcion = null;
 
 		while ((cadena = b.readLine()) != null) {
 			int numTokens = 0;
 			StringTokenizer cad = new StringTokenizer(cadena);
-			// bucle por todas las palabras y guardo las palabras
+
+			/* bucle por todas las palabras y guardo las palabras */
 			while (cad.hasMoreTokens()) {
 				s = cad.nextToken();
 				numTokens++;
@@ -41,7 +44,6 @@ public class LectorArchivo {
 				if (numTokens == 2) {
 					fechaInscripcion = s;
 				}
-				
 				if (numTokens == 3) {
 					nomCuenta = s;
 				}
@@ -51,22 +53,19 @@ public class LectorArchivo {
 				if (numTokens == 5) {
 					fechaInicio = s;
 				}
-				if (numTokens ==6) {
+				if (numTokens == 6) {
 					fechaFin = s;
 				}
 			}
 
-
-			elementoColeccion = new LineaArchivo(nomEmpresa,fechaInscripcion, nomCuenta, Integer.parseInt(valorCuenta),fechaInicio,fechaFin);
+			elementoColeccion = new LineaArchivo(nomEmpresa, fechaInscripcion, nomCuenta, Integer.parseInt(valorCuenta),
+					fechaInicio, fechaFin);
 			lineasArchivo.add(elementoColeccion);
-
 		}
-
 		b.close();
 
-		// paso lista a empresa
+		/* paso lista a empresa */
 		t.armarListaEmpresas(lineasArchivo);
-
 	}
 
 	public ArrayList<LineaArchivo> getLineasArchivo() {

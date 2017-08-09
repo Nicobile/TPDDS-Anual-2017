@@ -3,15 +3,11 @@ package ar.edu.utn.dds.procesarArchivos;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
 import java.util.List;
-
 import ar.edu.utn.dds.modelo.Cuenta;
 import ar.edu.utn.dds.modelo.Empresa;
 import ar.edu.utn.dds.modelo.Indicador;
-
 import ar.edu.utn.dds.modelo.Traductor;
-
 import jxl.Cell;
 import jxl.CellType;
 import jxl.Sheet;
@@ -36,8 +32,12 @@ public class ProcesarIndicadores {
 			Sheet sheet = w.getSheet(0);
 
 			for (int i = 0; i < sheet.getRows(); i++) {
-				Cell cell = sheet.getCell(0, i);// nombre indicador
-				Cell cell2 = sheet.getCell(1, i);// operacion
+
+				/* nombre indicador */
+				Cell cell = sheet.getCell(0, i);
+
+				/* operacion */
+				Cell cell2 = sheet.getCell(1, i);
 
 				CellType type = cell.getType();
 
@@ -45,16 +45,13 @@ public class ProcesarIndicadores {
 
 					Indicador indicador = new Indicador(cell.getContents(), cell2.getContents());
 
-					// seteo el nombre del indicador
+					/* seteo el nombre del indicador */
 					t.agregarIndicador(indicador);
-
 				}
 			}
-
 		} catch (BiffException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public Indicador cargarIndPredefinidos(String nombre, String op) {
@@ -68,5 +65,4 @@ public class ProcesarIndicadores {
 
 		return e.getCuentas();
 	}
-
 }
