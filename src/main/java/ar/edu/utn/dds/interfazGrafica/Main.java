@@ -149,7 +149,7 @@ public class Main extends Application {
 			ventana3.initOwner(stagePrincipal);
 			Scene scene = new Scene(ventanaCond3);
 			ventana3.setScene(scene);
-			Condicion3 controller = loader.getController();
+			CondicionCrecienteODecreciente controller = loader.getController();
 			controller.setMetodologia(metod);
 			controller.setStagePrincipal3(ventana3);
 			ventana3.show();

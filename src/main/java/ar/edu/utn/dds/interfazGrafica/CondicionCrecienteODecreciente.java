@@ -35,7 +35,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class Condicion3 implements Initializable {
+public class CondicionCrecienteODecreciente implements Initializable {
 
 	private Stage stagePrincipal;
 	private Traductor t;
@@ -93,14 +93,7 @@ public class Condicion3 implements Initializable {
 
 		idLista.getItems().clear();
 
-		if (idLadoIzq.getValue().equals("Longevidad")) {
 
-			Longevidad longevidad = new Longevidad(t);
-			Condicion cond = new Filtro(longevidad, anios);
-
-			meto.agregarCondicion(cond);
-
-		}
 		if (idLadoIzq.getValue().equals("Creciente")) {
 
 			Creciente creciente = new Creciente(t.buscarIndicador(indicador), t);

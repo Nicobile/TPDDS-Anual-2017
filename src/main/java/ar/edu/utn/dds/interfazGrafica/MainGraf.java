@@ -12,10 +12,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class MainGraf implements Initializable {
 
 	private Main ProgramaPrincipal;
+
 	private Traductor t;
 	private String texto;
 	private Metodologia metod; // primero cargar la metodologia
@@ -60,6 +62,7 @@ public class MainGraf implements Initializable {
 
 	@FXML
 	void btnCerrar(ActionEvent event) {
+	
 	}
 
 	@FXML

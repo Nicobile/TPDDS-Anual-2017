@@ -3,7 +3,14 @@ package ar.edu.utn.dds.interfazGrafica;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import ar.edu.utn.dds.modelo.Condicion;
+import ar.edu.utn.dds.modelo.Filtro;
+import ar.edu.utn.dds.modelo.Longevidad;
 import ar.edu.utn.dds.modelo.Metodologia;
+import ar.edu.utn.dds.modelo.Traductor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,6 +22,11 @@ public class CondicionLongevidad implements Initializable {
 
 	private Stage stagePrincipal;
 	private Metodologia metodologia;
+	private Traductor t;
+
+	public void setTraductor(Traductor t) {
+		this.t = t;
+	}
 
 	@FXML
 	private TextField idAnios;
@@ -32,12 +44,19 @@ public class CondicionLongevidad implements Initializable {
 
 	@FXML
 	void cargar(ActionEvent event) {
-       
+		Longevidad longevidad = new Longevidad(t);
+		Condicion cond = new Filtro(longevidad, Integer.parseInt(idAnios.getText()));
+		metodologia.agregarCondicion(cond);
+		//habria que tirar msje error si no esta creada la metodologia
+		final JPanel panel = new JPanel();
+		JOptionPane.showMessageDialog(panel, "Condicion cargada", "Cargado satisfactoriamente",
+				JOptionPane.INFORMATION_MESSAGE);
+		idAnios.setText("");
 	}
 
 	@FXML	
 	void cerrar(ActionEvent event) {
-
+		stagePrincipal.close();
 	}
 
 	public void setMetodologia(Metodologia metod) {
