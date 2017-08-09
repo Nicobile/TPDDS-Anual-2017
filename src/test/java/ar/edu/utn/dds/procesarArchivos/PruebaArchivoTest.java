@@ -3,15 +3,12 @@ package ar.edu.utn.dds.procesarArchivos;
 import static org.junit.Assert.*;
 import org.junit.rules.ExpectedException;
 import org.junit.Rule;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
@@ -26,7 +23,6 @@ public class PruebaArchivoTest {
 	private Periodo periodoSinCuentas;
 
 	@Before
-
 	public void initLectura() throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresaException {
 		this.t = new Traductor();
 		this.lector = new LectorArchivo(t);
@@ -39,14 +35,13 @@ public class PruebaArchivoTest {
 	public ExpectedException thrown = ExpectedException.none();
 
 	@Test
-
-	// prueba para verificar que la lista contenga elementos
+	
+	/* prueba para verificar que la lista contenga elementos*/
 	public void listaTieneElementos() throws FileNotFoundException, IOException {
 		assertFalse((this.lector.getLineasArchivo().isEmpty()));
 	}
 
 	@Test
-
 	public void verficarCuentasEmpresa() throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresaException,
 			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
 
@@ -58,14 +53,12 @@ public class PruebaArchivoTest {
 	}
 
 	@Test
-
 	public void noSeEncuentraCuenta() throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException {
 		thrown.expect(NoSeEncuentraLaCuentaException.class);
 		t.obtenerEmpresa("Pepsico").buscarUnaCuenta("c_cuentaA");
 	}
 
 	@Test
-
 	public void noSeEncuentraCuentaEnUnaFecha() throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException {
 		thrown.expect(NoSeEncuentraLaCuentaEnElPeriodoException.class);
@@ -74,7 +67,6 @@ public class PruebaArchivoTest {
 	}
 
 	@After
-
 	public void eliminarLista() {
 		this.lector.getLineasArchivo().clear();
 		this.t.getEmpresas().clear();
