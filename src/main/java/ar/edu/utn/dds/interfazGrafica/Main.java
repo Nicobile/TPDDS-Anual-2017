@@ -15,13 +15,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-	// @Override
-	// public void start(Stage primaryStage) throws Exception{
-	// Parent root =
-	// FXMLLoader.load(getClass().getResource("/ar/edu/utn/dds/interfazGrafica/Menu.fxml"));
-	// Scene scene = new Scene(root);
-	// primaryStage.setScene(scene);
-	// primaryStage.show();
+
 	private Stage stagePrincipal;
 	private BorderPane rootPane;
 	private Traductor traductor;
@@ -54,9 +48,6 @@ public class Main extends Application {
 		}
 	}
 
-	/*
-	 * cargamos la ventana principal
-	 */
 	public void mostrarVentanaPrincipal() {
 		try {
 			FXMLLoader loader = new FXMLLoader(Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/Menu.fxml"));
@@ -70,62 +61,6 @@ public class Main extends Application {
 
 			stagePrincipal.show();
 		} catch (IOException e) {
-		}
-	}
-
-	public void mostrarCondicion1() {
-		try {
-			FXMLLoader loader = new FXMLLoader(
-					Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/Condicion1.fxml"));
-			BorderPane ventanaDos = (BorderPane) loader.load();
-			Stage ventana = new Stage();
-			ventana.setTitle("Condicion 1");
-			ventana.initOwner(stagePrincipal);
-			Scene scene = new Scene(ventanaDos);
-			ventana.setScene(scene);
-			Condicion1 controller = loader.getController();
-			controller.setStagePrincipal(ventana);
-			ventana.show();
-
-		} catch (Exception e) {
-		}
-	}
-
-	// abre la ventana condicion 2
-	public void mostrarCondicion2() {
-		try {
-			FXMLLoader loader = new FXMLLoader(
-					Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/Condicion2.fxml"));
-			BorderPane ventanaDos = (BorderPane) loader.load();
-			Stage ventana = new Stage();
-			ventana.setTitle("Condicion 2");
-			ventana.initOwner(stagePrincipal);
-			Scene scene = new Scene(ventanaDos);
-			ventana.setScene(scene);
-			Condicion2 controller = loader.getController();
-			controller.setStagePrincipal2(ventana);
-			ventana.show();
-
-		} catch (Exception e) {
-		}
-	}
-
-	public void mostrarCondicion3(Metodologia metod) {
-		try {
-			FXMLLoader loader = new FXMLLoader(
-					Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/Condicion3.fxml"));
-			BorderPane ventanaCond3 = (BorderPane) loader.load();
-			Stage ventana3 = new Stage();
-			ventana3.setTitle("Condicion 3");
-			ventana3.initOwner(stagePrincipal);
-			Scene scene = new Scene(ventanaCond3);
-			ventana3.setScene(scene);
-			Condicion3 controller = loader.getController();
-			controller.setMetodologia(metod);
-			controller.setStagePrincipal3(ventana3);
-			ventana3.show();
-
-		} catch (Exception e) {
 		}
 	}
 
@@ -169,9 +104,73 @@ public class Main extends Application {
 		}
 	}
 
+	/* CONDICIONES */
+
+	public void mostrarCondicion1() {
+		try {
+			FXMLLoader loader = new FXMLLoader(
+					Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/Condicion1.fxml"));
+			BorderPane ventanaDos = (BorderPane) loader.load();
+			Stage ventana = new Stage();
+			ventana.setTitle("Condicion 1");
+			ventana.initOwner(stagePrincipal);
+			Scene scene = new Scene(ventanaDos);
+			ventana.setScene(scene);
+			Condicion1 controller = loader.getController();
+			controller.setStagePrincipal(ventana);
+			ventana.show();
+
+		} catch (Exception e) {
+		}
+	}
+
+	public void mostrarCondicion2() {
+		try {
+			FXMLLoader loader = new FXMLLoader(
+					Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/Condicion2.fxml"));
+			BorderPane ventanaDos = (BorderPane) loader.load();
+			Stage ventana = new Stage();
+			ventana.setTitle("Condicion 2");
+			ventana.initOwner(stagePrincipal);
+			Scene scene = new Scene(ventanaDos);
+			ventana.setScene(scene);
+			Condicion2 controller = loader.getController();
+			controller.setStagePrincipal2(ventana);
+			ventana.show();
+
+		} catch (Exception e) {
+		}
+	}
+
+	public void mostrarCondicion3(Metodologia metod) {
+		try {
+			FXMLLoader loader = new FXMLLoader(
+					Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/Condicion3.fxml"));
+			BorderPane ventanaCond3 = (BorderPane) loader.load();
+			Stage ventana3 = new Stage();
+			ventana3.setTitle("Condicion 3");
+			ventana3.initOwner(stagePrincipal);
+			Scene scene = new Scene(ventanaCond3);
+			ventana3.setScene(scene);
+			Condicion3 controller = loader.getController();
+			controller.setMetodologia(metod);
+			controller.setStagePrincipal3(ventana3);
+			ventana3.show();
+
+		} catch (Exception e) {
+		}
+	}
+
 	public static void main(String[] args) {
 		launch(args);
 
 	}
 
+	// @Override
+	// public void start(Stage primaryStage) throws Exception{
+	// Parent root =
+	// FXMLLoader.load(getClass().getResource("/ar/edu/utn/dds/interfazGrafica/Menu.fxml"));
+	// Scene scene = new Scene(root);
+	// primaryStage.setScene(scene);
+	// primaryStage.show();
 }

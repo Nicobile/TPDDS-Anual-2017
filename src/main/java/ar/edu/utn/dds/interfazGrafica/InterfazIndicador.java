@@ -103,7 +103,6 @@ public class InterfazIndicador implements Initializable {
 			JOptionPane.showMessageDialog(panel, "Ya se encuentra un indicador con ese nombre", "Error",
 					JOptionPane.ERROR_MESSAGE);
 		}
-
 	}
 
 	@FXML
@@ -139,7 +138,6 @@ public class InterfazIndicador implements Initializable {
 			JOptionPane.showMessageDialog(panel, "El indicador posee algun error en la expresion", "Error",
 					JOptionPane.ERROR_MESSAGE);
 		}
-
 	}
 
 	@FXML
@@ -149,47 +147,38 @@ public class InterfazIndicador implements Initializable {
 
 	@FXML
 	void expresion(ActionEvent event) {
-
 	}
 
 	@FXML
 	void listInd(ActionEvent event) {
-
 	}
 
 	@FXML
 	void nomInd(ActionEvent event) {
-
 	}
 
 	@FXML
 	void ruta(ActionEvent event) {
-
 	}
 
 	@FXML
 	void nomEmp(ActionEvent event) {
-
 	}
 
 	@FXML
 	void fechaini(ActionEvent event) {
-
 	}
 
 	@FXML
 	void fechafin(ActionEvent event) {
-
 	}
 
 	@FXML
 	void nomIndca(ActionEvent event) {
-
 	}
 
 	@FXML
 	void result(ActionEvent event) {
-
 	}
 
 	/* JAVA */

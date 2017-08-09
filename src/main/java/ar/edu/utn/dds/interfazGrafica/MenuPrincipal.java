@@ -15,17 +15,8 @@ public class MenuPrincipal implements Initializable {
 
 	private Main ProgramaPrincipal;
 
-	public void setProgramaPrincipal(Main ProgramaPrincipal) {
-		this.ProgramaPrincipal = ProgramaPrincipal;
-	}
-
 	@FXML
 	private ComboBox<String> idOpciones;
-
-	@FXML
-	void opciones(ActionEvent event) {
-
-	}
 
 	@FXML
 	private Button idIngresar;
@@ -45,6 +36,13 @@ public class MenuPrincipal implements Initializable {
 		}
 	}
 
+	@FXML
+	void opciones(ActionEvent event) {
+
+	}
+
+	/* JAVA */
+
 	@Override
 	public void initialize(URL location, ResourceBundle resource) {
 
@@ -53,6 +51,10 @@ public class MenuPrincipal implements Initializable {
 
 		idOpciones.setItems(menu);
 		idOpciones.getSelectionModel().select(0);
+	}
+
+	public void setProgramaPrincipal(Main ProgramaPrincipal) {
+		this.ProgramaPrincipal = ProgramaPrincipal;
 	}
 
 }

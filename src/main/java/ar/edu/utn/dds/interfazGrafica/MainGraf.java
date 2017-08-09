@@ -21,14 +21,6 @@ public class MainGraf implements Initializable {
 	private String texto;
 	private Metodologia metod; // primero cargar la metodologia
 
-	public void setProgramaPrincipal(Main ProgramaPrincipal) {
-		this.ProgramaPrincipal = ProgramaPrincipal;
-	}
-
-	public void setTraductor(Traductor tradu) {
-		this.t = tradu;
-	}
-
 	@FXML
 	private Button idBtnCerrar;
 
@@ -45,30 +37,12 @@ public class MainGraf implements Initializable {
 	private Button idCargar;
 
 	@FXML
-	void btnCerrar(ActionEvent event) {
-
-	}
-
-	@FXML
-	void btnCondicion(ActionEvent event) {
-
-	}
-
-	@FXML
-	void textMetod(ActionEvent event) {
-
-	}
-
-	@FXML
 	void cargar(ActionEvent event) {
 
 		// condicion3.setNombreMetod(texto);
+
 		metod = new Metodologia(idTextMetod.getText());
 		t.agregarMetogologia(metod);
-	}
-
-	public String getNombre() {
-		return this.texto;
 	}
 
 	@FXML
@@ -83,8 +57,21 @@ public class MainGraf implements Initializable {
 		if (idBtnCondicion.getValue().equals("Condicion3")) {
 			ProgramaPrincipal.mostrarCondicion3(metod);
 		}
-
 	}
+
+	@FXML
+	void btnCerrar(ActionEvent event) {
+	}
+
+	@FXML
+	void btnCondicion(ActionEvent event) {
+	}
+
+	@FXML
+	void textMetod(ActionEvent event) {
+	}
+
+	/* JAVA */
 
 	@Override
 	public void initialize(URL location, ResourceBundle resource) {
@@ -101,4 +88,15 @@ public class MainGraf implements Initializable {
 
 	}
 
+	public void setProgramaPrincipal(Main ProgramaPrincipal) {
+		this.ProgramaPrincipal = ProgramaPrincipal;
+	}
+
+	public void setTraductor(Traductor tradu) {
+		this.t = tradu;
+	}
+
+	public String getNombre() {
+		return this.texto;
+	}
 }
