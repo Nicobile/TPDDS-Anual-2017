@@ -3,6 +3,7 @@ package ar.edu.utn.dds.interfazGrafica;
 import java.util.ArrayList;
 
 public class Archivos {
+	
 	public ArrayList<String> listaArchivos = new ArrayList<String>();
 
 	public void agregarArchivo(String archivo) {
@@ -20,5 +21,4 @@ public class Archivos {
 	public void setListaArchivos(ArrayList<String> listaArchivos) {
 		this.listaArchivos = listaArchivos;
 	}
-
 }

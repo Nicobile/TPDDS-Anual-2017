@@ -22,24 +22,11 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class CargarCuentas {
+
 	Stage stagePrincipalCta;
 	private Traductor t;
 	private LectorArchivo lectorArchivo;
 	private Archivos archivosCuentas;
-
-	public void setStagePrincipalCuenta(Stage stagePrincipal) {
-		this.stagePrincipalCta = stagePrincipal;
-	}
-
-	public void setTraductor(Traductor tradu) {
-		this.t = tradu;
-	}
-
-	public void setLectorArchivo(LectorArchivo lector) {
-		this.lectorArchivo = lector;
-		t.getEmpresas().forEach(unaEmpresa -> idEmpresa.getItems().add(unaEmpresa.getNombre()));
-
-	}
 
 	@FXML
 	private Button idCerrar;
@@ -77,8 +64,20 @@ public class CargarCuentas {
 	}
 
 	@FXML
+	void mostrarCta(ActionEvent event) throws NoSeEncuentraLaEmpresaException {
+		idListCta.getItems().clear();
+		t.obtenerEmpresa(idEmpresa.getValue()).getCuentas()
+				.forEach(unaCuenta -> idListCta.getItems().add(unaCuenta.getNombre()));
+	}
+
+	@FXML
 	void cerrar(ActionEvent event) {
 		stagePrincipalCta.close();
+	}
+
+	@FXML
+	void ruta(ActionEvent event) {
+
 	}
 
 	@FXML
@@ -91,17 +90,7 @@ public class CargarCuentas {
 
 	}
 
-	@FXML
-	void mostrarCta(ActionEvent event) throws NoSeEncuentraLaEmpresaException {
-		idListCta.getItems().clear();
-		t.obtenerEmpresa(idEmpresa.getValue()).getCuentas()
-				.forEach(unaCuenta -> idListCta.getItems().add(unaCuenta.getNombre()));
-	}
-
-	@FXML
-	void ruta(ActionEvent event) {
-
-	}
+	/* JAVA */
 
 	public void initialize(URL url, ResourceBundle rb) {
 
@@ -110,8 +99,22 @@ public class CargarCuentas {
 		idEmpresa.setItems(empresa);
 	}
 
+	public void setLectorArchivo(LectorArchivo lector) {
+		this.lectorArchivo = lector;
+		t.getEmpresas().forEach(unaEmpresa -> idEmpresa.getItems().add(unaEmpresa.getNombre()));
+
+	}
+
 	public void setListaArchivos(Archivos archivos) {
 		archivosCuentas = archivos;
+	}
+
+	public void setStagePrincipalCuenta(Stage stagePrincipal) {
+		this.stagePrincipalCta = stagePrincipal;
+	}
+
+	public void setTraductor(Traductor tradu) {
+		this.t = tradu;
 	}
 
 }

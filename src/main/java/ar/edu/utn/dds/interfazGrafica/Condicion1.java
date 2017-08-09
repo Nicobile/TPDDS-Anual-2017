@@ -18,10 +18,6 @@ public class Condicion1 implements Initializable {
 
 	private Stage stagePrincipal;
 
-	public void setStagePrincipal(Stage stagePrincipal) {
-		this.stagePrincipal = stagePrincipal;
-	}
-
 	@FXML
 	private BorderPane idBorderPane;
 
@@ -57,42 +53,41 @@ public class Condicion1 implements Initializable {
 	}
 
 	@FXML
-	void comparador(ActionEvent event) {
-
-	}
-
-	@FXML
-	void ladoderecho(ActionEvent event) {
-
-	}
-
-	@FXML
-	void ladoizq(ActionEvent event) {
-
-	}
-
-	@FXML
-	void periodos(ActionEvent event) {
-
-	}
-
-	@FXML
 	void cerrar(ActionEvent event) {
 		stagePrincipal.close();
 	}
 
 	@FXML
-	void ladoIzq(ActionEvent event) {
-
+	void comparador(ActionEvent event) {
 	}
+
+	@FXML
+	void ladoderecho(ActionEvent event) {
+	}
+
+	@FXML
+	void ladoizq(ActionEvent event) {
+	}
+
+	@FXML
+	void periodos(ActionEvent event) {
+	}
+
+	@FXML
+	void ladoIzq(ActionEvent event) {
+	}
+
+	/* JAVA */
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		// TODO
 		ObservableList<String> ladoIzq = FXCollections.observableArrayList("Longevidad", "Creciente", "Decreciente");
 
 		idLadoIzq.setItems(ladoIzq);
 		idLadoIzq.getSelectionModel().select(0);
 	}
 
+	public void setStagePrincipal(Stage stagePrincipal) {
+		this.stagePrincipal = stagePrincipal;
+	}
 }
