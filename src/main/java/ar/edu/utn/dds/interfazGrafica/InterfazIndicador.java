@@ -1,12 +1,11 @@
-package ar.edu.utn.dds.controller;
+package ar.edu.utn.dds.interfazGrafica;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.security.GeneralSecurityException;
+
 import java.time.LocalDate;
-import java.util.ArrayList;
+
 import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
@@ -17,7 +16,6 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.YaHayUnIndicadorConEseNombreException;
-import ar.edu.utn.dds.interfazGrafica.Archivos;
 import ar.edu.utn.dds.modelo.Indicador;
 import ar.edu.utn.dds.modelo.Periodo;
 import ar.edu.utn.dds.modelo.Traductor;
@@ -66,22 +64,22 @@ public class InterfazIndicador implements Initializable {
 
 	@FXML
 	private TextField idexpresion;
-	
+
 	@FXML
 	private TextField idNombreEmpresa;
-	
+
 	@FXML
 	private TextField idFechaIni;
-	
+
 	@FXML
 	private TextField idFechaFin;
-	
+
 	@FXML
 	private TextField idNomIndca;
-	
+
 	@FXML
 	private TextField idResult;
-	
+
 	@FXML
 	private Button idCalculo;
 
@@ -91,36 +89,33 @@ public class InterfazIndicador implements Initializable {
 	@FXML
 	void cargaArchivo(ActionEvent event) throws FileNotFoundException, IOException {
 		if (!archivosInd.buscarArchivo(idRuta.getText())) {
-			try{
-			this.procesador1.leerExcel(this.getClass().getResource("/" + idRuta.getText()).getFile());
-			}catch(FileNotFoundException e ){
+			try {
+				this.procesador1.leerExcel(this.getClass().getResource("/" + idRuta.getText()).getFile());
+			} catch (NullPointerException e) {
 				final JPanel panel = new JPanel();
 				JOptionPane.showMessageDialog(panel, "No se encuentra el archivo", "Error", JOptionPane.ERROR_MESSAGE);
-			}catch(IOException f){
-	    		final JPanel panel = new JPanel();
-	    		JOptionPane.showMessageDialog(panel, "No se encuentra el archivo", "Error", JOptionPane.ERROR_MESSAGE);
-	    	}
+			}
 			archivosInd.agregarArchivo(idRuta.getText());
 			t.getIndicadores().forEach(unIndicador -> idListInd.getItems().add(unIndicador.getNombre()));
 
-		}
-		else{
-		final JPanel panel = new JPanel();
-		JOptionPane.showMessageDialog(panel, "El archivo ya fue cargado", "Error", JOptionPane.ERROR_MESSAGE);
+		} else {
+			final JPanel panel = new JPanel();
+			JOptionPane.showMessageDialog(panel, "El archivo ya fue cargado", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
 	@FXML
 	void cargar(ActionEvent event) {
 		Indicador ind1 = new Indicador(idNomInd.getText(), idexpresion.getText());
-		try{
-		t.agregarIndicador(ind1);
-		idListInd.getItems().add(ind1.getNombre());
-		}catch(YaHayUnIndicadorConEseNombreException e){
+		try {
+			t.agregarIndicador(ind1);
+			idListInd.getItems().add(ind1.getNombre());
+		} catch (YaHayUnIndicadorConEseNombreException e) {
 			final JPanel panel = new JPanel();
-			JOptionPane.showMessageDialog(panel, "Ya se encuentra un indicador con ese nombre", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(panel, "Ya se encuentra un indicador con ese nombre", "Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
-		
+
 	}
 
 	@FXML
@@ -147,58 +142,68 @@ public class InterfazIndicador implements Initializable {
 	void ruta(ActionEvent event) {
 
 	}
-	
+
 	@FXML
 	void nomEmp(ActionEvent event) {
 
 	}
-	
+
 	@FXML
 	void fechaini(ActionEvent event) {
 
-	}	
+	}
 
 	@FXML
 	void fechafin(ActionEvent event) {
 
 	}
-		
+
 	@FXML
 	void nomIndca(ActionEvent event) {
 
 	}
-	
+
 	@FXML
-	void result(ActionEvent event){
+	void result(ActionEvent event) {
 
 	}
-	
+
 	@FXML
-	void calcular(ActionEvent event) throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException{
-	  idResult.clear();
-	  try{
-	  String fechain[] = idFechaIni.getText().split("/");
-	  String fechafin[] = idFechaFin.getText().split("/");
-      Periodo p = new Periodo(LocalDate.of(cambiarFechaInt(2,fechain),cambiarFechaInt(1,fechain), cambiarFechaInt(0,fechain)),LocalDate.of(cambiarFechaInt(2,fechafin),cambiarFechaInt(1,fechafin), cambiarFechaInt(0,fechafin)) );  
-      idResult.setText(String.valueOf(t.calcular(idNombreEmpresa.getText(), p, idNomIndca.getText())));
-	  }catch(NoSeEncuentraLaEmpresaException e){
-		  final JPanel panel = new JPanel();
-		  JOptionPane.showMessageDialog(panel, "No se encuentra la empresa", "Error", JOptionPane.ERROR_MESSAGE);
-	  }catch(NoSeEncuentraLaCuentaException c){
-		  final JPanel panel = new JPanel();
-		  JOptionPane.showMessageDialog(panel, "La empresa no dispone de la cuenta que requiere el indicador para el calculo", "Error", JOptionPane.ERROR_MESSAGE);
-	  }catch(NoSeEncuentraLaCuentaEnElPeriodoException d){
-		  final JPanel panel = new JPanel();
-		  JOptionPane.showMessageDialog(panel, "La empresa no dispone de la cuenta en el periodo que requiere el indicador para el calculo", "Error", JOptionPane.ERROR_MESSAGE);
-	  }catch(NoSeEncuentraElIndicadorException e){
-		  final JPanel panel = new JPanel();
-		  JOptionPane.showMessageDialog(panel, "No se encuentra el indicador", "Error", JOptionPane.ERROR_MESSAGE);
-	  }catch(IllegalArgumentException f){
-		  final JPanel panel = new JPanel();
-		  JOptionPane.showMessageDialog(panel, "El indicador posee algun error en la expresion", "Error", JOptionPane.ERROR_MESSAGE);
-	  }
-	  
+	void calcular(ActionEvent event) throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
+			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
+		idResult.clear();
+		try {
+			String fechain[] = idFechaIni.getText().split("/");
+			String fechafin[] = idFechaFin.getText().split("/");
+			Periodo p = new Periodo(
+					LocalDate.of(cambiarFechaInt(2, fechain), cambiarFechaInt(1, fechain), cambiarFechaInt(0, fechain)),
+					LocalDate.of(cambiarFechaInt(2, fechafin), cambiarFechaInt(1, fechafin),
+							cambiarFechaInt(0, fechafin)));
+			idResult.setText(String.valueOf(t.calcular(idNombreEmpresa.getText(), p, idNomIndca.getText())));
+		} catch (NoSeEncuentraLaEmpresaException e) {
+			final JPanel panel = new JPanel();
+			JOptionPane.showMessageDialog(panel, "No se encuentra la empresa", "Error", JOptionPane.ERROR_MESSAGE);
+		} catch (NoSeEncuentraLaCuentaException c) {
+			final JPanel panel = new JPanel();
+			JOptionPane.showMessageDialog(panel,
+					"La empresa no dispone de la cuenta que requiere el indicador para el calculo", "Error",
+					JOptionPane.ERROR_MESSAGE);
+		} catch (NoSeEncuentraLaCuentaEnElPeriodoException d) {
+			final JPanel panel = new JPanel();
+			JOptionPane.showMessageDialog(panel,
+					"La empresa no dispone de la cuenta en el periodo que requiere el indicador para el calculo",
+					"Error", JOptionPane.ERROR_MESSAGE);
+		} catch (NoSeEncuentraElIndicadorException e) {
+			final JPanel panel = new JPanel();
+			JOptionPane.showMessageDialog(panel, "No se encuentra el indicador", "Error", JOptionPane.ERROR_MESSAGE);
+		} catch (IllegalArgumentException f) {
+			final JPanel panel = new JPanel();
+			JOptionPane.showMessageDialog(panel, "El indicador posee algun error en la expresion", "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
+
 	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resource) {
 		// if(t.getIndicadores().size()>0){
@@ -212,8 +217,8 @@ public class InterfazIndicador implements Initializable {
 		archivosInd = archivos;
 
 	}
-	
-	private int cambiarFechaInt(int posicion, String fecha[]){
+
+	private int cambiarFechaInt(int posicion, String fecha[]) {
 		return Integer.parseInt(fecha[posicion]);
 	}
 

@@ -1,4 +1,4 @@
-package ar.edu.utn.dds.controller;
+package ar.edu.utn.dds.interfazGrafica;
 
 import java.net.URL;
 import java.util.ResourceBundle;

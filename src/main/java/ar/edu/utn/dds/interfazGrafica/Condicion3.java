@@ -1,4 +1,4 @@
-package ar.edu.utn.dds.controller;
+package ar.edu.utn.dds.interfazGrafica;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
