@@ -6,5 +6,4 @@ public class EntradaDeDatosErroneaException extends RuntimeException {
 	public EntradaDeDatosErroneaException(String msje_error) {
 		super(msje_error);
 	}
-
 }
