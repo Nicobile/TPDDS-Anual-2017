@@ -7,7 +7,9 @@ import ar.edu.utn.dds.procesarArchivos.LectorArchivo;
 import ar.edu.utn.dds.procesarArchivos.ProcesarIndicadores;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -102,62 +104,10 @@ public class Main extends Application {
 	}
 
 	/* CONDICIONES */
-
-	public void mostrarCondicion1() {
-		try {
-			FXMLLoader loader = new FXMLLoader(
-					Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/Condicion1.fxml"));
-			BorderPane ventanaDos = (BorderPane) loader.load();
-			Stage ventana = new Stage();
-			ventana.setTitle("Condicion 1");
-			ventana.initOwner(stagePrincipal);
-			Scene scene = new Scene(ventanaDos);
-			ventana.setScene(scene);
-			Condicion1 controller = loader.getController();
-			controller.setStagePrincipal(ventana);
-			ventana.show();
-
-		} catch (Exception e) {
-		}
-	}
-
-	public void mostrarCondicion2() {
-		try {
-			FXMLLoader loader = new FXMLLoader(
-					Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/Condicion2.fxml"));
-			BorderPane ventanaDos = (BorderPane) loader.load();
-			Stage ventana = new Stage();
-			ventana.setTitle("Condicion 2");
-			ventana.initOwner(stagePrincipal);
-			Scene scene = new Scene(ventanaDos);
-			ventana.setScene(scene);
-			Condicion2 controller = loader.getController();
-			controller.setStagePrincipal2(ventana);
-			ventana.show();
-
-		} catch (Exception e) {
-		}
-	}
-
-	public void mostrarCondicion3(Metodologia metod) {
-		try {
-			FXMLLoader loader = new FXMLLoader(
-					Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/Condicion3.fxml"));
-			BorderPane ventanaCond3 = (BorderPane) loader.load();
-			Stage ventana3 = new Stage();
-			ventana3.setTitle("Condicion 3");
-			ventana3.initOwner(stagePrincipal);
-			Scene scene = new Scene(ventanaCond3);
-			ventana3.setScene(scene);
-			CondicionDecreciente controller = loader.getController();
-			controller.setMetodologia(metod);
-			controller.setStagePrincipal3(ventana3);
-			ventana3.show();
-
-		} catch (Exception e) {
-		}
-	}
 	
+	
+
+
 	public void mostrarCondicionLongevidad(Metodologia metod) {
 		try {
 			FXMLLoader loader = new FXMLLoader(
@@ -180,13 +130,13 @@ public class Main extends Application {
 		try {
 			FXMLLoader loader = new FXMLLoader(
 					Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/CondicionCreciente.fxml"));
-			BorderPane ventanaCondCrecDec = (BorderPane) loader.load();
+			BorderPane ventanaCondCrec = (BorderPane) loader.load();
 			Stage ventana5 = new Stage();
 			ventana5.setTitle("CondCreciente");
 			ventana5.initOwner(stagePrincipal);
-			Scene scene = new Scene(ventanaCondCrecDec);
+			Scene scene = new Scene(ventanaCondCrec);
 			ventana5.setScene(scene);
-			CondicionDecreciente controller = loader.getController();
+			CondicionCreciente controller = loader.getController();
 			controller.setMetodologia(metod);
 			controller.setStagePrincipal3(ventana5);
 			ventana5.show();
@@ -210,11 +160,40 @@ public class Main extends Application {
 		} catch (Exception e) {
 		}
 	}
+public void mostrarCondicionSumatoria(Metodologia metod)  {
+		
+
+		FXMLLoader loader = new FXMLLoader(
+				Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/CondicionSumatoria.fxml"));
+		
+		BorderPane ventanaSumatoria;
+		try {
+			ventanaSumatoria = (BorderPane) loader.load();
+		
+		Stage ventana6 = new Stage();
+		ventana6.setTitle("CondSumatoria");
+		ventana6.initOwner(stagePrincipal);
+		Scene scene = new Scene(ventanaSumatoria);
+		ventana6.setScene(scene);
+		CondicionSumatoria controller = loader.getController();
+		controller.setMetodologia(metod);
+		controller.setStagePrincipal(ventana6);
+		
+		ventana6.show();}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	
+	}
 
 	public static void main(String[] args) {
 		launch(args);
 
 	}
+
+	
 
 	// @Override
 	// public void start(Stage primaryStage) throws Exception{

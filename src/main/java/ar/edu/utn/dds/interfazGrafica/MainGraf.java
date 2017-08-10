@@ -1,5 +1,6 @@
 package ar.edu.utn.dds.interfazGrafica;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import ar.edu.utn.dds.modelo.Metodologia;
@@ -12,7 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
+
 
 public class MainGraf implements Initializable {
 
@@ -47,8 +48,9 @@ public class MainGraf implements Initializable {
 	}
 
 	@FXML
-	private void btnSeleccionar(ActionEvent event) {
+	private void btnSeleccionar(ActionEvent event)  {
 
+			
 		if (idBtnCondicion.getValue().equals("Longevidad")) {
 			ProgramaPrincipal.mostrarCondicionLongevidad(metod);
 		}
@@ -58,8 +60,8 @@ public class MainGraf implements Initializable {
 		if(idBtnCondicion.getValue().equals("Decreciente")) {
 			ProgramaPrincipal.mostrarCondicionDecreciente(metod);
 		}
-		if (idBtnCondicion.getValue().equals("Condicion3")) {
-			ProgramaPrincipal.mostrarCondicion3(metod);
+		if (idBtnCondicion.getValue().equals("Sumatoria")) {
+			ProgramaPrincipal.mostrarCondicionSumatoria(metod);
 		}
 	}
 
@@ -87,9 +89,6 @@ public class MainGraf implements Initializable {
 		idBtnCondicion.setItems(condiciones);
 		idBtnCondicion.getSelectionModel().select(0);
 
-		// idBtnCondicion.getItems().add("Condicion1");
-		// idBtnCondicion.getItems().add("Condicion2");
-		// idBtnCondicion.getItems().add("Condicion3");
 
 	}
 
