@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.ListView?>
@@ -8,19 +12,30 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="547.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ar.edu.utn.dds.interfazGrafica.CargarCuentas">
-   <bottom>
-      <Button fx:id="idCerrar" mnemonicParsing="false" onAction="#cerrar" text="Cerrar" BorderPane.alignment="CENTER" />
-   </bottom>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="602.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ar.edu.utn.dds.interfazGrafica.MenuCuentas">
    <center>
       <Pane prefHeight="504.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
             <TextField fx:id="idRuta" layoutX="169.0" layoutY="43.0" onAction="#ruta" prefHeight="26.0" prefWidth="242.0" promptText="Ruta" />
             <Button fx:id="idCargarArchivo" layoutX="426.0" layoutY="43.0" mnemonicParsing="false" onAction="#cargaArchivo" text="Cargar" />
-            <ListView fx:id="idListCta" layoutX="190.0" layoutY="163.0" onEditStart="#listCta" prefHeight="253.0" prefWidth="200.0" />
+            <ListView fx:id="idListCta" layoutX="134.0" layoutY="354.0" onEditStart="#listCta" prefHeight="133.0" prefWidth="369.0" />
             <Text layoutX="35.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cargar Archivo:" />
-            <ComboBox fx:id="idEmpresa" layoutX="215.0" layoutY="102.0" onAction="#empresa" prefWidth="150.0" promptText="Elegir Empresa:" />
-            <Button fx:id="idMostrarCta" layoutX="411.0" layoutY="102.0" mnemonicParsing="false" onAction="#mostrarCta" text="Mostrar Cuenta" />
+            <ComboBox fx:id="idEmpresa" layoutX="215.0" layoutY="123.0" onAction="#empresa" prefWidth="150.0" promptText="Elegir Empresa:" />
+            <Button fx:id="idObtenerValorCuenta" layoutX="270.0" layoutY="318.0" mnemonicParsing="false" onAction="#obtenerValorCuenta" text="Obtener" />
+            <Text layoutX="35.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Obtener valor de una cuenta en un periodo">
+               <font>
+                  <Font size="18.0" />
+               </font></Text>
+            <Text layoutX="35.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Seleccionar Empresa" />
+            <Text layoutX="26.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Seleccionar cuenta" />
+            <ComboBox fx:id="idCombCuenta" layoutX="216.0" layoutY="172.0" onAction="#Combcuenta" prefWidth="150.0" promptText="Elegir Cuenta :" />
+            <TextField fx:id="idFechaInicio" layoutX="189.0" layoutY="230.0" onAction="#fechaInicio" prefHeight="26.0" prefWidth="203.0" promptText="Fecha inicio dd/mm/aaaa" />
+            <TextField fx:id="idFechaFin" layoutX="189.0" layoutY="272.0" onAction="#fechaFin" prefHeight="26.0" prefWidth="203.0" promptText="Fecha fin dd/mm/aaaa" />
+            <Text layoutX="30.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingrese la fecha del comienzo del periodo" wrappingWidth="118.443359375" />
+            <Text layoutX="30.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingrese la fecha fin del periodo" wrappingWidth="118.443359375" />
+            <Button fx:id="idCerrar" layoutX="276.0" layoutY="563.0" mnemonicParsing="false" onAction="#cerrar" text="Cerrar" />
+            <TextField fx:id="idTotal" layoutX="189.0" layoutY="512.0" onAction="#total" />
+            <Text layoutX="30.0" layoutY="529.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total del periodo" />
          </children></Pane>
    </center>
 </BorderPane>

@@ -3,10 +3,19 @@ package ar.edu.utn.dds.interfazGrafica;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
+import ar.edu.utn.dds.modelo.Empresa;
+import ar.edu.utn.dds.modelo.Periodo;
 import ar.edu.utn.dds.modelo.Traductor;
 import ar.edu.utn.dds.procesarArchivos.LectorArchivo;
 import javafx.collections.FXCollections;
@@ -19,7 +28,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class CargarCuentas {
+public class MenuCuentas {
 
 	Stage stagePrincipalCta;
 	private Traductor t;
@@ -42,7 +51,16 @@ public class CargarCuentas {
 	private ComboBox<String> idEmpresa;
 
 	@FXML
-	private Button idMostrarCta;
+	private Button idObtenerValorCuenta;
+	@FXML
+	private ComboBox<String> idCombCuenta ;
+	@FXML
+	private TextField idFechaInicio;
+	@FXML
+	private TextField idFechaFin;
+	@FXML
+	private TextField 	idTotal;
+
 
 	@FXML
 	void cargaArchivo(ActionEvent event) throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresaException {
@@ -55,6 +73,7 @@ public class CargarCuentas {
 			}
 			archivosCuentas.agregarArchivo(idRuta.getText());
 			t.getEmpresas().forEach(unaEmpresa -> idEmpresa.getItems().add(unaEmpresa.getNombre()));
+			
 		} else {
 			final JPanel panel = new JPanel();
 			JOptionPane.showMessageDialog(panel, "El archivo ya fue cargado", "Error", JOptionPane.ERROR_MESSAGE);
@@ -62,10 +81,21 @@ public class CargarCuentas {
 	}
 
 	@FXML
-	void mostrarCta(ActionEvent event) throws NoSeEncuentraLaEmpresaException {
-		idListCta.getItems().clear();
-		t.obtenerEmpresa(idEmpresa.getValue()).getCuentas()
-				.forEach(unaCuenta -> idListCta.getItems().add(unaCuenta.getNombre()));
+	void obtenerValorCuenta(ActionEvent event) throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
+		
+		String fechain[] = idFechaInicio.getText().split("/");
+		String fechafin[] = idFechaFin.getText().split("/");
+		Periodo periodo = new Periodo(
+				LocalDate.of(cambiarFechaInt(2, fechain), cambiarFechaInt(1, fechain), cambiarFechaInt(0, fechain)),
+				LocalDate.of(cambiarFechaInt(2, fechafin), cambiarFechaInt(1, fechafin),
+						cambiarFechaInt(0, fechafin)));
+		Empresa e=t.obtenerEmpresa(idEmpresa.getValue());
+		e.buscarUnaCuentaPorPeriodo(idCombCuenta.getValue(), periodo).
+		forEach(unaCuenta ->{ idListCta.getItems().add(unaCuenta.getNombre());
+		idListCta.getItems().add(String.valueOf(unaCuenta.getValor()));
+		});
+		idTotal.setText(String.valueOf(e.consultarValorCuenta(idCombCuenta.getValue(), periodo)));
+
 	}
 
 	@FXML
@@ -77,24 +107,41 @@ public class CargarCuentas {
 	void ruta(ActionEvent event) {
 
 	}
-
 	@FXML
-	void empresa(ActionEvent event) {
+	void fechaInicio(ActionEvent event) {
 
 	}
+	@FXML
+	void fechaFin(ActionEvent event) {
+
+	}
+
+	@FXML
+	void empresa(ActionEvent event) throws NoSeEncuentraLaEmpresaException {
+		List<String> list=	t.obtenerEmpresa(idEmpresa.getValue()).getCuentas().stream().map(UnaC->UnaC.getNombre()).collect(Collectors.toList());
+		ObservableList<String> cuentas=FXCollections.observableArrayList(list);
+		idCombCuenta.setItems(cuentas);
+	}
+	@FXML
+	void Combcuenta(ActionEvent event) {
+
+	}
+	
 
 	@FXML
 	void listCta(ActionEvent event) {
 
 	}
+	@FXML
+	void total(ActionEvent event) {
+
+	}
 
 	/* JAVA */
 
-	public void initialize(URL url, ResourceBundle rb) {
+	public void initialize(URL url, ResourceBundle rb) throws NoSeEncuentraLaEmpresaException {
 
-		ObservableList<String> empresa = FXCollections.observableArrayList();
-
-		idEmpresa.setItems(empresa);
+		
 	}
 
 	public void setLectorArchivo(LectorArchivo lector) {
@@ -113,6 +160,9 @@ public class CargarCuentas {
 
 	public void setTraductor(Traductor tradu) {
 		this.t = tradu;
+	}
+	private int cambiarFechaInt(int posicion, String fecha[]) {
+		return Integer.parseInt(fecha[posicion]);
 	}
 
 }

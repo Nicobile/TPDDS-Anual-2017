@@ -91,7 +91,7 @@ public class Main extends Application {
 			ventanaCta.initOwner(stagePrincipal);
 			Scene scene = new Scene(ventanaCond3);
 			ventanaCta.setScene(scene);
-			CargarCuentas controller = loader.getController();
+			MenuCuentas controller = loader.getController();
 			controller.setTraductor(traductor);
 			controller.setLectorArchivo(lectorArchivo);
 			controller.setListaArchivos(archivos);
