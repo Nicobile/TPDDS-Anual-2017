@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="311.0" prefWidth="426.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ar.edu.utn.dds.interfazGrafica.CondicionDecreciente">
+   <top>
+      <Pane prefHeight="311.0" prefWidth="537.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="idCargar" layoutX="329.0" layoutY="157.0" mnemonicParsing="false" onAction="#cargar" text="Cargar" />
+            <ComboBox fx:id="idIndicador" layoutX="129.0" layoutY="69.0" onAction="#indicador" prefHeight="26.0" prefWidth="167.0" promptText="Elegir Indicador" />
+            <TextField fx:id="idAnios" layoutX="138.0" layoutY="157.0" onAction="#anios" />
+            <Text layoutX="56.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Años:" />
+            <Button fx:id="idCerrar" layoutX="187.0" layoutY="272.0" mnemonicParsing="false" onAction="#cerrar" text="Cerrar" />
+         </children></Pane>
+   </top>
+</BorderPane>

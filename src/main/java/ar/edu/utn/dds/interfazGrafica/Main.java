@@ -149,7 +149,7 @@ public class Main extends Application {
 			ventana3.initOwner(stagePrincipal);
 			Scene scene = new Scene(ventanaCond3);
 			ventana3.setScene(scene);
-			CondicionCrecienteODecreciente controller = loader.getController();
+			CondicionDecreciente controller = loader.getController();
 			controller.setMetodologia(metod);
 			controller.setStagePrincipal3(ventana3);
 			ventana3.show();
@@ -176,17 +176,34 @@ public class Main extends Application {
 		}
 	}
 	
-	public void mostrarCondicionCrecienteODecreciente(Metodologia metod) {
+	public void mostrarCondicionCreciente(Metodologia metod) {
 		try {
 			FXMLLoader loader = new FXMLLoader(
-					Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/CondicionCrecienteODecreciente.fxml"));
+					Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/CondicionCreciente.fxml"));
 			BorderPane ventanaCondCrecDec = (BorderPane) loader.load();
 			Stage ventana5 = new Stage();
-			ventana5.setTitle("CondCrecienteoDecreciente");
+			ventana5.setTitle("CondCreciente");
 			ventana5.initOwner(stagePrincipal);
 			Scene scene = new Scene(ventanaCondCrecDec);
 			ventana5.setScene(scene);
-			CondicionCrecienteODecreciente controller = loader.getController();
+			CondicionDecreciente controller = loader.getController();
+			controller.setMetodologia(metod);
+			controller.setStagePrincipal3(ventana5);
+			ventana5.show();
+		} catch (Exception e) {
+		}
+	}
+	public void mostrarCondicionDecreciente(Metodologia metod) {
+		try {
+			FXMLLoader loader = new FXMLLoader(
+					Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/CondicionDecreciente.fxml"));
+			BorderPane ventanaCondCrecDec = (BorderPane) loader.load();
+			Stage ventana5 = new Stage();
+			ventana5.setTitle("CondDecreciente");
+			ventana5.initOwner(stagePrincipal);
+			Scene scene = new Scene(ventanaCondCrecDec);
+			ventana5.setScene(scene);
+			CondicionDecreciente controller = loader.getController();
 			controller.setMetodologia(metod);
 			controller.setStagePrincipal3(ventana5);
 			ventana5.show();

@@ -52,8 +52,11 @@ public class MainGraf implements Initializable {
 		if (idBtnCondicion.getValue().equals("Longevidad")) {
 			ProgramaPrincipal.mostrarCondicionLongevidad(metod);
 		}
-		if (idBtnCondicion.getValue().equals("Creciente") || idBtnCondicion.getValue().equals("Decreciente") ) {
-			ProgramaPrincipal.mostrarCondicionCrecienteODecreciente(metod);
+		if (idBtnCondicion.getValue().equals("Creciente")  ) {
+			ProgramaPrincipal.mostrarCondicionCreciente(metod);
+		}
+		if(idBtnCondicion.getValue().equals("Decreciente")) {
+			ProgramaPrincipal.mostrarCondicionDecreciente(metod);
 		}
 		if (idBtnCondicion.getValue().equals("Condicion3")) {
 			ProgramaPrincipal.mostrarCondicion3(metod);

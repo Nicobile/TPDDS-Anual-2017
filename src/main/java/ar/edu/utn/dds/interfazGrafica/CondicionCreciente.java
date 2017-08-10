@@ -3,11 +3,15 @@ package ar.edu.utn.dds.interfazGrafica;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+
+import java.util.stream.Collectors;
+
 import javax.script.ScriptException;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
@@ -15,12 +19,10 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 import ar.edu.utn.dds.modelo.Condicion;
 import ar.edu.utn.dds.modelo.Creciente;
-import ar.edu.utn.dds.modelo.Decreciente;
+
 import ar.edu.utn.dds.modelo.Filtro;
-import ar.edu.utn.dds.modelo.Longevidad;
 import ar.edu.utn.dds.modelo.Metodologia;
-import ar.edu.utn.dds.modelo.Periodo;
-import ar.edu.utn.dds.modelo.PuntajeEmpresa;
+
 import ar.edu.utn.dds.modelo.Traductor;
 import ar.edu.utn.dds.procesarArchivos.LectorArchivo;
 import ar.edu.utn.dds.procesarArchivos.ProcesarIndicadores;
@@ -31,11 +33,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
+
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class CondicionCrecienteODecreciente implements Initializable {
+public class CondicionCreciente implements Initializable {
 
 	private Stage stagePrincipal;
 	private Traductor t;
@@ -47,16 +49,7 @@ public class CondicionCrecienteODecreciente implements Initializable {
 	private Button idCerrar;
 
 	@FXML
-	private ComboBox<String> idLadoIzq;
-
-	@FXML
 	private ComboBox<String> idIndicador;
-
-	@FXML
-	private TextField idPeriodoIni;
-
-	@FXML
-	private TextField idPeriodoFin;
 
 	@FXML
 	private TextField idAnios;
@@ -65,62 +58,22 @@ public class CondicionCrecienteODecreciente implements Initializable {
 	private Button idCargar;
 
 	@FXML
-	private ListView<String> idLista;
-
-	@FXML
 	void cargar(ActionEvent event) throws NoSeEncuentraElIndicadorException, FileNotFoundException, IOException,
 			NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException,
 			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
-
-		// String periodoIni = (idPeriodoIni.getText());
-		// String periodoFin = (idPeriodoFin.getText());
-
-		/*
-		 * esto lo hago pq pablo me recomendo que le cambie el tipo de dato del
-		 * constructor de periodo
-		 */
-
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-		LocalDate fechaI = LocalDate.parse(idPeriodoIni.getText(), formatter);
-		LocalDate fechaF = LocalDate.parse(idPeriodoFin.getText(), formatter);
-
-		Periodo periodo = new Periodo(fechaI, fechaF);
 
 		int anios = Integer.parseInt(idAnios.getText());
 
 		String indicador = idIndicador.getValue();
 
-		idLista.getItems().clear();
+		Creciente cre = new Creciente(t.buscarIndicador(indicador), t);
+		Condicion cond = new Filtro(cre, anios);
 
-
-		if (idLadoIzq.getValue().equals("Creciente")) {
-
-			Creciente creciente = new Creciente(t.buscarIndicador(indicador), t);
-			Condicion cond = new Filtro(creciente, periodo, 4);
-
-			meto.agregarCondicion(cond);
-
-		}
-		if (idLadoIzq.getValue().equals("Decreciente")) {
-
-			Decreciente decre = new Decreciente(t.buscarIndicador(indicador), t);
-			Condicion cond = new Filtro(decre, periodo, 4);
-
-			meto.agregarCondicion(cond);
-		}
-
-		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
-
-		for (int j = 0; j < empresas.size(); j++) {
-			idLista.getItems().addAll(empresas.get(j).getNombreEmpresa());
-		}
-
-	}
-
-	@FXML
-	void lista(ActionEvent event) {
-		idLista.getItems().clear();
+		meto.agregarCondicion(cond);
+		final JPanel panel = new JPanel();
+		JOptionPane.showMessageDialog(panel, "Condicion cargada", "Cargado satisfactoriamente",
+				JOptionPane.INFORMATION_MESSAGE);
+		idAnios.setText("");
 	}
 
 	@FXML
@@ -129,22 +82,7 @@ public class CondicionCrecienteODecreciente implements Initializable {
 	}
 
 	@FXML
-	void periodoFin(ActionEvent event) {
-
-	}
-
-	@FXML
-	void periodoIni(ActionEvent event) {
-
-	}
-
-	@FXML
 	void anios(ActionEvent event) {
-
-	}
-
-	@FXML
-	void ladoIzq(ActionEvent event) {
 
 	}
 
@@ -161,6 +99,9 @@ public class CondicionCrecienteODecreciente implements Initializable {
 
 		this.t = new Traductor();
 		this.lector = new LectorArchivo(t);
+		// habria que cambiar esto de ller los archivos habria que ir a la lista de
+		// archivos que tenemos en archivos y ver si son de indicadores o datos y
+		// trabajar con eso
 
 		try {
 			this.lector.leerArchivo(this.getClass().getResource("/Datos.txt").getFile());
@@ -176,13 +117,8 @@ public class CondicionCrecienteODecreciente implements Initializable {
 			e.printStackTrace();
 		}
 
-		ObservableList<String> ladoIzq = FXCollections.observableArrayList("Longevidad", "Creciente", "Decreciente");
-
-		idLadoIzq.setItems(ladoIzq);
-		idLadoIzq.getSelectionModel().select(0);
-
-		ObservableList<String> indicador = FXCollections.observableArrayList("i_ROE", "i_NivelDeuda", "i_MargenVentas",
-				"i_IndicadorD", "i_IngresoNeto", "i_Solvencia", "j_IndicadorF");
+		List<String> list = t.getIndicadores().stream().map(unI -> unI.getNombre()).collect(Collectors.toList());
+		ObservableList<String> indicador = FXCollections.observableList(list);
 
 		idIndicador.setItems(indicador);
 

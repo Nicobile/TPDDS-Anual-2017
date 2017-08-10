@@ -65,7 +65,7 @@ public class PruebaMetodologiaTest {
 
 		Decreciente decre = new Decreciente(t.buscarIndicador("i_NivelDeuda"), t);
 
-		Condicion cond = new Filtro(decre, periodo, 4);
+		Condicion cond = new Filtro(decre, 4);
 
 		meto.agregarCondicion(cond);
 
@@ -83,7 +83,7 @@ public class PruebaMetodologiaTest {
 			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
 
 		Creciente creciente = new Creciente(t.buscarIndicador("i_NivelDeuda"), t);
-		Condicion cond = new Filtro(creciente, periodo, 4);
+		Condicion cond = new Filtro(creciente, 4);
 
 		meto.agregarCondicion(cond);
 
