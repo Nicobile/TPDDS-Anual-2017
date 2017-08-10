@@ -108,7 +108,7 @@ public class PruebaMetodologiaTest {
 
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
 
-		Condicion cond2 = new FiltroSegunEcuacion(sum, 400.0, ">", periodo);
+		Condicion cond2 = new FiltroSegunEcuacion(sum, 400, ">", periodo);
 		meto.agregarCondicion(cond2);
 		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
 
@@ -139,7 +139,7 @@ public class PruebaMetodologiaTest {
 			NoSeEncuentraLaCuentaEnElPeriodoException {
 		Promedio pro = new Promedio(t.buscarIndicador("i_NivelDeuda"), t);
 
-		Condicion conpro = new FiltroSegunEcuacion(pro, 50.0, ">", periodo);
+		Condicion conpro = new FiltroSegunEcuacion(pro, 50, ">", periodo);
 		meto.agregarCondicion(conpro);
 		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
 
@@ -155,7 +155,7 @@ public class PruebaMetodologiaTest {
 		thrown.expect(NoHayEmpresasQueCumplanLaCondicionException.class);
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
 
-		Condicion cond2 = new FiltroSegunEcuacion(sum, 500.0, ">", periodo);
+		Condicion cond2 = new FiltroSegunEcuacion(sum, 500, ">", periodo);
 		Condicion cond = new OrdenaAplicandoCriterioOrdenamiento(sum, periodo, "mayorAmenor");
 		meto.agregarCondicion(cond2);
 		meto.agregarCondicion(cond);
@@ -170,7 +170,7 @@ public class PruebaMetodologiaTest {
 
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
 
-		Condicion cond2 = new FiltroSegunEcuacion(sum, 200.0, ">", periodo);
+		Condicion cond2 = new FiltroSegunEcuacion(sum, 200, ">", periodo);
 		Condicion cond = new OrdenaAplicandoCriterioOrdenamiento(sum, periodo, "mayorAmenor");
 		meto.agregarCondicion(cond2);
 		meto.agregarCondicion(cond);
@@ -190,7 +190,7 @@ public class PruebaMetodologiaTest {
 
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
 
-		Condicion cond2 = new FiltroSegunEcuacion(sum, 348.0, ">", periodo);
+		Condicion cond2 = new FiltroSegunEcuacion(sum, 348, ">", periodo);
 		Condicion cond = new OrdenaAplicandoCriterioOrdenamiento(sum, periodo, "mayorAmenor");
 		meto.agregarCondicion(cond2);
 		meto.agregarCondicion(cond);
@@ -210,7 +210,7 @@ public class PruebaMetodologiaTest {
 
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
 
-		Condicion cond2 = new FiltroSegunEcuacion(sum, 349.0, ">", periodo);
+		Condicion cond2 = new FiltroSegunEcuacion(sum, 349, ">", periodo);
 		Condicion cond = new OrdenaAplicandoCriterioOrdenamiento(sum, periodo, "menorAmayor");
 		meto.agregarCondicion(cond2);
 		meto.agregarCondicion(cond);
@@ -260,7 +260,7 @@ public class PruebaMetodologiaTest {
 
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
 		Condicion condi = new Filtro(decre, 10);
-		Condicion condi2 = new FiltroSegunEcuacion(sum, 400.0, ">", periodo);
+		Condicion condi2 = new FiltroSegunEcuacion(sum, 400, ">", periodo);
 		meto.agregarCondicion(condi);
 		meto.agregarCondicion(condi2);
 		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
@@ -282,7 +282,7 @@ public class PruebaMetodologiaTest {
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
 
 		Condicion cond1 = new OrdenaAplicandoCriterioOrdenamiento(prom, periodo, "menorAmayor");
-		Condicion cond2 = new FiltroSegunEcuacion(sum, 348.0, ">", periodo);
+		Condicion cond2 = new FiltroSegunEcuacion(sum, 348, ">", periodo);
 		meto.agregarCondicion(cond1);
 		meto.agregarCondicion(cond2);
 		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
@@ -307,7 +307,7 @@ public class PruebaMetodologiaTest {
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
 
 		Condicion cond1 = new OrdenaAplicandoCriterioOrdenamiento(prom, periodo, "mayorAmenor");
-		Condicion cond2 = new FiltroSegunEcuacion(sum, 348.0, ">", periodo);
+		Condicion cond2 = new FiltroSegunEcuacion(sum, 348, ">", periodo);
 		meto.agregarCondicion(cond1);
 		meto.agregarCondicion(cond2);
 		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
@@ -331,7 +331,7 @@ public class PruebaMetodologiaTest {
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
 		Periodo periodoSinCuentas = new Periodo(LocalDate.of(2000, 1, 20), LocalDate.of(2001, 1, 20));
 		Condicion cond1 = new OrdenaAplicandoCriterioOrdenamiento(prom, periodoSinCuentas, "mayorAmenor");
-		Condicion cond2 = new FiltroSegunEcuacion(sum, 348.0, ">", periodoSinCuentas);
+		Condicion cond2 = new FiltroSegunEcuacion(sum, 348, ">", periodoSinCuentas);
 
 		meto.agregarCondicion(cond1);
 		meto.agregarCondicion(cond2);
@@ -347,7 +347,7 @@ public class PruebaMetodologiaTest {
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_Solvecia"), t);
 
 		Condicion cond1 = new OrdenaAplicandoCriterioOrdenamiento(prom, periodo, "mayorAmenor");
-		Condicion cond2 = new FiltroSegunEcuacion(sum, 348.0, ">", periodo);
+		Condicion cond2 = new FiltroSegunEcuacion(sum, 348, ">", periodo);
 		meto.agregarCondicion(cond1);
 		meto.agregarCondicion(cond2);
 		meto.aplicarMetodologia();

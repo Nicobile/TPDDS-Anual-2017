@@ -188,6 +188,33 @@ public void mostrarCondicionSumatoria(Metodologia metod)  {
 	
 	}
 
+public void mostrarCondicionPromedio(Metodologia metod)  {
+	
+
+	FXMLLoader loader = new FXMLLoader(
+			Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/CondicionPromedio.fxml"));
+	
+	BorderPane ventanaPromedio;
+	try {
+		ventanaPromedio = (BorderPane) loader.load();
+	
+	Stage ventana6 = new Stage();
+	ventana6.setTitle("CondSumatoria");
+	ventana6.initOwner(stagePrincipal);
+	Scene scene = new Scene(ventanaPromedio);
+	ventana6.setScene(scene);
+	CondicionPromedio controller = loader.getController();
+	controller.setMetodologia(metod);
+	controller.setStagePrincipal(ventana6);
+	ventana6.show();}
+	catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+
+}
+
 	public static void main(String[] args) {
 		launch(args);
 

@@ -14,10 +14,10 @@ import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 public class FiltroSegunEcuacion extends Condicion {
 
 	/* lado der SIEMPRE va a ser un numero PUEDE */
-	private Double ladoDer;
+	private int ladoDer;
 	private String comparador;
 
-	public FiltroSegunEcuacion(ValorCalculable ladoIzq, Double ladoDer, String comparador, Periodo periodos) {
+	public FiltroSegunEcuacion(ValorCalculable ladoIzq, int ladoDer, String comparador, Periodo periodos) {
 		super.setLadoIzq(ladoIzq);
 		super.setPeriodos(periodos);
 		this.ladoDer = ladoDer;

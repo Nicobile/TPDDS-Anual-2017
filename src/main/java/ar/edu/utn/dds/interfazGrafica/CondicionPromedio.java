@@ -3,6 +3,7 @@ package ar.edu.utn.dds.interfazGrafica;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -14,10 +15,12 @@ import javax.swing.JPanel;
 import javafx.event.ActionEvent;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.modelo.Condicion;
-import ar.edu.utn.dds.modelo.FiltroSegunEcuacion;
+
 import ar.edu.utn.dds.modelo.Metodologia;
+import ar.edu.utn.dds.modelo.OrdenaAplicandoCriterioOrdenamiento;
 import ar.edu.utn.dds.modelo.Periodo;
-import ar.edu.utn.dds.modelo.Sumatoria;
+import ar.edu.utn.dds.modelo.Promedio;
+
 import ar.edu.utn.dds.modelo.Traductor;
 
 import ar.edu.utn.dds.procesarArchivos.ProcesarIndicadores;
@@ -32,7 +35,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class CondicionSumatoria implements Initializable {
+public class CondicionPromedio implements Initializable {
 	private Stage stagePrincipal;
 	private Traductor t;
 	private ProcesarIndicadores procesador1;
@@ -41,9 +44,7 @@ public class CondicionSumatoria implements Initializable {
 	@FXML
 	private ComboBox<String> idIndicador;
 	@FXML
-	private TextField idComparador;
-	@FXML
-	private TextField idValor;
+	private ComboBox<String> idCriterio;
 	@FXML
 	private TextField idFechaInicio;
 	@FXML
@@ -59,12 +60,7 @@ public class CondicionSumatoria implements Initializable {
 	};
 
 	@FXML
-	private void comparador(ActionEvent event) {
-
-	};
-
-	@FXML
-	private void valor(ActionEvent event) {
+	private void criterio(ActionEvent event) {
 
 	};
 
@@ -80,26 +76,25 @@ public class CondicionSumatoria implements Initializable {
 
 	@FXML
 	private void cargar(ActionEvent event) throws NoSeEncuentraElIndicadorException {
-		Sumatoria sum = new Sumatoria(t.buscarIndicador(idIndicador.getValue()), t);
+		Promedio promedio = new Promedio(t.buscarIndicador(idIndicador.getValue()), t);
 		String fechain[] = idFechaInicio.getText().split("/");
 		String fechafin[] = idFechaFin.getText().split("/");
-		
+
 		Periodo periodo = new Periodo(
 				LocalDate.of(cambiarFechaInt(2, fechain), cambiarFechaInt(1, fechain), cambiarFechaInt(0, fechain)),
 				LocalDate.of(cambiarFechaInt(2, fechafin), cambiarFechaInt(1, fechafin), cambiarFechaInt(0, fechafin)));
-		
-		Condicion condicionSumatoria = new FiltroSegunEcuacion(sum, Integer.parseInt(idValor.getText()),
-				idComparador.getText(), periodo);
+
+		Condicion condicionSumatoria = new OrdenaAplicandoCriterioOrdenamiento(promedio, periodo,
+				idCriterio.getValue());
+
 		meto.agregarCondicion(condicionSumatoria);
 
 		final JPanel panel = new JPanel();
 		JOptionPane.showMessageDialog(panel, "Condicion cargada", "Cargado satisfactoriamente",
 				JOptionPane.INFORMATION_MESSAGE);
-		idComparador.setText("");
-		idValor.setText("");
+
 		idFechaInicio.setText("");
 		idFechaFin.setText("");
-		
 
 	};
 
@@ -124,6 +119,14 @@ public class CondicionSumatoria implements Initializable {
 		ObservableList<String> indicador = FXCollections.observableList(list);
 
 		idIndicador.setItems(indicador);
+		
+		
+		List<String> criteriosOrdenamiento = new ArrayList<String>();
+		criteriosOrdenamiento.add("mayorAmenor");
+		criteriosOrdenamiento.add("menorAmayor");
+		ObservableList<String> lista = FXCollections.observableList(criteriosOrdenamiento);
+
+		idCriterio.setItems(lista);
 
 	}
 

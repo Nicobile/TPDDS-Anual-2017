@@ -63,6 +63,9 @@ public class MainGraf implements Initializable {
 		if (idBtnCondicion.getValue().equals("Sumatoria")) {
 			ProgramaPrincipal.mostrarCondicionSumatoria(metod);
 		}
+		if (idBtnCondicion.getValue().equals("Promedio")) {
+			ProgramaPrincipal.mostrarCondicionPromedio(metod);
+		}
 	}
 
 	@FXML
