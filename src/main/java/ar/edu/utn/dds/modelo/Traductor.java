@@ -25,6 +25,7 @@ public class Traductor {
 	private List<Metodologia> metodologias = new ArrayList<Metodologia>();
 	private ExpressionParser parser = new ExpressionParser();
 
+	
 	public ArrayList<Indicador> getIndicadores() {
 		return indicadores;
 	}
@@ -260,6 +261,7 @@ public class Traductor {
 			}
 		});
 	}
+	
 
 	public void eliminarEmpresa(List<Empresa> empresas, Empresa e) {
 		if (empresas.contains(e))

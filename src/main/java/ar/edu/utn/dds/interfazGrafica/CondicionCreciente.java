@@ -21,7 +21,6 @@ import ar.edu.utn.dds.modelo.Condicion;
 import ar.edu.utn.dds.modelo.Creciente;
 
 import ar.edu.utn.dds.modelo.Filtro;
-import ar.edu.utn.dds.modelo.Metodologia;
 
 import ar.edu.utn.dds.modelo.Traductor;
 import ar.edu.utn.dds.procesarArchivos.LectorArchivo;
@@ -30,18 +29,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
-public class CondicionCreciente implements Initializable {
+public class CondicionCreciente extends TiposDeCondicion {
 
-	private Stage stagePrincipal;
-	private Traductor t;
-	private Metodologia meto;
 	private LectorArchivo lector;
 	private ProcesarIndicadores procesador1;
 
@@ -96,7 +91,7 @@ public class CondicionCreciente implements Initializable {
 	public void initialize(URL url, ResourceBundle rb) {
 
 		/* inicializar los recursos necesarios */
-
+		super.initialize(url, rb);
 		this.t = new Traductor();
 		this.lector = new LectorArchivo(t);
 		// habria que cambiar esto de ller los archivos habria que ir a la lista de
@@ -124,11 +119,4 @@ public class CondicionCreciente implements Initializable {
 
 	}
 
-	public void setMetodologia(Metodologia metod) {
-		this.meto = metod;
-	}
-
-	public void setStagePrincipal3(Stage stagePrincipal) {
-		this.stagePrincipal = stagePrincipal;
-	}
 }

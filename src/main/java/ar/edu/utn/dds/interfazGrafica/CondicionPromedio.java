@@ -2,7 +2,7 @@ package ar.edu.utn.dds.interfazGrafica;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -16,7 +16,6 @@ import javafx.event.ActionEvent;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.modelo.Condicion;
 
-import ar.edu.utn.dds.modelo.Metodologia;
 import ar.edu.utn.dds.modelo.OrdenaAplicandoCriterioOrdenamiento;
 import ar.edu.utn.dds.modelo.Periodo;
 import ar.edu.utn.dds.modelo.Promedio;
@@ -28,18 +27,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
-public class CondicionPromedio implements Initializable {
-	private Stage stagePrincipal;
-	private Traductor t;
+public class CondicionPromedio extends TiposDeCondicion {
+
 	private ProcesarIndicadores procesador1;
-	private Metodologia meto;
 
 	@FXML
 	private ComboBox<String> idIndicador;
@@ -80,9 +76,7 @@ public class CondicionPromedio implements Initializable {
 		String fechain[] = idFechaInicio.getText().split("/");
 		String fechafin[] = idFechaFin.getText().split("/");
 
-		Periodo periodo = new Periodo(
-				LocalDate.of(cambiarFechaInt(2, fechain), cambiarFechaInt(1, fechain), cambiarFechaInt(0, fechain)),
-				LocalDate.of(cambiarFechaInt(2, fechafin), cambiarFechaInt(1, fechafin), cambiarFechaInt(0, fechafin)));
+		Periodo periodo = super.armarPeriodo(fechain, fechafin);
 
 		Condicion condicionSumatoria = new OrdenaAplicandoCriterioOrdenamiento(promedio, periodo,
 				idCriterio.getValue());
@@ -105,6 +99,9 @@ public class CondicionPromedio implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+
+		super.initialize(location, resources);
+
 		this.t = new Traductor();
 
 		this.procesador1 = new ProcesarIndicadores(t);
@@ -119,8 +116,7 @@ public class CondicionPromedio implements Initializable {
 		ObservableList<String> indicador = FXCollections.observableList(list);
 
 		idIndicador.setItems(indicador);
-		
-		
+
 		List<String> criteriosOrdenamiento = new ArrayList<String>();
 		criteriosOrdenamiento.add("mayorAmenor");
 		criteriosOrdenamiento.add("menorAmayor");
@@ -128,18 +124,6 @@ public class CondicionPromedio implements Initializable {
 
 		idCriterio.setItems(lista);
 
-	}
-
-	public void setMetodologia(Metodologia metod) {
-		this.meto = metod;
-	}
-
-	public void setStagePrincipal(Stage stagePrincipal) {
-		this.stagePrincipal = stagePrincipal;
-	}
-
-	private int cambiarFechaInt(int posicion, String fecha[]) {
-		return Integer.parseInt(fecha[posicion]);
 	}
 
 }

@@ -25,18 +25,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class CondicionSumatoria implements Initializable {
-	private Stage stagePrincipal;
-	private Traductor t;
+public class CondicionSumatoria extends TiposDeCondicion {
+
 	private ProcesarIndicadores procesador1;
-	private Metodologia meto;
 
 	@FXML
 	private ComboBox<String> idIndicador;
@@ -83,10 +81,7 @@ public class CondicionSumatoria implements Initializable {
 		Sumatoria sum = new Sumatoria(t.buscarIndicador(idIndicador.getValue()), t);
 		String fechain[] = idFechaInicio.getText().split("/");
 		String fechafin[] = idFechaFin.getText().split("/");
-		
-		Periodo periodo = new Periodo(
-				LocalDate.of(cambiarFechaInt(2, fechain), cambiarFechaInt(1, fechain), cambiarFechaInt(0, fechain)),
-				LocalDate.of(cambiarFechaInt(2, fechafin), cambiarFechaInt(1, fechafin), cambiarFechaInt(0, fechafin)));
+	Periodo periodo= super.armarPeriodo(fechain, fechafin);
 		
 		Condicion condicionSumatoria = new FiltroSegunEcuacion(sum, Integer.parseInt(idValor.getText()),
 				idComparador.getText(), periodo);
@@ -105,12 +100,14 @@ public class CondicionSumatoria implements Initializable {
 
 	@FXML
 	private void cerrar(ActionEvent event) {
-		this.stagePrincipal.close();
+		super.stagePrincipal.close();
 	};
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		this.t = new Traductor();
+		
+		
+		/*this.t = new Traductor();
 
 		this.procesador1 = new ProcesarIndicadores(t);
 
@@ -118,25 +115,21 @@ public class CondicionSumatoria implements Initializable {
 			this.procesador1.leerExcel(this.getClass().getResource("/Indicadores.xls").getFile());
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-
-		List<String> list = t.getIndicadores().stream().map(unI -> unI.getNombre()).collect(Collectors.toList());
+		}*/
+		
+		
+		
+		super.initialize(location, resources);
+System.out.println(super.t.getIndicadores().size());
+		List<String> list = super.t.getIndicadores().stream().map(unI -> unI.getNombre()).collect(Collectors.toList());
 		ObservableList<String> indicador = FXCollections.observableList(list);
 
 		idIndicador.setItems(indicador);
 
 	}
 
-	public void setMetodologia(Metodologia metod) {
-		this.meto = metod;
-	}
 
-	public void setStagePrincipal(Stage stagePrincipal) {
-		this.stagePrincipal = stagePrincipal;
-	}
-
-	private int cambiarFechaInt(int posicion, String fecha[]) {
-		return Integer.parseInt(fecha[posicion]);
-	}
 
 }
+
+

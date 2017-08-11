@@ -20,7 +20,6 @@ import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 import ar.edu.utn.dds.modelo.Condicion;
 import ar.edu.utn.dds.modelo.Decreciente;
 import ar.edu.utn.dds.modelo.Filtro;
-import ar.edu.utn.dds.modelo.Metodologia;
 
 import ar.edu.utn.dds.modelo.Traductor;
 import ar.edu.utn.dds.procesarArchivos.LectorArchivo;
@@ -29,18 +28,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
-public class CondicionDecreciente implements Initializable {
+public class CondicionDecreciente extends TiposDeCondicion {
 
-	private Stage stagePrincipal;
-	private Traductor t;
-	private Metodologia meto;
 	private LectorArchivo lector;
 	private ProcesarIndicadores procesador1;
 
@@ -98,7 +93,7 @@ public class CondicionDecreciente implements Initializable {
 		// habria que cambiar esto de ller los archivos habria que ir a la lista de
 		// archivos que tenemos en archivos y ver si son de indicadores o datos y
 		// trabajar con eso
-
+		super.initialize(url, rb);
 		this.t = new Traductor();
 		this.lector = new LectorArchivo(t);
 
@@ -123,11 +118,4 @@ public class CondicionDecreciente implements Initializable {
 
 	}
 
-	public void setMetodologia(Metodologia metod) {
-		this.meto = metod;
-	}
-
-	public void setStagePrincipal3(Stage stagePrincipal) {
-		this.stagePrincipal = stagePrincipal;
-	}
 }
