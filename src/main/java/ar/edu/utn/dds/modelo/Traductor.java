@@ -20,11 +20,19 @@ import ar.edu.utn.dds.procesarArchivos.LineaArchivo;
 
 public class Traductor {
 
+	
+
 	private List<Empresa> empresas = new ArrayList<Empresa>();
 	private ArrayList<Indicador> indicadores = new ArrayList<Indicador>();
 	private List<Metodologia> metodologias = new ArrayList<Metodologia>();
 	private ExpressionParser parser = new ExpressionParser();
 
+	public List<Metodologia> getMetodologias() {
+		return metodologias;
+	}
+	public void setMetodologias(List<Metodologia> metodologias) {
+		this.metodologias = metodologias;
+	}
 	
 	public ArrayList<Indicador> getIndicadores() {
 		return indicadores;

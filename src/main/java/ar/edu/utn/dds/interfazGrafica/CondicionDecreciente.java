@@ -50,6 +50,17 @@ public class CondicionDecreciente extends TiposDeCondicion {
 
 	@FXML
 	private Button idCargar;
+	
+	@Override
+	public void setT(Traductor tr) {
+		// TODO Auto-generated method stub
+		super.setT(tr);
+		List<String> list = t.getIndicadores().stream().map(unI -> unI.getNombre()).collect(Collectors.toList());
+		ObservableList<String> indicador = FXCollections.observableList(list);
+
+		idIndicador.setItems(indicador);
+
+	}
 
 	@FXML
 	void cargar(ActionEvent event) throws NoSeEncuentraElIndicadorException, FileNotFoundException, IOException,
@@ -85,37 +96,5 @@ public class CondicionDecreciente extends TiposDeCondicion {
 
 	}
 
-	/* JAVA */
-
-	public void initialize(URL url, ResourceBundle rb) {
-
-		/* inicializar los recursos necesarios */
-		// habria que cambiar esto de ller los archivos habria que ir a la lista de
-		// archivos que tenemos en archivos y ver si son de indicadores o datos y
-		// trabajar con eso
-		super.initialize(url, rb);
-		this.t = new Traductor();
-		this.lector = new LectorArchivo(t);
-
-		try {
-			this.lector.leerArchivo(this.getClass().getResource("/Datos.txt").getFile());
-		} catch (IOException | NoSeEncuentraLaEmpresaException e) {
-			e.printStackTrace();
-		}
-
-		this.procesador1 = new ProcesarIndicadores(t);
-
-		try {
-			this.procesador1.leerExcel(this.getClass().getResource("/Indicadores.xls").getFile());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		List<String> list = t.getIndicadores().stream().map(unI -> unI.getNombre()).collect(Collectors.toList());
-		ObservableList<String> indicador = FXCollections.observableList(list);
-
-		idIndicador.setItems(indicador);
-
-	}
 
 }

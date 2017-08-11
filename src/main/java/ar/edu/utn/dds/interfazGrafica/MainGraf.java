@@ -1,7 +1,18 @@
 package ar.edu.utn.dds.interfazGrafica;
+
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+
+import javax.script.ScriptException;
+
+import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
+import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 import ar.edu.utn.dds.modelo.Metodologia;
+import ar.edu.utn.dds.modelo.PuntajeEmpresa;
 import ar.edu.utn.dds.modelo.Traductor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,8 +21,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-
 
 public class MainGraf implements Initializable {
 
@@ -22,13 +33,25 @@ public class MainGraf implements Initializable {
 	private Metodologia metod; // primero cargar la metodologia
 
 	@FXML
+	private ComboBox<String> idMetodologia;
+
+	@FXML
 	private Button idBtnCerrar;
 
 	@FXML
 	private Button idBtnSeleccionar;
+	
+	@FXML
+	private Button idAplicar;
+	
+	@FXML
+	private ListView<String> idEmpresas;
 
 	@FXML
 	private ComboBox<String> idBtnCondicion;
+
+	@FXML
+	private TextField idCond;
 
 	@FXML
 	private TextField idTextMetod;
@@ -39,26 +62,42 @@ public class MainGraf implements Initializable {
 	@FXML
 	void cargar(ActionEvent event) {
 
-
 		metod = new Metodologia(idTextMetod.getText());
 		t.agregarMetodologia(metod);
+		idMetodologia.getItems().add(metod.getNombre());
 	}
 
 	@FXML
-	private void btnSeleccionar(ActionEvent event)  {
-		
-		
-			ProgramaPrincipal.mostrarCondicion(metod,idBtnCondicion.getValue());
-	
-	}
+	private void btnSeleccionar(ActionEvent event) {
+		ProgramaPrincipal.mostrarCondicion(metod, idBtnCondicion.getValue());
 
+	}
+	
+	@FXML
+	private void aplicar(ActionEvent event) throws NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
+      List<PuntajeEmpresa> empresasQueCumplen =  metod.aplicarMetodologia();
+      empresasQueCumplen.forEach(empresa -> idEmpresas.getItems().add(empresa.getNombreEmpresa()));
+      empresasQueCumplen.clear();
+	}	
+		
 	@FXML
 	void btnCerrar(ActionEvent event) {
-		
+
 	}
+
+	@FXML
+	void condiciones(ActionEvent event) {
+
+	}	
 
 	@FXML
 	void btnCondicion(ActionEvent event) {
+	}
+
+	@FXML
+	void comboMetod(ActionEvent event) {
+		System.out.println(metod.getCondicionesDeMetodologia().size());
+		idCond.setText(String.valueOf(metod.getCondicionesDeMetodologia().size()));
 	}
 
 	@FXML
@@ -70,12 +109,13 @@ public class MainGraf implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resource) {
 
-		ObservableList<String> condiciones = FXCollections.observableArrayList("Longevidad", "Creciente",
-				"Decreciente","Mediana","Promedio","Sumatoria");
+		ObservableList<String> condiciones = FXCollections.observableArrayList("Longevidad", "Creciente", "Decreciente",
+				"Mediana", "Promedio", "Sumatoria");
+		
+		
 
 		idBtnCondicion.setItems(condiciones);
 		idBtnCondicion.getSelectionModel().select(0);
-
 
 	}
 
@@ -85,6 +125,7 @@ public class MainGraf implements Initializable {
 
 	public void setTraductor(Traductor tradu) {
 		this.t = tradu;
+		t.getMetodologias().forEach(unaMetodologia -> idMetodologia.getItems().add(unaMetodologia.getNombre()));
 	}
 
 	public String getNombre() {

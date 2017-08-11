@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -94,6 +96,7 @@ public class MenuCuentas {
 		forEach(unaCuenta ->{ idListCta.getItems().add(unaCuenta.getNombre());
 		idListCta.getItems().add(String.valueOf(unaCuenta.getValor()));
 		});
+//		List<String> listaCuentas = new ArrayList<>(new HashSet<>(idCombCuenta.getItems()));
 		idTotal.setText(String.valueOf(e.consultarValorCuenta(idCombCuenta.getValue(), periodo)));
 
 	}

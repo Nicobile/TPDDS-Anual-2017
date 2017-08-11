@@ -50,6 +50,25 @@ public class CondicionPromedio extends TiposDeCondicion {
 	@FXML
 	private Button idCerrar;
 
+	@Override
+	public void setT(Traductor tr) {
+		// TODO Auto-generated method stub
+		super.setT(tr);
+		List<String> list = t.getIndicadores().stream().map(unI -> unI.getNombre()).collect(Collectors.toList());
+		ObservableList<String> indicador = FXCollections.observableList(list);
+
+		idIndicador.setItems(indicador);
+
+		List<String> criteriosOrdenamiento = new ArrayList<String>();
+		criteriosOrdenamiento.add("mayorAmenor");
+		criteriosOrdenamiento.add("menorAmayor");
+		ObservableList<String> lista = FXCollections.observableList(criteriosOrdenamiento);
+
+		idCriterio.setItems(lista);
+
+	}
+	
+	
 	@FXML
 	private void indicador(ActionEvent event) {
 
@@ -100,29 +119,7 @@ public class CondicionPromedio extends TiposDeCondicion {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-		super.initialize(location, resources);
 
-		this.t = new Traductor();
-
-		this.procesador1 = new ProcesarIndicadores(t);
-
-		try {
-			this.procesador1.leerExcel(this.getClass().getResource("/Indicadores.xls").getFile());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		List<String> list = t.getIndicadores().stream().map(unI -> unI.getNombre()).collect(Collectors.toList());
-		ObservableList<String> indicador = FXCollections.observableList(list);
-
-		idIndicador.setItems(indicador);
-
-		List<String> criteriosOrdenamiento = new ArrayList<String>();
-		criteriosOrdenamiento.add("mayorAmenor");
-		criteriosOrdenamiento.add("menorAmayor");
-		ObservableList<String> lista = FXCollections.observableList(criteriosOrdenamiento);
-
-		idCriterio.setItems(lista);
 
 	}
 

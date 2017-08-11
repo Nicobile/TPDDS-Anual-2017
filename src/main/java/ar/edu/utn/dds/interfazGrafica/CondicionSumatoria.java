@@ -81,8 +81,8 @@ public class CondicionSumatoria extends TiposDeCondicion {
 		Sumatoria sum = new Sumatoria(t.buscarIndicador(idIndicador.getValue()), t);
 		String fechain[] = idFechaInicio.getText().split("/");
 		String fechafin[] = idFechaFin.getText().split("/");
-	Periodo periodo= super.armarPeriodo(fechain, fechafin);
-		
+		Periodo periodo = super.armarPeriodo(fechain, fechafin);
+
 		Condicion condicionSumatoria = new FiltroSegunEcuacion(sum, Integer.parseInt(idValor.getText()),
 				idComparador.getText(), periodo);
 		meto.agregarCondicion(condicionSumatoria);
@@ -94,7 +94,6 @@ public class CondicionSumatoria extends TiposDeCondicion {
 		idValor.setText("");
 		idFechaInicio.setText("");
 		idFechaFin.setText("");
-		
 
 	};
 
@@ -102,34 +101,17 @@ public class CondicionSumatoria extends TiposDeCondicion {
 	private void cerrar(ActionEvent event) {
 		super.stagePrincipal.close();
 	};
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		
-		
-		/*this.t = new Traductor();
-
-		this.procesador1 = new ProcesarIndicadores(t);
-
-		try {
-			this.procesador1.leerExcel(this.getClass().getResource("/Indicadores.xls").getFile());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
-		
-		
-		
-		super.initialize(location, resources);
-System.out.println(super.t.getIndicadores().size());
+	
+	
+    @Override
+	public void setT(Traductor tr) {
+		// TODO Auto-generated method stub
+		super.setT(tr);
 		List<String> list = super.t.getIndicadores().stream().map(unI -> unI.getNombre()).collect(Collectors.toList());
 		ObservableList<String> indicador = FXCollections.observableList(list);
 
 		idIndicador.setItems(indicador);
-
+		
 	}
 
-
-
 }
-
-
