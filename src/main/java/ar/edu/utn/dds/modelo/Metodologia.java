@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.script.ScriptException;
+
+import ar.edu.utn.dds.excepciones.NoHayCondicionesException;
 import ar.edu.utn.dds.excepciones.NoHayEmpresasQueCumplanLaCondicionException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
@@ -13,6 +15,31 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 
 public class Metodologia {
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Metodologia other = (Metodologia) obj;
+		if (nombre == null) {
+			if (other.nombre != null)
+				return false;
+		} else if (!nombre.equals(other.nombre))
+			return false;
+		return true;
+	}
 
 	private int contador = 0;
 	private String nombre;
@@ -41,6 +68,9 @@ public class Metodologia {
 			NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException, NoHayEmpresasQueCumplanLaCondicionException {
 
+		if(this.getCondicionesDeMetodologia().size()<1){
+			throw new NoHayCondicionesException("Esta metodologia no presenta condiciones");
+		}
 		Iterator<Condicion> condiciones = condicionesDeMetodologia.iterator();
 
 		while (condiciones.hasNext()) {

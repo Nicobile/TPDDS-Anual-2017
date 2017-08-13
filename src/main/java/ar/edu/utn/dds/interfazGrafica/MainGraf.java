@@ -8,6 +8,8 @@ import javax.script.ScriptException;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import ar.edu.utn.dds.excepciones.MetodologiaYaExisteException;
+import ar.edu.utn.dds.excepciones.NoHayCondicionesException;
 import ar.edu.utn.dds.excepciones.NoHayEmpresasQueCumplanLaCondicionException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
@@ -64,15 +66,22 @@ public class MainGraf implements Initializable {
 
 	@FXML
 	void cargar(ActionEvent event) {
-
-		metod = new Metodologia(idTextMetod.getText());
-		t.agregarMetodologia(metod);
-		idMetodologia.getItems().add(metod.getNombre());
+		try {
+			metod = new Metodologia(idTextMetod.getText());
+			t.agregarMetodologia(metod);
+			idMetodologia.getItems().add(metod.getNombre());
+			final JPanel panel = new JPanel();
+			JOptionPane.showMessageDialog(panel, "Metodologia creada exitosamente", "Informacion",
+					JOptionPane.INFORMATION_MESSAGE);
+		} catch (MetodologiaYaExisteException e) {
+			final JPanel panel = new JPanel();
+			JOptionPane.showMessageDialog(panel, "Esa metodologia ya existe", "Error", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	@FXML
 	private void btnSeleccionar(ActionEvent event) {
-		ProgramaPrincipal.mostrarCondicion(metod, idBtnCondicion.getValue());
+		ProgramaPrincipal.mostrarCondicion(t.buscarMetodologia(idMetodologia.getValue()), idBtnCondicion.getValue());
 
 	}
 
@@ -80,30 +89,31 @@ public class MainGraf implements Initializable {
 	private void aplicar(ActionEvent event) {
 		idEmpresas.getItems().clear();
 		List<PuntajeEmpresa> empresasQueCumplen;
-		
-			try {
-				empresasQueCumplen = metod.aplicarMetodologia();
-				empresasQueCumplen.forEach(empresa -> idEmpresas.getItems().add(empresa.getNombreEmpresa()));
-			} catch (NoHayEmpresasQueCumplanLaCondicionException e) {
-				final JPanel panel = new JPanel();
-				JOptionPane.showMessageDialog(panel, "No se encontraron empresas que cumplan con la metodologia", "Informacion",
-						JOptionPane.INFORMATION_MESSAGE);
-			} catch (NoSeEncuentraLaEmpresaException e) {
-				
-			} catch (ScriptException e) {
-				
-			} catch (NoSePudoOrdenarLaCondicionException e) {
-			
-			} catch (NoSeEncuentraLaCuentaException e) {
-				
-			} catch (NoSeEncuentraLaCuentaEnElPeriodoException e) {
-			
-			} catch (NoSeEncuentraElIndicadorException e) {
-			
-			}
-			
-		
-		
+
+		try {
+			empresasQueCumplen = t.buscarMetodologia(idMetodologia.getValue()).aplicarMetodologia();
+			empresasQueCumplen.forEach(empresa -> idEmpresas.getItems().add(empresa.getNombreEmpresa()));
+		} catch (NoHayEmpresasQueCumplanLaCondicionException e) {
+			final JPanel panel = new JPanel();
+			JOptionPane.showMessageDialog(panel, "No se encontraron empresas que cumplan con la metodologia",
+					"Informacion", JOptionPane.INFORMATION_MESSAGE);
+		} catch (NoSeEncuentraLaEmpresaException e) {
+
+		} catch (ScriptException e) {
+
+		} catch (NoSePudoOrdenarLaCondicionException e) {
+
+		} catch (NoSeEncuentraLaCuentaException e) {
+
+		} catch (NoSeEncuentraLaCuentaEnElPeriodoException e) {
+
+		} catch (NoSeEncuentraElIndicadorException e) {
+
+		} catch (NoHayCondicionesException e) {
+			final JPanel panel = new JPanel();
+			JOptionPane.showMessageDialog(panel, "Esa metodologia no contiene condiciones", "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
 
 	}
 
@@ -123,8 +133,9 @@ public class MainGraf implements Initializable {
 
 	@FXML
 	void comboMetod(ActionEvent event) {
-
-		idCond.setText(String.valueOf(metod.getCondicionesDeMetodologia().size()));
+		idCond.clear();
+		idCond.setText(
+				String.valueOf(t.buscarMetodologia(idMetodologia.getValue()).getCondicionesDeMetodologia().size()));
 	}
 
 	@FXML

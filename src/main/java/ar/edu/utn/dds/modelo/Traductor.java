@@ -5,22 +5,19 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import antlr.ExpressionParser;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
-
+import ar.edu.utn.dds.excepciones.MetodologiaYaExisteException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.procesarArchivos.LineaArchivo;
 
 public class Traductor {
-
-	
 
 	private List<Empresa> empresas = new ArrayList<Empresa>();
 	private ArrayList<Indicador> indicadores = new ArrayList<Indicador>();
@@ -30,15 +27,27 @@ public class Traductor {
 	public List<Metodologia> getMetodologias() {
 		return metodologias;
 	}
+
 	public void setMetodologias(List<Metodologia> metodologias) {
 		this.metodologias = metodologias;
 	}
-	
+
 	public ArrayList<Indicador> getIndicadores() {
 		return indicadores;
 	}
+
 	public void agregarMetodologia(Metodologia metodologia) {
+
+		if (this.getMetodologias().contains(metodologia)) {
+			throw new MetodologiaYaExisteException("Ya existe la metodologia que se quiere agregar");
+		}
 		metodologias.add(metodologia);
+
+	}
+
+	public Metodologia buscarMetodologia(String nombre) {
+		return this.getMetodologias().stream().filter(unaMetodologia -> unaMetodologia.getNombre().equals(nombre))
+				.findFirst().get();
 	}
 
 	public ArrayList<String> listarIndicadoresyCuentas(Empresa e) {
@@ -61,8 +70,9 @@ public class Traductor {
 	}
 
 	/*
-	 * por cada periodo perteneciente al PERIODO INGRESADO POR INTERFAZ, por cada
-	 * empresa, calculo el indicador en cada uno de esos periodos y los sumo
+	 * por cada periodo perteneciente al PERIODO INGRESADO POR INTERFAZ, por
+	 * cada empresa, calculo el indicador en cada uno de esos periodos y los
+	 * sumo
 	 */
 	public ArrayList<Double> calcularAListaDeEmpresas(List<Empresa> empresas, Periodo periodo, Indicador i)
 			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
@@ -85,10 +95,11 @@ public class Traductor {
 			listaPeriodos.stream().forEach(unP -> {
 
 				/*
-				 * avanzo en la lista de cuentas que pertenecen al periodo calculo el indicador
-				 * a la empresa en el periodo en realidad no uso las cuentas.... solo los
-				 * periodos en los que existen cuentes que estan ,comprendidos entre los
-				 * periodos que me piden desde la interfaz
+				 * avanzo en la lista de cuentas que pertenecen al periodo
+				 * calculo el indicador a la empresa en el periodo en realidad
+				 * no uso las cuentas.... solo los periodos en los que existen
+				 * cuentes que estan ,comprendidos entre los periodos que me
+				 * piden desde la interfaz
 				 */
 				try {
 					listaAux.add(calcular(unaE.getNombre(), unP, i.getNombre()));
@@ -127,8 +138,8 @@ public class Traductor {
 			List<Periodo> periodos = cuentas.stream().map(unaC -> unaC.getPeriodo()).collect(Collectors.toList());
 
 			/*
-			 * ordeno los periodos de menor a mayor, de esta manera se cual periodo es
-			 * anterior, y calculo su valor
+			 * ordeno los periodos de menor a mayor, de esta manera se cual
+			 * periodo es anterior, y calculo su valor
 			 */
 			List<Periodo> listaPeriodos = new ArrayList<>(new HashSet<>(periodos));
 
@@ -140,8 +151,8 @@ public class Traductor {
 				try {
 					valorEnperiodos.add((this.calcular(unaE.getNombre(), unP, i.getNombre())));
 					/*
-					 * PREGUNTAR ACA CREO QUE ESTA EL ERROR DE QUE NO TIRA QUE NO ENCONTRO LA
-					 * EMPRESA
+					 * PREGUNTAR ACA CREO QUE ESTA EL ERROR DE QUE NO TIRA QUE
+					 * NO ENCONTRO LA EMPRESA
 					 */
 				} catch (NoSeEncuentraLaCuentaEnElPeriodoException e) {
 				} catch (NoSeEncuentraLaEmpresaException e) {
@@ -150,7 +161,9 @@ public class Traductor {
 				}
 			});
 
-			/* si no ordeno la lista es pq no esta ordenado en forma CRECIENTE */
+			/*
+			 * si no ordeno la lista es pq no esta ordenado en forma CRECIENTE
+			 */
 
 			empresasConIndicadorCreciente.removeIf(
 					unaEmp -> (!valorEnperiodos.stream().sorted().collect(Collectors.toList()).equals(valorEnperiodos))
@@ -178,8 +191,8 @@ public class Traductor {
 			List<Periodo> periodos = cuentas.stream().map(unaC -> unaC.getPeriodo()).collect(Collectors.toList());
 
 			/*
-			 * ordeno los periodos de menor a mayor, de esta manera se cual periodo es
-			 * anterior, y calculo su valor
+			 * ordeno los periodos de menor a mayor, de esta manera se cual
+			 * periodo es anterior, y calculo su valor
 			 */
 			List<Periodo> listaPeriodos = new ArrayList<>(new HashSet<>(periodos));
 
@@ -269,7 +282,6 @@ public class Traductor {
 			}
 		});
 	}
-	
 
 	public void eliminarEmpresa(List<Empresa> empresas, Empresa e) {
 		if (empresas.contains(e))
