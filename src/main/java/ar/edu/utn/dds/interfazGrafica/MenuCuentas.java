@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
+import ar.edu.utn.dds.modelo.Cuenta;
 import ar.edu.utn.dds.modelo.Empresa;
 import ar.edu.utn.dds.modelo.Periodo;
 import ar.edu.utn.dds.modelo.Traductor;
@@ -55,14 +56,13 @@ public class MenuCuentas {
 	@FXML
 	private Button idObtenerValorCuenta;
 	@FXML
-	private ComboBox<String> idCombCuenta ;
+	private ComboBox<String> idCombCuenta;
 	@FXML
 	private TextField idFechaInicio;
 	@FXML
 	private TextField idFechaFin;
 	@FXML
-	private TextField 	idTotal;
-
+	private TextField idTotal;
 
 	@FXML
 	void cargaArchivo(ActionEvent event) throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresaException {
@@ -75,7 +75,9 @@ public class MenuCuentas {
 			}
 			archivosCuentas.agregarArchivo(idRuta.getText());
 			t.getEmpresas().forEach(unaEmpresa -> idEmpresa.getItems().add(unaEmpresa.getNombre()));
-			
+			final JPanel panel = new JPanel();
+			JOptionPane.showMessageDialog(panel, "El archivo ha sido cargado", "OK", JOptionPane.INFORMATION_MESSAGE);
+
 		} else {
 			final JPanel panel = new JPanel();
 			JOptionPane.showMessageDialog(panel, "El archivo ya fue cargado", "Error", JOptionPane.ERROR_MESSAGE);
@@ -83,21 +85,35 @@ public class MenuCuentas {
 	}
 
 	@FXML
-	void obtenerValorCuenta(ActionEvent event) throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
-		
+	void obtenerValorCuenta(ActionEvent event) {
+
 		String fechain[] = idFechaInicio.getText().split("/");
 		String fechafin[] = idFechaFin.getText().split("/");
 		Periodo periodo = new Periodo(
 				LocalDate.of(cambiarFechaInt(2, fechain), cambiarFechaInt(1, fechain), cambiarFechaInt(0, fechain)),
-				LocalDate.of(cambiarFechaInt(2, fechafin), cambiarFechaInt(1, fechafin),
-						cambiarFechaInt(0, fechafin)));
-		Empresa e=t.obtenerEmpresa(idEmpresa.getValue());
-		e.buscarUnaCuentaPorPeriodo(idCombCuenta.getValue(), periodo).
-		forEach(unaCuenta ->{ idListCta.getItems().add(unaCuenta.getNombre());
-		idListCta.getItems().add(String.valueOf(unaCuenta.getValor()));
-		});
-//		List<String> listaCuentas = new ArrayList<>(new HashSet<>(idCombCuenta.getItems()));
-		idTotal.setText(String.valueOf(e.consultarValorCuenta(idCombCuenta.getValue(), periodo)));
+				LocalDate.of(cambiarFechaInt(2, fechafin), cambiarFechaInt(1, fechafin), cambiarFechaInt(0, fechafin)));
+		Empresa e;
+		try {
+			e = t.obtenerEmpresa(idEmpresa.getValue());
+
+			e.buscarUnaCuentaPorPeriodo(idCombCuenta.getValue(), periodo).forEach(unaCuenta -> {
+				idListCta.getItems().add(unaCuenta.getNombre());
+				idListCta.getItems().add(String.valueOf(unaCuenta.getValor()));
+			});
+			idTotal.setText(String.valueOf(e.consultarValorCuenta(idCombCuenta.getValue(), periodo)));
+		} catch (NoSeEncuentraLaCuentaException e1) {
+			final JPanel panel = new JPanel();
+			JOptionPane.showMessageDialog(panel, "La empresa no posee la cuenta requerida", "Error",
+					JOptionPane.ERROR_MESSAGE);
+		} catch (NoSeEncuentraLaEmpresaException e1) {
+			final JPanel panel = new JPanel();
+			JOptionPane.showMessageDialog(panel, "La empresa no se encuentra cargada", "Error",
+					JOptionPane.ERROR_MESSAGE);
+		} catch (NoSeEncuentraLaCuentaEnElPeriodoException e1) {
+			final JPanel panel = new JPanel();
+			JOptionPane.showMessageDialog(panel, "La empresa no posee la cuenta requerida en el periodo seleccionado",
+					"Error", JOptionPane.ERROR_MESSAGE);
+		}
 
 	}
 
@@ -110,10 +126,12 @@ public class MenuCuentas {
 	void ruta(ActionEvent event) {
 
 	}
+
 	@FXML
 	void fechaInicio(ActionEvent event) {
 
 	}
+
 	@FXML
 	void fechaFin(ActionEvent event) {
 
@@ -121,20 +139,24 @@ public class MenuCuentas {
 
 	@FXML
 	void empresa(ActionEvent event) throws NoSeEncuentraLaEmpresaException {
-		List<String> list=	t.obtenerEmpresa(idEmpresa.getValue()).getCuentas().stream().map(UnaC->UnaC.getNombre()).collect(Collectors.toList());
-		ObservableList<String> cuentas=FXCollections.observableArrayList(list);
-		idCombCuenta.setItems(cuentas);
+		List<Cuenta> list = t.obtenerEmpresa(idEmpresa.getValue()).getCuentas();
+		List<Cuenta> cuentas = new ArrayList<>(new HashSet<>(list));
+
+		ObservableList<String> nombreCuentas = FXCollections
+				.observableArrayList(cuentas.stream().map(unaC -> unaC.getNombre()).collect(Collectors.toList()));
+		idCombCuenta.setItems(nombreCuentas);
 	}
+
 	@FXML
 	void Combcuenta(ActionEvent event) {
 
 	}
-	
 
 	@FXML
 	void listCta(ActionEvent event) {
 
 	}
+
 	@FXML
 	void total(ActionEvent event) {
 
@@ -144,7 +166,6 @@ public class MenuCuentas {
 
 	public void initialize(URL url, ResourceBundle rb) throws NoSeEncuentraLaEmpresaException {
 
-		
 	}
 
 	public void setLectorArchivo(LectorArchivo lector) {
@@ -164,6 +185,7 @@ public class MenuCuentas {
 	public void setTraductor(Traductor tradu) {
 		this.t = tradu;
 	}
+
 	private int cambiarFechaInt(int posicion, String fecha[]) {
 		return Integer.parseInt(fecha[posicion]);
 	}

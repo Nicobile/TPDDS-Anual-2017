@@ -1,41 +1,29 @@
 package ar.edu.utn.dds.interfazGrafica;
 
-import java.io.IOException;
 import java.net.URL;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import java.util.stream.Collectors;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import javafx.event.ActionEvent;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.modelo.Condicion;
-
 import ar.edu.utn.dds.modelo.OrdenaAplicandoCriterioOrdenamiento;
 import ar.edu.utn.dds.modelo.Periodo;
 import ar.edu.utn.dds.modelo.Promedio;
-
 import ar.edu.utn.dds.modelo.Traductor;
-
-import ar.edu.utn.dds.procesarArchivos.ProcesarIndicadores;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-
 import javafx.scene.control.TextField;
 
 public class CondicionPromedio extends TiposDeCondicion {
-
-	private ProcesarIndicadores procesador1;
 
 	@FXML
 	private ComboBox<String> idIndicador;
@@ -52,7 +40,7 @@ public class CondicionPromedio extends TiposDeCondicion {
 
 	@Override
 	public void setT(Traductor tr) {
-		// TODO Auto-generated method stub
+		
 		super.setT(tr);
 		List<String> list = t.getIndicadores().stream().map(unI -> unI.getNombre()).collect(Collectors.toList());
 		ObservableList<String> indicador = FXCollections.observableList(list);
@@ -67,8 +55,7 @@ public class CondicionPromedio extends TiposDeCondicion {
 		idCriterio.setItems(lista);
 
 	}
-	
-	
+
 	@FXML
 	private void indicador(ActionEvent event) {
 
@@ -99,8 +86,14 @@ public class CondicionPromedio extends TiposDeCondicion {
 
 		Condicion condicionSumatoria = new OrdenaAplicandoCriterioOrdenamiento(promedio, periodo,
 				idCriterio.getValue());
-
-		meto.agregarCondicion(condicionSumatoria);
+		try {
+			meto.agregarCondicion(condicionSumatoria);
+		} catch (Exception e) {
+			final JPanel panel = new JPanel();
+			JOptionPane.showMessageDialog(panel, "Debe crear la metodologia antes de cargarle condiciones", "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
+		
 
 		final JPanel panel = new JPanel();
 		JOptionPane.showMessageDialog(panel, "Condicion cargada", "Cargado satisfactoriamente",
@@ -118,8 +111,6 @@ public class CondicionPromedio extends TiposDeCondicion {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
-
 
 	}
 

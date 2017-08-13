@@ -35,9 +35,19 @@ public class CondicionLongevidad extends TiposDeCondicion {
 	@FXML
 	void cargar(ActionEvent event) {
 		Longevidad longevidad = new Longevidad(t);
+		if (idAnios.getText().equals("")) {
+			final JPanel panel = new JPanel();
+			JOptionPane.showMessageDialog(panel, "Debe crear agregar la cantidad de años", "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
 		Condicion cond = new Filtro(longevidad, Integer.parseInt(idAnios.getText()));
-		meto.agregarCondicion(cond);
-		// habria que tirar msje error si no esta creada la metodologia
+		try {
+			meto.agregarCondicion(cond);
+		} catch (Exception e) {
+			final JPanel panel = new JPanel();
+			JOptionPane.showMessageDialog(panel, "Debe crear la metodologia antes de cargarle condiciones", "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
 		final JPanel panel = new JPanel();
 		JOptionPane.showMessageDialog(panel, "Condicion cargada", "Cargado satisfactoriamente",
 				JOptionPane.INFORMATION_MESSAGE);

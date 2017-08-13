@@ -81,7 +81,9 @@ public class InterfazIndicador implements Initializable {
 			}
 			archivosInd.agregarArchivo(idRuta.getText());
 			t.getIndicadores().forEach(unIndicador -> idListInd.getItems().add(unIndicador.getNombre()));
-
+			final JPanel panel = new JPanel();
+			JOptionPane.showMessageDialog(panel, "El archivo se cargo satisfactoriamente", "OK",
+					JOptionPane.INFORMATION_MESSAGE);
 		} else {
 			final JPanel panel = new JPanel();
 			JOptionPane.showMessageDialog(panel, "El archivo ya fue cargado", "Error", JOptionPane.ERROR_MESSAGE);

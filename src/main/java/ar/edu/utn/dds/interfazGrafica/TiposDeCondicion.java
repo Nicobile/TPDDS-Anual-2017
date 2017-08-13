@@ -12,12 +12,11 @@ import javafx.stage.Stage;
 
 public class TiposDeCondicion implements Initializable {
 	public Stage stagePrincipal;
-	public Traductor t=new Traductor();
+	public Traductor t = new Traductor();
 	public Metodologia meto;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-	
 
 	}
 
@@ -25,8 +24,8 @@ public class TiposDeCondicion implements Initializable {
 		this.meto = metod;
 	}
 
-	public void setT(Traductor tr)  {	
-		this.t=tr;
+	public void setT(Traductor tr) {
+		this.t = tr;
 		System.out.println(t.getIndicadores().size());
 	}
 

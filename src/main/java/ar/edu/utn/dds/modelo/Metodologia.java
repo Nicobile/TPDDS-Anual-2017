@@ -39,7 +39,7 @@ public class Metodologia {
 
 	public ArrayList<PuntajeEmpresa> aplicarMetodologia() throws NoSeEncuentraLaEmpresaException, ScriptException,
 			NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException,
-			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
+			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException, NoHayEmpresasQueCumplanLaCondicionException {
 
 		Iterator<Condicion> condiciones = condicionesDeMetodologia.iterator();
 

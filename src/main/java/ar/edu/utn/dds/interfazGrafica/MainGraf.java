@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.script.ScriptException;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
+import ar.edu.utn.dds.excepciones.NoHayEmpresasQueCumplanLaCondicionException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
@@ -40,10 +43,10 @@ public class MainGraf implements Initializable {
 
 	@FXML
 	private Button idBtnSeleccionar;
-	
+
 	@FXML
 	private Button idAplicar;
-	
+
 	@FXML
 	private ListView<String> idEmpresas;
 
@@ -72,14 +75,38 @@ public class MainGraf implements Initializable {
 		ProgramaPrincipal.mostrarCondicion(metod, idBtnCondicion.getValue());
 
 	}
-	
+
 	@FXML
-	private void aplicar(ActionEvent event) throws NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
-      List<PuntajeEmpresa> empresasQueCumplen =  metod.aplicarMetodologia();
-      empresasQueCumplen.forEach(empresa -> idEmpresas.getItems().add(empresa.getNombreEmpresa()));
-      empresasQueCumplen.clear();
-	}	
+	private void aplicar(ActionEvent event) {
+		idEmpresas.getItems().clear();
+		List<PuntajeEmpresa> empresasQueCumplen;
 		
+			try {
+				empresasQueCumplen = metod.aplicarMetodologia();
+				empresasQueCumplen.forEach(empresa -> idEmpresas.getItems().add(empresa.getNombreEmpresa()));
+			} catch (NoHayEmpresasQueCumplanLaCondicionException e) {
+				final JPanel panel = new JPanel();
+				JOptionPane.showMessageDialog(panel, "No se encontraron empresas que cumplan con la metodologia", "Informacion",
+						JOptionPane.INFORMATION_MESSAGE);
+			} catch (NoSeEncuentraLaEmpresaException e) {
+				
+			} catch (ScriptException e) {
+				
+			} catch (NoSePudoOrdenarLaCondicionException e) {
+			
+			} catch (NoSeEncuentraLaCuentaException e) {
+				
+			} catch (NoSeEncuentraLaCuentaEnElPeriodoException e) {
+			
+			} catch (NoSeEncuentraElIndicadorException e) {
+			
+			}
+			
+		
+		
+
+	}
+
 	@FXML
 	void btnCerrar(ActionEvent event) {
 
@@ -88,7 +115,7 @@ public class MainGraf implements Initializable {
 	@FXML
 	void condiciones(ActionEvent event) {
 
-	}	
+	}
 
 	@FXML
 	void btnCondicion(ActionEvent event) {
@@ -96,7 +123,7 @@ public class MainGraf implements Initializable {
 
 	@FXML
 	void comboMetod(ActionEvent event) {
-		System.out.println(metod.getCondicionesDeMetodologia().size());
+
 		idCond.setText(String.valueOf(metod.getCondicionesDeMetodologia().size()));
 	}
 
@@ -111,8 +138,6 @@ public class MainGraf implements Initializable {
 
 		ObservableList<String> condiciones = FXCollections.observableArrayList("Longevidad", "Creciente", "Decreciente",
 				"Mediana", "Promedio", "Sumatoria");
-		
-		
 
 		idBtnCondicion.setItems(condiciones);
 		idBtnCondicion.getSelectionModel().select(0);
