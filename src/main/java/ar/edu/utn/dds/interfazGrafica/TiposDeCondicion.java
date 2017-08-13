@@ -26,7 +26,7 @@ public class TiposDeCondicion implements Initializable {
 
 	public void setT(Traductor tr) {
 		this.t = tr;
-		System.out.println(t.getIndicadores().size());
+		
 	}
 
 	public void setStagePrincipal(Stage stagePrincipal) {
