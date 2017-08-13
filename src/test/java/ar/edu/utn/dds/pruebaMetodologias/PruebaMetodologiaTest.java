@@ -25,6 +25,7 @@ import ar.edu.utn.dds.modelo.FiltroSegunEcuacion;
 import ar.edu.utn.dds.modelo.Creciente;
 import ar.edu.utn.dds.modelo.Decreciente;
 import ar.edu.utn.dds.modelo.Longevidad;
+import ar.edu.utn.dds.modelo.Mediana;
 import ar.edu.utn.dds.modelo.Metodologia;
 import ar.edu.utn.dds.modelo.Periodo;
 import ar.edu.utn.dds.modelo.Promedio;
@@ -146,6 +147,22 @@ public class PruebaMetodologiaTest {
 		assertEquals(empresas.size(), 1);
 		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Pepsico"), empresas.get(0));
 	}
+	@Test
+	public void pruebaSoloMediana() throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException,
+	ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException,
+	NoSeEncuentraLaCuentaEnElPeriodoException {
+
+Mediana mediana= new Mediana(t.buscarIndicador("i_NivelDeuda"), t);
+Condicion conMediana = new FiltroSegunEcuacion(mediana, 50, ">", periodo);
+meto.agregarCondicion(conMediana);
+ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
+
+assertEquals(empresas.size(), 1);
+assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Facebook"), empresas.get(0));
+
+
+}
+	
 
 	@Test
 	public void noHayEmpresasQueCumplan() throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
