@@ -38,20 +38,20 @@ public class CondicionDecreciente extends TiposDeCondicion {
 	@FXML
 	void cargar(ActionEvent event) throws NoSeEncuentraElIndicadorException {
 
-		int anios = Integer.parseInt(idAnios.getText());
-
-		String indicador = idIndicador.getValue();
-
-		Decreciente decre;
 		try {
 			verificador.comboBoxVacio(idIndicador);
 			verificador.textFieldVacio(idAnios);
+			int anios = Integer.parseInt(idAnios.getText());
+
+			String indicador = idIndicador.getValue();
+
+			Decreciente decre;
 			decre = new Decreciente(t.buscarIndicador(indicador), t);
 			Condicion cond = new Filtro(decre, anios);
 			meto.agregarCondicion(cond);
 			verificador.mostrarInfo("Condicion cargada satisfactoriamente", "Informacion");
 		} catch (CampoVacioException e) {
-			verificador.mostrarError("Falto seleccionar un indicador o ingresar una cantidad de años", "Error");
+			verificador.mostrarError("Falto seleccionar un indicador o ingresar una cantidad de aï¿½os", "Error");
 		}
 
 		idAnios.setText("");

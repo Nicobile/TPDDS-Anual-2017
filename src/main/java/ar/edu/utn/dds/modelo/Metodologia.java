@@ -64,11 +64,12 @@ public class Metodologia {
 		return -1;
 	}
 
-	public ArrayList<PuntajeEmpresa> aplicarMetodologia() throws NoSeEncuentraLaEmpresaException, ScriptException,
-			NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException,
-			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException, NoHayEmpresasQueCumplanLaCondicionException {
+	public ArrayList<PuntajeEmpresa> aplicarMetodologia()
+			throws NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException,
+			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException,
+			NoSeEncuentraElIndicadorException, NoHayEmpresasQueCumplanLaCondicionException {
 
-		if(this.getCondicionesDeMetodologia().size()<1){
+		if (this.getCondicionesDeMetodologia().size() < 1) {
 			throw new NoHayCondicionesException("Esta metodologia no presenta condiciones");
 		}
 		Iterator<Condicion> condiciones = condicionesDeMetodologia.iterator();
@@ -100,10 +101,11 @@ public class Metodologia {
 		if (puntajeEmpresas.isEmpty()) {
 
 			/*
-			 * lo del contador lo hago pq si no se cumple la primer condicion, que es de
-			 * filtrar, entonces la lista va a estar vacia con lo cual al aplicar la
-			 * siguiente condicion que , por ejemplo la cumplen todas, va a convertir en
-			 * todas las empresas aun asi que no cumplan la primer condicion
+			 * lo del contador lo hago pq si no se cumple la primer condicion,
+			 * que es de filtrar, entonces la lista va a estar vacia con lo cual
+			 * al aplicar la siguiente condicion que , por ejemplo la cumplen
+			 * todas, va a convertir en todas las empresas aun asi que no
+			 * cumplan la primer condicion
 			 */
 
 			if (contador == 0) {
@@ -112,8 +114,8 @@ public class Metodologia {
 				for (int i = 0; i < listaDeAplicarCondicion.size(); i++) {
 					puntajeEmpresas.add(listaDeAplicarCondicion.get(i));
 					/*
-					 * puntajeEmpresas.get(i).suma(i); esto estaba mal pq sumaba puntos aun cuando
-					 * no habi que sumar...
+					 * puntajeEmpresas.get(i).suma(i); esto estaba mal pq sumaba
+					 * puntos aun cuando no habi que sumar...
 					 */
 				}
 			} else {
@@ -125,12 +127,14 @@ public class Metodologia {
 				eliminarDeListaDePuntajesSiNoCumplioLaCondicion(puntajeEmpresas, listaDeAplicarCondicion);
 
 				/*
-				 * de la lista que cumple la condicion elimino aquellos que no estan en la lista
-				 * de puntaje empresas para sumar correctamente los puntajes, si no hago esto,
-				 * al ordenar de mayor a menor o viceversa una empresa podria ocupar la posicion
-				 * 3, pero en realidad las primeras 2 empresas no estan en la lista de puntajes
-				 * con lo cual deberia sumar 1, que seria su posicion real , respecto a las que
-				 * cumplen condicion en puntaje empresas, y no 3
+				 * de la lista que cumple la condicion elimino aquellos que no
+				 * estan en la lista de puntaje empresas para sumar
+				 * correctamente los puntajes, si no hago esto, al ordenar de
+				 * mayor a menor o viceversa una empresa podria ocupar la
+				 * posicion 3, pero en realidad las primeras 2 empresas no estan
+				 * en la lista de puntajes con lo cual deberia sumar 1, que
+				 * seria su posicion real , respecto a las que cumplen condicion
+				 * en puntaje empresas, y no 3
 				 */
 
 				eliminarDeListaDePuntajesSiNoCumplioLaCondicion(listaDeAplicarCondicion, puntajeEmpresas);
@@ -146,9 +150,9 @@ public class Metodologia {
 	}
 
 	/*
-	 * esta funcion suma los puntos a las empresas segun la posicion que ocupan en
-	 * la lista..... por eso trabajo con los for y si no encuentra la empresa no
-	 * hace nada pero no enci
+	 * esta funcion suma los puntos a las empresas segun la posicion que ocupan
+	 * en la lista..... por eso trabajo con los for y si no encuentra la empresa
+	 * no hace nada pero no enci
 	 */
 
 	private void sumarPuntosAPuntajesEmpresas(List<PuntajeEmpresa> lista) throws NoSeEncuentraLaEmpresaException {
@@ -162,7 +166,8 @@ public class Metodologia {
 				puntajeEmpresas.get(j).suma(buscarEmpresa(lista.get(i).getNombreEmpresa(), lista));
 			}
 			/*
-			 * si no encuentra la empresa no hago nada, despues se elimina, mas adelante
+			 * si no encuentra la empresa no hago nada, despues se elimina, mas
+			 * adelante
 			 */
 			catch (IndexOutOfBoundsException e) {
 			}

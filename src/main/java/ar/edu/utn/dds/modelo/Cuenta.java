@@ -1,7 +1,7 @@
 package ar.edu.utn.dds.modelo;
 
 public class Cuenta {
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

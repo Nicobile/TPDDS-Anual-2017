@@ -1,6 +1,7 @@
 package ar.edu.utn.dds.interfazGrafica;
 
 import ar.edu.utn.dds.excepciones.CampoVacioException;
+import ar.edu.utn.dds.excepciones.ErrorFechaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.modelo.Periodo;
 import ar.edu.utn.dds.modelo.Sumatoria;
@@ -69,18 +70,23 @@ public class CondicionSumatoria extends TiposDeCondicion {
 			verificador.textFieldVacio(idValor);
 			verificador.textFieldVacio(idComparador);
 			verificador.comboBoxVacio(idCriterio);
+			verificador.verificarFecha(idFechaInicio.getText());
+			verificador.verificarFecha(idFechaFin.getText());
 			Sumatoria sumatoria = new Sumatoria(t.buscarIndicador(idIndicador.getValue()), t);
 			String fechain[] = idFechaInicio.getText().split("/");
 			String fechafin[] = idFechaFin.getText().split("/");
 			Periodo periodo = super.armarPeriodo(fechain, fechafin);
-			super.armarDobleCondicion(sumatoria, idValor.getText(), idComparador.getText(), periodo, idCriterio.getValue());
+			super.armarDobleCondicion(sumatoria, idValor.getText(), idComparador.getText(), periodo,
+					idCriterio.getValue());
 			verificador.mostrarInfo("Condicion cargada", "Informacion");
 			idComparador.setText("");
 			idValor.setText("");
 			idFechaInicio.setText("");
 			idFechaFin.setText("");
-		}catch(CampoVacioException e) {
+		} catch (CampoVacioException e) {
 			verificador.mostrarError("Falto completar uno o mas campos", "Error");
+		} catch (ErrorFechaException e) {
+			verificador.mostrarError("La fecha debe estar en el formato dd/mm/aaaa", "Error");
 		}
 
 	};

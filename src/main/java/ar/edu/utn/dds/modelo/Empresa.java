@@ -120,7 +120,7 @@ public class Empresa {
 		result = prime * result + ((cuentas == null) ? 0 : cuentas.hashCode());
 		result = prime * result + ((fechaInscripcion == null) ? 0 : fechaInscripcion.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		
+
 		return result;
 	}
 
@@ -148,7 +148,7 @@ public class Empresa {
 				return false;
 		} else if (!nombre.equals(other.nombre))
 			return false;
-		
+
 		return true;
 	}
 

@@ -17,7 +17,8 @@ public class Condicion {
 	public Boolean filtro;
 
 	/*
-	 * Aplica a todas las empresas el lado izq y los guarda en la lista SIN ORDENAR
+	 * Aplica a todas las empresas el lado izq y los guarda en la lista SIN
+	 * ORDENAR
 	 */
 
 	public List<PuntajeEmpresa> aplicar() throws ScriptException, NoSePudoOrdenarLaCondicionException,

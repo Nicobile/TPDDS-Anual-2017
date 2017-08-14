@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import ar.edu.utn.dds.excepciones.CampoVacioException;
+import ar.edu.utn.dds.excepciones.ErrorFechaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.modelo.Periodo;
 import ar.edu.utn.dds.modelo.Promedio;
@@ -81,6 +82,8 @@ public class CondicionPromedio extends TiposDeCondicion {
 			verificador.textFieldVacio(idValor);
 			verificador.textFieldVacio(idComparador);
 			verificador.comboBoxVacio(idCriterio);
+			verificador.verificarFecha(idFechaInicio.getText());
+			verificador.verificarFecha(idFechaFin.getText());
 			Promedio promedio = new Promedio(t.buscarIndicador(idIndicador.getValue()), t);
 			String fechain[] = idFechaInicio.getText().split("/");
 			String fechafin[] = idFechaFin.getText().split("/");
@@ -94,6 +97,8 @@ public class CondicionPromedio extends TiposDeCondicion {
 			idFechaFin.setText("");
 		} catch (CampoVacioException e) {
 			verificador.mostrarError("Falto completar uno o mas campos", "Error");
+		} catch (ErrorFechaException e) {
+			verificador.mostrarError("La fecha debe estar en el formato dd/mm/aaaa", "Error");
 		}
 
 	};

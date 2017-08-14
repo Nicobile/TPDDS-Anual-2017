@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import ar.edu.utn.dds.excepciones.CampoVacioException;
+import ar.edu.utn.dds.excepciones.ErrorFechaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.modelo.Mediana;
 import ar.edu.utn.dds.modelo.Periodo;
@@ -80,23 +81,26 @@ public class CondicionMediana extends TiposDeCondicion {
 			verificador.textFieldVacio(idValor);
 			verificador.textFieldVacio(idComparador);
 			verificador.comboBoxVacio(idCriterio);
+			verificador.verificarFecha(idFechaInicio.getText());
+			verificador.verificarFecha(idFechaFin.getText());
 			Mediana mediana = new Mediana(t.buscarIndicador(idIndicador.getValue()), t);
 			String fechain[] = idFechaInicio.getText().split("/");
 			String fechafin[] = idFechaFin.getText().split("/");
 			Periodo periodo = super.armarPeriodo(fechain, fechafin);
-			super.armarDobleCondicion(mediana, idValor.getText(), idComparador.getText(), periodo, idCriterio.getValue());
+			super.armarDobleCondicion(mediana, idValor.getText(), idComparador.getText(), periodo,
+					idCriterio.getValue());
 			verificador.mostrarInfo("Condicion cargada", "Informacion");
 			idComparador.setText("");
 			idValor.setText("");
 			idFechaInicio.setText("");
 			idFechaFin.setText("");
-		}catch(CampoVacioException e) {
+		} catch (CampoVacioException e) {
 			verificador.mostrarError("Falto completar uno o mas campos", "Error");
+		} catch (ErrorFechaException e) {
+			verificador.mostrarError("La fecha debe estar en el formato dd/mm/aaaa", "Error");
 		}
-		
-		//hay que validar el formato de las fechas
-			
-	
+
+		// hay que validar el formato de las fechas
 
 	};
 

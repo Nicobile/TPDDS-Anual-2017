@@ -11,7 +11,8 @@ import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 
 public class OrdenaAplicandoCriterioOrdenamiento extends Condicion {
 
-	// mayorAmenor o menorAmayor,SON PALABRAS NO SIMBOLOS,ingresada interfaz grafica
+	// mayorAmenor o menorAmayor,SON PALABRAS NO SIMBOLOS,ingresada interfaz
+	// grafica
 	private String criterioOrdenamiento;
 
 	public List<PuntajeEmpresa> aplicar() throws ScriptException, NoSePudoOrdenarLaCondicionException,
@@ -22,8 +23,8 @@ public class OrdenaAplicandoCriterioOrdenamiento extends Condicion {
 
 		List<PuntajeEmpresa> valoresAizq = super.aplicar();
 		/*
-		 * solo hay lado izquierdo, entonces ordeno la lista que me devuelve lado
-		 * izquierdo y ahi estaria la condicion aplicada
+		 * solo hay lado izquierdo, entonces ordeno la lista que me devuelve
+		 * lado izquierdo y ahi estaria la condicion aplicada
 		 */
 
 		if (criterioOrdenamiento.equals("mayorAmenor")) {

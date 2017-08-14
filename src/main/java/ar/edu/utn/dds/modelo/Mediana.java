@@ -36,16 +36,16 @@ public class Mediana extends ValorCalculable {
 			List<Periodo> listaPeriodos = new ArrayList<>(new HashSet<>(periodo));
 
 			/*
-			 * ordeno los periodos de menor a mayor, de esta manera se cual periodo es
-			 * anterior, y calculo su valor
+			 * ordeno los periodos de menor a mayor, de esta manera se cual
+			 * periodo es anterior, y calculo su valor
 			 */
 
 			Collections.sort(listaPeriodos, (p1, p2) -> p1.getFechaInicio().compareTo(p2.getFechaInicio()));
 			Double[] array = new Double[listaPeriodos.size()];
 
 			/*
-			 * es un array de la cantidad de periodos que hay entre en periodo ingresado por
-			 * paramentro
+			 * es un array de la cantidad de periodos que hay entre en periodo
+			 * ingresado por paramentro
 			 */
 
 			listaPeriodos.stream().forEach(unP -> {
@@ -57,8 +57,8 @@ public class Mediana extends ValorCalculable {
 
 					}
 					/*
-					 * calculo el indicador para una empresa y guardo el resultado en un array para
-					 * desps obtener la mediana
+					 * calculo el indicador para una empresa y guardo el
+					 * resultado en un array para desps obtener la mediana
 					 */
 				}
 			});

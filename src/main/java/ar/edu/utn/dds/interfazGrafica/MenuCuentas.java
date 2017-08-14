@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import ar.edu.utn.dds.excepciones.CampoVacioException;
+import ar.edu.utn.dds.excepciones.ErrorFechaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
@@ -92,6 +93,8 @@ public class MenuCuentas {
 			verificador.textFieldVacio(idFechaFin);
 			verificador.textFieldVacio(idFechaInicio);
 			verificador.comboBoxVacio(idCombCuenta);
+			verificador.verificarFecha(idFechaInicio.getText());
+			verificador.verificarFecha(idFechaFin.getText());
 			String fechain[] = idFechaInicio.getText().split("/");
 			String fechafin[] = idFechaFin.getText().split("/");
 			Periodo periodo = new Periodo(
@@ -114,6 +117,8 @@ public class MenuCuentas {
 			verificador.mostrarError("La empresa no posee la cuenta requerida en el periodo seleccionado", "Error");
 		} catch (CampoVacioException e1) {
 			verificador.mostrarError("Falta completar un periodo, o seleccioonar empresa/cuenta", "Error");
+		} catch (ErrorFechaException e1) {
+			verificador.mostrarError("La fecha debe estar en el formato dd/mm/aaaa", "Error formato invalido");
 		}
 
 	}

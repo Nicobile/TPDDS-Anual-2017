@@ -102,7 +102,7 @@ public class Main extends Application {
 			controller.setStagePrincipalCuenta(ventanaCta);
 			ventanaCta.show();
 		} catch (IOException e) {
-			
+
 		}
 	}
 

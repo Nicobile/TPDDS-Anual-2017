@@ -15,7 +15,7 @@ public class Sumatoria extends ValorCalculable {
 	public ArrayList<PuntajeEmpresa> calcularValor(Periodo periodos, int anios)
 			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
-		
+
 		ArrayList<PuntajeEmpresa> listaEmpresas = super.calcularValor(periodos, anios);
 		/*
 		 * deberia filtrar la lista de cuentas de le empresa durante los ultimos
@@ -30,7 +30,7 @@ public class Sumatoria extends ValorCalculable {
 		for (int i = 0; (i < listaEmpresas.size()) && (i < lista.size()); i++) {
 			listaEmpresas.get(i).setResultadoDeAplicarCondicion(lista.get(i));
 		}
-		
+
 		return listaEmpresas;
 	}
 }

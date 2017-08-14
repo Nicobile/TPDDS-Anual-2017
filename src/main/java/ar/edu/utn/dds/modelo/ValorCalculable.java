@@ -12,8 +12,8 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 public abstract class ValorCalculable {
 
 	/*
-	 * de alguna forma en la interfaz a la hora qeu ingresan el indicador deberia
-	 * buscarlo con el traductor
+	 * de alguna forma en la interfaz a la hora qeu ingresan el indicador
+	 * deberia buscarlo con el traductor
 	 */
 	private Indicador indicador;
 	private Traductor traductor;

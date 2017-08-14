@@ -30,7 +30,6 @@ public class CondicionCreciente extends TiposDeCondicion {
 	public void setT(Traductor tr) {
 		// TODO Auto-generated method stub
 		super.setT(tr);
-	
 
 		idIndicador.setItems(super.indicadoresCargados());
 
@@ -38,20 +37,19 @@ public class CondicionCreciente extends TiposDeCondicion {
 
 	@FXML
 	void cargar(ActionEvent event) throws NoSeEncuentraElIndicadorException {
-try {
-	verificador.comboBoxVacio(idIndicador);
-	verificador.textFieldVacio(idAnios);
-		int anios = Integer.parseInt(idAnios.getText());
-		String indicador = idIndicador.getValue();
-		Creciente cre = new Creciente(t.buscarIndicador(indicador), t);
-		Condicion cond = new Filtro(cre, anios);
-		meto.agregarCondicion(cond);
-		verificador.mostrarInfo("Condicion cargada satisfactoriamente", "Informacion");}
-catch(CampoVacioException e) {
-	verificador.mostrarError("Falto seleccionar un indicador o ingresar una cantidad de años", "Error");
-}
+		try {
+			verificador.comboBoxVacio(idIndicador);
+			verificador.textFieldVacio(idAnios);
+			int anios = Integer.parseInt(idAnios.getText());
+			String indicador = idIndicador.getValue();
+			Creciente cre = new Creciente(t.buscarIndicador(indicador), t);
+			Condicion cond = new Filtro(cre, anios);
+			meto.agregarCondicion(cond);
+			verificador.mostrarInfo("Condicion cargada satisfactoriamente", "Informacion");
+		} catch (CampoVacioException e) {
+			verificador.mostrarError("Falto seleccionar un indicador o ingresar una cantidad de aï¿½os", "Error");
+		}
 
-		
 	}
 
 	@FXML

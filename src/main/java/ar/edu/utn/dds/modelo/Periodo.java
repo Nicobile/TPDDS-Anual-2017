@@ -15,7 +15,7 @@ public class Periodo {
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

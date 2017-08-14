@@ -20,9 +20,9 @@ public class MenuPrincipal implements Initializable {
 
 	@FXML
 	private Button idIngresar;
-	
+
 	@FXML
-    private Button idCerrar;
+	private Button idCerrar;
 
 	@FXML
 	void ingresar(ActionEvent event) {
@@ -43,6 +43,7 @@ public class MenuPrincipal implements Initializable {
 	void opciones(ActionEvent event) {
 
 	}
+
 	@FXML
 	void cerrar(ActionEvent event) {
 		stagePrincipalMenuP.close();
@@ -63,7 +64,7 @@ public class MenuPrincipal implements Initializable {
 	public void setProgramaPrincipal(Main ProgramaPrincipal) {
 		this.ProgramaPrincipal = ProgramaPrincipal;
 	}
-	
+
 	public void setStageMenuPrincipal(Stage stagePrincipal) {
 		this.stagePrincipalMenuP = stagePrincipal;
 	}

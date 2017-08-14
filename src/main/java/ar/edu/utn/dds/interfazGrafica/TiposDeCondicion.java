@@ -23,7 +23,7 @@ public class TiposDeCondicion implements Initializable {
 	protected Stage stagePrincipal;
 	protected Traductor t = new Traductor();
 	protected Metodologia meto;
-	protected Verificador verificador=new Verificador();
+	protected Verificador verificador = new Verificador();
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

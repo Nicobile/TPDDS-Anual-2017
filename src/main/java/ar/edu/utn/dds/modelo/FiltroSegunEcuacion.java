@@ -30,8 +30,8 @@ public class FiltroSegunEcuacion extends Condicion {
 			NoSeEncuentraElIndicadorException {
 
 		/*
-		 * Tengo que filtrar aquellos que cumplan con la condicion con lo cual tengo que
-		 * armar la condicion
+		 * Tengo que filtrar aquellos que cumplan con la condicion con lo cual
+		 * tengo que armar la condicion
 		 */
 
 		List<PuntajeEmpresa> valoresAizq = super.aplicar();
@@ -41,7 +41,8 @@ public class FiltroSegunEcuacion extends Condicion {
 		ScriptEngine interprete = manager.getEngineByName("js");
 
 		/*
-		 * Armo la ecuacion y el lado der siempre van a hacer los mismos de la formula
+		 * Armo la ecuacion y el lado der siempre van a hacer los mismos de la
+		 * formula
 		 */
 
 		String ladoder = String.valueOf(ladoDer);

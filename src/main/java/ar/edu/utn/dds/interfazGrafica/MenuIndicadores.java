@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import ar.edu.utn.dds.excepciones.CampoVacioException;
+import ar.edu.utn.dds.excepciones.ErrorFechaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
@@ -31,7 +32,7 @@ public class MenuIndicadores implements Initializable {
 	private ProcesarIndicadores procesador1;
 	private Archivos archivosInd;
 	private Stage stagePrincipal;
-	private Verificador verificador= new Verificador();
+	private Verificador verificador = new Verificador();
 
 	@FXML
 	private Button idCerrar;
@@ -78,11 +79,12 @@ public class MenuIndicadores implements Initializable {
 			try {
 				this.procesador1.leerExcel(this.getClass().getResource("/" + idRuta.getText()).getFile());
 				archivosInd.agregarArchivo(idRuta.getText());
-				t.getIndicadores().forEach(unIndicador -> {idListInd.getItems().add(unIndicador.getNombre());
-				idNomIndca.getItems().add(unIndicador.getNombre());
+				t.getIndicadores().forEach(unIndicador -> {
+					idListInd.getItems().add(unIndicador.getNombre());
+					idNomIndca.getItems().add(unIndicador.getNombre());
 				});
 				verificador.mostrarInfo("El archivo se cargo satisfactoriamente", "Informacion");
-			
+
 			} catch (NullPointerException e) {
 				verificador.mostrarError("No se encontro el archivo", "Error");
 			}
@@ -94,7 +96,7 @@ public class MenuIndicadores implements Initializable {
 
 	@FXML
 	void cargar(ActionEvent event) {
-		
+
 		try {
 			verificador.textFieldVacio(idNomInd);
 			verificador.textFieldVacio(idexpresion);
@@ -107,8 +109,7 @@ public class MenuIndicadores implements Initializable {
 			idexpresion.setText("");
 		} catch (YaHayUnIndicadorConEseNombreException e) {
 			verificador.mostrarError("Ya existe un indicador con ese nombre", "Error");
-		}
-		catch(CampoVacioException e) {
+		} catch (CampoVacioException e) {
 			verificador.mostrarError("Fala completar uno o mas campos", "Error");
 		}
 	}
@@ -121,6 +122,8 @@ public class MenuIndicadores implements Initializable {
 			verificador.textFieldVacio(idFechaFin);
 			verificador.textFieldVacio(idNombreEmpresa);
 			verificador.comboBoxVacio(idNomIndca);
+			verificador.verificarFecha(idFechaIni.getText());
+			verificador.verificarFecha(idFechaFin.getText());
 			String fechain[] = idFechaIni.getText().split("/");
 			String fechafin[] = idFechaFin.getText().split("/");
 			Periodo p = new Periodo(
@@ -128,23 +131,28 @@ public class MenuIndicadores implements Initializable {
 					LocalDate.of(cambiarFechaInt(2, fechafin), cambiarFechaInt(1, fechafin),
 							cambiarFechaInt(0, fechafin)));
 			idResult.setText(String.valueOf(t.calcular(idNombreEmpresa.getText(), p, idNomIndca.getValue())));
-			
+
 		} catch (NoSeEncuentraLaEmpresaException e) {
-			
+
 			verificador.mostrarError("No se encuentra la empresa", "Error");
 		} catch (NoSeEncuentraLaCuentaException c) {
-			verificador.mostrarError("La empresa no dispone de la cuenta que requiere el indicador para el calculo", "Error");
-			
-			
+			verificador.mostrarError("La empresa no dispone de la cuenta que requiere el indicador para el calculo",
+					"Error");
+
 		} catch (NoSeEncuentraLaCuentaEnElPeriodoException d) {
-			verificador.mostrarError("La empresa no dispone de la cuenta en el periodo que requiere el indicador para el calculo", "Error");
-			
-		}  catch (IllegalArgumentException f) {
+			verificador.mostrarError(
+					"La empresa no dispone de la cuenta en el periodo que requiere el indicador para el calculo",
+					"Error");
+
+		} catch (IllegalArgumentException f) {
 			verificador.mostrarError("El indicador posee algun error en la expresion", "Error");
-		}
-		catch(CampoVacioException e) {
+
+		} catch (CampoVacioException e) {
 			verificador.mostrarError("Falta completar uno o mas campos", "Error");
+		} catch (ErrorFechaException e) {
+			verificador.mostrarError("La fecha debe estar en el formato dd/mm/aaaa", "Error");
 		}
+
 	}
 
 	@FXML
