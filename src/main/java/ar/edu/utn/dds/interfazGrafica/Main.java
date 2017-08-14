@@ -56,8 +56,7 @@ public class Main extends Application {
 			stagePrincipal.setScene(scene);
 			MainGraf controller = loader.getController();
 			controller.setTraductor(traductor);
-			controller.setProgramaPrincipal(this);
-
+			controller.setStagePrincipalMeto(stagePrincipal);
 			stagePrincipal.show();
 		} catch (IOException e) {
 		}

@@ -28,11 +28,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class MainGraf implements Initializable {
 
 	private Main ProgramaPrincipal;
-
+	Stage stagePrincipalMeto;
 	private Traductor t;
 	private String texto;
 	private Metodologia metod; // primero cargar la metodologia
@@ -119,7 +120,7 @@ public class MainGraf implements Initializable {
 
 	@FXML
 	void btnCerrar(ActionEvent event) {
-
+		stagePrincipalMeto.close();
 	}
 
 	@FXML
@@ -155,10 +156,6 @@ public class MainGraf implements Initializable {
 
 	}
 
-	public void setProgramaPrincipal(Main ProgramaPrincipal) {
-		this.ProgramaPrincipal = ProgramaPrincipal;
-	}
-
 	public void setTraductor(Traductor tradu) {
 		this.t = tradu;
 		t.getMetodologias().forEach(unaMetodologia -> idMetodologia.getItems().add(unaMetodologia.getNombre()));
@@ -166,5 +163,9 @@ public class MainGraf implements Initializable {
 
 	public String getNombre() {
 		return this.texto;
+	}
+	
+	public void setStagePrincipalMeto(Stage stagePrincipal) {
+		this.stagePrincipalMeto = stagePrincipal;
 	}
 }
