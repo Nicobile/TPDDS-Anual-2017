@@ -42,6 +42,7 @@
             <Text layoutX="35.0" layoutY="304.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha fin:" />
             <TextField fx:id="idFechaFin" layoutX="166.0" layoutY="278.0" onAction="#fechafin" prefHeight="27.0" prefWidth="165.0" promptText="dd/mm/yyyy" />
             <ComboBox fx:id="idNomIndca" layoutX="167.0" layoutY="314.0" onAction="#nomIndca" prefWidth="150.0" />
+            <Text fill="#ee0808" layoutX="379.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* debe comenzar con i_" />
          </children></Pane>
    </left>
 </BorderPane>
