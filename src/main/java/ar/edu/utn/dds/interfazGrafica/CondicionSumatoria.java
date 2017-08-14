@@ -1,5 +1,6 @@
 package ar.edu.utn.dds.interfazGrafica;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,6 +10,7 @@ import javax.swing.JPanel;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.modelo.Condicion;
 import ar.edu.utn.dds.modelo.FiltroSegunEcuacion;
+import ar.edu.utn.dds.modelo.OrdenaAplicandoCriterioOrdenamiento;
 import ar.edu.utn.dds.modelo.Periodo;
 import ar.edu.utn.dds.modelo.Sumatoria;
 import ar.edu.utn.dds.modelo.Traductor;
@@ -24,6 +26,8 @@ public class CondicionSumatoria extends TiposDeCondicion {
 
 	@FXML
 	private ComboBox<String> idIndicador;
+	@FXML
+	private ComboBox<String> idCriterio;
 	@FXML
 	private TextField idComparador;
 	@FXML
@@ -61,6 +65,11 @@ public class CondicionSumatoria extends TiposDeCondicion {
 	private void fechaFin(ActionEvent event) {
 
 	};
+	
+	@FXML
+	private void criterio(ActionEvent event) {
+
+	};
 
 	@FXML
 	private void cargar(ActionEvent event) {
@@ -74,8 +83,12 @@ public class CondicionSumatoria extends TiposDeCondicion {
 
 			Condicion condicionSumatoria = new FiltroSegunEcuacion(sum, Integer.parseInt(idValor.getText()),
 					idComparador.getText(), periodo);
+			
+			Condicion condicion2 = new OrdenaAplicandoCriterioOrdenamiento(sum, periodo, idCriterio.getValue());
+			
 			try {
 				meto.agregarCondicion(condicionSumatoria);
+				meto.agregarCondicion(condicion2);
 			} catch (Exception e) {
 				final JPanel panel = new JPanel();
 				JOptionPane.showMessageDialog(panel, "Debe crear la metodologia antes de cargarle condiciones", "Error",
@@ -110,6 +123,13 @@ public class CondicionSumatoria extends TiposDeCondicion {
 		ObservableList<String> indicador = FXCollections.observableList(list);
 
 		idIndicador.setItems(indicador);
+		
+		List<String> criteriosOrdenamiento = new ArrayList<String>();
+		criteriosOrdenamiento.add("mayorAmenor");
+		criteriosOrdenamiento.add("menorAmayor");
+		ObservableList<String> lista = FXCollections.observableList(criteriosOrdenamiento);
+
+		idCriterio.setItems(lista);
 
 	}
 

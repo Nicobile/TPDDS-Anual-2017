@@ -18,7 +18,7 @@
             <Text layoutX="31.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingrese fecha inicio del periodo" wrappingWidth="80.8330078125" />
             <TextField fx:id="idFechaInicio" layoutX="159.0" layoutY="197.0" onAction="#fechaInicio" prefHeight="26.0" prefWidth="203.0" promptText="Fecha inicio dd/mm/aaaa" />
             <ComboBox fx:id="idIndicador" layoutX="45.0" layoutY="94.0" onAction="#indicador" prefHeight="25.0" prefWidth="134.0" promptText="Elegir Indicador:" />
-            <Text layoutX="260.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Promedio">
+            <Text layoutX="260.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mediana">
                <font>
                   <Font size="18.0" />
                </font>
