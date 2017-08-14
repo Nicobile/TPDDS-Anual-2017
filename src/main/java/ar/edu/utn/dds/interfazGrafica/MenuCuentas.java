@@ -69,15 +69,16 @@ public class MenuCuentas {
 		if (!archivosCuentas.buscarArchivo(idRuta.getText())) {
 			try {
 				this.lectorArchivo.leerArchivo(this.getClass().getResource("/" + idRuta.getText()).getFile());
+				archivosCuentas.agregarArchivo(idRuta.getText());
+				t.getEmpresas().forEach(unaEmpresa -> idEmpresa.getItems().add(unaEmpresa.getNombre()));
+				final JPanel panel = new JPanel();
+				JOptionPane.showMessageDialog(panel, "El archivo ha sido cargado", "OK", JOptionPane.INFORMATION_MESSAGE);
+
 			} catch (NullPointerException e) {
 				final JPanel panel = new JPanel();
 				JOptionPane.showMessageDialog(panel, "No se encuentra el archivo", "Error", JOptionPane.ERROR_MESSAGE);
 			}
-			archivosCuentas.agregarArchivo(idRuta.getText());
-			t.getEmpresas().forEach(unaEmpresa -> idEmpresa.getItems().add(unaEmpresa.getNombre()));
-			final JPanel panel = new JPanel();
-			JOptionPane.showMessageDialog(panel, "El archivo ha sido cargado", "OK", JOptionPane.INFORMATION_MESSAGE);
-
+			
 		} else {
 			final JPanel panel = new JPanel();
 			JOptionPane.showMessageDialog(panel, "El archivo ya fue cargado", "Error", JOptionPane.ERROR_MESSAGE);

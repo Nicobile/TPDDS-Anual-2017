@@ -75,15 +75,16 @@ public class MenuIndicadores implements Initializable {
 		if (!archivosInd.buscarArchivo(idRuta.getText())) {
 			try {
 				this.procesador1.leerExcel(this.getClass().getResource("/" + idRuta.getText()).getFile());
+				archivosInd.agregarArchivo(idRuta.getText());
+				t.getIndicadores().forEach(unIndicador -> idListInd.getItems().add(unIndicador.getNombre()));
+				final JPanel panel = new JPanel();
+				JOptionPane.showMessageDialog(panel, "El archivo se cargo satisfactoriamente", "OK",
+						JOptionPane.INFORMATION_MESSAGE);
 			} catch (NullPointerException e) {
 				final JPanel panel = new JPanel();
 				JOptionPane.showMessageDialog(panel, "No se encuentra el archivo", "Error", JOptionPane.ERROR_MESSAGE);
 			}
-			archivosInd.agregarArchivo(idRuta.getText());
-			t.getIndicadores().forEach(unIndicador -> idListInd.getItems().add(unIndicador.getNombre()));
-			final JPanel panel = new JPanel();
-			JOptionPane.showMessageDialog(panel, "El archivo se cargo satisfactoriamente", "OK",
-					JOptionPane.INFORMATION_MESSAGE);
+
 		} else {
 			final JPanel panel = new JPanel();
 			JOptionPane.showMessageDialog(panel, "El archivo ya fue cargado", "Error", JOptionPane.ERROR_MESSAGE);
