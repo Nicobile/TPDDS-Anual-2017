@@ -1,7 +1,7 @@
 package ar.edu.utn.dds.interfazGrafica;
 
 import java.io.IOException;
-import ar.edu.utn.dds.modelo.Metodologia;
+
 import ar.edu.utn.dds.modelo.Traductor;
 import ar.edu.utn.dds.procesarArchivos.LectorArchivo;
 import ar.edu.utn.dds.procesarArchivos.ProcesarIndicadores;
@@ -50,7 +50,8 @@ public class Main extends Application {
 
 	public void mostrarMenuMetodologias() {
 		try {
-			FXMLLoader loader = new FXMLLoader(Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/MenuMetodologias.fxml"));
+			FXMLLoader loader = new FXMLLoader(
+					Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/MenuMetodologias.fxml"));
 			BorderPane ventanaMeto = (BorderPane) loader.load();
 			Scene scene = new Scene(ventanaMeto);
 			Stage ventanaMetologia = new Stage();
@@ -101,11 +102,9 @@ public class Main extends Application {
 			controller.setStagePrincipalCuenta(ventanaCta);
 			ventanaCta.show();
 		} catch (IOException e) {
+			
 		}
 	}
-
-
-	
 
 	public static void main(String[] args) {
 		launch(args);

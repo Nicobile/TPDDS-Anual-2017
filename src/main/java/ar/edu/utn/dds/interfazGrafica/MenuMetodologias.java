@@ -6,9 +6,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.script.ScriptException;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
+import ar.edu.utn.dds.excepciones.CampoVacioException;
 import ar.edu.utn.dds.excepciones.MetodologiaYaExisteException;
 import ar.edu.utn.dds.excepciones.NoHayCondicionesException;
 import ar.edu.utn.dds.excepciones.NoHayEmpresasQueCumplanLaCondicionException;
@@ -36,11 +35,11 @@ import javafx.stage.Stage;
 
 public class MenuMetodologias implements Initializable {
 
-
 	Stage stagePrincipalMeto;
 	private Traductor t;
 	private String texto;
 	private Metodologia metod; // primero cargar la metodologia
+	Verificador verificador = new Verificador();
 
 	@FXML
 	private ComboBox<String> idMetodologia;
@@ -72,55 +71,51 @@ public class MenuMetodologias implements Initializable {
 	@FXML
 	void cargar(ActionEvent event) {
 		try {
+			verificador.textFieldVacio(idTextMetod);
 			metod = new Metodologia(idTextMetod.getText());
 			t.agregarMetodologia(metod);
 			idMetodologia.getItems().add(metod.getNombre());
-			final JPanel panel = new JPanel();
-			JOptionPane.showMessageDialog(panel, "Metodologia creada exitosamente", "Informacion",
-					JOptionPane.INFORMATION_MESSAGE);
+			verificador.mostrarInfo("Metodologia creada exitosamente", "Informacion");
+			idTextMetod.setText("");
 		} catch (MetodologiaYaExisteException e) {
-			final JPanel panel = new JPanel();
-			JOptionPane.showMessageDialog(panel, "Esa metodologia ya existe", "Error", JOptionPane.ERROR_MESSAGE);
+			verificador.mostrarError("Ya existe una metodologia con ese nombre", "Error");
+		} catch (CampoVacioException e) {
+			verificador.mostrarError("Falto completar el campo nombre de la metodologia", "Error");
 		}
 	}
 
 	@FXML
 	private void btnSeleccionar(ActionEvent event) {
-		mostrarCondicion(t.buscarMetodologia(idMetodologia.getValue()), idBtnCondicion.getValue());
+		try {
+			verificador.comboBoxVacio(idMetodologia);
+			mostrarCondicion(t.buscarMetodologia(idMetodologia.getValue()), idBtnCondicion.getValue());
+		} catch (CampoVacioException e) {
+			verificador.mostrarError("Falto seleccionar la metodologia a la cual se le cargara la condicion", "Error");
+		}
 
 	}
 
 	@FXML
-	private void aplicar(ActionEvent event) {
+	private void aplicar(ActionEvent event) throws NoSeEncuentraLaEmpresaException, ScriptException,
+			NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException,
+			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
 		idEmpresas.getItems().clear();
 		List<PuntajeEmpresa> empresasQueCumplen;
 
 		try {
+			verificador.comboBoxVacio(idMetodologia);
 			empresasQueCumplen = t.buscarMetodologia(idMetodologia.getValue()).aplicarMetodologia();
 			empresasQueCumplen.forEach(empresa -> idEmpresas.getItems().add(empresa.getNombreEmpresa()));
 		} catch (NoHayEmpresasQueCumplanLaCondicionException e) {
-			final JPanel panel = new JPanel();
-			JOptionPane.showMessageDialog(panel, "No se encontraron empresas que cumplan con la metodologia",
-					"Informacion", JOptionPane.INFORMATION_MESSAGE);
-		} catch (NoSeEncuentraLaEmpresaException e) {
-
-		} catch (ScriptException e) {
-
-		} catch (NoSePudoOrdenarLaCondicionException e) {
-
-		} catch (NoSeEncuentraLaCuentaException e) {
-
-		} catch (NoSeEncuentraLaCuentaEnElPeriodoException e) {
-
-		} catch (NoSeEncuentraElIndicadorException e) {
-
+			verificador.mostrarInfo("No se encontraron empresas que cumplan con la metodologia", "Informacion");
 		} catch (NoHayCondicionesException e) {
-			final JPanel panel = new JPanel();
-			JOptionPane.showMessageDialog(panel, "Esa metodologia no contiene condiciones", "Error",
-					JOptionPane.ERROR_MESSAGE);
+			verificador.mostrarError("La metodologia seleccionada no posee condiciones", "Error");
+		} catch (CampoVacioException e) {
+			verificador.mostrarError("Falto seleccionar la metodologia a la cual se le cargara la condicion", "Error");
 		}
 
 	}
+
 	public void mostrarCondicion(Metodologia metod, String condicion) {
 
 		try {
@@ -129,16 +124,16 @@ public class MenuMetodologias implements Initializable {
 
 			BorderPane ventana;
 			ventana = (BorderPane) loader.load();
-			TiposDeCondicion controller= loader.getController();
+			TiposDeCondicion controller = loader.getController();
 			controller.setMetodologia(metod);
 			controller.setT(t);
-			
+
 			Stage stage = new Stage();
 			stage.setTitle("Condicion" + condicion);
 			stage.initOwner(stagePrincipalMeto);
 			Scene scene = new Scene(ventana);
 			stage.setScene(scene);
-			
+
 			controller.setStagePrincipal(stage);
 
 			stage.show();
@@ -195,7 +190,7 @@ public class MenuMetodologias implements Initializable {
 	public String getNombre() {
 		return this.texto;
 	}
-	
+
 	public void setStagePrincipalMeto(Stage stagePrincipal) {
 		this.stagePrincipalMeto = stagePrincipal;
 	}

@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+
+import ar.edu.utn.dds.excepciones.CampoVacioException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
@@ -20,6 +20,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -30,6 +31,7 @@ public class MenuIndicadores implements Initializable {
 	private ProcesarIndicadores procesador1;
 	private Archivos archivosInd;
 	private Stage stagePrincipal;
+	private Verificador verificador= new Verificador();
 
 	@FXML
 	private Button idCerrar;
@@ -59,7 +61,7 @@ public class MenuIndicadores implements Initializable {
 	private TextField idFechaFin;
 
 	@FXML
-	private TextField idNomIndca;
+	private ComboBox<String> idNomIndca;
 
 	@FXML
 	private TextField idResult;
@@ -76,66 +78,72 @@ public class MenuIndicadores implements Initializable {
 			try {
 				this.procesador1.leerExcel(this.getClass().getResource("/" + idRuta.getText()).getFile());
 				archivosInd.agregarArchivo(idRuta.getText());
-				t.getIndicadores().forEach(unIndicador -> idListInd.getItems().add(unIndicador.getNombre()));
-				final JPanel panel = new JPanel();
-				JOptionPane.showMessageDialog(panel, "El archivo se cargo satisfactoriamente", "OK",
-						JOptionPane.INFORMATION_MESSAGE);
+				t.getIndicadores().forEach(unIndicador -> {idListInd.getItems().add(unIndicador.getNombre());
+				idNomIndca.getItems().add(unIndicador.getNombre());
+				});
+				verificador.mostrarInfo("El archivo se cargo satisfactoriamente", "Informacion");
+			
 			} catch (NullPointerException e) {
-				final JPanel panel = new JPanel();
-				JOptionPane.showMessageDialog(panel, "No se encuentra el archivo", "Error", JOptionPane.ERROR_MESSAGE);
+				verificador.mostrarError("No se encontro el archivo", "Error");
 			}
 
 		} else {
-			final JPanel panel = new JPanel();
-			JOptionPane.showMessageDialog(panel, "El archivo ya fue cargado", "Error", JOptionPane.ERROR_MESSAGE);
+			verificador.mostrarError("Ya se ha cargado ese archivo", "Error");
 		}
 	}
 
 	@FXML
 	void cargar(ActionEvent event) {
-		Indicador ind1 = new Indicador(idNomInd.getText(), idexpresion.getText());
+		
 		try {
+			verificador.textFieldVacio(idNomInd);
+			verificador.textFieldVacio(idexpresion);
+			Indicador ind1 = new Indicador(idNomInd.getText(), idexpresion.getText());
 			t.agregarIndicador(ind1);
 			idListInd.getItems().add(ind1.getNombre());
+			idNomIndca.getItems().add(ind1.getNombre());
+			verificador.mostrarInfo("El indicador se cargo satisfactoriamente", "Informacion");
+			idNomInd.setText("");
+			idexpresion.setText("");
 		} catch (YaHayUnIndicadorConEseNombreException e) {
-			final JPanel panel = new JPanel();
-			JOptionPane.showMessageDialog(panel, "Ya se encuentra un indicador con ese nombre", "Error",
-					JOptionPane.ERROR_MESSAGE);
+			verificador.mostrarError("Ya existe un indicador con ese nombre", "Error");
+		}
+		catch(CampoVacioException e) {
+			verificador.mostrarError("Fala completar uno o mas campos", "Error");
 		}
 	}
 
 	@FXML
-	void calcular(ActionEvent event) throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
-			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
+	void calcular(ActionEvent event) throws NoSeEncuentraElIndicadorException {
 		idResult.clear();
 		try {
+			verificador.textFieldVacio(idFechaIni);
+			verificador.textFieldVacio(idFechaFin);
+			verificador.textFieldVacio(idNombreEmpresa);
+			verificador.comboBoxVacio(idNomIndca);
 			String fechain[] = idFechaIni.getText().split("/");
 			String fechafin[] = idFechaFin.getText().split("/");
 			Periodo p = new Periodo(
 					LocalDate.of(cambiarFechaInt(2, fechain), cambiarFechaInt(1, fechain), cambiarFechaInt(0, fechain)),
 					LocalDate.of(cambiarFechaInt(2, fechafin), cambiarFechaInt(1, fechafin),
 							cambiarFechaInt(0, fechafin)));
-			idResult.setText(String.valueOf(t.calcular(idNombreEmpresa.getText(), p, idNomIndca.getText())));
+			idResult.setText(String.valueOf(t.calcular(idNombreEmpresa.getText(), p, idNomIndca.getValue())));
+			
 		} catch (NoSeEncuentraLaEmpresaException e) {
-			final JPanel panel = new JPanel();
-			JOptionPane.showMessageDialog(panel, "No se encuentra la empresa", "Error", JOptionPane.ERROR_MESSAGE);
+			
+			verificador.mostrarError("No se encuentra la empresa", "Error");
 		} catch (NoSeEncuentraLaCuentaException c) {
-			final JPanel panel = new JPanel();
-			JOptionPane.showMessageDialog(panel,
-					"La empresa no dispone de la cuenta que requiere el indicador para el calculo", "Error",
-					JOptionPane.ERROR_MESSAGE);
+			verificador.mostrarError("La empresa no dispone de la cuenta que requiere el indicador para el calculo", "Error");
+			
+			
 		} catch (NoSeEncuentraLaCuentaEnElPeriodoException d) {
-			final JPanel panel = new JPanel();
-			JOptionPane.showMessageDialog(panel,
-					"La empresa no dispone de la cuenta en el periodo que requiere el indicador para el calculo",
-					"Error", JOptionPane.ERROR_MESSAGE);
-		} catch (NoSeEncuentraElIndicadorException e) {
-			final JPanel panel = new JPanel();
-			JOptionPane.showMessageDialog(panel, "No se encuentra el indicador", "Error", JOptionPane.ERROR_MESSAGE);
-		} catch (IllegalArgumentException f) {
-			final JPanel panel = new JPanel();
-			JOptionPane.showMessageDialog(panel, "El indicador posee algun error en la expresion", "Error",
-					JOptionPane.ERROR_MESSAGE);
+			verificador.mostrarError("La empresa no dispone de la cuenta en el periodo que requiere el indicador para el calculo", "Error");
+			
+		}  catch (IllegalArgumentException f) {
+			verificador.mostrarError("El indicador posee algun error en la expresion", "Error");
+		}
+		catch(CampoVacioException e) {
+			verificador.mostrarError("Falta completar uno o mas campos", "Error");
 		}
 	}
 
@@ -184,11 +192,7 @@ public class MenuIndicadores implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resource) {
-		// if(t.getIndicadores().size()>0){
-		// (t.getIndicadores().forEach(unIndicador ->
-		// idListInd.getItems().add(unIndicador.getNombre()));
-		// }
-		// idListInd.getItems().clear();
+
 	}
 
 	public void setListaArchivos(Archivos archivos) {

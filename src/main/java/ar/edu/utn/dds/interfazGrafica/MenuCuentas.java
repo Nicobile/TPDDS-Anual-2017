@@ -10,9 +10,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
 import ar.edu.utn.dds.excepciones.CampoVacioException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
@@ -38,8 +35,8 @@ public class MenuCuentas {
 	private Traductor t;
 	private LectorArchivo lectorArchivo;
 	private Archivos archivosCuentas;
-    private Verificador verificador;
-	
+	private Verificador verificador;
+
 	@FXML
 	private Button idCerrar;
 
@@ -74,14 +71,14 @@ public class MenuCuentas {
 				this.lectorArchivo.leerArchivo(this.getClass().getResource("/" + idRuta.getText()).getFile());
 				archivosCuentas.agregarArchivo(idRuta.getText());
 				t.getEmpresas().forEach(unaEmpresa -> idEmpresa.getItems().add(unaEmpresa.getNombre()));
-				verificador.mostrarInfo("El arhcivo ha sido cargado", "Informacion");
+				verificador.mostrarInfo("El archivo se cargo satisfactoriamente", "Informacion");
 
 			} catch (NullPointerException e) {
 				verificador.mostrarError("No se encuentra el archivo", "Error");
-			}catch(CampoVacioException e){
+			} catch (CampoVacioException e) {
 				verificador.mostrarError("Campo de ruta vacio", "Error");
 			}
-			
+
 		} else {
 			verificador.mostrarError("El archivo ya fue cargado", "Error");
 		}
@@ -90,17 +87,17 @@ public class MenuCuentas {
 	@FXML
 	void obtenerValorCuenta(ActionEvent event) {
 
-		
 		try {
-		    verificador.comboBoxVacio(idEmpresa);
-		    verificador.textFieldVacio(idFechaFin);
-		    verificador.textFieldVacio(idFechaInicio);
-		    verificador.comboBoxVacio(idCombCuenta);
-		    String fechain[] = idFechaInicio.getText().split("/");
+			verificador.comboBoxVacio(idEmpresa);
+			verificador.textFieldVacio(idFechaFin);
+			verificador.textFieldVacio(idFechaInicio);
+			verificador.comboBoxVacio(idCombCuenta);
+			String fechain[] = idFechaInicio.getText().split("/");
 			String fechafin[] = idFechaFin.getText().split("/");
 			Periodo periodo = new Periodo(
 					LocalDate.of(cambiarFechaInt(2, fechain), cambiarFechaInt(1, fechain), cambiarFechaInt(0, fechain)),
-					LocalDate.of(cambiarFechaInt(2, fechafin), cambiarFechaInt(1, fechafin), cambiarFechaInt(0, fechafin)));
+					LocalDate.of(cambiarFechaInt(2, fechafin), cambiarFechaInt(1, fechafin),
+							cambiarFechaInt(0, fechafin)));
 			Empresa e;
 			e = t.obtenerEmpresa(idEmpresa.getValue());
 
@@ -115,7 +112,7 @@ public class MenuCuentas {
 			verificador.mostrarError("La empresa no se encuentra cargada", "Error");
 		} catch (NoSeEncuentraLaCuentaEnElPeriodoException e1) {
 			verificador.mostrarError("La empresa no posee la cuenta requerida en el periodo seleccionado", "Error");
-		} catch (CampoVacioException e1){
+		} catch (CampoVacioException e1) {
 			verificador.mostrarError("Falta completar un periodo, o seleccioonar empresa/cuenta", "Error");
 		}
 
@@ -169,7 +166,7 @@ public class MenuCuentas {
 	/* JAVA */
 
 	public void initialize(URL url, ResourceBundle rb) throws NoSeEncuentraLaEmpresaException {
-       
+
 	}
 
 	public void setLectorArchivo(LectorArchivo lector) {

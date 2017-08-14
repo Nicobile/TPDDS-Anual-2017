@@ -1,21 +1,10 @@
 package ar.edu.utn.dds.interfazGrafica;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
+import ar.edu.utn.dds.excepciones.CampoVacioException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
-import ar.edu.utn.dds.modelo.Condicion;
-import ar.edu.utn.dds.modelo.FiltroSegunEcuacion;
-import ar.edu.utn.dds.modelo.OrdenaAplicandoCriterioOrdenamiento;
 import ar.edu.utn.dds.modelo.Periodo;
 import ar.edu.utn.dds.modelo.Sumatoria;
 import ar.edu.utn.dds.modelo.Traductor;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -65,48 +54,34 @@ public class CondicionSumatoria extends TiposDeCondicion {
 	private void fechaFin(ActionEvent event) {
 
 	};
-	
+
 	@FXML
 	private void criterio(ActionEvent event) {
 
 	};
 
 	@FXML
-	private void cargar(ActionEvent event) {
-		Sumatoria sum;
+	private void cargar(ActionEvent event) throws NoSeEncuentraElIndicadorException {
 		try {
-			sum = new Sumatoria(t.buscarIndicador(idIndicador.getValue()), t);
-
+			verificador.comboBoxVacio(idIndicador);
+			verificador.textFieldVacio(idFechaInicio);
+			verificador.textFieldVacio(idFechaFin);
+			verificador.textFieldVacio(idValor);
+			verificador.textFieldVacio(idComparador);
+			verificador.comboBoxVacio(idCriterio);
+			Sumatoria sumatoria = new Sumatoria(t.buscarIndicador(idIndicador.getValue()), t);
 			String fechain[] = idFechaInicio.getText().split("/");
 			String fechafin[] = idFechaFin.getText().split("/");
 			Periodo periodo = super.armarPeriodo(fechain, fechafin);
-
-			Condicion condicionSumatoria = new FiltroSegunEcuacion(sum, Integer.parseInt(idValor.getText()),
-					idComparador.getText(), periodo);
-			
-			Condicion condicion2 = new OrdenaAplicandoCriterioOrdenamiento(sum, periodo, idCriterio.getValue());
-			
-			try {
-				meto.agregarCondicion(condicionSumatoria);
-				meto.agregarCondicion(condicion2);
-			} catch (Exception e) {
-				final JPanel panel = new JPanel();
-				JOptionPane.showMessageDialog(panel, "Debe crear la metodologia antes de cargarle condiciones", "Error",
-						JOptionPane.ERROR_MESSAGE);
-			}
-		} catch (NoSeEncuentraElIndicadorException e) {
-			final JPanel panel = new JPanel();
-			JOptionPane.showMessageDialog(panel, "No se encuentra el indicador especificado", "Error",
-					JOptionPane.ERROR_MESSAGE);
+			super.armarDobleCondicion(sumatoria, idValor.getText(), idComparador.getText(), periodo, idCriterio.getValue());
+			verificador.mostrarInfo("Condicion cargada", "Informacion");
+			idComparador.setText("");
+			idValor.setText("");
+			idFechaInicio.setText("");
+			idFechaFin.setText("");
+		}catch(CampoVacioException e) {
+			verificador.mostrarError("Falto completar uno o mas campos", "Error");
 		}
-
-		final JPanel panel = new JPanel();
-		JOptionPane.showMessageDialog(panel, "Condicion cargada", "Cargado satisfactoriamente",
-				JOptionPane.INFORMATION_MESSAGE);
-		idComparador.setText("");
-		idValor.setText("");
-		idFechaInicio.setText("");
-		idFechaFin.setText("");
 
 	};
 
@@ -119,17 +94,8 @@ public class CondicionSumatoria extends TiposDeCondicion {
 	public void setT(Traductor tr) {
 
 		super.setT(tr);
-		List<String> list = super.t.getIndicadores().stream().map(unI -> unI.getNombre()).collect(Collectors.toList());
-		ObservableList<String> indicador = FXCollections.observableList(list);
-
-		idIndicador.setItems(indicador);
-		
-		List<String> criteriosOrdenamiento = new ArrayList<String>();
-		criteriosOrdenamiento.add("mayorAmenor");
-		criteriosOrdenamiento.add("menorAmayor");
-		ObservableList<String> lista = FXCollections.observableList(criteriosOrdenamiento);
-
-		idCriterio.setItems(lista);
+		idIndicador.setItems(super.indicadoresCargados());
+		idCriterio.setItems(super.criteriosOrdenamiento());
 
 	}
 
