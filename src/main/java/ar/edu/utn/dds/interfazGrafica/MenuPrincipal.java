@@ -31,11 +31,11 @@ public class MenuPrincipal implements Initializable {
 
 		}
 		if (idOpciones.getValue().equals("Menu Metodologia")) {
-			ProgramaPrincipal.mostrarVentanaPrincipal();
+			ProgramaPrincipal.mostrarMenuMetodologias();
 
 		}
 		if (idOpciones.getValue().equals("Menu Indicadores")) {
-			ProgramaPrincipal.menuInterfazIndicadores();
+			ProgramaPrincipal.menuIndicadores();
 		}
 	}
 

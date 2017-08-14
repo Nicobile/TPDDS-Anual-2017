@@ -48,15 +48,15 @@ public class Main extends Application {
 		}
 	}
 
-	public void mostrarVentanaPrincipal() {
+	public void mostrarMenuMetodologias() {
 		try {
-			FXMLLoader loader = new FXMLLoader(Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/Menu.fxml"));
+			FXMLLoader loader = new FXMLLoader(Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/MenuMetodologias.fxml"));
 			BorderPane ventanaMeto = (BorderPane) loader.load();
 			Scene scene = new Scene(ventanaMeto);
 			Stage ventanaMetologia = new Stage();
 			ventanaMetologia.setTitle("Menu");
 			ventanaMetologia.setScene(scene);
-			MainGraf controller = loader.getController();
+			MenuMetodologias controller = loader.getController();
 			controller.setTraductor(traductor);
 			controller.setStagePrincipalMeto(ventanaMetologia);
 			ventanaMetologia.show();
@@ -64,17 +64,17 @@ public class Main extends Application {
 		}
 	}
 
-	public void menuInterfazIndicadores() {
+	public void menuIndicadores() {
 		try {
 			FXMLLoader loader = new FXMLLoader(
-					Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/InterfazIndicadores.fxml"));
+					Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/MenuIndicadores.fxml"));
 			BorderPane ventanaCond3 = (BorderPane) loader.load();
 			Stage ventana3 = new Stage();
 			ventana3.setTitle("Indicadores");
 			ventana3.initOwner(stagePrincipal);
 			Scene scene = new Scene(ventanaCond3);
 			ventana3.setScene(scene);
-			InterfazIndicador controller = loader.getController();
+			MenuIndicadores controller = loader.getController();
 			controller.setTraductor(traductor);
 			controller.setProcesador(procesador1);
 			controller.setListaArchivos(archivos);

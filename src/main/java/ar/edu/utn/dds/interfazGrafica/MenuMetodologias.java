@@ -30,7 +30,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class MainGraf implements Initializable {
+public class MenuMetodologias implements Initializable {
 
 	private Main ProgramaPrincipal;
 	Stage stagePrincipalMeto;

@@ -24,7 +24,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class InterfazIndicador implements Initializable {
+public class MenuIndicadores implements Initializable {
 
 	private Traductor t;
 	private ProcesarIndicadores procesador1;
