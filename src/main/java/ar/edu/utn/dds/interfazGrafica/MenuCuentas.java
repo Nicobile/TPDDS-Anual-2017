@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import ar.edu.utn.dds.excepciones.CampoVacioException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
@@ -37,7 +38,8 @@ public class MenuCuentas {
 	private Traductor t;
 	private LectorArchivo lectorArchivo;
 	private Archivos archivosCuentas;
-
+    private Verificador verificador;
+	
 	@FXML
 	private Button idCerrar;
 
@@ -68,33 +70,38 @@ public class MenuCuentas {
 	void cargaArchivo(ActionEvent event) throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresaException {
 		if (!archivosCuentas.buscarArchivo(idRuta.getText())) {
 			try {
+				verificador.textFieldVacio(idRuta);
 				this.lectorArchivo.leerArchivo(this.getClass().getResource("/" + idRuta.getText()).getFile());
 				archivosCuentas.agregarArchivo(idRuta.getText());
 				t.getEmpresas().forEach(unaEmpresa -> idEmpresa.getItems().add(unaEmpresa.getNombre()));
-				final JPanel panel = new JPanel();
-				JOptionPane.showMessageDialog(panel, "El archivo ha sido cargado", "OK", JOptionPane.INFORMATION_MESSAGE);
+				verificador.mostrarInfo("El arhcivo ha sido cargado", "Informacion");
 
 			} catch (NullPointerException e) {
-				final JPanel panel = new JPanel();
-				JOptionPane.showMessageDialog(panel, "No se encuentra el archivo", "Error", JOptionPane.ERROR_MESSAGE);
+				verificador.mostrarError("No se encuentra el archivo", "Error");
+			}catch(CampoVacioException e){
+				verificador.mostrarError("Campo de ruta vacio", "Error");
 			}
 			
 		} else {
-			final JPanel panel = new JPanel();
-			JOptionPane.showMessageDialog(panel, "El archivo ya fue cargado", "Error", JOptionPane.ERROR_MESSAGE);
+			verificador.mostrarError("El archivo ya fue cargado", "Error");
 		}
 	}
 
 	@FXML
 	void obtenerValorCuenta(ActionEvent event) {
 
-		String fechain[] = idFechaInicio.getText().split("/");
-		String fechafin[] = idFechaFin.getText().split("/");
-		Periodo periodo = new Periodo(
-				LocalDate.of(cambiarFechaInt(2, fechain), cambiarFechaInt(1, fechain), cambiarFechaInt(0, fechain)),
-				LocalDate.of(cambiarFechaInt(2, fechafin), cambiarFechaInt(1, fechafin), cambiarFechaInt(0, fechafin)));
-		Empresa e;
+		
 		try {
+		    verificador.comboBoxVacio(idEmpresa);
+		    verificador.textFieldVacio(idFechaFin);
+		    verificador.textFieldVacio(idFechaInicio);
+		    verificador.comboBoxVacio(idCombCuenta);
+		    String fechain[] = idFechaInicio.getText().split("/");
+			String fechafin[] = idFechaFin.getText().split("/");
+			Periodo periodo = new Periodo(
+					LocalDate.of(cambiarFechaInt(2, fechain), cambiarFechaInt(1, fechain), cambiarFechaInt(0, fechain)),
+					LocalDate.of(cambiarFechaInt(2, fechafin), cambiarFechaInt(1, fechafin), cambiarFechaInt(0, fechafin)));
+			Empresa e;
 			e = t.obtenerEmpresa(idEmpresa.getValue());
 
 			e.buscarUnaCuentaPorPeriodo(idCombCuenta.getValue(), periodo).forEach(unaCuenta -> {
@@ -103,17 +110,13 @@ public class MenuCuentas {
 			});
 			idTotal.setText(String.valueOf(e.consultarValorCuenta(idCombCuenta.getValue(), periodo)));
 		} catch (NoSeEncuentraLaCuentaException e1) {
-			final JPanel panel = new JPanel();
-			JOptionPane.showMessageDialog(panel, "La empresa no posee la cuenta requerida", "Error",
-					JOptionPane.ERROR_MESSAGE);
+			verificador.mostrarError("La empresa no posee la cuenta requerida", "Error");
 		} catch (NoSeEncuentraLaEmpresaException e1) {
-			final JPanel panel = new JPanel();
-			JOptionPane.showMessageDialog(panel, "La empresa no se encuentra cargada", "Error",
-					JOptionPane.ERROR_MESSAGE);
+			verificador.mostrarError("La empresa no se encuentra cargada", "Error");
 		} catch (NoSeEncuentraLaCuentaEnElPeriodoException e1) {
-			final JPanel panel = new JPanel();
-			JOptionPane.showMessageDialog(panel, "La empresa no posee la cuenta requerida en el periodo seleccionado",
-					"Error", JOptionPane.ERROR_MESSAGE);
+			verificador.mostrarError("La empresa no posee la cuenta requerida en el periodo seleccionado", "Error");
+		} catch (CampoVacioException e1){
+			verificador.mostrarError("Falta completar un periodo, o seleccioonar empresa/cuenta", "Error");
 		}
 
 	}
@@ -166,10 +169,11 @@ public class MenuCuentas {
 	/* JAVA */
 
 	public void initialize(URL url, ResourceBundle rb) throws NoSeEncuentraLaEmpresaException {
-
+       
 	}
 
 	public void setLectorArchivo(LectorArchivo lector) {
+		this.verificador = new Verificador();
 		this.lectorArchivo = lector;
 		t.getEmpresas().forEach(unaEmpresa -> idEmpresa.getItems().add(unaEmpresa.getNombre()));
 
