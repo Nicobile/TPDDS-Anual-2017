@@ -1,5 +1,6 @@
 package ar.edu.utn.dds.interfazGrafica;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -23,16 +24,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class MenuMetodologias implements Initializable {
 
-	private Main ProgramaPrincipal;
+
 	Stage stagePrincipalMeto;
 	private Traductor t;
 	private String texto;
@@ -82,7 +86,7 @@ public class MenuMetodologias implements Initializable {
 
 	@FXML
 	private void btnSeleccionar(ActionEvent event) {
-		ProgramaPrincipal.mostrarCondicion(t.buscarMetodologia(idMetodologia.getValue()), idBtnCondicion.getValue());
+		mostrarCondicion(t.buscarMetodologia(idMetodologia.getValue()), idBtnCondicion.getValue());
 
 	}
 
@@ -114,6 +118,33 @@ public class MenuMetodologias implements Initializable {
 			final JPanel panel = new JPanel();
 			JOptionPane.showMessageDialog(panel, "Esa metodologia no contiene condiciones", "Error",
 					JOptionPane.ERROR_MESSAGE);
+		}
+
+	}
+	public void mostrarCondicion(Metodologia metod, String condicion) {
+
+		try {
+			FXMLLoader loader = new FXMLLoader(
+					Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/Condicion" + condicion + ".fxml"));
+
+			BorderPane ventana;
+			ventana = (BorderPane) loader.load();
+			TiposDeCondicion controller= loader.getController();
+			controller.setMetodologia(metod);
+			controller.setT(t);
+			
+			Stage stage = new Stage();
+			stage.setTitle("Condicion" + condicion);
+			stage.initOwner(stagePrincipalMeto);
+			Scene scene = new Scene(ventana);
+			stage.setScene(scene);
+			
+			controller.setStagePrincipal(stage);
+
+			stage.show();
+		} catch (IOException e) {
+
+			e.printStackTrace();
 		}
 
 	}

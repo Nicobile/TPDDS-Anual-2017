@@ -104,46 +104,12 @@ public class Main extends Application {
 		}
 	}
 
-	/* CONDICIONES */
 
-	public void mostrarCondicion(Metodologia metod, String condicion) {
-
-		try {
-			FXMLLoader loader = new FXMLLoader(
-					Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/Condicion" + condicion + ".fxml"));
-
-			BorderPane ventana;
-			ventana = (BorderPane) loader.load();
-			TiposDeCondicion controller= loader.getController();
-			controller.setMetodologia(metod);
-			controller.setT(traductor);
-			
-			Stage stage = new Stage();
-			stage.setTitle("Condicion" + condicion);
-			stage.initOwner(stagePrincipal);
-			Scene scene = new Scene(ventana);
-			stage.setScene(scene);
-			
-			controller.setStagePrincipal(stage);
-
-			stage.show();
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
-
-	}
+	
 
 	public static void main(String[] args) {
 		launch(args);
 
 	}
 
-	// @Override
-	// public void start(Stage primaryStage) throws Exception{
-	// Parent root =
-	// FXMLLoader.load(getClass().getResource("/ar/edu/utn/dds/interfazGrafica/Menu.fxml"));
-	// Scene scene = new Scene(root);
-	// primaryStage.setScene(scene);
-	// primaryStage.show();
 }
