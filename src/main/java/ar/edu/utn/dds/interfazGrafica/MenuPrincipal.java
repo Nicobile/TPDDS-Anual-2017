@@ -9,16 +9,20 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.stage.Stage;
 
 public class MenuPrincipal implements Initializable {
 
 	private Main ProgramaPrincipal;
-
+	private Stage stagePrincipalMenuP;
 	@FXML
 	private ComboBox<String> idOpciones;
 
 	@FXML
 	private Button idIngresar;
+	
+	@FXML
+    private Button idCerrar;
 
 	@FXML
 	void ingresar(ActionEvent event) {
@@ -39,6 +43,10 @@ public class MenuPrincipal implements Initializable {
 	void opciones(ActionEvent event) {
 
 	}
+	@FXML
+	void cerrar(ActionEvent event) {
+		stagePrincipalMenuP.close();
+	}
 
 	/* JAVA */
 
@@ -54,6 +62,10 @@ public class MenuPrincipal implements Initializable {
 
 	public void setProgramaPrincipal(Main ProgramaPrincipal) {
 		this.ProgramaPrincipal = ProgramaPrincipal;
+	}
+	
+	public void setStageMenuPrincipal(Stage stagePrincipal) {
+		this.stagePrincipalMenuP = stagePrincipal;
 	}
 
 }

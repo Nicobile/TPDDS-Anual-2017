@@ -12,7 +12,7 @@
 			<children>
 				<Text layoutX="186.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Menu" />
 				<Text layoutX="21.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Seleccione una opción" wrappingWidth="103.7294921875" />
-				<Button layoutX="282.0" layoutY="155.0" mnemonicParsing="false" text="Cerrar" />
+				<Button fx:id="idCerrar" layoutX="282.0" layoutY="155.0" mnemonicParsing="false" onAction="#cerrar" text="Cerrar" />
             <ComboBox fx:id="idOpciones" layoutX="131.0" layoutY="49.0" onAction="#opciones" prefHeight="26.0" prefWidth="256.0" promptText="Opciones" />
             <Button fx:id="idIngresar" layoutX="155.0" layoutY="113.0" mnemonicParsing="false" onAction="#ingresar" text="Ingresar" />
 			</children>

@@ -42,6 +42,7 @@ public class Main extends Application {
 			stagePrincipal.setScene(scene);
 			MenuPrincipal controller = loader.getController();
 			controller.setProgramaPrincipal(this);
+			controller.setStageMenuPrincipal(stagePrincipal);
 			stagePrincipal.show();
 		} catch (IOException e) {
 		}
@@ -50,14 +51,15 @@ public class Main extends Application {
 	public void mostrarVentanaPrincipal() {
 		try {
 			FXMLLoader loader = new FXMLLoader(Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/Menu.fxml"));
-			rootPane = (BorderPane) loader.load();
-			Scene scene = new Scene(rootPane);
-			stagePrincipal.setTitle("Menu");
-			stagePrincipal.setScene(scene);
+			BorderPane ventanaMeto = (BorderPane) loader.load();
+			Scene scene = new Scene(ventanaMeto);
+			Stage ventanaMetologia = new Stage();
+			ventanaMetologia.setTitle("Menu");
+			ventanaMetologia.setScene(scene);
 			MainGraf controller = loader.getController();
 			controller.setTraductor(traductor);
-			controller.setStagePrincipalMeto(stagePrincipal);
-			stagePrincipal.show();
+			controller.setStagePrincipalMeto(ventanaMetologia);
+			ventanaMetologia.show();
 		} catch (IOException e) {
 		}
 	}
