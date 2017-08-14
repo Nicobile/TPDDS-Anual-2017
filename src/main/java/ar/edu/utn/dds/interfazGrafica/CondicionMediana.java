@@ -12,9 +12,9 @@ import javax.swing.JPanel;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.modelo.Condicion;
 import ar.edu.utn.dds.modelo.FiltroSegunEcuacion;
+import ar.edu.utn.dds.modelo.Mediana;
 import ar.edu.utn.dds.modelo.OrdenaAplicandoCriterioOrdenamiento;
 import ar.edu.utn.dds.modelo.Periodo;
-import ar.edu.utn.dds.modelo.Promedio;
 import ar.edu.utn.dds.modelo.Traductor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,7 +24,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
-public class CondicionPromedio extends TiposDeCondicion {
+public class CondicionMediana extends TiposDeCondicion {
 
 	@FXML
 	private ComboBox<String> idIndicador;
@@ -85,25 +85,24 @@ public class CondicionPromedio extends TiposDeCondicion {
 	private void comparador(ActionEvent event) {
 
 	};
-	
+
 	@FXML
 	private void valor(ActionEvent event) {
 
 	};
-	
 
 	@FXML
 	private void cargar(ActionEvent event) throws NoSeEncuentraElIndicadorException {
-		Promedio promedio = new Promedio(t.buscarIndicador(idIndicador.getValue()), t);
+		Mediana mediana = new Mediana(t.buscarIndicador(idIndicador.getValue()), t);
 		String fechain[] = idFechaInicio.getText().split("/");
 		String fechafin[] = idFechaFin.getText().split("/");
 
 		Periodo periodo = super.armarPeriodo(fechain, fechafin);
 
-		Condicion condicionSumatoria = new OrdenaAplicandoCriterioOrdenamiento(promedio, periodo,
-				idCriterio.getValue());
-		
-		Condicion condicion2 = new FiltroSegunEcuacion(promedio, Integer.valueOf(idValor.getText()), idComparador.getText(), periodo);
+		Condicion condicionSumatoria = new OrdenaAplicandoCriterioOrdenamiento(mediana, periodo, idCriterio.getValue());
+
+		Condicion condicion2 = new FiltroSegunEcuacion(mediana, Integer.valueOf(idValor.getText()),
+				idComparador.getText(), periodo);
 
 		try {
 			meto.agregarCondicion(condicionSumatoria);
