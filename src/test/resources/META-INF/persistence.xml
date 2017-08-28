@@ -8,13 +8,15 @@
     <persistence-unit name="db" transaction-type="RESOURCE_LOCAL">
     	<provider>org.hibernate.ejb.HibernatePersistence</provider>
  <!--    	
-		<class>jacklow.model.Vehiculo</class>    	
+		  	
     	  <class>jacklow.model.Robo</class>  -->
+    	  <class>ar.edu.utn.dds.modelo.Cuenta</class>  
+       
         <properties> 
 	    	<property name="hibernate.archive.autodetection" value="class"/>        
          
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" /> 
-            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/jacklow" /> 
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/dds" /> 
             <property name="hibernate.connection.username" value="dds" /> 
             <property name="hibernate.connection.password" value="dds" /> 
 
@@ -29,7 +31,7 @@
             <property name="hibernate.show_sql" value="true" /> 
             <property name="hibernate.format_sql" value="true" /> 
             <property name="use_sql_comments" value="true" /> 
-            <property name="hibernate.hbm2ddl.auto" value="update" /> 
+            <property name="hibernate.hbm2ddl.auto" value="create" /> 
         </properties>
         
           	
