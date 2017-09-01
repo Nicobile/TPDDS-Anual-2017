@@ -1,4 +1,4 @@
-package antlr;
+package ar.edu.utn.dds.antlr;
 
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -11,7 +11,7 @@ import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
-import antlr.SimpleParser.ExprContext;
+import ar.edu.utn.dds.antlr.SimpleParser.ExprContext;
 import ar.edu.utn.dds.modelo.Operando;
 import ar.edu.utn.dds.modelo.Multiplicacion;
 import ar.edu.utn.dds.modelo.NodoCuenta;
