@@ -9,6 +9,11 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+
 import ar.edu.utn.dds.antlr.ExpressionParser;
 import ar.edu.utn.dds.excepciones.MetodologiaYaExisteException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
@@ -70,9 +75,8 @@ public class Traductor {
 	}
 
 	/*
-	 * por cada periodo perteneciente al PERIODO INGRESADO POR INTERFAZ, por
-	 * cada empresa, calculo el indicador en cada uno de esos periodos y los
-	 * sumo
+	 * por cada periodo perteneciente al PERIODO INGRESADO POR INTERFAZ, por cada
+	 * empresa, calculo el indicador en cada uno de esos periodos y los sumo
 	 */
 	public ArrayList<Double> calcularAListaDeEmpresas(List<Empresa> empresas, Periodo periodo, Indicador i)
 			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
@@ -95,11 +99,10 @@ public class Traductor {
 			listaPeriodos.stream().forEach(unP -> {
 
 				/*
-				 * avanzo en la lista de cuentas que pertenecen al periodo
-				 * calculo el indicador a la empresa en el periodo en realidad
-				 * no uso las cuentas.... solo los periodos en los que existen
-				 * cuentes que estan ,comprendidos entre los periodos que me
-				 * piden desde la interfaz
+				 * avanzo en la lista de cuentas que pertenecen al periodo calculo el indicador
+				 * a la empresa en el periodo en realidad no uso las cuentas.... solo los
+				 * periodos en los que existen cuentes que estan ,comprendidos entre los
+				 * periodos que me piden desde la interfaz
 				 */
 				try {
 					listaAux.add(calcular(unaE.getNombre(), unP, i.getNombre()));
@@ -138,8 +141,8 @@ public class Traductor {
 			List<Periodo> periodos = cuentas.stream().map(unaC -> unaC.getPeriodo()).collect(Collectors.toList());
 
 			/*
-			 * ordeno los periodos de menor a mayor, de esta manera se cual
-			 * periodo es anterior, y calculo su valor
+			 * ordeno los periodos de menor a mayor, de esta manera se cual periodo es
+			 * anterior, y calculo su valor
 			 */
 			List<Periodo> listaPeriodos = new ArrayList<>(new HashSet<>(periodos));
 
@@ -151,8 +154,8 @@ public class Traductor {
 				try {
 					valorEnperiodos.add((this.calcular(unaE.getNombre(), unP, i.getNombre())));
 					/*
-					 * PREGUNTAR ACA CREO QUE ESTA EL ERROR DE QUE NO TIRA QUE
-					 * NO ENCONTRO LA EMPRESA
+					 * PREGUNTAR ACA CREO QUE ESTA EL ERROR DE QUE NO TIRA QUE NO ENCONTRO LA
+					 * EMPRESA
 					 */
 				} catch (NoSeEncuentraLaCuentaEnElPeriodoException e) {
 				} catch (NoSeEncuentraLaEmpresaException e) {
@@ -191,8 +194,8 @@ public class Traductor {
 			List<Periodo> periodos = cuentas.stream().map(unaC -> unaC.getPeriodo()).collect(Collectors.toList());
 
 			/*
-			 * ordeno los periodos de menor a mayor, de esta manera se cual
-			 * periodo es anterior, y calculo su valor
+			 * ordeno los periodos de menor a mayor, de esta manera se cual periodo es
+			 * anterior, y calculo su valor
 			 */
 			List<Periodo> listaPeriodos = new ArrayList<>(new HashSet<>(periodos));
 
@@ -248,6 +251,8 @@ public class Traductor {
 
 	public void armarListaEmpresas(ArrayList<LineaArchivo> lineasArchivo) throws NoSeEncuentraLaEmpresaException {
 
+		List<Periodo> periodos=new ArrayList<>();
+		
 		/* recorro la lista que contiene todos los datos */
 
 		lineasArchivo.stream().forEach(unaLinea -> {
@@ -261,26 +266,49 @@ public class Traductor {
 			LocalDate fechaI = LocalDate.parse(unaLinea.getFechaInicio(), formatter);
 			LocalDate fechaF = LocalDate.parse(unaLinea.getFechaFin(), formatter);
 			Periodo periodo = new Periodo(fechaI, fechaF);
-
+		    periodos.add(periodo);	
+			
 			try {
 				Empresa empresAux = getEmpresas().stream().filter(unaE -> unaE.getNombre().equals(nombreEmpresa))
 						.findFirst().get();
 
 				// creo una nueva cuenta
 				Cuenta cuenta = new Cuenta(unaLinea.getNombreCuenta(), unaLinea.getValorCuenta(), periodo);
-
-				empresAux.agregarCuenta(cuenta);
+				empresAux.agregarCuenta(cuenta);				 
 
 			} catch (NoSuchElementException e) {
 
 				Empresa empresa = new Empresa(unaLinea.getNombreEmpresa(), unaLinea.getFechaInscripcion());
 				/* creo la cuenta de la nueva empresa */
 				Cuenta cuenta = new Cuenta(unaLinea.getNombreCuenta(), unaLinea.getValorCuenta(), periodo);
-				empresa.agregarCuenta(cuenta);
+				empresa.agregarCuenta(cuenta);				 				
 				getEmpresas().add(empresa);
 				/* agrego la empresa a la lista de empresas */
+				
+
 			}
 		});
+			List<Periodo> listaPeriodos= new ArrayList<>(new HashSet<>(periodos));
+		 EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("db");
+		 EntityManager entityManager = entityManagerFactory.createEntityManager();
+		 EntityTransaction transaction =entityManager.getTransaction();	
+		 transaction.begin();	
+		
+		 listaPeriodos.stream().forEach(unP->{entityManager.persist(unP);}); 
+		
+/*
+		 getEmpresas().stream().forEach(unaE->{
+			 unaE.getCuentas().stream().forEach(unC->{
+				 entityManager.persist(unC);// persisto la cuenta
+				 
+			 });
+		 });*/
+	
+		 transaction.commit();
+		 entityManager.close();
+		
+		 		 
+
 	}
 
 	public void eliminarEmpresa(List<Empresa> empresas, Empresa e) {

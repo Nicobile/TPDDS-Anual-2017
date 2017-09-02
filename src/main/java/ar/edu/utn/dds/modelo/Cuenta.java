@@ -2,18 +2,24 @@ package ar.edu.utn.dds.modelo;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "cuentas")
 public class Cuenta {
+
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	private Periodo periodo;
 	private String nombre;
 	private double valor;
+	@ManyToOne
+	@JoinColumn(name = "periodo_id")
+	private Periodo periodo;
 
 	public Cuenta() {
 	}
@@ -72,4 +78,8 @@ public class Cuenta {
 			return false;
 		return true;
 	}
+	
+
+	
+	
 }

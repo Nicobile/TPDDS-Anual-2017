@@ -1,12 +1,27 @@
 package ar.edu.utn.dds.modelo;
 
 import java.time.LocalDate;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import ar.edu.utn.dds.excepciones.FechaInicioPosteriorAFinException;
 
+@Entity
+@Table(name = "periodos")
 public class Periodo {
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
 	private LocalDate fechaInicio;
 	private LocalDate fechaFin;
+
+	public Periodo() {
+
+	};
 
 	public Periodo(LocalDate fechaInicio, LocalDate fechaFin) {
 		super();
