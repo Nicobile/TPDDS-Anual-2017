@@ -286,9 +286,8 @@ public class Traductor {
 
 			}
 		});
-		
-		
-		//hay que ver como verificar que las cuentas y periodos sean lo mismo
+
+		// hay que ver como verificar que las cuentas y periodos sean lo mismo
 		EntityManager entityManager = Utilidades.getEntityManager();
 		EntityTransaction transaction = entityManager.getTransaction();
 
@@ -308,7 +307,7 @@ public class Traductor {
 					}
 
 				});
-			
+
 				entityManager.persist(unaE);
 			});
 

@@ -22,15 +22,15 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 
-@Entity
-@Table(name = "metodologias")
+//@Entity
+//@Table(name = "metodologias")
 public class Metodologia {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@Id
+	//@GeneratedValue(strategy = GenerationType.AUTO)
 
 	private int id;
 	private String nombre;
-	@OneToMany(fetch = FetchType.LAZY)
+//	@OneToMany(fetch = FetchType.LAZY)
 	private ArrayList<Condicion> condicionesDeMetodologia = new ArrayList<Condicion>();
 	
 	private static ArrayList<PuntajeEmpresa> puntajeEmpresas = new ArrayList<PuntajeEmpresa>();
@@ -195,8 +195,8 @@ public class Metodologia {
 		return puntajeEmpresas;
 	}
 
-	public void setPuntajeEmpresas(ArrayList<PuntajeEmpresa> puntajeEmpresas) {
-		this.puntajeEmpresas = puntajeEmpresas;
+	public void setPuntajeEmpresas(ArrayList<PuntajeEmpresa> pEmpresas) {
+		puntajeEmpresas = pEmpresas;
 	}
 
 	@Override

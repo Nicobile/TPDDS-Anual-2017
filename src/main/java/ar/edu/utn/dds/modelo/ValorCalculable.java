@@ -4,21 +4,37 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
+import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
+//@Entity
 public abstract class ValorCalculable {
 
-	/*
-	 * de alguna forma en la interfaz a la hora qeu ingresan el indicador
-	 * deberia buscarlo con el traductor
-	 */
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
+	//@ManyToOne
+	//@JoinColumn(name="indicador_id")
 	private Indicador indicador;
-	private Traductor traductor;
+	//@OneToMany(fetch = FetchType.LAZY)
 	private List<Empresa> empresas;
+	
+	private static Traductor traductor;
 
+	public ValorCalculable() {
+		
+	}
+	
 	public ValorCalculable(Indicador indicador, Traductor traductor) {
 		super();
 		this.setIndicador(indicador);
@@ -30,9 +46,9 @@ public abstract class ValorCalculable {
 	 * izquierdo estoy creando y el indicador tambien
 	 */
 
-	public ValorCalculable(Traductor traductor) {
+	public ValorCalculable(Traductor tradu) {
 		super();
-		this.traductor = traductor;
+		traductor = tradu;
 	}
 
 	public ArrayList<PuntajeEmpresa> calcularValor(Periodo periodos, int anios)
@@ -82,8 +98,8 @@ public abstract class ValorCalculable {
 		return traductor;
 	}
 
-	public void setTraductor(Traductor traductor) {
-		this.traductor = traductor;
+	public void setTraductor(Traductor tradu) {
+		traductor = tradu;
 	}
 
 	public Indicador getIndicador() {
