@@ -12,7 +12,20 @@
     	  <class>ar.edu.utn.dds.modelo.Periodo</class>
         <class>ar.edu.utn.dds.modelo.Empresa</class>
         <class>ar.edu.utn.dds.modelo.Indicador</class>
-       <!--<class>ar.edu.utn.dds.modelo.Condicion</class>  --> 
+        <class>ar.edu.utn.dds.modelo.Condicion</class>
+        <class>ar.edu.utn.dds.modelo.Decreciente</class>
+   <!--    <class>ar.edu.utn.dds.modelo.Filtro</class>
+       <class>ar.edu.utn.dds.modelo.FiltroSegunEcuacion</class>
+       <class>ar.edu.utn.dds.modelo.OrdenaAplicandoCriterioOrdenamiento</class>
+       <class>ar.edu.utn.dds.modelo.Metodologia</class>
+       <class>ar.edu.utn.dds.modelo.ValorCalculable</class>
+       <class>ar.edu.utn.dds.modelo.Creciente</class>
+
+       <class>ar.edu.utn.dds.modelo.Sumatoria</class>
+       <class>ar.edu.utn.dds.modelo.Longevidad</class>
+       <class>ar.edu.utn.dds.modelo.Mediana</class>
+       <class>ar.edu.utn.dds.modelo.Promedio</class>  -->
+   
         <properties> 
 	    	<property name="hibernate.archive.autodetection" value="class"/>        
          

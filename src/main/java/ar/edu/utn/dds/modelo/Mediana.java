@@ -6,15 +6,26 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 
+@Entity  
+@DiscriminatorValue("mediana") 
+
 public class Mediana extends ValorCalculable {
 
 	public Mediana(Indicador indicador, Traductor traductor) {
 		super(indicador, traductor);
+	}
+	
+	public Mediana() {
+		
 	}
 
 	public ArrayList<PuntajeEmpresa> calcularValor(Periodo periodos, int anios)

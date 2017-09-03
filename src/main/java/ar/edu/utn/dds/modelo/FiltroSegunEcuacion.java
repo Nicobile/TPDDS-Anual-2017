@@ -2,20 +2,31 @@ package ar.edu.utn.dds.modelo;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 
+@Entity  
+@DiscriminatorValue("condicionFiltroConEcuacion") 
+
 public class FiltroSegunEcuacion extends Condicion {
 
 	/* lado der SIEMPRE va a ser un numero PUEDE */
 	private int ladoDer;
 	private String comparador;
+	
+	public FiltroSegunEcuacion() {
+		
+	}
 
 	public FiltroSegunEcuacion(ValorCalculable ladoIzq, int ladoDer, String comparador, Periodo periodos) {
 		super.setLadoIzq(ladoIzq);

@@ -1,15 +1,26 @@
 package ar.edu.utn.dds.modelo;
 
 import java.util.ArrayList;
+
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 
+@Entity  
+@DiscriminatorValue("sumatoria") 
+
 public class Sumatoria extends ValorCalculable {
 
 	public Sumatoria(Indicador indicador, Traductor traductor) {
 		super(indicador, traductor);
+	}
+	
+	public Sumatoria() {
+		
 	}
 
 	public ArrayList<PuntajeEmpresa> calcularValor(Periodo periodos, int anios)

@@ -22,16 +22,16 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 
-//@Entity
-//@Table(name = "metodologias")
+@Entity
+@Table(name = "metodologias")
 public class Metodologia {
-//	@Id
-	//@GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 
 	private int id;
 	private String nombre;
-//	@OneToMany(fetch = FetchType.LAZY)
-	private ArrayList<Condicion> condicionesDeMetodologia = new ArrayList<Condicion>();
+	@OneToMany(fetch = FetchType.LAZY)
+	private List<Condicion> condicionesDeMetodologia = new ArrayList<Condicion>();
 	
 	private static ArrayList<PuntajeEmpresa> puntajeEmpresas = new ArrayList<PuntajeEmpresa>();
 	private static int contador = 0;
@@ -183,7 +183,7 @@ public class Metodologia {
 		this.nombre = nombre;
 	}
 
-	public ArrayList<Condicion> getCondicionesDeMetodologia() {
+	public List<Condicion> getCondicionesDeMetodologia() {
 		return condicionesDeMetodologia;
 	}
 

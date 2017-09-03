@@ -5,15 +5,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 
+@Entity  
+@DiscriminatorValue("longevidad") 
+
 public class Longevidad extends ValorCalculable {
 
 	public Longevidad(Traductor traductor) {
 		super(traductor);
+	}
+	
+	public Longevidad() {
+		
 	}
 
 	public ArrayList<PuntajeEmpresa> calcularValor(Periodo periodos, int anios)
