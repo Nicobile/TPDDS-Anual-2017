@@ -2,23 +2,43 @@ package ar.edu.utn.dds.modelo;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.script.ScriptException;
+
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 
+@Entity
+@Table(name = "condiciones")
 public class Condicion {
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
+	@OneToOne
+	@JoinColumn(name="ladoIzq_id")
 	private ValorCalculable ladoIzq;
+	@OneToOne
+	@JoinColumn(name="periodo_id")
 	private Periodo periodos;
 	private int anios;
-	public Boolean filtro;
+	
+	public static Boolean filtro;
 
+	public Condicion() {
+
+	}
 	/*
-	 * Aplica a todas las empresas el lado izq y los guarda en la lista SIN
-	 * ORDENAR
+	 * Aplica a todas las empresas el lado izq y los guarda en la lista SIN ORDENAR
 	 */
 
 	public List<PuntajeEmpresa> aplicar() throws ScriptException, NoSePudoOrdenarLaCondicionException,

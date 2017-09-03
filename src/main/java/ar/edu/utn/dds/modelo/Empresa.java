@@ -7,21 +7,39 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 
+@Entity
+@Table(name = "empresas")
 public class Empresa {
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
 	private String nombre;
 	private LocalDate fechaInscripcion;
+	@OneToMany(fetch = FetchType.LAZY)
 	private List<Cuenta> cuentas;
 
 	/* EMPRESA */
 
-	public Empresa(String nombre, ArrayList<Cuenta> cuentas) {
+	public Empresa(String nombre, List<Cuenta> cuentas) {
 		this.nombre = nombre;
 		this.cuentas = cuentas;
+	}
+
+	public Empresa() {
+
 	}
 
 	public Empresa(String nombre, String fechaInscripcion) {

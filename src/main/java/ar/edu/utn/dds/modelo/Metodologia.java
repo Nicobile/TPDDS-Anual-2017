@@ -4,51 +4,45 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.script.ScriptException;
 
 import ar.edu.utn.dds.excepciones.NoHayCondicionesException;
 import ar.edu.utn.dds.excepciones.NoHayEmpresasQueCumplanLaCondicionException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 
+@Entity
+@Table(name = "metodologias")
 public class Metodologia {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Metodologia other = (Metodologia) obj;
-		if (nombre == null) {
-			if (other.nombre != null)
-				return false;
-		} else if (!nombre.equals(other.nombre))
-			return false;
-		return true;
-	}
-
-	private int contador = 0;
+	private int id;
 	private String nombre;
+	@OneToMany(fetch = FetchType.LAZY)
 	private ArrayList<Condicion> condicionesDeMetodologia = new ArrayList<Condicion>();
-	private ArrayList<PuntajeEmpresa> puntajeEmpresas = new ArrayList<PuntajeEmpresa>();
+	
+	private static ArrayList<PuntajeEmpresa> puntajeEmpresas = new ArrayList<PuntajeEmpresa>();
+	private static int contador = 0;
 
 	public Metodologia(String nombre) {
 		super();
 		this.nombre = nombre;
+	}
+
+	public Metodologia() {
+
 	}
 
 	/* OBTENGO EMPRESA */
@@ -101,11 +95,10 @@ public class Metodologia {
 		if (puntajeEmpresas.isEmpty()) {
 
 			/*
-			 * lo del contador lo hago pq si no se cumple la primer condicion,
-			 * que es de filtrar, entonces la lista va a estar vacia con lo cual
-			 * al aplicar la siguiente condicion que , por ejemplo la cumplen
-			 * todas, va a convertir en todas las empresas aun asi que no
-			 * cumplan la primer condicion
+			 * lo del contador lo hago pq si no se cumple la primer condicion, que es de
+			 * filtrar, entonces la lista va a estar vacia con lo cual al aplicar la
+			 * siguiente condicion que , por ejemplo la cumplen todas, va a convertir en
+			 * todas las empresas aun asi que no cumplan la primer condicion
 			 */
 
 			if (contador == 0) {
@@ -114,8 +107,8 @@ public class Metodologia {
 				for (int i = 0; i < listaDeAplicarCondicion.size(); i++) {
 					puntajeEmpresas.add(listaDeAplicarCondicion.get(i));
 					/*
-					 * puntajeEmpresas.get(i).suma(i); esto estaba mal pq sumaba
-					 * puntos aun cuando no habi que sumar...
+					 * puntajeEmpresas.get(i).suma(i); esto estaba mal pq sumaba puntos aun cuando
+					 * no habi que sumar...
 					 */
 				}
 			} else {
@@ -127,14 +120,12 @@ public class Metodologia {
 				eliminarDeListaDePuntajesSiNoCumplioLaCondicion(puntajeEmpresas, listaDeAplicarCondicion);
 
 				/*
-				 * de la lista que cumple la condicion elimino aquellos que no
-				 * estan en la lista de puntaje empresas para sumar
-				 * correctamente los puntajes, si no hago esto, al ordenar de
-				 * mayor a menor o viceversa una empresa podria ocupar la
-				 * posicion 3, pero en realidad las primeras 2 empresas no estan
-				 * en la lista de puntajes con lo cual deberia sumar 1, que
-				 * seria su posicion real , respecto a las que cumplen condicion
-				 * en puntaje empresas, y no 3
+				 * de la lista que cumple la condicion elimino aquellos que no estan en la lista
+				 * de puntaje empresas para sumar correctamente los puntajes, si no hago esto,
+				 * al ordenar de mayor a menor o viceversa una empresa podria ocupar la posicion
+				 * 3, pero en realidad las primeras 2 empresas no estan en la lista de puntajes
+				 * con lo cual deberia sumar 1, que seria su posicion real , respecto a las que
+				 * cumplen condicion en puntaje empresas, y no 3
 				 */
 
 				eliminarDeListaDePuntajesSiNoCumplioLaCondicion(listaDeAplicarCondicion, puntajeEmpresas);
@@ -150,9 +141,9 @@ public class Metodologia {
 	}
 
 	/*
-	 * esta funcion suma los puntos a las empresas segun la posicion que ocupan
-	 * en la lista..... por eso trabajo con los for y si no encuentra la empresa
-	 * no hace nada pero no enci
+	 * esta funcion suma los puntos a las empresas segun la posicion que ocupan en
+	 * la lista..... por eso trabajo con los for y si no encuentra la empresa no
+	 * hace nada pero no enci
 	 */
 
 	private void sumarPuntosAPuntajesEmpresas(List<PuntajeEmpresa> lista) throws NoSeEncuentraLaEmpresaException {
@@ -166,8 +157,7 @@ public class Metodologia {
 				puntajeEmpresas.get(j).suma(buscarEmpresa(lista.get(i).getNombreEmpresa(), lista));
 			}
 			/*
-			 * si no encuentra la empresa no hago nada, despues se elimina, mas
-			 * adelante
+			 * si no encuentra la empresa no hago nada, despues se elimina, mas adelante
 			 */
 			catch (IndexOutOfBoundsException e) {
 			}
@@ -207,5 +197,30 @@ public class Metodologia {
 
 	public void setPuntajeEmpresas(ArrayList<PuntajeEmpresa> puntajeEmpresas) {
 		this.puntajeEmpresas = puntajeEmpresas;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Metodologia other = (Metodologia) obj;
+		if (nombre == null) {
+			if (other.nombre != null)
+				return false;
+		} else if (!nombre.equals(other.nombre))
+			return false;
+		return true;
 	}
 }

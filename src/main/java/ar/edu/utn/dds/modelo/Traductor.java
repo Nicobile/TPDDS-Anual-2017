@@ -10,9 +10,7 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 
 import ar.edu.utn.dds.antlr.ExpressionParser;
 import ar.edu.utn.dds.excepciones.MetodologiaYaExisteException;
@@ -20,6 +18,7 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
+import ar.edu.utn.dds.persistencia.Utilidades;
 import ar.edu.utn.dds.procesarArchivos.LineaArchivo;
 
 public class Traductor {
@@ -251,63 +250,71 @@ public class Traductor {
 
 	public void armarListaEmpresas(ArrayList<LineaArchivo> lineasArchivo) throws NoSeEncuentraLaEmpresaException {
 
-		List<Periodo> periodos=new ArrayList<>();
-		
+		HashSet<Periodo> periodos = new HashSet<>();
+
 		/* recorro la lista que contiene todos los datos */
 
 		lineasArchivo.stream().forEach(unaLinea -> {
 
 			/* si ya existe la empresa */
 			String nombreEmpresa = unaLinea.getNombreEmpresa();
-
 			/* creo un nuevo periodo */
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 			LocalDate fechaI = LocalDate.parse(unaLinea.getFechaInicio(), formatter);
 			LocalDate fechaF = LocalDate.parse(unaLinea.getFechaFin(), formatter);
 			Periodo periodo = new Periodo(fechaI, fechaF);
-		    periodos.add(periodo);	
-			
+			periodos.add(periodo);// esta lista contiene periodos sin repetidos
+
 			try {
 				Empresa empresAux = getEmpresas().stream().filter(unaE -> unaE.getNombre().equals(nombreEmpresa))
 						.findFirst().get();
 
 				// creo una nueva cuenta
 				Cuenta cuenta = new Cuenta(unaLinea.getNombreCuenta(), unaLinea.getValorCuenta(), periodo);
-				empresAux.agregarCuenta(cuenta);				 
+				empresAux.agregarCuenta(cuenta);
 
 			} catch (NoSuchElementException e) {
 
 				Empresa empresa = new Empresa(unaLinea.getNombreEmpresa(), unaLinea.getFechaInscripcion());
 				/* creo la cuenta de la nueva empresa */
 				Cuenta cuenta = new Cuenta(unaLinea.getNombreCuenta(), unaLinea.getValorCuenta(), periodo);
-				empresa.agregarCuenta(cuenta);				 				
-				getEmpresas().add(empresa);
+
+				empresa.agregarCuenta(cuenta);
 				/* agrego la empresa a la lista de empresas */
-				
+				getEmpresas().add(empresa);
 
 			}
 		});
-			List<Periodo> listaPeriodos= new ArrayList<>(new HashSet<>(periodos));
-		 EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("db");
-		 EntityManager entityManager = entityManagerFactory.createEntityManager();
-		 EntityTransaction transaction =entityManager.getTransaction();	
-		 transaction.begin();	
 		
-		 listaPeriodos.stream().forEach(unP->{entityManager.persist(unP);}); 
 		
-/*
-		 getEmpresas().stream().forEach(unaE->{
-			 unaE.getCuentas().stream().forEach(unC->{
-				 entityManager.persist(unC);// persisto la cuenta
-				 
-			 });
-		 });*/
-	
-		 transaction.commit();
-		 entityManager.close();
-		
-		 		 
+		//hay que ver como verificar que las cuentas y periodos sean lo mismo
+		EntityManager entityManager = Utilidades.getEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
+
+		transaction.begin();
+
+		periodos.stream().forEach(unP -> {
+
+			entityManager.persist(unP);
+
+			getEmpresas().stream().forEach(unaE -> {
+				unaE.getCuentas().stream().forEach(unaC -> {
+					if (unaC.getPeriodo().equals(unP)) {
+
+						unaC.setPeriodo(unP);
+						entityManager.persist(unaC);
+
+					}
+
+				});
+			
+				entityManager.persist(unaE);
+			});
+
+		});
+		transaction.commit();
+		entityManager.close();
 
 	}
 

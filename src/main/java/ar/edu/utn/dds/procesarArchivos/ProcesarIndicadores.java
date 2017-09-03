@@ -4,10 +4,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+
 import ar.edu.utn.dds.modelo.Cuenta;
 import ar.edu.utn.dds.modelo.Empresa;
 import ar.edu.utn.dds.modelo.Indicador;
 import ar.edu.utn.dds.modelo.Traductor;
+import ar.edu.utn.dds.persistencia.Utilidades;
 import jxl.Cell;
 import jxl.CellType;
 import jxl.Sheet;
@@ -24,13 +29,16 @@ public class ProcesarIndicadores {
 	}
 
 	public void leerExcel(String archivo) throws IOException, FileNotFoundException {
-
+		EntityManager entityManager=Utilidades.getEntityManager();
+		EntityTransaction transaction= entityManager.getTransaction();
+		
 		File inputWorkbook = new File(archivo);
 		Workbook w = null;
 		try {
+			
 			w = Workbook.getWorkbook(inputWorkbook);
 			Sheet sheet = w.getSheet(0);
-
+			transaction.begin();
 			for (int i = 0; i < sheet.getRows(); i++) {
 
 				/* nombre indicador */
@@ -47,11 +55,15 @@ public class ProcesarIndicadores {
 
 					/* seteo el nombre del indicador */
 					t.agregarIndicador(indicador);
+					entityManager.persist(indicador);
+					
 				}
 			}
 		} catch (BiffException e) {
 			e.printStackTrace();
 		}
+		transaction.commit();
+		entityManager.close();
 	}
 
 	public Indicador cargarIndPredefinidos(String nombre, String op) {
