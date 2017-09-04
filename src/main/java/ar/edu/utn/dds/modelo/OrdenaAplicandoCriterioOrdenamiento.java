@@ -14,7 +14,7 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 
 @Entity  
-@DiscriminatorValue("condicionOrdenaAplicandoCriterio") 
+@DiscriminatorValue("condicionOrdena") 
 
 public class OrdenaAplicandoCriterioOrdenamiento extends Condicion {
 

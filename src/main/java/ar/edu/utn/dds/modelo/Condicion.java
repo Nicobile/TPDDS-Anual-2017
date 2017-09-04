@@ -26,14 +26,13 @@ import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 @Table(name = "condiciones")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)  
 @DiscriminatorColumn(name="type",discriminatorType=DiscriminatorType.STRING)  
-
 public abstract class Condicion {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-//	@ManyToOne
-//	@JoinColumn(name="ladoIzq_id")
-	private static ValorCalculable ladoIzq;
+	@ManyToOne
+	@JoinColumn(name="ladoIzq_id")
+	private ValorCalculable ladoIzq;
 	@ManyToOne
 	@JoinColumn(name="periodo_id")
 	private Periodo periodos;

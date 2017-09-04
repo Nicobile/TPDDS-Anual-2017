@@ -316,7 +316,10 @@ public class Traductor {
 				});
 				// este es el problema de que no se pueda cargar 2 veces el archivo datos, si se
 				// comenta se soluciona
-				// entityManager.persist(unaE);
+				if (!(empresas.contains(unaE))) {
+					entityManager.persist(unaE);
+				}
+				
 
 			});
 

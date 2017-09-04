@@ -11,13 +11,18 @@
 		<class>ar.edu.utn.dds.modelo.Cuenta</class>
 		<class>ar.edu.utn.dds.modelo.ValorCalculable</class>
 		<class>ar.edu.utn.dds.modelo.Decreciente</class>
-		<!-- <class>ar.edu.utn.dds.modelo.Filtro</class> <class>ar.edu.utn.dds.modelo.FiltroSegunEcuacion</class> 
-			<class>ar.edu.utn.dds.modelo.OrdenaAplicandoCriterioOrdenamiento</class> 
-			<class>ar.edu.utn.dds.modelo.Metodologia</class> <class>ar.edu.utn.dds.modelo.Creciente</class> 
-			<class>ar.edu.utn.dds.modelo.Periodo</class> <class>ar.edu.utn.dds.modelo.Empresa</class> 
-			<class>ar.edu.utn.dds.modelo.Condicion</class> <class>ar.edu.utn.dds.modelo.Sumatoria</class> 
-			<class>ar.edu.utn.dds.modelo.Longevidad</class> <class>ar.edu.utn.dds.modelo.Mediana</class> 
-			<class>ar.edu.utn.dds.modelo.Promedio</class> -->
+		<class>ar.edu.utn.dds.modelo.Filtro</class>
+		<class>ar.edu.utn.dds.modelo.FiltroSegunEcuacion</class>
+		<class>ar.edu.utn.dds.modelo.OrdenaAplicandoCriterioOrdenamiento</class>
+		<class>ar.edu.utn.dds.modelo.Metodologia</class>
+		<class>ar.edu.utn.dds.modelo.Creciente</class>
+		<class>ar.edu.utn.dds.modelo.Periodo</class>
+		<class>ar.edu.utn.dds.modelo.Empresa</class>
+		<class>ar.edu.utn.dds.modelo.Condicion</class>
+		<class>ar.edu.utn.dds.modelo.Sumatoria</class>
+		<class>ar.edu.utn.dds.modelo.Longevidad</class>
+		<class>ar.edu.utn.dds.modelo.Mediana</class>
+		<class>ar.edu.utn.dds.modelo.Promedio</class>
 
 		<properties>
 			<property name="hibernate.archive.autodetection" value="class" />
@@ -32,7 +37,7 @@
 				/> <property name="hibernate.connection.username" value="sa" /> <property 
 				name="hibernate.connection.password" value="" /> <property name="hibernate.dialect" 
 				value="org.hibernate.dialect.HSQLDialect" /> -->
-<property name="hibernate.enable_lazy_load_no_trans" value="true"/>
+			<property name="hibernate.enable_lazy_load_no_trans" value="true" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
 			<property name="use_sql_comments" value="true" />
