@@ -1,14 +1,14 @@
 package ar.edu.utn.dds.modelo;
 
-import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 
 @Entity
@@ -20,7 +20,8 @@ public class Indicador {
 	private int id;
 	private String nombre;
 	private String operacion;
-	private static NodoIndicador nodo;
+	@Transient
+	private  NodoIndicador nodo;
 
 	public double calcular(Empresa e, Periodo periodo) throws NoSeEncuentraLaEmpresaException,
 			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {

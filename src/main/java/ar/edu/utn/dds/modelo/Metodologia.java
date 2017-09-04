@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.script.ScriptException;
 
 import ar.edu.utn.dds.excepciones.NoHayCondicionesException;
@@ -27,14 +28,14 @@ import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 public class Metodologia {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-
 	private int id;
 	private String nombre;
 	@OneToMany(fetch = FetchType.LAZY)
 	private List<Condicion> condicionesDeMetodologia = new ArrayList<Condicion>();
-	
-	private static ArrayList<PuntajeEmpresa> puntajeEmpresas = new ArrayList<PuntajeEmpresa>();
-	private static int contador = 0;
+	@Transient
+	private  ArrayList<PuntajeEmpresa> puntajeEmpresas = new ArrayList<PuntajeEmpresa>();
+	@Transient
+	private int contador = 0;
 
 	public Metodologia(String nombre) {
 		super();

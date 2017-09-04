@@ -21,11 +21,11 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>5.2.1.Final</version>
 		</dependency>
-<dependency>
-    <groupId>org.hibernate</groupId>
-    <artifactId>hibernate-entitymanager</artifactId>
-    <version>4.3.8.Final</version>
-</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>4.3.8.Final</version>
+		</dependency>
 
 		<!-- driver jdbc -->
 		<dependency>
@@ -63,15 +63,6 @@
 		</dependency>
 
 
-
-
-		<!-- driver jdbc -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.26</version>
-		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/org.eclipse.persistence/eclipselink -->
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
@@ -81,6 +72,7 @@
 
 
 	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>

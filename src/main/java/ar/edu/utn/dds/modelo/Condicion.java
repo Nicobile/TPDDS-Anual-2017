@@ -14,6 +14,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.script.ScriptException;
 
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
@@ -37,8 +38,8 @@ public abstract class Condicion {
 	@JoinColumn(name="periodo_id")
 	private Periodo periodos;
 	private int anios;
-	
-	public static Boolean filtro;
+	@Transient
+	public Boolean filtro;
 
 	public Condicion() {
 

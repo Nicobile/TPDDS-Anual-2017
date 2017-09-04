@@ -16,19 +16,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 
 @Entity
-@Table(name = "empresas",uniqueConstraints={@UniqueConstraint(columnNames={"nombre"})})
+@Table(name = "empresas")
 public class Empresa {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	@Column(name="nombre")
+	@Column(name = "nombre")
 	private String nombre;
 	private LocalDate fechaInscripcion;
 	@OneToMany(fetch = FetchType.LAZY)
@@ -134,14 +133,14 @@ public class Empresa {
 
 	}
 
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((cuentas == null) ? 0 : cuentas.hashCode());
 		result = prime * result + ((fechaInscripcion == null) ? 0 : fechaInscripcion.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-
 		return result;
 	}
 
@@ -154,11 +153,6 @@ public class Empresa {
 		if (getClass() != obj.getClass())
 			return false;
 		Empresa other = (Empresa) obj;
-		if (cuentas == null) {
-			if (other.cuentas != null)
-				return false;
-		} else if (!cuentas.equals(other.cuentas))
-			return false;
 		if (fechaInscripcion == null) {
 			if (other.fechaInscripcion != null)
 				return false;
@@ -169,7 +163,6 @@ public class Empresa {
 				return false;
 		} else if (!nombre.equals(other.nombre))
 			return false;
-
 		return true;
 	}
 

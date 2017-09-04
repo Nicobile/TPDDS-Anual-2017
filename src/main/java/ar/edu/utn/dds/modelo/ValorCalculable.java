@@ -15,6 +15,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
@@ -33,10 +34,10 @@ public abstract class ValorCalculable {
 	@ManyToOne
 	@JoinColumn(name="indicador_id")
 	private Indicador indicador;
-	
-	private static List<Empresa> empresas;
-	
-	private static Traductor traductor;
+	@Transient
+	private List<Empresa> empresas;
+	@Transient
+	private  Traductor traductor;
 
 	public ValorCalculable() {
 		

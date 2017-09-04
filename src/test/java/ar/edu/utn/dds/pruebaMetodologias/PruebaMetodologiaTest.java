@@ -388,19 +388,7 @@ public class PruebaMetodologiaTest {
 		meto.aplicarMetodologia();
 
 	}
-@Test
-	public void sinCuentasEnPeriodo2() throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException,
-			ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException,
-			NoSeEncuentraLaCuentaEnElPeriodoException {
-		thrown.expect(NoSeEncuentraLaCuentaEnElPeriodoException.class);
 
-		Creciente cre = new Creciente(t.buscarIndicador("i_Solvecia"), t);
-		Condicion cond1 = new Filtro(cre, 1);
-
-		meto.agregarCondicion(cond1);
-		meto.aplicarMetodologia();
-
-	}
 @Test
 	public void PruebaCrecienteYDecrecienteMismosAnios() throws ScriptException, NoSePudoOrdenarLaCondicionException,
 			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException,
