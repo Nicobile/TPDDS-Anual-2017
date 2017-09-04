@@ -14,6 +14,7 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 @Entity
 @Table(name = "indicadores")
 public class Indicador {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
@@ -33,6 +34,36 @@ public class Indicador {
 		this.nombre = nombre;
 		this.operacion = operacion;
 	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		result = prime * result + ((operacion == null) ? 0 : operacion.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Indicador other = (Indicador) obj;
+		if (nombre == null) {
+			if (other.nombre != null)
+				return false;
+		} else if (!nombre.equals(other.nombre))
+			return false;
+		if (operacion == null) {
+			if (other.operacion != null)
+				return false;
+		} else if (!operacion.equals(other.operacion))
+			return false;
+		return true;
+	}
+
 
 	public NodoIndicador getNodo() {
 		return nodo;

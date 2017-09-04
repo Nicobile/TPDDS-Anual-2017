@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
+import ar.edu.utn.dds.entidades.Indicadores;
 import ar.edu.utn.dds.modelo.Cuenta;
 import ar.edu.utn.dds.modelo.Empresa;
 import ar.edu.utn.dds.modelo.Indicador;
@@ -29,8 +30,7 @@ public class ProcesarIndicadores {
 	}
 
 	public void leerExcel(String archivo) throws IOException, FileNotFoundException {
-		EntityManager entityManager=Utilidades.getEntityManager();
-		EntityTransaction transaction= entityManager.getTransaction();
+
 		
 		File inputWorkbook = new File(archivo);
 		Workbook w = null;
@@ -38,7 +38,7 @@ public class ProcesarIndicadores {
 			
 			w = Workbook.getWorkbook(inputWorkbook);
 			Sheet sheet = w.getSheet(0);
-			transaction.begin();
+			
 			for (int i = 0; i < sheet.getRows(); i++) {
 
 				/* nombre indicador */
@@ -55,15 +55,25 @@ public class ProcesarIndicadores {
 
 					/* seteo el nombre del indicador */
 					t.agregarIndicador(indicador);
-					entityManager.persist(indicador);
+					
 					
 				}
 			}
 		} catch (BiffException e) {
 			e.printStackTrace();
 		}
+		List<Indicador> indicadores =Indicadores.getIndicadores();
+		EntityManager entityManager=Utilidades.getEntityManager();
+		EntityTransaction transaction= entityManager.getTransaction();
+		transaction.begin();
+		t.getIndicadores().stream().forEach(unI->{
+	
+			if(!(indicadores.contains(unI))) {
+				entityManager.persist(unI);
+			}
+		});
 		transaction.commit();
-		entityManager.close();
+		Utilidades.closeEntityManager();
 	}
 
 	public Indicador cargarIndPredefinidos(String nombre, String op) {

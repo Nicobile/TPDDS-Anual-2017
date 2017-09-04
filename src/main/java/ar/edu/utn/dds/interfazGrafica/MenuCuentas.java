@@ -72,22 +72,7 @@ public class MenuCuentas {
 				this.lectorArchivo.leerArchivo(this.getClass().getResource("/" + idRuta.getText()).getFile());
 				archivosCuentas.agregarArchivo(idRuta.getText());
 				t.getEmpresas().forEach(unaEmpresa -> idEmpresa.getItems().add(unaEmpresa.getNombre()));
-			////////////////////////////////////////////////////////////////////////////////////////////////
-				
-	                
-	                
-			////////////////////////////////////////////////////////////////////////////////////////////////	
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+
 				verificador.mostrarInfo("El archivo se cargo satisfactoriamente", "Informacion");
 
 			} catch (NullPointerException e) {

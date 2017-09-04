@@ -5,11 +5,6 @@ import java.io.IOException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,9 +12,6 @@ import org.junit.Test;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.modelo.Decreciente;
-import ar.edu.utn.dds.modelo.Indicador;
-import ar.edu.utn.dds.modelo.Metodologia;
-import ar.edu.utn.dds.modelo.Periodo;
 import ar.edu.utn.dds.modelo.Traductor;
 import ar.edu.utn.dds.modelo.ValorCalculable;
 import ar.edu.utn.dds.persistencia.Utilidades;
@@ -47,13 +39,11 @@ public void valorCalculable() throws NoSeEncuentraElIndicadorException, FileNotF
 	EntityTransaction et= em.getTransaction();
 	
 	
-	
-	/*Indicador i=new Indicador("al","adsada4*4");*/
-	
+	procesador1.leerExcel(this.getClass().getResource("/Indicadores.xls").getFile());
 	
 	et.begin();
-	lector.leerArchivo(this.getClass().getResource("/Datos.txt").getFile());
-	procesador1.leerExcel(this.getClass().getResource("/Indicadores.xls").getFile());
+	
+	
 
 	ValorCalculable decr= new Decreciente(t.buscarIndicador("i_NivelDeuda"),t);
 	

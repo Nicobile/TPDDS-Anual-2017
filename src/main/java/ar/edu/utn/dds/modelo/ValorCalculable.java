@@ -97,8 +97,8 @@ public abstract class ValorCalculable {
 		return empresas;
 	}
 
-	public void setEmpresas(List<Empresa> empresas) {
-		this.empresas = empresas;
+	public void setEmpresas(List<Empresa> e) {
+		empresas = e;
 	}
 
 	public Traductor getTraductor() {

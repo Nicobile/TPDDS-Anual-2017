@@ -13,6 +13,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 import ar.edu.utn.dds.antlr.ExpressionParser;
+import ar.edu.utn.dds.entidades.Cuentas;
+import ar.edu.utn.dds.entidades.Empresas;
+import ar.edu.utn.dds.entidades.Periodos;
 import ar.edu.utn.dds.excepciones.MetodologiaYaExisteException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
@@ -286,7 +289,10 @@ public class Traductor {
 
 			}
 		});
-
+		// me traigo los objetos almacenados en la base de datos
+		List<Cuenta> cuentas = Cuentas.getCuentas();
+		List<Empresa> empresas = Empresas.getEmpresas();
+		List<Periodo> periodosDB = Periodos.getPeriodos();
 		// hay que ver como verificar que las cuentas y periodos sean lo mismo
 		EntityManager entityManager = Utilidades.getEntityManager();
 		EntityTransaction transaction = entityManager.getTransaction();
@@ -294,26 +300,29 @@ public class Traductor {
 		transaction.begin();
 
 		periodos.stream().forEach(unP -> {
-
-			entityManager.persist(unP);
-
+			if (!(periodosDB.contains(unP))) {
+				entityManager.persist(unP);
+			}
 			getEmpresas().stream().forEach(unaE -> {
 				unaE.getCuentas().stream().forEach(unaC -> {
 					if (unaC.getPeriodo().equals(unP)) {
-
-						unaC.setPeriodo(unP);
-						entityManager.persist(unaC);
+						if (!(cuentas.contains(unaC))) {
+							unaC.setPeriodo(unP);
+							entityManager.persist(unaC);
+						}
 
 					}
 
 				});
+				// este es el problema de que no se pueda cargar 2 veces el archivo datos, si se
+				// comenta se soluciona
+				// entityManager.persist(unaE);
 
-				entityManager.persist(unaE);
 			});
 
 		});
 		transaction.commit();
-		entityManager.close();
+		Utilidades.closeEntityManager();
 
 	}
 
