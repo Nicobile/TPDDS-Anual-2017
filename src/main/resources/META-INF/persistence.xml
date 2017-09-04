@@ -1,57 +1,48 @@
-<?xml version="1.0" encoding="UTF-8"?> 
+<?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://java.sun.com/xml/ns/persistence"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence 
-    http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd" 
-    version="2.0"> 
-  
-    <persistence-unit name="db" transaction-type="RESOURCE_LOCAL">
-    	<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
- 
-    	  <class>ar.edu.utn.dds.modelo.Cuenta</class>  
-    	  <class>ar.edu.utn.dds.modelo.Periodo</class>
-        <class>ar.edu.utn.dds.modelo.Empresa</class>
-        <class>ar.edu.utn.dds.modelo.Indicador</class>
-        <class>ar.edu.utn.dds.modelo.Condicion</class>
-        <class>ar.edu.utn.dds.modelo.Decreciente</class>
-   <!--    <class>ar.edu.utn.dds.modelo.Filtro</class>
-       <class>ar.edu.utn.dds.modelo.FiltroSegunEcuacion</class>
-       <class>ar.edu.utn.dds.modelo.OrdenaAplicandoCriterioOrdenamiento</class>
-       <class>ar.edu.utn.dds.modelo.Metodologia</class>
-       <class>ar.edu.utn.dds.modelo.ValorCalculable</class>
-       <class>ar.edu.utn.dds.modelo.Creciente</class>
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence 
+    http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0">
 
-       <class>ar.edu.utn.dds.modelo.Sumatoria</class>
-       <class>ar.edu.utn.dds.modelo.Longevidad</class>
-       <class>ar.edu.utn.dds.modelo.Mediana</class>
-       <class>ar.edu.utn.dds.modelo.Promedio</class>  -->
-   
-        <properties> 
-	    	<property name="hibernate.archive.autodetection" value="class"/>        
-         
-            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" /> 
-            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/dds" /> 
-            <property name="hibernate.connection.username" value="dds" /> 
-            <property name="hibernate.connection.password" value="dds" /> 
+	<persistence-unit name="db" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<class>ar.edu.utn.dds.modelo.Indicador</class>
+		<class>ar.edu.utn.dds.modelo.Cuenta</class>
+		<class>ar.edu.utn.dds.modelo.ValorCalculable</class>
+		<class>ar.edu.utn.dds.modelo.Decreciente</class>
+		<!-- <class>ar.edu.utn.dds.modelo.Filtro</class> <class>ar.edu.utn.dds.modelo.FiltroSegunEcuacion</class> 
+			<class>ar.edu.utn.dds.modelo.OrdenaAplicandoCriterioOrdenamiento</class> 
+			<class>ar.edu.utn.dds.modelo.Metodologia</class> <class>ar.edu.utn.dds.modelo.Creciente</class> 
+			<class>ar.edu.utn.dds.modelo.Periodo</class> <class>ar.edu.utn.dds.modelo.Empresa</class> 
+			<class>ar.edu.utn.dds.modelo.Condicion</class> <class>ar.edu.utn.dds.modelo.Sumatoria</class> 
+			<class>ar.edu.utn.dds.modelo.Longevidad</class> <class>ar.edu.utn.dds.modelo.Mediana</class> 
+			<class>ar.edu.utn.dds.modelo.Promedio</class> -->
 
-<!-- 
-            <property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver" /> 
-            <property name="hibernate.connection.url" value="jdbc:hsqldb:mem:app-db" /> 
-            <property name="hibernate.connection.username" value="sa" /> 
-            <property name="hibernate.connection.password" value="" /> 
-            <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
- -->
-                            
-            <property name="hibernate.show_sql" value="true" /> 
-            <property name="hibernate.format_sql" value="true" /> 
-            <property name="use_sql_comments" value="true" /> 
-            <property name="hibernate.hbm2ddl.auto" value="create" /> 
-        </properties>
-        
-          	
-    	 
-       
-          
-    </persistence-unit> 
-  
+		<properties>
+			<property name="hibernate.archive.autodetection" value="class" />
+
+			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
+			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/dds" />
+			<property name="hibernate.connection.username" value="dds" />
+			<property name="hibernate.connection.password" value="dds" />
+
+			<!-- <property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver" 
+				/> <property name="hibernate.connection.url" value="jdbc:hsqldb:mem:app-db" 
+				/> <property name="hibernate.connection.username" value="sa" /> <property 
+				name="hibernate.connection.password" value="" /> <property name="hibernate.dialect" 
+				value="org.hibernate.dialect.HSQLDialect" /> -->
+
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="use_sql_comments" value="true" />
+			<property name="hibernate.hbm2ddl.auto" value="create" />
+		</properties>
+
+
+
+
+
+	</persistence-unit>
+
 </persistence> 

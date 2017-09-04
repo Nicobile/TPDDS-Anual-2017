@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,8 +14,6 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
@@ -24,11 +21,10 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 
-//@Entity
-//@Table(name = "valoresCalculables")
+@Entity
+@Table(name = "valoresCalculables")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)  
-//@DiscriminatorColumn(name="type",discriminatorType=DiscriminatorType.STRING)  
-@MappedSuperclass
+@DiscriminatorColumn(name="type",discriminatorType=DiscriminatorType.STRING)  
 public abstract class ValorCalculable {
 
 	@Id
@@ -37,7 +33,7 @@ public abstract class ValorCalculable {
 	@ManyToOne
 	@JoinColumn(name="indicador_id")
 	private Indicador indicador;
-	@OneToMany(fetch = FetchType.LAZY)
+	
 	private static List<Empresa> empresas;
 	
 	private static Traductor traductor;
