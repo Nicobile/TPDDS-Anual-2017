@@ -2,6 +2,8 @@ package ar.edu.utn.dds.interfazGrafica;
 
 import java.io.IOException;
 
+import ar.edu.utn.dds.excepciones.CampoVacioException;
+import ar.edu.utn.dds.excepciones.ErrorEnLaCargaDeDatos;
 import ar.edu.utn.dds.modelo.Traductor;
 import ar.edu.utn.dds.procesarArchivos.LectorArchivo;
 import ar.edu.utn.dds.procesarArchivos.ProcesarIndicadores;
@@ -21,6 +23,7 @@ public class Main extends Application {
 	private ProcesarIndicadores procesador1;
 	private LectorArchivo lectorArchivo;
 	private Archivos archivos;
+	private Verificador verificador = new Verificador();
 
 	@Override
 	public void start(Stage stagePrincipal) throws Exception {
@@ -29,6 +32,15 @@ public class Main extends Application {
 		archivos = new Archivos();
 		procesador1 = new ProcesarIndicadores(traductor);
 		lectorArchivo = new LectorArchivo(traductor);
+
+		try {
+			lectorArchivo.leerArchivo("/Users/danielavila/git/2017-mn-group-12/src/test/resources/Datos.txt");
+			procesador1.leerExcel("/Users/danielavila/git/2017-mn-group-12/src/test/resources/Indicadores.xls");
+		
+		} catch (ErrorEnLaCargaDeDatos e) {
+			verificador.mostrarError("Error en la carga de datos, revisar el archivo", "Error");
+		}
+
 		mostrataMenuPrincipal();
 	}
 
@@ -36,6 +48,7 @@ public class Main extends Application {
 		try {
 			FXMLLoader loader = new FXMLLoader(
 					Main.class.getResource("/ar/edu/utn/dds/interfazGrafica/MenuPrincipal.fxml"));
+
 			rootPane = (BorderPane) loader.load();
 			Scene scene = new Scene(rootPane);
 			stagePrincipal.setTitle("Menu Princpal");
@@ -105,10 +118,10 @@ public class Main extends Application {
 
 		}
 	}
-
-	public static void main(String[] args) {
-		launch(args);
-
-	}
-
+	/*
+	 * public static void main(String[] args) { launch(args);
+	 * 
+	 * 
+	 * }
+	 */
 }
