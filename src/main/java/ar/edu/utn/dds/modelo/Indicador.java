@@ -6,15 +6,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 
 @Entity
-@Table(name = "indicadores")
+@Table(name = "indicadores", uniqueConstraints =@UniqueConstraint(columnNames = {"nombre"}))
 public class Indicador {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;

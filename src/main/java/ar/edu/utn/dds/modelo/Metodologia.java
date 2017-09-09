@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.script.ScriptException;
 
 import ar.edu.utn.dds.excepciones.NoHayCondicionesException;
@@ -24,7 +25,7 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 
 @Entity
-@Table(name = "metodologias")
+@Table(name = "metodologias" ,uniqueConstraints =@UniqueConstraint(columnNames = {"nombre"}))
 public class Metodologia {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
