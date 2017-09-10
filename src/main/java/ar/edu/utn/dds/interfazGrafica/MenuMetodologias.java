@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.script.ScriptException;
 
 import ar.edu.utn.dds.excepciones.CampoVacioException;
@@ -19,6 +21,7 @@ import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 import ar.edu.utn.dds.modelo.Metodologia;
 import ar.edu.utn.dds.modelo.PuntajeEmpresa;
 import ar.edu.utn.dds.modelo.Traductor;
+import ar.edu.utn.dds.persistencia.Utilidades;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -73,8 +76,14 @@ public class MenuMetodologias implements Initializable {
 		try {
 			verificador.textFieldVacio(idTextMetod);
 			metod = new Metodologia(idTextMetod.getText());
-			t.agregarMetodologia(metod);
+			t.agregarMetodologia(metod);			
 			idMetodologia.getItems().add(metod.getNombre());
+			EntityManager em= Utilidades.getEntityManager();
+			EntityTransaction et= em.getTransaction();
+			et.begin();
+			em.persist(metod);
+			et.commit();
+			Utilidades.closeEntityManager();
 			verificador.mostrarInfo("Metodologia creada exitosamente", "Informacion");
 			idTextMetod.setText("");
 		} catch (MetodologiaYaExisteException e) {

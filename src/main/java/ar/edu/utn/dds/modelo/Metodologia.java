@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -48,6 +49,10 @@ public class Metodologia {
 	}
 
 	/* OBTENGO EMPRESA */
+
+	public int getId() {
+		return id;
+	}
 
 	private int buscarEmpresa(String nomE, List<PuntajeEmpresa> lista) throws NoSeEncuentraLaEmpresaException {
 

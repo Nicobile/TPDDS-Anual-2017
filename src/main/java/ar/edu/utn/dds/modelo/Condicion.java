@@ -3,6 +3,7 @@ package ar.edu.utn.dds.modelo;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
@@ -37,10 +38,14 @@ public abstract class Condicion {
 	@ManyToOne
 	@JoinColumn(name="periodo_id")
 	private Periodo periodos;
+	
+
 	private int anios;
 	@Transient
 	public Boolean filtro;
-
+	public int getId() {
+		return id;
+	}
 	public Condicion() {
 
 	}

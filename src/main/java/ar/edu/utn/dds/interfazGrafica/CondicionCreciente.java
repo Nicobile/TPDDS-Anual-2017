@@ -1,11 +1,16 @@
 package ar.edu.utn.dds.interfazGrafica;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+
 import ar.edu.utn.dds.excepciones.CampoVacioException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.modelo.Condicion;
 import ar.edu.utn.dds.modelo.Creciente;
 import ar.edu.utn.dds.modelo.Filtro;
+import ar.edu.utn.dds.modelo.Metodologia;
 import ar.edu.utn.dds.modelo.Traductor;
+import ar.edu.utn.dds.persistencia.Utilidades;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -45,9 +50,23 @@ public class CondicionCreciente extends TiposDeCondicion {
 			Creciente cre = new Creciente(t.buscarIndicador(indicador), t);
 			Condicion cond = new Filtro(cre, anios);
 			meto.agregarCondicion(cond);
+
+			EntityManager em = Utilidades.getEntityManager();
+			EntityTransaction et = em.getTransaction();
+			et.begin();
+			
+			Metodologia metodologiaCargadaEnBase = em.find(Metodologia.class, meto.getId());
+			metodologiaCargadaEnBase.getCondicionesDeMetodologia().add(cond);
+			em.persist(cre);
+			em.persist(cond);
+			em.merge(metodologiaCargadaEnBase);
+			et.commit();
+
+			Utilidades.closeEntityManager();
+
 			verificador.mostrarInfo("Condicion cargada satisfactoriamente", "Informacion");
 		} catch (CampoVacioException e) {
-			verificador.mostrarError("Falto seleccionar un indicador o ingresar una cantidad de a�os", "Error");
+			verificador.mostrarError("Falto seleccionar un indicador o ingresar una cantidad de anios", "Error");
 		}
 
 	}
