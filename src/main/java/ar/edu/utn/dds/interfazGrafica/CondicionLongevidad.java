@@ -36,9 +36,10 @@ public class CondicionLongevidad extends TiposDeCondicion {
 			Longevidad longevidad = new Longevidad(t);
 			Condicion cond = new Filtro(longevidad, Integer.parseInt(idAnios.getText()));
 			meto.agregarCondicion(cond);
+			super.persistirCrecienteoDecrecienteoLongevidad(longevidad, cond);
 			verificador.mostrarInfo("Condicion cargada satisfactoriamente", "Informacion");
 		} catch (CampoVacioException e) {
-			verificador.mostrarError("Falto ingresar una cantidad de años", "Error");
+			verificador.mostrarError("Falto ingresar una cantidad de aï¿½os", "Error");
 		}
 		idAnios.setText("");
 	}

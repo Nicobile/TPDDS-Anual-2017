@@ -68,7 +68,7 @@ public class MetodologiaTest {
 		
 		
 		//los traigo
-		Metodologia m=Metodologias.getMetodologias().get(0);
+		Metodologia m=Metodologias.setMetodologias().get(0);
 	//presunto por el nombre, pq dos metodologias son iguales si tienen mismo nombre
 		assertEquals(m,meto);
 		

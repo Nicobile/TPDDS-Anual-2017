@@ -8,8 +8,8 @@ import java.util.ResourceBundle;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Query;
 
+import ar.edu.utn.dds.entidades.Indicadores;
 import ar.edu.utn.dds.excepciones.CampoVacioException;
 import ar.edu.utn.dds.excepciones.ErrorFechaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
@@ -107,27 +107,14 @@ public class MenuIndicadores implements Initializable {
 			verificador.textFieldVacio(idexpresion);
 			Indicador ind1 = new Indicador(idNomInd.getText(), idexpresion.getText());
 			t.agregarIndicador(ind1);
-			
-			
+
 			EntityManager session = Utilidades.getEntityManager();
 			EntityTransaction et = session.getTransaction();
-			
 			et.begin();
-			
 			session.persist(ind1);
-			
 			et.commit();
 			Utilidades.closeEntityManager();
-/*
-			 Query query = session.createQuery("insert into indicadores");
-			 query.setParameter("valor1", ind1);
-			int result = query.executeUpdate();
-			
-
-			session.getTransaction().commit();*/
-			
-			
-			
+			Indicadores.agregarIndicador(ind1);
 			idListInd.getItems().add(ind1.getNombre());
 			idNomIndca.getItems().add(ind1.getNombre());
 			verificador.mostrarInfo("El indicador se cargo satisfactoriamente", "Informacion");

@@ -1,5 +1,6 @@
 package ar.edu.utn.dds.interfazGrafica;
 
+import ar.edu.utn.dds.entidades.Indicadores;
 import ar.edu.utn.dds.excepciones.CampoVacioException;
 import ar.edu.utn.dds.excepciones.ErrorFechaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
@@ -72,11 +73,12 @@ public class CondicionSumatoria extends TiposDeCondicion {
 			verificador.comboBoxVacio(idCriterio);
 			verificador.verificarFecha(idFechaInicio.getText());
 			verificador.verificarFecha(idFechaFin.getText());
-			Sumatoria sumatoria = new Sumatoria(t.buscarIndicador(idIndicador.getValue()), t);
+			Sumatoria sumatoria = new Sumatoria(Indicadores.getIndicadores().stream().filter(unI->
+			unI.getNombre().equals(idIndicador.getValue())).findFirst().get(), t);
 			String fechain[] = idFechaInicio.getText().split("/");
 			String fechafin[] = idFechaFin.getText().split("/");
 			Periodo periodo = super.armarPeriodo(fechain, fechafin);
-			super.armarDobleCondicion(sumatoria, idValor.getText(), idComparador.getText(), periodo,
+			super.persistirMedianaOsumatoriaOPromedio(sumatoria, idValor.getText(), idComparador.getText(), periodo,
 					idCriterio.getValue());
 			verificador.mostrarInfo("Condicion cargada", "Informacion");
 			idComparador.setText("");

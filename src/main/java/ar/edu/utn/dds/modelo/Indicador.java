@@ -31,6 +31,9 @@ public class Indicador {
 		
 	}
 
+	public int getId() {
+		return id;
+	}
 	public Indicador(String nombre, String operacion) {
 		this.nombre = nombre;
 		this.operacion = operacion;

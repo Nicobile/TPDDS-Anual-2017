@@ -3,6 +3,7 @@ package ar.edu.utn.dds.interfazGrafica;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import ar.edu.utn.dds.entidades.Indicadores;
 import ar.edu.utn.dds.excepciones.CampoVacioException;
 import ar.edu.utn.dds.excepciones.ErrorFechaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
@@ -83,11 +84,15 @@ public class CondicionMediana extends TiposDeCondicion {
 			verificador.comboBoxVacio(idCriterio);
 			verificador.verificarFecha(idFechaInicio.getText());
 			verificador.verificarFecha(idFechaFin.getText());
-			Mediana mediana = new Mediana(t.buscarIndicador(idIndicador.getValue()), t);
+			Mediana mediana = new Mediana(Indicadores.getIndicadores().stream().filter(unI->
+			unI.getNombre().equals(idIndicador.getValue())).findFirst().get(), t);
+			
 			String fechain[] = idFechaInicio.getText().split("/");
-			String fechafin[] = idFechaFin.getText().split("/");
+			String fechafin[] = idFechaFin.getText().split("/");			
 			Periodo periodo = super.armarPeriodo(fechain, fechafin);
-			super.armarDobleCondicion(mediana, idValor.getText(), idComparador.getText(), periodo,
+					
+			
+			super.persistirMedianaOsumatoriaOPromedio(mediana, idValor.getText(), idComparador.getText(), periodo,
 					idCriterio.getValue());
 			verificador.mostrarInfo("Condicion cargada", "Informacion");
 			idComparador.setText("");

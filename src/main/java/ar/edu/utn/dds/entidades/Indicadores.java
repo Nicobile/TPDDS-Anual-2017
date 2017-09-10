@@ -8,12 +8,18 @@ import ar.edu.utn.dds.persistencia.Utilidades;
 
 public class Indicadores {
 	private static List<Indicador> indicadores= new ArrayList<>();
-	public static List<Indicador> getIndicadores() {
+	public static List<Indicador> setIndicadores() {
 		if(indicadores.isEmpty()) {
 		indicadores= Utilidades.getEntidad(Indicador.class);
 		Utilidades.closeEntityManager();
 		return indicadores;}
 		return indicadores;
 
+	}
+	public static List<Indicador> getIndicadores(){
+		return indicadores;
+	}
+	public static void agregarIndicador(Indicador i) {
+		indicadores.add(i);
 	}
 }

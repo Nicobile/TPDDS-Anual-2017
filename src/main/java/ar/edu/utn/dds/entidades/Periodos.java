@@ -9,7 +9,7 @@ import ar.edu.utn.dds.persistencia.Utilidades;
 public class Periodos {
 
 	private static 	List<Periodo> periodos=new ArrayList<>();
-	public static List<Periodo> getPeriodos(){
+	public static List<Periodo> setPeriodos(){
 		if(periodos.isEmpty()) {
 			periodos=Utilidades.getEntidad(Periodo.class);
 			Utilidades.closeEntityManager();
@@ -17,5 +17,11 @@ public class Periodos {
 		}
 		return periodos;
 		
+	}
+	public static List<Periodo> getPeriodos(){
+		return periodos;
+	}
+	public static void agregarPeriodo(Periodo p){
+		periodos.add(p);
 	}
 }

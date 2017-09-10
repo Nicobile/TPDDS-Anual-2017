@@ -62,7 +62,7 @@ public class ProcesarIndicadores {
 		} catch (BiffException e) {
 			e.printStackTrace();
 		}
-		List<Indicador> indicadores =Indicadores.getIndicadores();
+		List<Indicador> indicadores =Indicadores.setIndicadores();
 		EntityManager entityManager=Utilidades.getEntityManager();
 		EntityTransaction transaction= entityManager.getTransaction();
 		transaction.begin();

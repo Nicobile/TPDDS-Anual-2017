@@ -3,6 +3,7 @@ package ar.edu.utn.dds.interfazGrafica;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import ar.edu.utn.dds.entidades.Indicadores;
 import ar.edu.utn.dds.excepciones.CampoVacioException;
 import ar.edu.utn.dds.excepciones.ErrorFechaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
@@ -84,11 +85,12 @@ public class CondicionPromedio extends TiposDeCondicion {
 			verificador.comboBoxVacio(idCriterio);
 			verificador.verificarFecha(idFechaInicio.getText());
 			verificador.verificarFecha(idFechaFin.getText());
-			Promedio promedio = new Promedio(t.buscarIndicador(idIndicador.getValue()), t);
+			Promedio promedio = new Promedio(Indicadores.getIndicadores().stream().filter(unI->
+			unI.getNombre().equals(idIndicador.getValue())).findFirst().get(), t);
 			String fechain[] = idFechaInicio.getText().split("/");
 			String fechafin[] = idFechaFin.getText().split("/");
 			Periodo periodo = super.armarPeriodo(fechain, fechafin);
-			super.armarDobleCondicion(promedio, idValor.getText(), idComparador.getText(), periodo,
+			super.persistirMedianaOsumatoriaOPromedio(promedio, idValor.getText(), idComparador.getText(), periodo,
 					idCriterio.getValue());
 			verificador.mostrarInfo("Condicion cargada", "Informacion");
 			idComparador.setText("");

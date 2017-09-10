@@ -1,5 +1,6 @@
 package ar.edu.utn.dds.interfazGrafica;
 
+import ar.edu.utn.dds.entidades.Indicadores;
 import ar.edu.utn.dds.excepciones.CampoVacioException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.modelo.Condicion;
@@ -46,9 +47,11 @@ public class CondicionDecreciente extends TiposDeCondicion {
 			String indicador = idIndicador.getValue();
 
 			Decreciente decre;
-			decre = new Decreciente(t.buscarIndicador(indicador), t);
+			decre = new Decreciente(Indicadores.getIndicadores().stream().filter(unI->
+			unI.getNombre().equals(indicador)).findFirst().get(), t);
 			Condicion cond = new Filtro(decre, anios);
 			meto.agregarCondicion(cond);
+			super.persistirCrecienteoDecrecienteoLongevidad(decre, cond);
 			verificador.mostrarInfo("Condicion cargada satisfactoriamente", "Informacion");
 		} catch (CampoVacioException e) {
 			verificador.mostrarError("Falto seleccionar un indicador o ingresar una cantidad de a�os", "Error");

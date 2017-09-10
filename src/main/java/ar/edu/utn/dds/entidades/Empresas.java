@@ -8,7 +8,7 @@ import ar.edu.utn.dds.persistencia.Utilidades;
 
 public class Empresas {
 	private static List<Empresa> empresas=new ArrayList<>();
-	public static List<Empresa> getEmpresas(){
+	public static List<Empresa> setEmpresas(){
 		if(empresas.isEmpty()) {
 			empresas= Utilidades.getEntidad(Empresa.class);
 			Utilidades.closeEntityManager();
@@ -17,6 +17,9 @@ public class Empresas {
 		return empresas;
 		
 		
+	}
+	public static List<Empresa> getEmpresas(){
+		return empresas;
 	}
 
 }

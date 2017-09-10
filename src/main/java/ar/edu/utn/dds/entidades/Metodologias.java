@@ -9,13 +9,16 @@ import ar.edu.utn.dds.persistencia.Utilidades;
 public class Metodologias {
 	private static List<Metodologia> metodologias= new ArrayList<>();
 	
-	public static List<Metodologia> getMetodologias() {
+	public static List<Metodologia> setMetodologias() {
 		if(metodologias.isEmpty()) {
 		metodologias= Utilidades.getEntidad(Metodologia.class);
 		Utilidades.closeEntityManager();
 		return metodologias;}
 		return metodologias;
 
+	}
+	public static List<Metodologia> getMetodologias(){
+		return metodologias;
 	}
 
 }

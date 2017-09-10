@@ -8,7 +8,7 @@ import ar.edu.utn.dds.persistencia.Utilidades;
 
 public class Cuentas {
 private static List<Cuenta> cuentas= new ArrayList<>();
-	public static List<Cuenta> getCuentas(){
+	public static List<Cuenta> setCuentas(){
 		
 		if(cuentas.isEmpty()) {
 		cuentas=Utilidades.getEntidad(Cuenta.class);
@@ -19,5 +19,10 @@ private static List<Cuenta> cuentas= new ArrayList<>();
 		return cuentas;
 	
 }
+	public static List<Cuenta> getCuentas(){
+		return cuentas;
+	}
+	
+	
 
 }

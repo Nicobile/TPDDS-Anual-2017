@@ -2,15 +2,12 @@ package ar.edu.utn.dds.interfazGrafica;
 
 import java.io.IOException;
 
-import ar.edu.utn.dds.excepciones.CampoVacioException;
 import ar.edu.utn.dds.modelo.Traductor;
 import ar.edu.utn.dds.procesarArchivos.LectorArchivo;
 import ar.edu.utn.dds.procesarArchivos.ProcesarIndicadores;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-
 import javafx.scene.Scene;
-
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -22,7 +19,6 @@ public class Main extends Application {
 	private ProcesarIndicadores procesador1;
 	private LectorArchivo lectorArchivo;
 	private Archivos archivos;
-	
 
 	@Override
 	public void start(Stage stagePrincipal) throws Exception {
@@ -32,9 +28,8 @@ public class Main extends Application {
 		procesador1 = new ProcesarIndicadores(traductor);
 		lectorArchivo = new LectorArchivo(traductor);
 
-			lectorArchivo.leerArchivo(this.getClass().getResource("/Datos.txt").getFile());
-			procesador1.leerExcel(this.getClass().getResource("/Indicadores.xls").getFile());
-	
+		lectorArchivo.leerArchivo(this.getClass().getResource("/Datos.txt").getFile());
+		procesador1.leerExcel(this.getClass().getResource("/Indicadores.xls").getFile());
 
 		mostrataMenuPrincipal();
 	}

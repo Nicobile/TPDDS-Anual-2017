@@ -290,9 +290,9 @@ public class Traductor {
 			}
 		});
 		// me traigo los objetos almacenados en la base de datos
-		List<Cuenta> cuentas = Cuentas.getCuentas();
-		List<Empresa> empresas = Empresas.getEmpresas();
-		List<Periodo> periodosDB = Periodos.getPeriodos();
+		List<Cuenta> cuentas = Cuentas.setCuentas();
+		List<Empresa> empresas = Empresas.setEmpresas();
+		List<Periodo> periodosDB = Periodos.setPeriodos();
 		// hay que ver como verificar que las cuentas y periodos sean lo mismo
 		EntityManager entityManager = Utilidades.getEntityManager();
 		EntityTransaction transaction = entityManager.getTransaction();
