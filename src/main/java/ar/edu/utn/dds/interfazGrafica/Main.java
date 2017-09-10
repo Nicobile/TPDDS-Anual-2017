@@ -3,6 +3,7 @@ package ar.edu.utn.dds.interfazGrafica;
 import java.io.IOException;
 
 import ar.edu.utn.dds.modelo.Traductor;
+import ar.edu.utn.dds.persistencia.Utilidades;
 import ar.edu.utn.dds.procesarArchivos.LectorArchivo;
 import ar.edu.utn.dds.procesarArchivos.ProcesarIndicadores;
 import javafx.application.Application;
@@ -25,6 +26,7 @@ public class Main extends Application {
 		this.stagePrincipal = stagePrincipal;
 		traductor = new Traductor();
 		archivos = new Archivos();
+		Utilidades.conectarConBD();
 		procesador1 = new ProcesarIndicadores(traductor);
 		lectorArchivo = new LectorArchivo(traductor);
 

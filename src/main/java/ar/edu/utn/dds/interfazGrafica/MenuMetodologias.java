@@ -5,11 +5,10 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Query;
+import javax.persistence.PersistenceException;
 import javax.script.ScriptException;
 
+import ar.edu.utn.dds.entidades.Metodologias;
 import ar.edu.utn.dds.excepciones.CampoVacioException;
 import ar.edu.utn.dds.excepciones.MetodologiaYaExisteException;
 import ar.edu.utn.dds.excepciones.NoHayCondicionesException;
@@ -19,7 +18,6 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
-import ar.edu.utn.dds.modelo.Indicador;
 import ar.edu.utn.dds.modelo.Metodologia;
 import ar.edu.utn.dds.modelo.PuntajeEmpresa;
 import ar.edu.utn.dds.modelo.Traductor;
@@ -80,18 +78,16 @@ public class MenuMetodologias implements Initializable {
 			metod = new Metodologia(idTextMetod.getText());
 			t.agregarMetodologia(metod);			
 			idMetodologia.getItems().add(metod.getNombre());
-			EntityManager em= Utilidades.getEntityManager();
-			EntityTransaction et= em.getTransaction();
-			et.begin();
-			em.persist(metod);
-			et.commit();
-			Utilidades.closeEntityManager();
+			Utilidades.persistirUnObjeto(metod);
 			verificador.mostrarInfo("Metodologia creada exitosamente", "Informacion");
 			idTextMetod.setText("");
 		} catch (MetodologiaYaExisteException e) {
 			verificador.mostrarError("Ya existe una metodologia con ese nombre", "Error");
 		} catch (CampoVacioException e) {
 			verificador.mostrarError("Falto completar el campo nombre de la metodologia", "Error");
+		}
+		catch(PersistenceException e) {
+			verificador.mostrarError("Ya Existe una metodologia con ese nombre", "Error");
 		}
 	}
 
@@ -196,13 +192,11 @@ public class MenuMetodologias implements Initializable {
 	public void setTraductor(Traductor tradu) {
 		this.t = tradu;
 //		t.getMetodologias().forEach(unaMetodologia -> idMetodologia.getItems().add(unaMetodologia.getNombre()));
-		EntityManager em = Utilidades.getEntityManager();
-		EntityTransaction et = em.getTransaction();
-		et.begin();
-		Query q = em.createQuery("from " + Metodologia.class.getName() +" p");
-        List<Metodologia> metodologiasPersistidos =  q.getResultList();  //Fijarse warning
+		
+		List<Metodologia> metodologiasPersistidos= Metodologias.setMetodologias();
+	
         metodologiasPersistidos.forEach(unaMeto -> idMetodologia.getItems().add(unaMeto.getNombre()));
-		Utilidades.closeEntityManager();
+
 	}
 
 	public String getNombre() {

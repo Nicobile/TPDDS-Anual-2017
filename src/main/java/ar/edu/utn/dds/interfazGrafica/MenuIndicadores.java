@@ -7,9 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Query;
+import javax.persistence.PersistenceException;
 
 import ar.edu.utn.dds.entidades.Indicadores;
 import ar.edu.utn.dds.excepciones.CampoVacioException;
@@ -86,9 +84,13 @@ public class MenuIndicadores implements Initializable {
 			try {
 				this.procesador1.leerExcel(this.getClass().getResource("/" + idRuta.getText()).getFile());
 				archivosInd.agregarArchivo(idRuta.getText());
+				//son los del archivo
 				t.getIndicadores().forEach(unIndicador -> {
 					idListInd.getItems().add(unIndicador.getNombre());
 					idNomIndca.getItems().add(unIndicador.getNombre());
+				
+					
+					
 				});
 				verificador.mostrarInfo("El archivo se cargo satisfactoriamente", "Informacion");
 
@@ -109,7 +111,10 @@ public class MenuIndicadores implements Initializable {
 			verificador.textFieldVacio(idexpresion);
 			Indicador ind1 = new Indicador(idNomInd.getText(), idexpresion.getText());
 			t.agregarIndicador(ind1);
+		
 			Utilidades.persistirUnObjeto(ind1);
+			
+		
 			Indicadores.agregarIndicador(ind1);
 			idListInd.getItems().add(ind1.getNombre());
 			idNomIndca.getItems().add(ind1.getNombre());
@@ -121,6 +126,10 @@ public class MenuIndicadores implements Initializable {
 		} catch (CampoVacioException e) {
 			verificador.mostrarError("Fala completar uno o mas campos", "Error");
 		}
+		catch(PersistenceException e) {
+			verificador.mostrarError("Ya Existe un indicador con ese nombre", "Error");
+		}
+			
 	}
 
 	@FXML
@@ -199,6 +208,7 @@ public class MenuIndicadores implements Initializable {
 
 	@FXML
 	void nomIndca(ActionEvent event) {
+	
 	}
 
 	@FXML
@@ -209,7 +219,9 @@ public class MenuIndicadores implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resource) {
-
+		// son los cargados en BD
+		List<Indicador> indicadoresPersistidos = Indicadores.getIndicadores();
+        indicadoresPersistidos.forEach(unInd -> idNomIndca.getItems().add(unInd.getNombre()));
 	}
 
 	public void setListaArchivos(Archivos archivos) {
@@ -228,13 +240,10 @@ public class MenuIndicadores implements Initializable {
 	public void setProcesador(ProcesarIndicadores procesador) {
 		this.procesador1 = procesador;
 		//t.getIndicadores().forEach(unIndicador -> idListInd.getItems().add(unIndicador.getNombre()));
-		EntityManager em = Utilidades.getEntityManager();
-		EntityTransaction et = em.getTransaction();
-		et.begin();
-		Query q = em.createQuery("from " + Indicador.class.getName() +" p");
-        List<Indicador> indicadoresPersistidos =  q.getResultList();  //Fijarse warning
+		List<Indicador> indicadoresPersistidos = Indicadores.getIndicadores();
         indicadoresPersistidos.forEach(unInd -> idListInd.getItems().add(unInd.getNombre()));
-		Utilidades.closeEntityManager();
+  
+	
 	}
 
 	public void setStagePrincipalInd(Stage stagePrincipal) {
