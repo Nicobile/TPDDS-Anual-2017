@@ -6,9 +6,6 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-
 import ar.edu.utn.dds.entidades.Indicadores;
 import ar.edu.utn.dds.excepciones.CampoVacioException;
 import ar.edu.utn.dds.excepciones.ErrorFechaException;
@@ -107,13 +104,7 @@ public class MenuIndicadores implements Initializable {
 			verificador.textFieldVacio(idexpresion);
 			Indicador ind1 = new Indicador(idNomInd.getText(), idexpresion.getText());
 			t.agregarIndicador(ind1);
-
-			EntityManager session = Utilidades.getEntityManager();
-			EntityTransaction et = session.getTransaction();
-			et.begin();
-			session.persist(ind1);
-			et.commit();
-			Utilidades.closeEntityManager();
+			Utilidades.persistirUnObjeto(ind1);
 			Indicadores.agregarIndicador(ind1);
 			idListInd.getItems().add(ind1.getNombre());
 			idNomIndca.getItems().add(ind1.getNombre());

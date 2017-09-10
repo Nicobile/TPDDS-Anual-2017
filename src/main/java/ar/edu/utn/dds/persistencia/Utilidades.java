@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -27,6 +28,18 @@ TypedQuery<T> q = entityManager.createQuery(criteriaQuery);
 return q.getResultList();
 
 }
+
+
+public static void persistirUnObjeto(Object obj) {
+
+	EntityManager session = getEntityManager();
+	EntityTransaction et = session.getTransaction();
+	et.begin();
+	session.persist(obj);
+	et.commit();
+	closeEntityManager();
+}
+
 public static void closeEntityManager() {
 	entityManager.close();
 }

@@ -67,12 +67,7 @@ public class TiposDeCondicion implements Initializable {
 			 p=Periodos.getPeriodos().stream().filter(unP -> unP.equals(periodo)).findFirst().get();}
 		catch(NoSuchElementException e) {
 			 p=periodo;
-			 EntityManager em = Utilidades.getEntityManager();
-				EntityTransaction et = em.getTransaction();
-				et.begin();
-				em.persist(p);
-				et.commit();
-				Utilidades.closeEntityManager();
+			Utilidades.persistirUnObjeto(p);
 				Periodos.agregarPeriodo(p);;
 			 
 		}
