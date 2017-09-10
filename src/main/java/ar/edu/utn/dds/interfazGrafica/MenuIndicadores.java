@@ -4,7 +4,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.ResourceBundle;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 
 import ar.edu.utn.dds.entidades.Indicadores;
 import ar.edu.utn.dds.excepciones.CampoVacioException;
@@ -222,7 +227,14 @@ public class MenuIndicadores implements Initializable {
 
 	public void setProcesador(ProcesarIndicadores procesador) {
 		this.procesador1 = procesador;
-		t.getIndicadores().forEach(unIndicador -> idListInd.getItems().add(unIndicador.getNombre()));
+		//t.getIndicadores().forEach(unIndicador -> idListInd.getItems().add(unIndicador.getNombre()));
+		EntityManager em = Utilidades.getEntityManager();
+		EntityTransaction et = em.getTransaction();
+		et.begin();
+		Query q = em.createQuery("from " + Indicador.class.getName() +" p");
+        List<Indicador> indicadoresPersistidos =  q.getResultList();  //Fijarse warning
+        indicadoresPersistidos.forEach(unInd -> idListInd.getItems().add(unInd.getNombre()));
+		Utilidades.closeEntityManager();
 	}
 
 	public void setStagePrincipalInd(Stage stagePrincipal) {

@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import javax.script.ScriptException;
 
 import ar.edu.utn.dds.excepciones.CampoVacioException;
@@ -18,6 +19,7 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
+import ar.edu.utn.dds.modelo.Indicador;
 import ar.edu.utn.dds.modelo.Metodologia;
 import ar.edu.utn.dds.modelo.PuntajeEmpresa;
 import ar.edu.utn.dds.modelo.Traductor;
@@ -193,7 +195,14 @@ public class MenuMetodologias implements Initializable {
 
 	public void setTraductor(Traductor tradu) {
 		this.t = tradu;
-		t.getMetodologias().forEach(unaMetodologia -> idMetodologia.getItems().add(unaMetodologia.getNombre()));
+//		t.getMetodologias().forEach(unaMetodologia -> idMetodologia.getItems().add(unaMetodologia.getNombre()));
+		EntityManager em = Utilidades.getEntityManager();
+		EntityTransaction et = em.getTransaction();
+		et.begin();
+		Query q = em.createQuery("from " + Metodologia.class.getName() +" p");
+        List<Metodologia> metodologiasPersistidos =  q.getResultList();  //Fijarse warning
+        metodologiasPersistidos.forEach(unaMeto -> idMetodologia.getItems().add(unaMeto.getNombre()));
+		Utilidades.closeEntityManager();
 	}
 
 	public String getNombre() {
