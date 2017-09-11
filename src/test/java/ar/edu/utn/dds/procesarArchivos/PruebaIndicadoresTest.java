@@ -81,7 +81,7 @@ public class PruebaIndicadoresTest {
 			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
 		thrown.expect(NoSeEncuentraLaCuentaException.class);
-		
+
 		/* pepsico no tiene en sus cuentas las necesarias para calcular ese indicador */
 		t.calcular("Pepsico", p, "i_Solvencia");
 	}

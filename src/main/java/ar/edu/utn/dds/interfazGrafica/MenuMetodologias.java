@@ -76,7 +76,7 @@ public class MenuMetodologias implements Initializable {
 		try {
 			verificador.textFieldVacio(idTextMetod);
 			metod = new Metodologia(idTextMetod.getText());
-			t.agregarMetodologia(metod);			
+			t.agregarMetodologia(metod);
 			idMetodologia.getItems().add(metod.getNombre());
 			Utilidades.persistirUnObjeto(metod);
 			verificador.mostrarInfo("Metodologia creada exitosamente", "Informacion");
@@ -85,8 +85,7 @@ public class MenuMetodologias implements Initializable {
 			verificador.mostrarError("Ya existe una metodologia con ese nombre", "Error");
 		} catch (CampoVacioException e) {
 			verificador.mostrarError("Falto completar el campo nombre de la metodologia", "Error");
-		}
-		catch(PersistenceException e) {
+		} catch (PersistenceException e) {
 			verificador.mostrarError("Ya Existe una metodologia con ese nombre", "Error");
 		}
 	}
@@ -191,11 +190,19 @@ public class MenuMetodologias implements Initializable {
 
 	public void setTraductor(Traductor tradu) {
 		this.t = tradu;
-//		t.getMetodologias().forEach(unaMetodologia -> idMetodologia.getItems().add(unaMetodologia.getNombre()));
-		
-		List<Metodologia> metodologiasPersistidos= Metodologias.setMetodologias();
-	
-        metodologiasPersistidos.forEach(unaMeto -> idMetodologia.getItems().add(unaMeto.getNombre()));
+		t.getMetodologias().forEach(unaMetodologia -> idMetodologia.getItems().add(unaMetodologia.getNombre()));
+
+		List<Metodologia> metodologiasPersistidos = Metodologias.setMetodologias();
+		// para que ande una metodologia persistida
+		metodologiasPersistidos.forEach(unaMeto -> {
+			idMetodologia.getItems().add(unaMeto.getNombre());
+			if (!t.getMetodologias().contains(unaMeto)) {
+				t.agregarMetodologia(unaMeto);
+			}
+			unaMeto.getCondicionesDeMetodologia().stream().forEach(unC -> {
+				unC.getLadoIzq().setTraductor(t);
+			});
+		});
 
 	}
 
@@ -206,4 +213,5 @@ public class MenuMetodologias implements Initializable {
 	public void setStagePrincipalMeto(Stage stagePrincipal) {
 		this.stagePrincipalMeto = stagePrincipal;
 	}
+
 }

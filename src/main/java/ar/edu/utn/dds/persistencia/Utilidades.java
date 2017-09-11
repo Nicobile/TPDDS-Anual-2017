@@ -52,33 +52,22 @@ public class Utilidades {
 		entityManager.close();
 	}
 
+	public static void conectarConBD() {
 
+		String url = "jdbc:mysql://localhost";
 
+		String username = "dds";
+		String password = "dds";
 
-	    public static void conectarConBD(){
-	        // Defines the JDBC URL. As you can see, we are not specifying
-	        // the database name in the URL.
-	        String url = "jdbc:mysql://localhost";
+		String sql = "CREATE DATABASE IF NOT EXISTS dds";
 
-	        // Defines username and password to connect to database server.
-	        String username = "dds";
-	        String password = "dds";
+		try (Connection conn = DriverManager.getConnection(url, username, password);
+				PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-	        // SQL command to create a database in MySQL.
-	        String sql = "CREATE DATABASE IF NOT EXISTS dds";
+			stmt.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-	        try (Connection conn = DriverManager.getConnection(url, username, password);
-	             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-	            stmt.execute();
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-	    }
-	
-	
-	
-	
-	
-	
 }

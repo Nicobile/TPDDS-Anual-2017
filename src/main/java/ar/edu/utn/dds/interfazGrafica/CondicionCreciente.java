@@ -43,10 +43,9 @@ public class CondicionCreciente extends TiposDeCondicion {
 			verificador.textFieldVacio(idAnios);
 			int anios = Integer.parseInt(idAnios.getText());
 			String indicador = idIndicador.getValue();
-			
-			
-			Creciente cre = new Creciente(Indicadores.getIndicadores().stream().filter(unI->
-			unI.getNombre().equals(indicador)).findFirst().get(), t);
+
+			Creciente cre = new Creciente(Indicadores.getIndicadores().stream()
+					.filter(unI -> unI.getNombre().equals(indicador)).findFirst().get(), t);
 			Condicion cond = new Filtro(cre, anios);
 			meto.agregarCondicion(cond);
 

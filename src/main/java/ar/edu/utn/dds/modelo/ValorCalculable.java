@@ -24,25 +24,25 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 
 @Entity
 @Table(name = "valoresCalculables")
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)  
-@DiscriminatorColumn(name="type",discriminatorType=DiscriminatorType.STRING)  
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 public abstract class ValorCalculable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	@ManyToOne
-	@JoinColumn(name="indicador_id")
+	@JoinColumn(name = "indicador_id")
 	private Indicador indicador;
 	@Transient
 	private List<Empresa> empresas;
 	@Transient
-	private  Traductor traductor;
+	private Traductor traductor;
 
 	public ValorCalculable() {
-		
+
 	}
-	
+
 	public ValorCalculable(Indicador indicador, Traductor traductor) {
 		super();
 		this.setIndicador(indicador);

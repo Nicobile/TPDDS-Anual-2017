@@ -59,17 +59,17 @@ public class TiposDeCondicion implements Initializable {
 		return lista;
 	}
 
-	protected void persistirMedianaOsumatoriaOPromedio(ValorCalculable valorCalculable, String idValor, String idComparador,
-			Periodo periodo, String idCriterio) {
+	protected void persistirMedianaOsumatoriaOPromedio(ValorCalculable valorCalculable, String idValor,
+			String idComparador, Periodo periodo, String idCriterio) {
 		Periodo p = new Periodo();
-		try{
-			
-			 p=Periodos.getPeriodos().stream().filter(unP -> unP.equals(periodo)).findFirst().get();}
-		catch(NoSuchElementException e) {
-			 p=periodo;
+		try {
+
+			p = Periodos.getPeriodos().stream().filter(unP -> unP.equals(periodo)).findFirst().get();
+		} catch (NoSuchElementException e) {
+			p = periodo;
 			Utilidades.persistirUnObjeto(p);
-				Periodos.agregarPeriodo(p);;
-			 
+			Periodos.agregarPeriodo(p);
+
 		}
 		Condicion condicion1 = new FiltroSegunEcuacion(valorCalculable, Integer.parseInt(idValor), idComparador, p);
 		Condicion condicion2 = new OrdenaAplicandoCriterioOrdenamiento(valorCalculable, p, idCriterio);
@@ -79,7 +79,7 @@ public class TiposDeCondicion implements Initializable {
 		EntityManager em = Utilidades.getEntityManager();
 		EntityTransaction et = em.getTransaction();
 		et.begin();
-		
+
 		Metodologia metodologiaCargadaEnBase = em.find(Metodologia.class, meto.getId());
 		metodologiaCargadaEnBase.getCondicionesDeMetodologia().add(condicion1);
 		metodologiaCargadaEnBase.getCondicionesDeMetodologia().add(condicion2);

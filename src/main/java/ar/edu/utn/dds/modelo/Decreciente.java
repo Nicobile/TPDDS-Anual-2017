@@ -11,15 +11,15 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 
-@Entity  
-@DiscriminatorValue("decreciente") 
+@Entity
+@DiscriminatorValue("decreciente")
 
 public class Decreciente extends ValorCalculable {
 
 	public Decreciente() {
-		
+
 	}
-	
+
 	public Decreciente(Indicador indicador, Traductor traductor) {
 		super(indicador, traductor);
 	}
