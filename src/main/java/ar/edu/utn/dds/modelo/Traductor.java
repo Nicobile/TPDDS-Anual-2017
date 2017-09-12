@@ -1,5 +1,6 @@
 package ar.edu.utn.dds.modelo;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -11,6 +12,8 @@ import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+
+import org.apache.log4j.Logger;
 
 import ar.edu.utn.dds.antlr.ExpressionParser;
 import ar.edu.utn.dds.entidades.Cuentas;
@@ -30,6 +33,8 @@ public class Traductor {
 	private ArrayList<Indicador> indicadores = new ArrayList<Indicador>();
 	private List<Metodologia> metodologias = new ArrayList<Metodologia>();
 	private ExpressionParser parser = new ExpressionParser();
+	private static Logger log = Logger.getLogger(Principal.class);
+	
 
 	public List<Metodologia> getMetodologias() {
 		return metodologias;
@@ -80,10 +85,8 @@ public class Traductor {
 	 * por cada periodo perteneciente al PERIODO INGRESADO POR INTERFAZ, por cada
 	 * empresa, calculo el indicador en cada uno de esos periodos y los sumo
 	 */
-	public ArrayList<Double> calcularAListaDeEmpresas(List<Empresa> empresas, Periodo periodo, Indicador i)
-			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
-			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
-		
+	public ArrayList<Double> calcularAListaDeEmpresas(List<Empresa> empresas, Periodo periodo, Indicador i) {
+
 		ArrayList<Double> lista = new ArrayList<Double>();
 
 		empresas.stream().forEach(unaE -> {
@@ -106,17 +109,21 @@ public class Traductor {
 				 * periodos en los que existen cuentes que estan ,comprendidos entre los
 				 * periodos que me piden desde la interfaz
 				 */
-				try {
-					listaAux.add(calcular(unaE.getNombre(), unP, i.getNombre()));
-					
-				} catch (NoSeEncuentraLaEmpresaException e) {
 
-				} catch (NoSeEncuentraLaCuentaException e) {
-
-				} catch (NoSeEncuentraLaCuentaEnElPeriodoException e) {
-
-				} catch (NoSeEncuentraElIndicadorException e) {
+				if (unaE.tieneCuentasEnUnPeriodo(unP)) {
+					try {
+						listaAux.add(calcular(unaE.getNombre(), unP, i.getNombre()));
+					} catch (NoSeEncuentraLaEmpresaException e) {
+						log.fatal("No se encontro la empresa");
+					} catch (NoSeEncuentraLaCuentaException e) {
+						log.fatal("No se encontro la cuenta");
+					} catch (NoSeEncuentraLaCuentaEnElPeriodoException e) {
+						log.fatal("No se encontro la cuenta en el periodo");
+					} catch (NoSeEncuentraElIndicadorException e) {
+						log.fatal("No se encontro el indicador");
+					}
 				}
+
 			});
 
 			double sum = listaAux.stream().mapToDouble(unV -> unV).sum();
@@ -125,10 +132,6 @@ public class Traductor {
 		});
 		return lista;
 	}
-
-	
-
-	
 
 	public void agregarIndicador(Indicador i) {
 		getIndicadores().add(i);
@@ -142,6 +145,7 @@ public class Traductor {
 			throw new NoSeEncuentraLaEmpresaException("No se encontro la empresa especificada");
 		}
 	}
+
 	public Indicador buscarIndicador(String ind) throws NoSeEncuentraElIndicadorException {
 		try {
 			return getIndicadores().stream().filter(unIndicador -> unIndicador.getNombre().equals(ind)).findFirst()
@@ -151,6 +155,7 @@ public class Traductor {
 					"No se encontro en la lista de indicadores el indicador especificado");
 		}
 	}
+
 	public void armarListaEmpresas(ArrayList<LineaArchivo> lineasArchivo) throws NoSeEncuentraLaEmpresaException {
 
 		HashSet<Periodo> periodos = new HashSet<>();
@@ -214,7 +219,7 @@ public class Traductor {
 					}
 
 				});
-				
+
 				if (!(empresas.contains(unaE))) {
 					entityManager.persist(unaE);
 				}
@@ -223,7 +228,6 @@ public class Traductor {
 
 		});
 
-		
 		transaction.commit();
 		Utilidades.closeEntityManager();
 

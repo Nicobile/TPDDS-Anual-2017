@@ -1,5 +1,6 @@
 package ar.edu.utn.dds.modelo;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,6 +11,8 @@ import java.util.stream.Collectors;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+import org.apache.log4j.Logger;
+
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
@@ -19,7 +22,8 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 @DiscriminatorValue("creciente") 
 
 public class Creciente extends ValorCalculable {
-
+	private static Logger log=Logger.getLogger(Principal.class);
+	
 	public Creciente(Indicador indicador, Traductor t) {
 		super(indicador, t);
 	}
@@ -39,8 +43,7 @@ public class Creciente extends ValorCalculable {
 
 	}
 	public List<Empresa> empresasConIndicadorCreciente(List<Empresa> empresas, int anio, Indicador i)
-			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
-			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
+		{
 
 		LocalDate diaDeHoy = LocalDate.now();
 		LocalDate diaInicio = diaDeHoy.minusYears(anio);
@@ -69,10 +72,14 @@ public class Creciente extends ValorCalculable {
 				try {
 					valorEnperiodos.add((super.getTraductor().calcular(unaE.getNombre(), unP, i.getNombre())));
 					
-				} catch (NoSeEncuentraLaCuentaEnElPeriodoException e) {
+				} 	 catch (NoSeEncuentraLaCuentaEnElPeriodoException e) {
+					log.fatal("No se encuentra la cuenta en el Periodo");
 				} catch (NoSeEncuentraLaEmpresaException e) {
+					log.fatal("No se encuentra la empresa");
 				} catch (NoSeEncuentraLaCuentaException e) {
+					log.fatal("No se encuentra la cuenta ");
 				} catch (NoSeEncuentraElIndicadorException e) {
+					log.fatal("No se encuentra el indicador");
 				}
 			});
 

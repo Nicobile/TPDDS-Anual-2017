@@ -43,39 +43,10 @@ public class MetodologiaTest {
 		this.lector.leerArchivo(this.getClass().getResource("/Datos.txt").getFile());
 
 	}
-	@Test
+	//@Test
 	public void aplicarMetodologiaDesdeBD() throws NoSeEncuentraElIndicadorException, FileNotFoundException, IOException,
 			NoSeEncuentraLaEmpresaException, NoHayEmpresasQueCumplanLaCondicionException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException {
 		
-		procesador1.leerExcel(this.getClass().getResource("/Indicadores.xls").getFile());
-		
-		// creo la metodologia y la guardo en bd y la traigo pra verificar que de bien
-		EntityManager em = Utilidades.getEntityManager();
-		EntityTransaction et = em.getTransaction();
-
-		
-		
-		ValorCalculable decre1 = new Decreciente(t.buscarIndicador("i_NivelDeuda"), t);
-
-		Condicion cond1 = new Filtro(decre1, 4);
-		meto.agregarCondicion(cond1);
-		et.begin();	
-		//guardo los datos
-		em.persist(decre1);
-		em.persist(cond1);		
-		em.persist(meto);
-		et.commit();
-		
-		
-		//los traigo
-		Metodologia m=Metodologias.setMetodologias().get(0);
-	//presunto por el nombre, pq dos metodologias son iguales si tienen mismo nombre
-		assertEquals(m,meto);
-		
-//		ArrayList<PuntajeEmpresa> empresas =m.aplicarMetodologia();
-//		
-//		/* Solo Pepsico cumplen con la condidion de que su deuda sea decreciente */
-//		assertEquals(empresas.size(), 1);
-//		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Pepsico"), empresas.get(0));
+	
 	}
 }

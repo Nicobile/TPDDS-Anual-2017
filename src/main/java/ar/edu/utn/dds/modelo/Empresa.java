@@ -190,4 +190,9 @@ public class Empresa {
 		this.fechaInscripcion = fechaInscripcion;
 	}
 
+	public boolean tieneCuentasEnUnPeriodo(Periodo unP) {
+		
+		return getCuentas().stream().filter(unC-> unC.getPeriodo().equals(unP)).findFirst().isPresent();
+	}
+
 }
