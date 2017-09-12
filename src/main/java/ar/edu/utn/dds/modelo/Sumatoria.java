@@ -36,7 +36,7 @@ public class Sumatoria extends ValorCalculable {
 
 		// return super.sumatoriaIndicadores(listaEmpresas, periodos);
 		ArrayList<Double> lista = new ArrayList<Double>();
-		lista = this.getTraductor().calcularAListaDeEmpresas(getEmpresas(), periodos, getIndicador());
+		lista = this.getTraductor().calcularAListaDeEmpresas(super.getEmpresas(), periodos, getIndicador());
 
 		for (int i = 0; (i < listaEmpresas.size()) && (i < lista.size()); i++) {
 			listaEmpresas.get(i).setResultadoDeAplicarCondicion(lista.get(i));

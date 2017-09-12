@@ -25,26 +25,32 @@ import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 
 @Entity
 @Table(name = "condiciones")
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)  
-@DiscriminatorColumn(name="type",discriminatorType=DiscriminatorType.STRING)  
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 public abstract class Condicion {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	@ManyToOne
-	@JoinColumn(name="ladoIzq_id")
+	@JoinColumn(name = "ladoIzq_id")
 	private ValorCalculable ladoIzq;
 	@ManyToOne
-	@JoinColumn(name="periodo_id")
+	@JoinColumn(name = "periodo_id")
 	private Periodo periodos;
-	
-
+	@Transient
+	List<Empresa> empresas;
 	private int anios;
 	@Transient
 	public Boolean filtro;
+
 	public int getId() {
 		return id;
 	}
+
+	public List<Empresa> getEmpresas() {
+		return empresas;
+	}
+
 	public Condicion() {
 
 	}
@@ -52,15 +58,19 @@ public abstract class Condicion {
 	 * Aplica a todas las empresas el lado izq y los guarda en la lista SIN ORDENAR
 	 */
 
-	public List<PuntajeEmpresa> aplicar() throws ScriptException, NoSePudoOrdenarLaCondicionException,
-			NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException,
-			NoSeEncuentraElIndicadorException {
-
+	public List<PuntajeEmpresa> aplicar() throws ScriptException,
+			NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
+			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
+		
 		List<PuntajeEmpresa> valoresAizq = new ArrayList<PuntajeEmpresa>();
-
+		ladoIzq.setEmpresas(empresas);
 		valoresAizq = ladoIzq.calcularValor(periodos, anios);
 
 		return valoresAizq;
+	}
+
+	public void setEmpresas(List<Empresa> empresas) {
+		this.empresas = empresas;
 	}
 
 	public int getAnios() {

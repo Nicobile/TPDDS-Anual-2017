@@ -2,7 +2,6 @@ package ar.edu.utn.dds.modelo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -35,7 +34,7 @@ public abstract class ValorCalculable {
 	@JoinColumn(name = "indicador_id")
 	private Indicador indicador;
 	@Transient
-	private List<Empresa> empresas;
+	protected List<Empresa> empresas;
 	@Transient
 	private Traductor traductor;
 
@@ -63,7 +62,7 @@ public abstract class ValorCalculable {
 			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
 
-		empresas = traductor.getEmpresas().stream().collect(Collectors.toList());
+		//empresas = traductor.getEmpresas().stream().collect(Collectors.toList());
 
 		ArrayList<PuntajeEmpresa> listaEmpresa = new ArrayList<PuntajeEmpresa>();
 
@@ -76,7 +75,7 @@ public abstract class ValorCalculable {
 			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
 		ArrayList<Double> lista = new ArrayList<Double>();
-		lista = this.getTraductor().calcularAListaDeEmpresas(getEmpresas(), periodos, getIndicador());
+		lista = this.getTraductor().calcularAListaDeEmpresas(empresas, periodos, getIndicador());
 
 		for (int i = 0; (i < listaEmpresas.size()) && (i < lista.size()); i++) {
 			listaEmpresas.get(i).setResultadoDeAplicarCondicion(lista.get(i));
@@ -94,12 +93,16 @@ public abstract class ValorCalculable {
 
 	}
 
+
+
 	public List<Empresa> getEmpresas() {
 		return empresas;
 	}
 
-	public void setEmpresas(List<Empresa> e) {
-		empresas = e;
+	public void setEmpresas(List<Empresa> empres) {
+	
+		
+		this.empresas= empres;
 	}
 
 	public Traductor getTraductor() {

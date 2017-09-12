@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.script.ScriptException;
 
@@ -24,6 +25,7 @@ import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 import ar.edu.utn.dds.modelo.Condicion;
 import ar.edu.utn.dds.modelo.Creciente;
 import ar.edu.utn.dds.modelo.Decreciente;
+import ar.edu.utn.dds.modelo.Empresa;
 import ar.edu.utn.dds.modelo.Filtro;
 import ar.edu.utn.dds.modelo.FiltroSegunEcuacion;
 import ar.edu.utn.dds.modelo.Longevidad;
@@ -74,7 +76,7 @@ public class PruebaMetodologiaTest {
 
 		meto.agregarCondicion(cond);
 
-		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
+		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia(t.getEmpresas());
 
 		/* Solo Pepsico cumplen con la condidion de que su deuda sea decreciente */
 		assertEquals(empresas.size(), 1);
@@ -92,7 +94,7 @@ public class PruebaMetodologiaTest {
 
 		meto.agregarCondicion(cond);
 
-		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
+		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia(t.getEmpresas());
 
 		/*
 		 * Solo Twitter, Cocacola y Facebook cumplen con la condidion de que su deuda
@@ -113,11 +115,11 @@ public class PruebaMetodologiaTest {
 
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
 
-		Condicion cond2 = new FiltroSegunEcuacion(sum, 400, ">", periodo);
+		Condicion cond2 = new FiltroSegunEcuacion(sum, 40, ">", periodo);
 		meto.agregarCondicion(cond2);
-		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
+		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia(t.getEmpresas());
 
-		assertEquals(empresas.size(), 1);
+		assertEquals(empresas.size(), 2);
 
 	}
 
@@ -129,7 +131,7 @@ public class PruebaMetodologiaTest {
 
 		Filtro condlon = new Filtro(lon, 20);
 		meto.agregarCondicion(condlon);
-		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
+		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia(t.getEmpresas());
 
 		/*
 		 * Solo CocacolaYpesico tienen mas de 20"
@@ -144,12 +146,12 @@ public class PruebaMetodologiaTest {
 			NoSeEncuentraLaCuentaEnElPeriodoException {
 		Promedio pro = new Promedio(t.buscarIndicador("i_NivelDeuda"), t);
 
-		Condicion conpro = new FiltroSegunEcuacion(pro, 50, ">", periodo);
+		Condicion conpro = new FiltroSegunEcuacion(pro, 40, ">", periodo);
 		meto.agregarCondicion(conpro);
-		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
+		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia(t.getEmpresas());
 
 		assertEquals(empresas.size(), 1);
-		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Pepsico"), empresas.get(0));
+		
 	}
 
 	@Test
@@ -160,7 +162,7 @@ public class PruebaMetodologiaTest {
 		Mediana mediana = new Mediana(t.buscarIndicador("i_NivelDeuda"), t);
 		Condicion conMediana = new FiltroSegunEcuacion(mediana, 50, ">", periodo);
 		meto.agregarCondicion(conMediana);
-		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
+		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia(t.getEmpresas());
 
 		assertEquals(empresas.size(), 1);
 		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Facebook"), empresas.get(0));
@@ -179,7 +181,7 @@ public class PruebaMetodologiaTest {
 		Condicion cond = new OrdenaAplicandoCriterioOrdenamiento(sum, periodo, "mayorAmenor");
 		meto.agregarCondicion(cond2);
 		meto.agregarCondicion(cond);
-		meto.aplicarMetodologia();
+		meto.aplicarMetodologia(t.getEmpresas());
 
 	}
 
@@ -190,16 +192,18 @@ public class PruebaMetodologiaTest {
 
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
 
-		Condicion cond2 = new FiltroSegunEcuacion(sum, 200, ">", periodo);
+		Condicion cond2 = new FiltroSegunEcuacion(sum, 20, ">", periodo);
 		Condicion cond = new OrdenaAplicandoCriterioOrdenamiento(sum, periodo, "mayorAmenor");
 		meto.agregarCondicion(cond2);
 		meto.agregarCondicion(cond);
-		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
+		
+	
+		
+		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia(t.getEmpresas());
 
-		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Pepsico"), empresas.get(0));
-		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Twitter"), empresas.get(1));
-		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "CocaCola"), empresas.get(2));
-		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Facebook"), empresas.get(3));
+		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Facebook"), empresas.get(0));
+		  assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Pepsico"), empresas.get(1));
+		
 
 	}
 
@@ -210,17 +214,24 @@ public class PruebaMetodologiaTest {
 
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
 
-		Condicion cond2 = new FiltroSegunEcuacion(sum, 348, ">", periodo);
+		Condicion cond2 = new FiltroSegunEcuacion(sum, 48, ">", periodo);
 		Condicion cond = new OrdenaAplicandoCriterioOrdenamiento(sum, periodo, "mayorAmenor");
 		meto.agregarCondicion(cond2);
 		meto.agregarCondicion(cond);
-		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
+		
+		List<Empresa> listaEmpresas = new ArrayList<Empresa>();
+		t.getEmpresas().stream().forEach(unaE->{
+			if (!(unaE.getNombre().equals("Facebook"))){
+				listaEmpresas.add(unaE);
+			}
+		});
+		
+		
+		
+		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia(listaEmpresas);
 
-		/* solo 3 empresas cumplen con la condicion de suma */
 		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Pepsico"), empresas.get(0));
-		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Twitter"), empresas.get(1));
-		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "CocaCola"), empresas.get(2));
-
+	
 	}
 
 	@Test
@@ -230,15 +241,25 @@ public class PruebaMetodologiaTest {
 
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
 
-		Condicion cond2 = new FiltroSegunEcuacion(sum, 349, ">", periodo);
+		Condicion cond2 = new FiltroSegunEcuacion(sum, 49, ">", periodo);
 		Condicion cond = new OrdenaAplicandoCriterioOrdenamiento(sum, periodo, "menorAmayor");
 		meto.agregarCondicion(cond2);
 		meto.agregarCondicion(cond);
-		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
-
-		/* solo 3 empresas cumplen con la condicion de suma */
-		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Pepsico"), empresas.get(1));
-		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Twitter"), empresas.get(0));
+		
+		
+		List<Empresa> listaEmpresas = new ArrayList<Empresa>();
+		t.getEmpresas().stream().forEach(unaE->{
+			if (!((unaE.getNombre().equals("Facebook"))) &&(!(unaE.getNombre().equals("CocaCola")))){
+				listaEmpresas.add(unaE);
+			}
+		});
+		
+		
+		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia(listaEmpresas);
+	
+		
+		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Pepsico"), empresas.get(0));
+		
 
 	}
 
@@ -263,7 +284,7 @@ public class PruebaMetodologiaTest {
 		Condicion condcre = new Filtro(cre, 5);
 		meto.agregarCondicion(condlon);
 		meto.agregarCondicion(condcre);
-		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
+		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia(t.getEmpresas());
 		/*
 		 * estas condiciones no suman puntaje solo filtran por eso no estaria bien
 		 * preguntar el orden
@@ -280,10 +301,18 @@ public class PruebaMetodologiaTest {
 
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
 		Condicion condi = new Filtro(decre, 10);
-		Condicion condi2 = new FiltroSegunEcuacion(sum, 400, ">", periodo);
+		Condicion condi2 = new FiltroSegunEcuacion(sum, 40, ">", periodo);
 		meto.agregarCondicion(condi);
 		meto.agregarCondicion(condi2);
-		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
+		List<Empresa> listaEmpresas = new ArrayList<Empresa>();
+		t.getEmpresas().stream().forEach(unaE->{
+			if ((unaE.getNombre().equals("Pepsico"))){
+				listaEmpresas.add(unaE);
+			}
+		});
+				
+		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia(listaEmpresas);
+	
 		/*
 		 * ninguna de las condiciones suman puntaje, pero solo una empresa cumple abas
 		 * condiciones
@@ -302,19 +331,19 @@ public class PruebaMetodologiaTest {
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
 
 		Condicion cond1 = new OrdenaAplicandoCriterioOrdenamiento(prom, periodo, "menorAmayor");
-		Condicion cond2 = new FiltroSegunEcuacion(sum, 348, ">", periodo);
+		Condicion cond2 = new FiltroSegunEcuacion(sum, 38, ">", periodo);
 		meto.agregarCondicion(cond1);
 		meto.agregarCondicion(cond2);
-		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
-
+		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia(t.getEmpresas());
+		
 		/*
 		 * solo 3 empresas cumplen cond coca pepsi y twitter, cumplen la condicion de
 		 * suma(que solo filtra) y el promedio se ordena de menor a mayor con lo cual el
 		 * orden deberia ser coca twitter pepsico,
 		 */
-		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "CocaCola"), empresas.get(0));
-		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Twitter"), empresas.get(1));
-		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Pepsico"), empresas.get(2));
+		
+		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Facebook"), empresas.get(1));
+		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Pepsico"), empresas.get(0));
 
 	}
 
@@ -327,19 +356,15 @@ public class PruebaMetodologiaTest {
 		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
 
 		Condicion cond1 = new OrdenaAplicandoCriterioOrdenamiento(prom, periodo, "mayorAmenor");
-		Condicion cond2 = new FiltroSegunEcuacion(sum, 348, ">", periodo);
+		Condicion cond2 = new FiltroSegunEcuacion(sum, 38, ">", periodo);
 		meto.agregarCondicion(cond1);
 		meto.agregarCondicion(cond2);
-		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
-
-		/*
-		 * solo 3 empresas cumplen cond coca pepsi y twitter, cumplen la condicion de
-		 * suma(que solo filtra) y el promedio se ordena de mayor a menor con lo cual el
-		 * orden deberia ser pepsico twitter coca
-		 */
-		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "CocaCola"), empresas.get(2));
-		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Twitter"), empresas.get(1));
-		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Pepsico"), empresas.get(0));
+		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia(t.getEmpresas());
+		
+	
+		
+		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Facebook"), empresas.get(0));
+		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Pepsico"), empresas.get(1));
 	}
 
 	public void sinCuentasEnPeriodo() throws NoSeEncuentraElIndicadorException, NoSeEncuentraLaEmpresaException,
@@ -355,7 +380,7 @@ public class PruebaMetodologiaTest {
 
 		meto.agregarCondicion(cond1);
 		meto.agregarCondicion(cond2);
-		meto.aplicarMetodologia();
+		meto.aplicarMetodologia(t.getEmpresas());
 	}
 
 	@Test
@@ -370,7 +395,7 @@ public class PruebaMetodologiaTest {
 		Condicion cond2 = new FiltroSegunEcuacion(sum, 348, ">", periodo);
 		meto.agregarCondicion(cond1);
 		meto.agregarCondicion(cond2);
-		meto.aplicarMetodologia();
+		meto.aplicarMetodologia(t.getEmpresas());
 
 	}
 
@@ -385,7 +410,7 @@ public class PruebaMetodologiaTest {
 		Condicion cond1 = new Filtro(cre, 2);
 
 		meto.agregarCondicion(cond1);
-		meto.aplicarMetodologia();
+		meto.aplicarMetodologia(t.getEmpresas());
 
 	}
 
@@ -402,7 +427,7 @@ public class PruebaMetodologiaTest {
 
 		meto.agregarCondicion(cond1);
 		meto.agregarCondicion(cond2);
-		meto.aplicarMetodologia();
+		meto.aplicarMetodologia(t.getEmpresas());
 	}
 
 	@After

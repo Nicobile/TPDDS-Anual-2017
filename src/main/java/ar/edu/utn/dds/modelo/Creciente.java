@@ -1,7 +1,11 @@
 package ar.edu.utn.dds.modelo;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -29,9 +33,57 @@ public class Creciente extends ValorCalculable {
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
 
 		ArrayList<PuntajeEmpresa> listaEmpresas = super.calcularValor(periodos, anios);
-		List<Empresa> empresas = getTraductor().empresasConIndicadorCreciente(getEmpresas(), anios, getIndicador());
+		List<Empresa> emp = empresasConIndicadorCreciente(empresas, anios, getIndicador());
 
-		return eliminarEmpresasQueNoCumplenCondicion(listaEmpresas, empresas);
+		return eliminarEmpresasQueNoCumplenCondicion(listaEmpresas, emp);
 
+	}
+	public List<Empresa> empresasConIndicadorCreciente(List<Empresa> empresas, int anio, Indicador i)
+			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
+			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
+
+		LocalDate diaDeHoy = LocalDate.now();
+		LocalDate diaInicio = diaDeHoy.minusYears(anio);
+		Periodo periodo = new Periodo(diaInicio, diaDeHoy);
+		List<Empresa> empresasConIndicadorCreciente = new ArrayList<>(empresas);
+
+		empresas.stream().forEach(unaE -> {
+
+			/* de las cuentas me quedo con los periodos */
+			List<Cuenta> cuentas = unaE.filtraCuentasEnPeriodo(periodo);
+
+			/* elimino periodos iguales */
+			List<Periodo> periodos = cuentas.stream().map(unaC -> unaC.getPeriodo()).collect(Collectors.toList());
+
+			/*
+			 * ordeno los periodos de menor a mayor, de esta manera se cual periodo es
+			 * anterior, y calculo su valor
+			 */
+			List<Periodo> listaPeriodos = new ArrayList<>(new HashSet<>(periodos));
+
+			Collections.sort(listaPeriodos, (p1, p2) -> p1.getFechaInicio().compareTo(p2.getFechaInicio()));
+
+			List<Double> valorEnperiodos = new ArrayList<>();
+
+			listaPeriodos.stream().forEach(unP -> {
+				try {
+					valorEnperiodos.add((super.getTraductor().calcular(unaE.getNombre(), unP, i.getNombre())));
+					
+				} catch (NoSeEncuentraLaCuentaEnElPeriodoException e) {
+				} catch (NoSeEncuentraLaEmpresaException e) {
+				} catch (NoSeEncuentraLaCuentaException e) {
+				} catch (NoSeEncuentraElIndicadorException e) {
+				}
+			});
+
+			/*
+			 * si no ordeno la lista es pq no esta ordenado en forma CRECIENTE
+			 */
+
+			empresasConIndicadorCreciente.removeIf(
+					unaEmp -> (!valorEnperiodos.stream().sorted().collect(Collectors.toList()).equals(valorEnperiodos))
+							&& unaEmp.equals(unaE));
+		});
+		return empresasConIndicadorCreciente;
 	}
 }

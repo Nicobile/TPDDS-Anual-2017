@@ -83,11 +83,11 @@ public class Traductor {
 	public ArrayList<Double> calcularAListaDeEmpresas(List<Empresa> empresas, Periodo periodo, Indicador i)
 			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
-		ArrayList<Double> listaAux = new ArrayList<Double>();
+		
 		ArrayList<Double> lista = new ArrayList<Double>();
 
 		empresas.stream().forEach(unaE -> {
-
+			ArrayList<Double> listaAux = new ArrayList<Double>();
 			/* solo a las cuentas que pertenecen al periodo */
 			List<Cuenta> cuentas = unaE.filtraCuentasEnPeriodo(periodo);
 
@@ -108,6 +108,7 @@ public class Traductor {
 				 */
 				try {
 					listaAux.add(calcular(unaE.getNombre(), unP, i.getNombre()));
+					
 				} catch (NoSeEncuentraLaEmpresaException e) {
 
 				} catch (NoSeEncuentraLaCuentaException e) {
@@ -125,118 +126,9 @@ public class Traductor {
 		return lista;
 	}
 
-	public List<Empresa> empresasConIndicadorCreciente(List<Empresa> empresas, int anio, Indicador i)
-			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
-			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
+	
 
-		LocalDate diaDeHoy = LocalDate.now();
-		LocalDate diaInicio = diaDeHoy.minusYears(anio);
-		Periodo periodo = new Periodo(diaInicio, diaDeHoy);
-		List<Empresa> empresasConIndicadorCreciente = new ArrayList<>(empresas);
-
-		empresas.stream().forEach(unaE -> {
-
-			/* de las cuentas me quedo con los periodos */
-			List<Cuenta> cuentas = unaE.filtraCuentasEnPeriodo(periodo);
-
-			/* elimino periodos iguales */
-			List<Periodo> periodos = cuentas.stream().map(unaC -> unaC.getPeriodo()).collect(Collectors.toList());
-
-			/*
-			 * ordeno los periodos de menor a mayor, de esta manera se cual periodo es
-			 * anterior, y calculo su valor
-			 */
-			List<Periodo> listaPeriodos = new ArrayList<>(new HashSet<>(periodos));
-
-			Collections.sort(listaPeriodos, (p1, p2) -> p1.getFechaInicio().compareTo(p2.getFechaInicio()));
-
-			List<Double> valorEnperiodos = new ArrayList<>();
-
-			listaPeriodos.stream().forEach(unP -> {
-				try {
-					valorEnperiodos.add((this.calcular(unaE.getNombre(), unP, i.getNombre())));
-					/*
-					 * PREGUNTAR ACA CREO QUE ESTA EL ERROR DE QUE NO TIRA QUE NO ENCONTRO LA
-					 * EMPRESA
-					 */
-				} catch (NoSeEncuentraLaCuentaEnElPeriodoException e) {
-				} catch (NoSeEncuentraLaEmpresaException e) {
-				} catch (NoSeEncuentraLaCuentaException e) {
-				} catch (NoSeEncuentraElIndicadorException e) {
-				}
-			});
-
-			/*
-			 * si no ordeno la lista es pq no esta ordenado en forma CRECIENTE
-			 */
-
-			empresasConIndicadorCreciente.removeIf(
-					unaEmp -> (!valorEnperiodos.stream().sorted().collect(Collectors.toList()).equals(valorEnperiodos))
-							&& unaEmp.equals(unaE));
-		});
-		return empresasConIndicadorCreciente;
-	}
-
-	public List<Empresa> empresasConIndicadorDecreciente(List<Empresa> empresas, int anio, Indicador i)
-			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
-			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
-
-		LocalDate diaDeHoy = LocalDate.now();
-		LocalDate diaInicio = diaDeHoy.minusYears(anio);
-
-		Periodo periodo = new Periodo(diaInicio, diaDeHoy);
-		List<Empresa> empresasConIndicadorDecreciente = new ArrayList<>(empresas);
-
-		empresas.stream().forEach(unaE -> {
-
-			/* de las cuentas me quedo con los periodos */
-			List<Cuenta> cuentas = unaE.filtraCuentasEnPeriodo(periodo);
-
-			/* elimino periodos iguales */
-			List<Periodo> periodos = cuentas.stream().map(unaC -> unaC.getPeriodo()).collect(Collectors.toList());
-
-			/*
-			 * ordeno los periodos de menor a mayor, de esta manera se cual periodo es
-			 * anterior, y calculo su valor
-			 */
-			List<Periodo> listaPeriodos = new ArrayList<>(new HashSet<>(periodos));
-
-			Collections.sort(listaPeriodos, (p1, p2) -> p1.getFechaInicio().compareTo(p2.getFechaInicio()));
-
-			List<Double> valorEnperiodos = new ArrayList<>();
-			listaPeriodos.stream().forEach(unP -> {
-
-				try {
-					valorEnperiodos.add((this.calcular(unaE.getNombre(), unP, i.getNombre())));
-
-				} catch (NoSeEncuentraLaCuentaEnElPeriodoException e) {
-				} catch (NoSeEncuentraLaEmpresaException e) {
-					e.printStackTrace();
-				} catch (NoSeEncuentraLaCuentaException e) {
-					e.printStackTrace();
-				} catch (NoSeEncuentraElIndicadorException e) {
-					e.printStackTrace();
-				}
-
-			});
-			/* si ordeno la lista es pq no esta ordenado en forma DECRECIENTE */
-
-			empresasConIndicadorDecreciente.removeIf(
-					unaEmp -> (valorEnperiodos.stream().sorted().collect(Collectors.toList()).equals(valorEnperiodos))
-							&& unaEmp.equals(unaE));
-		});
-		return empresasConIndicadorDecreciente;
-	}
-
-	public Indicador buscarIndicador(String ind) throws NoSeEncuentraElIndicadorException {
-		try {
-			return getIndicadores().stream().filter(unIndicador -> unIndicador.getNombre().equals(ind)).findFirst()
-					.get();
-		} catch (NoSuchElementException e) {
-			throw new NoSeEncuentraElIndicadorException(
-					"No se encontro en la lista de indicadores el indicador especificado");
-		}
-	}
+	
 
 	public void agregarIndicador(Indicador i) {
 		getIndicadores().add(i);
@@ -250,7 +142,15 @@ public class Traductor {
 			throw new NoSeEncuentraLaEmpresaException("No se encontro la empresa especificada");
 		}
 	}
-
+	public Indicador buscarIndicador(String ind) throws NoSeEncuentraElIndicadorException {
+		try {
+			return getIndicadores().stream().filter(unIndicador -> unIndicador.getNombre().equals(ind)).findFirst()
+					.get();
+		} catch (NoSuchElementException e) {
+			throw new NoSeEncuentraElIndicadorException(
+					"No se encontro en la lista de indicadores el indicador especificado");
+		}
+	}
 	public void armarListaEmpresas(ArrayList<LineaArchivo> lineasArchivo) throws NoSeEncuentraLaEmpresaException {
 
 		HashSet<Periodo> periodos = new HashSet<>();

@@ -90,7 +90,7 @@ public class WarrenBuffetTest {
 		meto.agregarCondicion(cond2);
 		meto.agregarCondicion(cond3);
 		meto.agregarCondicion(cond4);
-		meto.aplicarMetodologia();
+		meto.aplicarMetodologia(t.getEmpresas());
 	}
 
 	@Test
@@ -124,7 +124,7 @@ public class WarrenBuffetTest {
 		meto.agregarCondicion(cond2);
 		meto.agregarCondicion(cond3);
 		meto.agregarCondicion(cond4);
-		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia();
+		ArrayList<PuntajeEmpresa> empresas = meto.aplicarMetodologia(t.getEmpresas());
 		/*
 		 * la condicion 3 la cumplen facebook y twitter pero la condicion 4 la cumple
 		 * facebook, como ambas filtran entonces solo facebook queda

@@ -25,7 +25,7 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 
 @Entity
-@Table(name = "metodologias" ,uniqueConstraints =@UniqueConstraint(columnNames = {"nombre"}))
+@Table(name = "metodologias", uniqueConstraints = @UniqueConstraint(columnNames = { "nombre" }))
 public class Metodologia {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,7 +34,7 @@ public class Metodologia {
 	@OneToMany(fetch = FetchType.LAZY)
 	private List<Condicion> condicionesDeMetodologia = new ArrayList<Condicion>();
 	@Transient
-	private  ArrayList<PuntajeEmpresa> puntajeEmpresas = new ArrayList<PuntajeEmpresa>();
+	private ArrayList<PuntajeEmpresa> puntajeEmpresas = new ArrayList<PuntajeEmpresa>();
 	@Transient
 	private int contador = 0;
 
@@ -64,7 +64,7 @@ public class Metodologia {
 		return -1;
 	}
 
-	public ArrayList<PuntajeEmpresa> aplicarMetodologia()
+	public ArrayList<PuntajeEmpresa> aplicarMetodologia(List<Empresa> empresas)
 			throws NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException,
 			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException,
 			NoSeEncuentraElIndicadorException, NoHayEmpresasQueCumplanLaCondicionException {
@@ -75,7 +75,7 @@ public class Metodologia {
 		Iterator<Condicion> condiciones = condicionesDeMetodologia.iterator();
 
 		while (condiciones.hasNext()) {
-			aplicarCondicion(condiciones.next());// aplico condicion
+			aplicarCondicion(condiciones.next(), empresas);// aplico condicion
 		}
 		Collections.sort(puntajeEmpresas,
 				(p1, p2) -> new Integer(p1.getPuntaje()).compareTo(new Integer(p2.getPuntaje())));
@@ -91,10 +91,10 @@ public class Metodologia {
 		this.getCondicionesDeMetodologia().add(cond);
 	}
 
-	private void aplicarCondicion(Condicion condicion) throws NoSeEncuentraLaEmpresaException, ScriptException,
-			NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException,
+	private void aplicarCondicion(Condicion condicion, List<Empresa> empresas) throws NoSeEncuentraLaEmpresaException,
+			ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
-
+		condicion.setEmpresas(empresas);
 		List<PuntajeEmpresa> listaDeAplicarCondicion = new ArrayList<PuntajeEmpresa>();
 		listaDeAplicarCondicion = condicion.aplicar();
 

@@ -2,8 +2,10 @@ package ar.edu.utn.dds.interfazGrafica;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import javax.persistence.PersistenceException;
 import javax.script.ScriptException;
@@ -18,6 +20,7 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
+import ar.edu.utn.dds.modelo.Empresa;
 import ar.edu.utn.dds.modelo.Metodologia;
 import ar.edu.utn.dds.modelo.PuntajeEmpresa;
 import ar.edu.utn.dds.modelo.Traductor;
@@ -43,7 +46,7 @@ public class MenuMetodologias implements Initializable {
 	private String texto;
 	private Metodologia metod; // primero cargar la metodologia
 	Verificador verificador = new Verificador();
-
+private List<Empresa> empresas= new ArrayList<>();
 	@FXML
 	private ComboBox<String> idMetodologia;
 
@@ -62,15 +65,20 @@ public class MenuMetodologias implements Initializable {
 	@FXML
 	private ComboBox<String> idBtnCondicion;
 
-	@FXML
-	private TextField idCond;
+
 
 	@FXML
 	private TextField idTextMetod;
 
 	@FXML
 	private Button idCargar;
-
+	@FXML
+	private ComboBox<String> idComboEmpresas;
+	@FXML
+	private Button idEliminarEmpresas;
+	@FXML
+	private Button idCargarEmpresas;
+	
 	@FXML
 	void cargar(ActionEvent event) {
 		try {
@@ -110,7 +118,7 @@ public class MenuMetodologias implements Initializable {
 
 		try {
 			verificador.comboBoxVacio(idMetodologia);
-			empresasQueCumplen = t.buscarMetodologia(idMetodologia.getValue()).aplicarMetodologia();
+			empresasQueCumplen = t.buscarMetodologia(idMetodologia.getValue()).aplicarMetodologia(empresas);
 			empresasQueCumplen.forEach(empresa -> idEmpresas.getItems().add(empresa.getNombreEmpresa()));
 		} catch (NoHayEmpresasQueCumplanLaCondicionException e) {
 			verificador.mostrarInfo("No se encontraron empresas que cumplan con la metodologia", "Informacion");
@@ -155,10 +163,7 @@ public class MenuMetodologias implements Initializable {
 		stagePrincipalMeto.close();
 	}
 
-	@FXML
-	void condiciones(ActionEvent event) {
 
-	}
 
 	@FXML
 	void btnCondicion(ActionEvent event) {
@@ -166,15 +171,30 @@ public class MenuMetodologias implements Initializable {
 
 	@FXML
 	void comboMetod(ActionEvent event) {
-		idCond.clear();
-		idCond.setText(
-				String.valueOf(t.buscarMetodologia(idMetodologia.getValue()).getCondicionesDeMetodologia().size()));
+		
 	}
 
 	@FXML
 	void textMetod(ActionEvent event) {
 	}
-
+	@FXML
+	void comboEmpresas (ActionEvent event) {
+	}
+	@FXML
+	void eliminarEmpresas (ActionEvent event) {
+		empresas.clear();
+	}
+	@FXML
+	void cargarEmpresas (ActionEvent event) {
+		
+		try {
+			empresas.add(t.obtenerEmpresa(idComboEmpresas.getValue()));
+		} catch (NoSeEncuentraLaEmpresaException e) {
+	
+			e.printStackTrace();
+		}
+		
+	}
 	/* JAVA */
 
 	@Override
@@ -185,6 +205,7 @@ public class MenuMetodologias implements Initializable {
 
 		idBtnCondicion.setItems(condiciones);
 		idBtnCondicion.getSelectionModel().select(0);
+		
 
 	}
 
@@ -203,6 +224,8 @@ public class MenuMetodologias implements Initializable {
 				unC.getLadoIzq().setTraductor(t);
 			});
 		});
+		ObservableList<String> empre = FXCollections.observableList(t.getEmpresas().stream().map(unaE->unaE.getNombre()).collect(Collectors.toList()));
+		idComboEmpresas.setItems(empre);
 
 	}
 
