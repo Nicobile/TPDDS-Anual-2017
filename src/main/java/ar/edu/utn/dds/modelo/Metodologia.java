@@ -68,23 +68,28 @@ public class Metodologia {
 			throws NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException,
 			NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException,
 			NoSeEncuentraElIndicadorException, NoHayEmpresasQueCumplanLaCondicionException {
-
+		
+		puntajeEmpresas.clear();
+	
 		if (this.getCondicionesDeMetodologia().size() < 1) {
 			throw new NoHayCondicionesException("Esta metodologia no presenta condiciones");
 		}
 		Iterator<Condicion> condiciones = condicionesDeMetodologia.iterator();
 
 		while (condiciones.hasNext()) {
-			aplicarCondicion(condiciones.next(), empresas);// aplico condicion
+			aplicarCondicion(condiciones.next(),empresas);// aplico condicion
 		}
 		Collections.sort(puntajeEmpresas,
 				(p1, p2) -> new Integer(p1.getPuntaje()).compareTo(new Integer(p2.getPuntaje())));
 
 		if (puntajeEmpresas.isEmpty()) {
-			throw new NoHayEmpresasQueCumplanLaCondicionException("No hay empresas que cumplan con la metodologia");
+		throw new NoHayEmpresasQueCumplanLaCondicionException("No hay empresas que cumplan con la metodologia");
+			
 		}
-
+	
+		contador=0;
 		return puntajeEmpresas;
+		
 	}
 
 	public void agregarCondicion(Condicion cond) {
@@ -94,10 +99,11 @@ public class Metodologia {
 	private void aplicarCondicion(Condicion condicion, List<Empresa> empresas) throws NoSeEncuentraLaEmpresaException,
 			ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
+	
 		condicion.setEmpresas(empresas);
 		List<PuntajeEmpresa> listaDeAplicarCondicion = new ArrayList<PuntajeEmpresa>();
 		listaDeAplicarCondicion = condicion.aplicar();
-
+		
 		if (puntajeEmpresas.isEmpty()) {
 
 			/*
@@ -119,6 +125,7 @@ public class Metodologia {
 				}
 			} else {
 				throw new NoHayEmpresasQueCumplanLaCondicionException("Ninguna empresa cumple con la condicion");
+				
 			}
 		} else {
 			if (!condicion.getFiltro()) {
@@ -203,6 +210,14 @@ public class Metodologia {
 
 	public void setPuntajeEmpresas(ArrayList<PuntajeEmpresa> pEmpresas) {
 		puntajeEmpresas = pEmpresas;
+	}
+
+	public int getContador() {
+		return contador;
+	}
+
+	public void setContador(int contador) {
+		this.contador = contador;
 	}
 
 	@Override

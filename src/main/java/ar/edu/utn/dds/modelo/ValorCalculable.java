@@ -61,6 +61,7 @@ public abstract class ValorCalculable {
 	public ArrayList<PuntajeEmpresa> calcularValor(Periodo periodos, int anios)
 			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
+		
 
 		//empresas = traductor.getEmpresas().stream().collect(Collectors.toList());
 

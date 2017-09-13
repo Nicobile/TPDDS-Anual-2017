@@ -195,4 +195,6 @@ public class Empresa {
 		return getCuentas().stream().filter(unC-> unC.getPeriodo().equals(unP)).findFirst().isPresent();
 	}
 
+	
+
 }

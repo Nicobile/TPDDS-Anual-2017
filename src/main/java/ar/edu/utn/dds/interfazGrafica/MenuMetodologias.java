@@ -46,7 +46,9 @@ public class MenuMetodologias implements Initializable {
 	private String texto;
 	private Metodologia metod; // primero cargar la metodologia
 	Verificador verificador = new Verificador();
-private List<Empresa> empresas= new ArrayList<>();
+	private List<Empresa> empresas= new ArrayList<>();
+
+	
 	@FXML
 	private ComboBox<String> idMetodologia;
 
@@ -82,13 +84,21 @@ private List<Empresa> empresas= new ArrayList<>();
 	@FXML
 	void cargar(ActionEvent event) {
 		try {
+			
 			verificador.textFieldVacio(idTextMetod);
+			
 			metod = new Metodologia(idTextMetod.getText());
+			
 			t.agregarMetodologia(metod);
+			
 			idMetodologia.getItems().add(metod.getNombre());
+			
 			Utilidades.persistirUnObjeto(metod);
+			
 			verificador.mostrarInfo("Metodologia creada exitosamente", "Informacion");
+			
 			idTextMetod.setText("");
+			
 		} catch (MetodologiaYaExisteException e) {
 			verificador.mostrarError("Ya existe una metodologia con ese nombre", "Error");
 		} catch (CampoVacioException e) {
@@ -101,8 +111,11 @@ private List<Empresa> empresas= new ArrayList<>();
 	@FXML
 	private void btnSeleccionar(ActionEvent event) {
 		try {
+			
 			verificador.comboBoxVacio(idMetodologia);
+			
 			mostrarCondicion(t.buscarMetodologia(idMetodologia.getValue()), idBtnCondicion.getValue());
+			
 		} catch (CampoVacioException e) {
 			verificador.mostrarError("Falto seleccionar la metodologia a la cual se le cargara la condicion", "Error");
 		}
@@ -116,10 +129,16 @@ private List<Empresa> empresas= new ArrayList<>();
 		idEmpresas.getItems().clear();
 		List<PuntajeEmpresa> empresasQueCumplen;
 
+
 		try {
 			verificador.comboBoxVacio(idMetodologia);
-			empresasQueCumplen = t.buscarMetodologia(idMetodologia.getValue()).aplicarMetodologia(empresas);
+			Metodologia metodologia=t.buscarMetodologia(idMetodologia.getValue());
+			metodologia.setContador(0);
+			empresasQueCumplen = metodologia.aplicarMetodologia(empresas);
+			
 			empresasQueCumplen.forEach(empresa -> idEmpresas.getItems().add(empresa.getNombreEmpresa()));
+		
+			
 		} catch (NoHayEmpresasQueCumplanLaCondicionException e) {
 			verificador.mostrarInfo("No se encontraron empresas que cumplan con la metodologia", "Informacion");
 		} catch (NoHayCondicionesException e) {
@@ -183,16 +202,14 @@ private List<Empresa> empresas= new ArrayList<>();
 	@FXML
 	void eliminarEmpresas (ActionEvent event) {
 		empresas.clear();
+
 	}
 	@FXML
-	void cargarEmpresas (ActionEvent event) {
-		
-		try {
+	void cargarEmpresas (ActionEvent event) throws NoSeEncuentraLaEmpresaException {
+			
 			empresas.add(t.obtenerEmpresa(idComboEmpresas.getValue()));
-		} catch (NoSeEncuentraLaEmpresaException e) {
-	
-			e.printStackTrace();
-		}
+			
+		
 		
 	}
 	/* JAVA */
@@ -204,6 +221,7 @@ private List<Empresa> empresas= new ArrayList<>();
 				"Mediana", "Promedio", "Sumatoria");
 
 		idBtnCondicion.setItems(condiciones);
+		
 		idBtnCondicion.getSelectionModel().select(0);
 		
 
@@ -214,6 +232,7 @@ private List<Empresa> empresas= new ArrayList<>();
 		t.getMetodologias().forEach(unaMetodologia -> idMetodologia.getItems().add(unaMetodologia.getNombre()));
 
 		List<Metodologia> metodologiasPersistidos = Metodologias.setMetodologias();
+		
 		// para que ande una metodologia persistida
 		metodologiasPersistidos.forEach(unaMeto -> {
 			idMetodologia.getItems().add(unaMeto.getNombre());

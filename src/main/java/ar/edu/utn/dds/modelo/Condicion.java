@@ -62,6 +62,7 @@ public abstract class Condicion {
 			NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
 		
+		
 		List<PuntajeEmpresa> valoresAizq = new ArrayList<PuntajeEmpresa>();
 		ladoIzq.setEmpresas(empresas);
 		valoresAizq = ladoIzq.calcularValor(periodos, anios);
