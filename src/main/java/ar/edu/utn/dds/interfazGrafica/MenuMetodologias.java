@@ -202,13 +202,14 @@ public class MenuMetodologias implements Initializable {
 	@FXML
 	void eliminarEmpresas (ActionEvent event) {
 		empresas.clear();
+		verificador.mostrarInfo("La lista de empresas, ha sido vaciada", "Informacion");
 
 	}
 	@FXML
 	void cargarEmpresas (ActionEvent event) throws NoSeEncuentraLaEmpresaException {
 			
 			empresas.add(t.obtenerEmpresa(idComboEmpresas.getValue()));
-			
+			verificador.mostrarInfo("La empresa seleccionada ha sido agregada a la lista de evaluacion", "Informacion");
 		
 		
 	}
