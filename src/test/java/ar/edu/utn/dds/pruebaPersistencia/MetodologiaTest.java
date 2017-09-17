@@ -1,20 +1,21 @@
 package ar.edu.utn.dds.pruebaPersistencia;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 import javax.script.ScriptException;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import ar.edu.utn.dds.entidades.Metodologias;
-import ar.edu.utn.dds.excepciones.MetodologiaYaExisteException;
 import ar.edu.utn.dds.excepciones.NoHayEmpresasQueCumplanLaCondicionException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
@@ -22,11 +23,14 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.excepciones.NoSePudoOrdenarLaCondicionException;
 import ar.edu.utn.dds.modelo.Condicion;
-import ar.edu.utn.dds.modelo.Decreciente;
-import ar.edu.utn.dds.modelo.Filtro;
+import ar.edu.utn.dds.modelo.FiltroSegunEcuacion;
 import ar.edu.utn.dds.modelo.Metodologia;
+import ar.edu.utn.dds.modelo.OrdenaAplicandoCriterioOrdenamiento;
+import ar.edu.utn.dds.modelo.Periodo;
+import ar.edu.utn.dds.modelo.Promedio;
+import ar.edu.utn.dds.modelo.PuntajeEmpresa;
+import ar.edu.utn.dds.modelo.Sumatoria;
 import ar.edu.utn.dds.modelo.Traductor;
-import ar.edu.utn.dds.modelo.ValorCalculable;
 import ar.edu.utn.dds.persistencia.Utilidades;
 import ar.edu.utn.dds.procesarArchivos.LectorArchivo;
 import ar.edu.utn.dds.procesarArchivos.ProcesarIndicadores;
@@ -36,26 +40,50 @@ public class MetodologiaTest {
 	private Traductor t;
 	private Metodologia metod;
 	private LectorArchivo lector;
+	private Periodo periodo;
 	@Before
-	public void inicializacion() throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresaException {
+	public void inicializacion() throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresaException, NoSeEncuentraElIndicadorException {
 		this.t = new Traductor();
 		this.metod = new Metodologia("Metod");
+		this.lector = new LectorArchivo(t);
+		this.lector.leerArchivo(this.getClass().getResource("/Datos.txt").getFile());
 		this.procesador1 = new ProcesarIndicadores(t);
-		//this.lector = new LectorArchivo(t);
-		//this.lector.leerArchivo(this.getClass().getResource("/Datos.txt").getFile());
+		this.procesador1.leerExcel(this.getClass().getResource("/Indicadores.xls").getFile());
+		periodo = new Periodo(LocalDate.of(2010, 04, 21), LocalDate.of(2017, 07, 21));
+		Promedio prom = new Promedio(t.buscarIndicador("i_NivelDeuda"), t);
+		Sumatoria sum = new Sumatoria(t.buscarIndicador("i_NivelDeuda"), t);
+
+		Condicion cond1 = new OrdenaAplicandoCriterioOrdenamiento(prom, periodo, "menorAmayor");
+		Condicion cond2 = new FiltroSegunEcuacion(sum, 38, ">", periodo);
+		metod.agregarCondicion(cond1);
+		metod.agregarCondicion(cond2);
+		t.agregarMetodologia(metod);
+		this.procesador1 = new ProcesarIndicadores(t);
+
+		List<Metodologia> metodologiasPersistidos = Metodologias.setMetodologias();
+		
+		if(!metodologiasPersistidos.contains(metod)) {
+			Utilidades.persistirUnObjeto(metod);
+		}
+
+		
+		
+		
+		metodologiasPersistidos.forEach(unaMeto -> {
+			
+			if (!t.getMetodologias().contains(unaMeto)) {
+				t.agregarMetodologia(unaMeto);
+			}
+			unaMeto.getCondicionesDeMetodologia().stream().forEach(unC -> {
+				unC.getLadoIzq().setTraductor(t);
+			});
+		});
 
 	}
 	@Test
-	//se ingresa en la base de datos la metodologia y se busca la misma metodologia.
-	public void crearMetodologiaDesdeBD(){
-		
-		t.agregarMetodologia(metod);
-		
-		//realizo la persistencia del objeto metodologia
-		Utilidades.persistirUnObjeto(metod);
-		
-		Metodologia m = t.buscarMetodologia("Metod");
-		assertEquals(metod,m);
+	public void igualdadMetodologiaBDyCreada(){
+		List<Metodologia> metodologiasPersistidos = Metodologias.setMetodologias();
+		assertTrue(metodologiasPersistidos.contains(t.buscarMetodologia("Metod")));
 	}
 	
 	@Test(expected=PersistenceException.class)
@@ -63,12 +91,27 @@ public class MetodologiaTest {
 	//sale error "Ya existe una metodologia con ese nombre"
 	public void crearMismaMetodologiaDesdeBD(){
 		
-		metod = new Metodologia("Metod");
-		
-		t.agregarMetodologia(metod);
-		
+		Metodologia metodaux = new Metodologia("Metod");
 		//realizo la persistencia del objeto metodologia
-		Utilidades.persistirUnObjeto(metod);
+		Utilidades.persistirUnObjeto(metodaux);
 
+	}
+	
+	@Test
+	public void aplicarMetodologiaEnBD() throws NoHayEmpresasQueCumplanLaCondicionException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
+		Metodologia metoAplicar = t.buscarMetodologia("Metod");
+		t.getIndicadores().forEach(unI -> System.out.println(unI.getNombre()));
+		ArrayList<PuntajeEmpresa> empresas = metoAplicar.aplicarMetodologia(t.getEmpresas());
+		//De un test anterior conozco los resultados
+		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Facebook"), empresas.get(1));
+		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Pepsico"), empresas.get(0));
+	}
+	
+	@After
+	public void eliminarListas() {
+		this.t.getEmpresas().clear();
+		this.t.getIndicadores().clear();
+		this.metod.getCondicionesDeMetodologia().clear();
+		this.metod.getPuntajeEmpresas().clear();
 	}
 }
