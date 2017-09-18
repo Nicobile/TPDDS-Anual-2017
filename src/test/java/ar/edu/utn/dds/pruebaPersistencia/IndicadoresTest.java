@@ -81,12 +81,7 @@ public class IndicadoresTest {
 	@Test(expected=PersistenceException.class)
 	public void persistirIndicadorYaExistente() {
 		Indicador i= new Indicador("i_NivelDeuda", "1+2+3");
-		EntityManager em=Utilidades.getEntityManager();
-		EntityTransaction et=em.getTransaction();
-		et.begin();
-		em.persist(i);
-		et.commit();
-		Utilidades.closeEntityManager();
+	    Utilidades.persistirUnObjeto(i);
 	}
 
 }

@@ -8,6 +8,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 import javax.script.ScriptException;
 
@@ -61,12 +63,18 @@ public class MetodologiaTest {
 		metod.agregarCondicion(cond2);
 		List<Metodologia> metodologiasPersistidos = Metodologias.setMetodologias();
 		if(!metodologiasPersistidos.contains(metod)) {
-			Utilidades.persistirUnObjeto(periodo);
-			Utilidades.persistirUnObjeto(prom);
-			Utilidades.persistirUnObjeto(sum);
-			Utilidades.persistirUnObjeto(cond1);
-			Utilidades.persistirUnObjeto(cond2);
-			Utilidades.persistirUnObjeto(metod);
+			EntityManager em=Utilidades.getEntityManager();
+			EntityTransaction et=em.getTransaction();
+			et.begin();
+			em.persist(periodo);
+			em.persist(prom);
+			em.persist(sum);
+			em.persist(cond1);
+			em.persist(cond2);
+			em.persist(metod);
+			et.commit();
+			Utilidades.closeEntityManager();
+			
 		}
 		
 		
