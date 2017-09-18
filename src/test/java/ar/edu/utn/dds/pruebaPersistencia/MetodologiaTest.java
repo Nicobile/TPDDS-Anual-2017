@@ -43,8 +43,10 @@ public class MetodologiaTest {
 	private Periodo periodo;
 	@Before
 	public void inicializacion() throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresaException, NoSeEncuentraElIndicadorException {
+		
+		
 		this.t = new Traductor();
-		this.metod = new Metodologia("Metod");
+		this.metod = new Metodologia("testMetodotest");
 		this.lector = new LectorArchivo(t);
 		this.lector.leerArchivo(this.getClass().getResource("/Datos.txt").getFile());
 		this.procesador1 = new ProcesarIndicadores(t);
@@ -57,16 +59,15 @@ public class MetodologiaTest {
 		Condicion cond2 = new FiltroSegunEcuacion(sum, 38, ">", periodo);
 		metod.agregarCondicion(cond1);
 		metod.agregarCondicion(cond2);
-		t.agregarMetodologia(metod);
-		this.procesador1 = new ProcesarIndicadores(t);
-
 		List<Metodologia> metodologiasPersistidos = Metodologias.setMetodologias();
-		
 		if(!metodologiasPersistidos.contains(metod)) {
+			Utilidades.persistirUnObjeto(periodo);
+			Utilidades.persistirUnObjeto(prom);
+			Utilidades.persistirUnObjeto(sum);
+			Utilidades.persistirUnObjeto(cond1);
+			Utilidades.persistirUnObjeto(cond2);
 			Utilidades.persistirUnObjeto(metod);
 		}
-
-		
 		
 		
 		metodologiasPersistidos.forEach(unaMeto -> {
@@ -78,12 +79,11 @@ public class MetodologiaTest {
 				unC.getLadoIzq().setTraductor(t);
 			});
 		});
-
 	}
 	@Test
 	public void igualdadMetodologiaBDyCreada(){
 		List<Metodologia> metodologiasPersistidos = Metodologias.setMetodologias();
-		assertTrue(metodologiasPersistidos.contains(t.buscarMetodologia("Metod")));
+		assertTrue(metodologiasPersistidos.contains(metod));
 	}
 	
 	@Test(expected=PersistenceException.class)
@@ -91,7 +91,7 @@ public class MetodologiaTest {
 	//sale error "Ya existe una metodologia con ese nombre"
 	public void crearMismaMetodologiaDesdeBD(){
 		
-		Metodologia metodaux = new Metodologia("Metod");
+		Metodologia metodaux = new Metodologia("testMetodotest");
 		//realizo la persistencia del objeto metodologia
 		Utilidades.persistirUnObjeto(metodaux);
 
@@ -99,8 +99,7 @@ public class MetodologiaTest {
 	
 	@Test
 	public void aplicarMetodologiaEnBD() throws NoHayEmpresasQueCumplanLaCondicionException, NoSeEncuentraLaEmpresaException, ScriptException, NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException, NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
-		Metodologia metoAplicar = t.buscarMetodologia("Metod");
-		t.getIndicadores().forEach(unI -> System.out.println(unI.getNombre()));
+		Metodologia metoAplicar = t.buscarMetodologia("testMetodotest");
 		ArrayList<PuntajeEmpresa> empresas = metoAplicar.aplicarMetodologia(t.getEmpresas());
 		//De un test anterior conozco los resultados
 		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Facebook"), empresas.get(1));
