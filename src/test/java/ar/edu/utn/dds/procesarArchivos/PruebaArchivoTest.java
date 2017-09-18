@@ -14,6 +14,7 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 import ar.edu.utn.dds.modelo.Periodo;
 import ar.edu.utn.dds.modelo.Traductor;
+import ar.edu.utn.dds.persistencia.Utilidades;
 import ar.edu.utn.dds.procesarArchivos.LectorArchivo;
 
 public class PruebaArchivoTest {
@@ -26,9 +27,11 @@ public class PruebaArchivoTest {
 	public void initLectura() throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresaException {
 		this.t = new Traductor();
 		this.lector = new LectorArchivo(t);
+		Utilidades.conectarConBD();
 		this.lector.leerArchivo(this.getClass().getResource("/Datos.txt").getFile());
 
 		periodoSinCuentas = new Periodo(LocalDate.of(2010, 04, 21), LocalDate.of(2011, 04, 21));
+		
 	}
 
 	@Rule
