@@ -30,7 +30,7 @@ public class Empresa {
 	@Column(name = "nombre")
 	private String nombre;
 	private LocalDate fechaInscripcion;
-	@OneToMany(fetch = FetchType.LAZY)
+	//@OneToMany(fetch = FetchType.LAZY)
 	private List<Cuenta> cuentas;
 
 	/* EMPRESA */

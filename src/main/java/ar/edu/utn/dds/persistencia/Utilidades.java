@@ -1,18 +1,18 @@
 package ar.edu.utn.dds.persistencia;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 
 public class Utilidades {
 	private static EntityManagerFactory entityManagerFactory;
@@ -37,14 +37,24 @@ public class Utilidades {
 	}
 
 	public static void persistirUnObjeto(Object obj) {
-
 		EntityManager session = getEntityManager();
 		EntityTransaction et = session.getTransaction();
-		et.begin();
+		try {
 
-		session.persist(obj);
-		et.commit();
-		closeEntityManager();
+			et.begin();
+
+			session.persist(obj);
+			et.commit();
+		} catch (PersistenceException e) {
+			if (et != null) {
+				et.rollback();
+			}
+			throw new PersistenceException("No se pudo persistir el objeto" + e.getMessage());
+		} finally {
+			if (session != null) {
+				closeEntityManager();
+			}
+		}
 
 	}
 

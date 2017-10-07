@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceException;
 
 import org.apache.log4j.Logger;
 
@@ -34,7 +35,6 @@ public class Traductor {
 	private List<Metodologia> metodologias = new ArrayList<Metodologia>();
 	private ExpressionParser parser = new ExpressionParser();
 	private static Logger log = Logger.getLogger(Principal.class);
-	
 
 	public List<Metodologia> getMetodologias() {
 		return metodologias;
@@ -195,43 +195,37 @@ public class Traductor {
 			}
 		});
 		// me traigo los objetos almacenados en la base de datos
-		List<Cuenta> cuentas = Cuentas.setCuentas();
-		List<Empresa> empresas = Empresas.setEmpresas();
-		List<Periodo> periodosDB = Periodos.setPeriodos();
+		Cuentas.setCuentas();
+		Empresas.setEmpresas();
+		Periodos.setPeriodos();
 		// hay que ver como verificar que las cuentas y periodos sean lo mismo
 		EntityManager entityManager = Utilidades.getEntityManager();
 		EntityTransaction transaction = entityManager.getTransaction();
-
-		transaction.begin();
-
-		periodos.stream().forEach(unP -> {
-			if (!(periodosDB.contains(unP))) {
-				entityManager.persist(unP);
-			}
+		try {
+			transaction.begin();
+			Periodos.persistirPeridosDesdeArchivo(periodos, entityManager);
 			getEmpresas().stream().forEach(unaE -> {
-				unaE.getCuentas().stream().forEach(unaC -> {
-					if (unaC.getPeriodo().equals(unP)) {
-						if (!(cuentas.contains(unaC))) {
-							unaC.setPeriodo(unP);
-							entityManager.persist(unaC);
-						}
-
-					}
-
-				});
-
-				if (!(empresas.contains(unaE))) {
-					entityManager.persist(unaE);
-				}
-
+				Cuentas.persistirCuentasDesdeArchivo(unaE.getCuentas(), entityManager);
+				Empresas.persistirEmpresasDesdeArchivo(unaE, entityManager);
+					
+				
 			});
 
-		});
-
-		transaction.commit();
-		Utilidades.closeEntityManager();
+			transaction.commit();
+		} catch (PersistenceException e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			throw new PersistenceException("No se pudo persistir el objeto" + e.getMessage());
+		} finally {
+			if (entityManager != null) {
+				Utilidades.closeEntityManager();
+			}
+		}
 
 	}
+
+	
 
 	public void eliminarEmpresa(List<Empresa> empresas, Empresa e) {
 		if (empresas.contains(e))

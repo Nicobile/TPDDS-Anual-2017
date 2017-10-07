@@ -3,8 +3,6 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>ar.edu.utn.dds</groupId>
-	<artifactId>2017-mn-group-12</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -129,4 +127,6 @@
 			</plugin>
 		</plugins>
 	</build>
+	<artifactId>2017-mn-group-12</artifactId>
+	<groupId>ar.edu.utn.dds</groupId>
 </project>

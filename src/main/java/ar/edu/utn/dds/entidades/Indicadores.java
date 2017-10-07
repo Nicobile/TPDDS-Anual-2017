@@ -21,5 +21,12 @@ public class Indicadores {
 	}
 	public static void agregarIndicador(Indicador i) {
 		indicadores.add(i);
+		
+	}
+	public static void persistirIndicador(Indicador i) {
+
+		Utilidades.persistirUnObjeto(i);
+		indicadores.add(i);
+
 	}
 }

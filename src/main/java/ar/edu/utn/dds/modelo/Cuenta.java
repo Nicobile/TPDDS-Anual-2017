@@ -59,6 +59,10 @@ public class Cuenta {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		result = prime * result + ((periodo == null) ? 0 : periodo.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(valor);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
 
@@ -76,7 +80,16 @@ public class Cuenta {
 				return false;
 		} else if (!nombre.equals(other.nombre))
 			return false;
+		if (periodo == null) {
+			if (other.periodo != null)
+				return false;
+		} else if (!periodo.equals(other.periodo))
+			return false;
+		if (Double.doubleToLongBits(valor) != Double.doubleToLongBits(other.valor))
+			return false;
 		return true;
 	}
+
+	
 
 }

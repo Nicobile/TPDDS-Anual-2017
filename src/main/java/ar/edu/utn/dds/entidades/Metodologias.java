@@ -20,5 +20,9 @@ public class Metodologias {
 	public static List<Metodologia> getMetodologias(){
 		return metodologias;
 	}
+	public static void persistirMetodologia(Metodologia m) {
 
+		Utilidades.persistirUnObjeto(m);
+		
+	}
 }
