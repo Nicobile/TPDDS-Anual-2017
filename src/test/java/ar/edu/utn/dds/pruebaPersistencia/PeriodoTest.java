@@ -13,9 +13,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import ar.edu.utn.dds.entidades.Periodos;
 import ar.edu.utn.dds.modelo.Periodo;
@@ -27,15 +25,14 @@ public class PeriodoTest {
 	@Before
 	public void inicializacion() {
 		periodos = new ArrayList<>();
-		periodos = Periodos.setPeriodos();
+
 
 	}
 
-	@Rule
-	public ExpectedException thrown = ExpectedException.none();
 
 	@Test
 	public void actualizarPeriodo() {
+		periodos=Periodos.setPeriodos();
 		Periodo periodoDePrueba = new Periodo(LocalDate.of(2001, 04, 21), LocalDate.of(2003, 04, 21));
 		if (!periodos.contains(periodoDePrueba)) {
 			Periodos.persistirPeriodo(periodoDePrueba);
@@ -60,6 +57,7 @@ public class PeriodoTest {
 			session.remove(periodo);
 			periodos.remove(periodo);
 			et.commit();
+			periodos.clear();
 
 		} catch (PersistenceException e) {
 			if (et != null) {
@@ -76,7 +74,7 @@ public class PeriodoTest {
 
 	@Test
 	public void eliminarPeriodo() {
-
+periodos=Periodos.setPeriodos();
 		Periodo periodoDePrueba = new Periodo(LocalDate.of(2002, 04, 21), LocalDate.of(2003, 04, 21));
 		if (!periodos.contains(periodoDePrueba)) {
 			Periodos.persistirPeriodo(periodoDePrueba);
@@ -94,6 +92,7 @@ public class PeriodoTest {
 			et.commit();
 			Periodo periodoDeLaBase = session.find(Periodo.class, periodo.getId());
 			assertTrue(periodoDeLaBase == null);
+			periodos.clear();
 
 		} catch (PersistenceException e) {
 			if (et != null) {
@@ -110,9 +109,37 @@ public class PeriodoTest {
 
 	@Test
 	public void agregarPeriodo() {
+		periodos=Periodos.setPeriodos();
 		Periodo periodoDePrueba = new Periodo(LocalDate.of(1001, 04, 21), LocalDate.of(2003, 04, 21));
 		if (!periodos.contains(periodoDePrueba)) {
 			Periodos.persistirPeriodo(periodoDePrueba);
 		}
-	}
+		
+		EntityManager session = Utilidades.getEntityManager();
+		EntityTransaction et = session.getTransaction();
+		try {
+			et.begin();
+			Periodo periodo = session.find(Periodo.class, periodoDePrueba.getId());
+
+			session.remove(periodo);
+			periodos.remove(periodo);
+			et.commit();
+			Periodo periodoDeLaBase = session.find(Periodo.class, periodo.getId());
+			assertTrue(periodoDeLaBase == null);
+			periodos.clear();
+
+		} catch (PersistenceException e) {
+			if (et != null) {
+				et.rollback();
+			}
+			throw new PersistenceException("No se pudo actualizar el objeto" + e.getMessage());
+		} finally {
+			if (session != null) {
+				Utilidades.closeEntityManager();
+			}
+		
+		
+	}}
+	
 }
+

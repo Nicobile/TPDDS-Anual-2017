@@ -36,6 +36,14 @@ public class Empresa {
 
 	/* EMPRESA */
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public Empresa(String nombre, List<Cuenta> cuentas) {
 		this.nombre = nombre;
 		this.cuentas = cuentas;
