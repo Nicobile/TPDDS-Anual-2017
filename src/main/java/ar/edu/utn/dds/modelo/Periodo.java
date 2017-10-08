@@ -2,6 +2,7 @@ package ar.edu.utn.dds.modelo;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -72,6 +73,14 @@ public class Periodo {
 
 	public LocalDate getFechaFin() {
 		return fechaFin;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public void setFechaFin(LocalDate fechaFin) {

@@ -1,5 +1,6 @@
 package ar.edu.utn.dds.modelo;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,7 +18,7 @@ public class Cuenta {
 	private int id;
 	private String nombre;
 	private double valor;
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.REMOVE)
 	@JoinColumn(name = "periodo_id")
 	private Periodo periodo;
 
