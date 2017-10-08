@@ -1,7 +1,6 @@
 package ar.edu.utn.dds.pruebaPersistencia;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
@@ -15,8 +14,6 @@ import javax.persistence.PersistenceException;
 import org.junit.Before;
 import org.junit.Test;
 
-import ar.edu.utn.dds.entidades.Cuentas;
-import ar.edu.utn.dds.entidades.Periodos;
 import ar.edu.utn.dds.modelo.Cuenta;
 import ar.edu.utn.dds.modelo.Periodo;
 import ar.edu.utn.dds.persistencia.Utilidades;
@@ -27,7 +24,7 @@ public class CuentaTest {
 	List<Periodo> periodos;
 	private Cuenta cuentaPrueba;
 	private Periodo periodo;
-
+	private static final double DELTA = 1e-15;
 	@Before
 	public void inicializacion() {
 		cuentas = new ArrayList<>();
@@ -39,22 +36,14 @@ public class CuentaTest {
 
 	@Test
 	public void actualizarCuenta() {
-		cuentas = Cuentas.setCuentas();
-		periodos = Periodos.setPeriodos();
-
-		if (!periodos.contains(periodo)) {
-
-			Periodos.persistirPeriodo(periodo);
-		}
-		if (!cuentas.contains(cuentaPrueba)) {
-
-			Cuentas.persistirCuenta(cuentaPrueba);
-		}
 
 		EntityManager session = Utilidades.getEntityManager();
 		EntityTransaction et = session.getTransaction();
 		try {
-
+			et.begin();
+			session.persist(periodo);
+			session.persist(cuentaPrueba);
+			et.commit();
 			et.begin();
 			Cuenta cuenta = session.find(Cuenta.class, cuentaPrueba.getId());
 			cuenta.setValor(500);
@@ -62,7 +51,7 @@ public class CuentaTest {
 			et.commit();
 			Cuenta cuentaDeLaBase = session.find(Cuenta.class, cuenta.getId());
 			assertEquals(cuenta.getId(), cuentaDeLaBase.getId());
-			assertFalse(cuentaPrueba.equals(cuentaDeLaBase));
+            assertEquals(cuentaDeLaBase.getValor(),500,DELTA);
 			et.begin();
 			Periodo p = session.find(Periodo.class, periodo.getId());
 			session.remove(cuenta);
@@ -86,22 +75,14 @@ public class CuentaTest {
 
 	@Test
 	public void eliminarCuenta() {
-		cuentas = Cuentas.setCuentas();
-
-		periodos = Periodos.setPeriodos();
-
-		if (!periodos.contains(periodo)) {
-
-			Periodos.persistirPeriodo(periodo);
-		}
-		if (!cuentas.contains(cuentaPrueba)) {
-
-			Cuentas.persistirCuenta(cuentaPrueba);
-		}
 
 		EntityManager session = Utilidades.getEntityManager();
 		EntityTransaction et = session.getTransaction();
 		try {
+			et.begin();
+			session.persist(periodo);
+			session.persist(cuentaPrueba);
+			et.commit();
 			et.begin();
 			Cuenta cuenta = session.find(Cuenta.class, cuentaPrueba.getId());
 			session.remove(cuenta);
@@ -127,19 +108,14 @@ public class CuentaTest {
 
 	@Test
 	public void agregarCuenta() {
-		cuentas = Cuentas.setCuentas();
-
-		periodos = Periodos.setPeriodos();
-		if (!periodos.contains(periodo)) {
-			Periodos.persistirPeriodo(periodo);
-		}
-		if (!cuentas.contains(cuentaPrueba)) {
-			Cuentas.persistirCuenta(cuentaPrueba);
-		}
 
 		EntityManager session = Utilidades.getEntityManager();
 		EntityTransaction et = session.getTransaction();
 		try {
+			et.begin();
+			session.persist(periodo);
+			session.persist(cuentaPrueba);
+			et.commit();
 			et.begin();
 			Cuenta cuenta = session.find(Cuenta.class, cuentaPrueba.getId());
 			session.remove(cuenta);

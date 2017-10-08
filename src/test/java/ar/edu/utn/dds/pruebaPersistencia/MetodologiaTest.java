@@ -83,6 +83,7 @@ public class MetodologiaTest {
 		metod.agregarCondicion(condicion2);
 
 		try {
+			
 			EntityManager em = Utilidades.getEntityManager();
 			EntityTransaction et = em.getTransaction();
 			et.begin();
@@ -106,12 +107,8 @@ public class MetodologiaTest {
 
 		Metodologia metodaux = new Metodologia("testMetodotest");
 		// realizo la persistencia del objeto metodologia
-		EntityManager em = Utilidades.getEntityManager();
-		EntityTransaction et = em.getTransaction();
-		et.begin();
-		em.persist(metodaux);
-		et.commit();
-		Utilidades.closeEntityManager();
+		Metodologias.persistirMetodologia(metodaux);
+		
 
 	}
 

@@ -89,12 +89,7 @@ public class IndicadoresTest {
 
 	@Test
 	public void actualizarIndicador() {
-		indicadores = Indicadores.setIndicadores();
-
-		if (!indicadores.contains(indPrueba)) {
-
-			Indicadores.persistirIndicador(indPrueba);
-		}
+		Indicadores.persistirIndicador(indPrueba);
 
 		EntityManager session = Utilidades.getEntityManager();
 		EntityTransaction et = session.getTransaction();
@@ -127,13 +122,8 @@ public class IndicadoresTest {
 	}
 
 	@Test
-	public void eliminarCuenta() {
-		indicadores = Indicadores.setIndicadores();
-
-		if (!indicadores.contains(indPrueba)) {
-
-			Indicadores.persistirIndicador(indPrueba);
-		}
+	public void eliminarIndicador() {
+		Indicadores.persistirIndicador(indPrueba);
 
 		EntityManager session = Utilidades.getEntityManager();
 		EntityTransaction et = session.getTransaction();
@@ -165,5 +155,4 @@ public class IndicadoresTest {
 		Indicador i = new Indicador("i_NivelDeuda", "1+2+3");
 		Utilidades.persistirUnObjeto(i);
 	}
-
 }

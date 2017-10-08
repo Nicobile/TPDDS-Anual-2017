@@ -1,7 +1,6 @@
 package ar.edu.utn.dds.pruebaPersistencia;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
@@ -15,9 +14,6 @@ import javax.persistence.PersistenceException;
 import org.junit.Before;
 import org.junit.Test;
 
-import ar.edu.utn.dds.entidades.Cuentas;
-import ar.edu.utn.dds.entidades.Empresas;
-import ar.edu.utn.dds.entidades.Periodos;
 import ar.edu.utn.dds.modelo.Cuenta;
 import ar.edu.utn.dds.modelo.Empresa;
 import ar.edu.utn.dds.modelo.Periodo;
@@ -44,23 +40,24 @@ public class EmpresaTest {
 
 	@Test
 	public void actualizarEmpresa() {
-		Periodos.persistirPeriodo(periodo);
-		Cuentas.persistirCuenta(cuentaPrueba);
-		Empresas.persistirEmpresa(empresaPrueba);
 
 		EntityManager session = Utilidades.getEntityManager();
 		EntityTransaction et = session.getTransaction();
 		try {
-
+			et.begin();
+			session.persist(periodo);
+			session.persist(cuentaPrueba);
+			session.persist(empresaPrueba);
+			et.commit();
 			et.begin();
 			Empresa empresa = session.find(Empresa.class, empresaPrueba.getId());
 			empresa.setNombre("Empresa");
-			;
 			session.merge(empresa);
 			et.commit();
 			Empresa empresaDeLaBase = session.find(Empresa.class, empresa.getId());
 			assertEquals(empresa.getId(), empresaDeLaBase.getId());
-			assertFalse(empresaPrueba.equals(empresaDeLaBase));
+
+			assertTrue(empresaDeLaBase.getNombre().equals("Empresa"));
 			et.begin();
 
 			session.remove(empresaDeLaBase);
@@ -83,19 +80,18 @@ public class EmpresaTest {
 	@Test
 	public void eliminarEmpresa() {
 
-		Periodos.persistirPeriodo(periodo);
-		Cuentas.persistirCuenta(cuentaPrueba);
-		Empresas.persistirEmpresa(empresaPrueba);
-
 		EntityManager session = Utilidades.getEntityManager();
 		EntityTransaction et = session.getTransaction();
 		try {
 			et.begin();
-
+			session.persist(periodo);
+			session.persist(cuentaPrueba);
+			session.persist(empresaPrueba);
+			et.commit();
+			et.begin();
 			Empresa empresa = session.find(Empresa.class, empresaPrueba.getId());
 			session.remove(empresa);
 			et.commit();
-
 			Empresa empresaBase = session.find(Empresa.class, empresa.getId());
 			assertTrue(empresaBase == null);
 
@@ -113,13 +109,16 @@ public class EmpresaTest {
 	}
 
 	@Test
-	public void agregarCuenta() {
-		Periodos.persistirPeriodo(periodo);
-		Cuentas.persistirCuenta(cuentaPrueba);
-		Empresas.persistirEmpresa(empresaPrueba);
+	public void agregarEmpresa() {
+
 		EntityManager session = Utilidades.getEntityManager();
 		EntityTransaction et = session.getTransaction();
 		try {
+			et.begin();
+			session.persist(periodo);
+			session.persist(cuentaPrueba);
+			session.persist(empresaPrueba);
+			et.commit();
 			et.begin();
 			Empresa empresa = session.find(Empresa.class, empresaPrueba.getId());
 			session.remove(empresa);
