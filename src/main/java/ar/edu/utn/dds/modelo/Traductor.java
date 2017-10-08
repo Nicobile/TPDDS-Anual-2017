@@ -195,23 +195,46 @@ public class Traductor {
 			}
 		});
 		// me traigo los objetos almacenados en la base de datos
-		Cuentas.setCuentas();
-		Empresas.setEmpresas();
-		Periodos.setPeriodos();
+		List<Cuenta> cuentas = Cuentas.setCuentas();
+		List<Empresa> empresas = Empresas.setEmpresas();
+		List<Periodo> periodosDB = Periodos.setPeriodos();
 		// hay que ver como verificar que las cuentas y periodos sean lo mismo
 		EntityManager entityManager = Utilidades.getEntityManager();
 		EntityTransaction transaction = entityManager.getTransaction();
 		try {
 			transaction.begin();
-			Periodos.persistirPeridosDesdeArchivo(periodos, entityManager);
-			getEmpresas().stream().forEach(unaE -> {
-				Cuentas.persistirCuentasDesdeArchivo(unaE.getCuentas(), entityManager);
-				Empresas.persistirEmpresasDesdeArchivo(unaE, entityManager);
-					
-				
-			});
+			periodos.stream().forEach(unP -> {
+				if (!(periodosDB.contains(unP))) {
+					Periodos.persistirPeriodoConEm(unP, entityManager);
+				}
+				List<Cuenta> cuentasPersistidas = new ArrayList<>();
+				getEmpresas().stream().forEach(unaE -> {
+					unaE.getCuentas().stream().forEach(unaC -> {
+						cuentasPersistidas.clear();
+						if (unaC.getPeriodo().equals(unP)) {
+							if (!(cuentas.contains(unaC))) {
+								unaC.setPeriodo(unP);
+								Cuentas.persistirCuentaConEm(unaC, entityManager);
+								cuentasPersistidas.add(unaC);
 
+							}
+
+						}
+
+					});
+
+					if (!(empresas.contains(unaE))) {
+
+						Empresas.persistirEmpresaConEm(unaE, entityManager);
+
+					}
+
+				});
+				Cuentas.asignarCuentas(cuentasPersistidas);
+
+			});
 			transaction.commit();
+
 		} catch (PersistenceException e) {
 			if (transaction != null) {
 				transaction.rollback();
@@ -221,11 +244,9 @@ public class Traductor {
 			if (entityManager != null) {
 				Utilidades.closeEntityManager();
 			}
+
 		}
-
 	}
-
-	
 
 	public void eliminarEmpresa(List<Empresa> empresas, Empresa e) {
 		if (empresas.contains(e))

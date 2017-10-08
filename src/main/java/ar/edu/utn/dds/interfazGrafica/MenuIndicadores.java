@@ -20,7 +20,6 @@ import ar.edu.utn.dds.excepciones.YaHayUnIndicadorConEseNombreException;
 import ar.edu.utn.dds.modelo.Indicador;
 import ar.edu.utn.dds.modelo.Periodo;
 import ar.edu.utn.dds.modelo.Traductor;
-import ar.edu.utn.dds.persistencia.Utilidades;
 import ar.edu.utn.dds.procesarArchivos.ProcesarIndicadores;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -110,9 +109,7 @@ public class MenuIndicadores implements Initializable {
 			Indicador ind1 = new Indicador(idNomInd.getText(), idexpresion.getText());
 			t.agregarIndicador(ind1);
 
-			Utilidades.persistirUnObjeto(ind1);
-
-			Indicadores.agregarIndicador(ind1);
+			Indicadores.persistirIndicador(ind1);
 			idListInd.getItems().add(ind1.getNombre());
 			idNomIndca.getItems().add(ind1.getNombre());
 			verificador.mostrarInfo("El indicador se cargo satisfactoriamente", "Informacion");

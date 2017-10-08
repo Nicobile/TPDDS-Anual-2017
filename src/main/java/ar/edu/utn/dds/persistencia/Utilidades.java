@@ -32,7 +32,9 @@ public class Utilidades {
 		CriteriaQuery<T> criteriaQuery = qb.createQuery(clase);
 		criteriaQuery.from(clase);
 		TypedQuery<T> q = entityManager.createQuery(criteriaQuery);
-		return q.getResultList();
+		List<T> lista =q.getResultList();
+		closeEntityManager();
+		return lista;
 
 	}
 

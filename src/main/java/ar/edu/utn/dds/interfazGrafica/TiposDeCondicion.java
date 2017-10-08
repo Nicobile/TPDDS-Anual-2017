@@ -8,9 +8,7 @@ import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-
+import ar.edu.utn.dds.entidades.Metodologias;
 import ar.edu.utn.dds.entidades.Periodos;
 import ar.edu.utn.dds.modelo.Condicion;
 import ar.edu.utn.dds.modelo.FiltroSegunEcuacion;
@@ -76,19 +74,12 @@ public class TiposDeCondicion implements Initializable {
 		meto.agregarCondicion(condicion1);
 		meto.agregarCondicion(condicion2);
 
-		EntityManager em = Utilidades.getEntityManager();
-		EntityTransaction et = em.getTransaction();
-		et.begin();
-
-		Metodologia metodologiaCargadaEnBase = em.find(Metodologia.class, meto.getId());
-		metodologiaCargadaEnBase.getCondicionesDeMetodologia().add(condicion1);
-		metodologiaCargadaEnBase.getCondicionesDeMetodologia().add(condicion2);
-		em.persist(valorCalculable);
-		em.persist(condicion1);
-		em.persist(condicion2);
-		em.merge(metodologiaCargadaEnBase);
-		et.commit();
-		Utilidades.closeEntityManager();
+	
+		List<Condicion> lista=new ArrayList<>();
+		
+		lista.add(condicion1);
+		lista.add(condicion2);
+		Metodologias.persistirCondicionesMetodologia(meto, valorCalculable,lista);
 
 	}
 
@@ -111,16 +102,10 @@ public class TiposDeCondicion implements Initializable {
 	}
 
 	protected void persistirCrecienteoDecrecienteoLongevidad(Object tipo, Condicion cond) {
-		EntityManager em = Utilidades.getEntityManager();
-		EntityTransaction et = em.getTransaction();
-		et.begin();
-		Metodologia metodologiaCargadaEnBase = em.find(Metodologia.class, meto.getId());
-		metodologiaCargadaEnBase.getCondicionesDeMetodologia().add(cond);
-		em.persist(tipo);
-		em.persist(cond);
-		em.merge(metodologiaCargadaEnBase);
-		et.commit();
-		Utilidades.closeEntityManager();
+	
+		List<Condicion> condiciones=new ArrayList<>();
+		condiciones.add(cond);
+		Metodologias.persistirCondicionesMetodologia(meto, tipo, condiciones);
 	}
 
 	private int cambiarFechaInt(int posicion, String fecha[]) {

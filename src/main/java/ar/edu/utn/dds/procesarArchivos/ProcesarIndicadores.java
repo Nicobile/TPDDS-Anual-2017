@@ -5,15 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-
 import ar.edu.utn.dds.entidades.Indicadores;
 import ar.edu.utn.dds.modelo.Cuenta;
 import ar.edu.utn.dds.modelo.Empresa;
 import ar.edu.utn.dds.modelo.Indicador;
 import ar.edu.utn.dds.modelo.Traductor;
-import ar.edu.utn.dds.persistencia.Utilidades;
 import jxl.Cell;
 import jxl.CellType;
 import jxl.Sheet;
@@ -62,18 +58,9 @@ public class ProcesarIndicadores {
 		} catch (BiffException e) {
 			e.printStackTrace();
 		}
-		List<Indicador> indicadores =Indicadores.setIndicadores();
-		EntityManager entityManager=Utilidades.getEntityManager();
-		EntityTransaction transaction= entityManager.getTransaction();
-		transaction.begin();
-		t.getIndicadores().stream().forEach(unI->{
 	
-			if(!(indicadores.contains(unI))) {
-				entityManager.persist(unI);
-			}
-		});
-		transaction.commit();
-		Utilidades.closeEntityManager();
+		Indicadores.persistirIndicadores(t.getIndicadores());
+		
 	}
 
 	public Indicador cargarIndPredefinidos(String nombre, String op) {

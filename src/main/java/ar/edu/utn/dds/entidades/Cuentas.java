@@ -15,7 +15,7 @@ public class Cuentas {
 
 		if (cuentas.isEmpty()) {
 			cuentas = Utilidades.getEntidad(Cuenta.class);
-			Utilidades.closeEntityManager();
+
 			return cuentas;
 		}
 
@@ -37,23 +37,15 @@ public class Cuentas {
 	public static void agregarCuenta(Cuenta unaC) {
 		cuentas.add(unaC);
 	}
-	public static void persistirCuentasDesdeArchivo(List<Cuenta> cuentasApersistir,EntityManager em) {
-		Periodos.getPeriodos().forEach(unP->{
-			
-			
-			cuentasApersistir.stream().forEach(cuentaApersistir->{
-				if(cuentaApersistir.getPeriodo().equals(unP)) {
-				if (!(cuentas.contains(cuentaApersistir))) {
-					cuentaApersistir.setPeriodo(unP);
-					em.persist(cuentaApersistir);
-					cuentas.add(cuentaApersistir);
-				}}
-			});
-			
-			
-		});
-		
-		
-		
-		
-}}
+
+	public static void persistirCuentaConEm(Cuenta unaC, EntityManager em) {
+		em.persist(unaC);
+
+	}
+
+	public static void asignarCuentas(List<Cuenta> c) {
+
+		cuentas.addAll(c);
+	}
+
+}
