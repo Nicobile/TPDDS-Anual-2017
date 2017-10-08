@@ -61,7 +61,7 @@ public class CuentaTest {
 			session.merge(cuenta);
 			et.commit();
 			Cuenta cuentaDeLaBase = session.find(Cuenta.class, cuenta.getId());
-			assertEquals(cuentaDeLaBase.getId(), cuentaDeLaBase.getId());
+			assertEquals(cuenta.getId(), cuentaDeLaBase.getId());
 			assertFalse(cuentaPrueba.equals(cuentaDeLaBase));
 			et.begin();
 			Periodo p = session.find(Periodo.class, periodo.getId());
