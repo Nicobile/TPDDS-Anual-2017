@@ -28,6 +28,14 @@ import ar.edu.utn.dds.excepciones.NoSeEncuentraLaEmpresaException;
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 public abstract class ValorCalculable {
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;

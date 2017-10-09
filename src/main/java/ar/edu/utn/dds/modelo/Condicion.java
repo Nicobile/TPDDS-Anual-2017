@@ -35,7 +35,7 @@ public abstract class Condicion {
 	@ManyToOne(cascade=CascadeType.REMOVE)
 	@JoinColumn(name = "ladoIzq_id")
 	private ValorCalculable ladoIzq;
-	@ManyToOne(cascade=CascadeType.REMOVE)
+	@ManyToOne(cascade=CascadeType.MERGE)
 	@JoinColumn(name = "periodo_id")
 	private Periodo periodos;
 	@Transient
