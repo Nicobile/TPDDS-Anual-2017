@@ -1,6 +1,6 @@
 package ar.edu.utn.dds.modelo;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import ar.edu.utn.dds.antlr.ExpressionParser;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
@@ -20,7 +20,7 @@ public class NodoIndicador implements Operando {
 		this.operando2 = operando2;
 	}
 
-	public NodoIndicador(String nombre, ArrayList<Indicador> indicadores) {
+	public NodoIndicador(String nombre, List<Indicador> indicadores) {
 		Indicador i = indicadores.stream().filter(unIndicador -> unIndicador.getNombre().equals(nombre)).findFirst()
 				.get();
 		NodoIndicador o = (NodoIndicador) new ExpressionParser().parse(i.getOperacion(), indicadores);

@@ -1,8 +1,9 @@
 package ar.edu.utn.dds.antlr;
 
-import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.List;
 import java.util.Locale;
+
 import org.antlr.v4.runtime.ANTLRErrorListener;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -11,14 +12,15 @@ import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
+
 import ar.edu.utn.dds.antlr.SimpleParser.ExprContext;
-import ar.edu.utn.dds.modelo.Operando;
+import ar.edu.utn.dds.modelo.Division;
+import ar.edu.utn.dds.modelo.Indicador;
 import ar.edu.utn.dds.modelo.Multiplicacion;
 import ar.edu.utn.dds.modelo.NodoCuenta;
 import ar.edu.utn.dds.modelo.NodoIndicador;
 import ar.edu.utn.dds.modelo.NodoNumero;
-import ar.edu.utn.dds.modelo.Division;
-import ar.edu.utn.dds.modelo.Indicador;
+import ar.edu.utn.dds.modelo.Operando;
 import ar.edu.utn.dds.modelo.Resta;
 import ar.edu.utn.dds.modelo.Suma;
 
@@ -32,7 +34,7 @@ public class ExpressionParser {
 	 *            the expression to part
 	 * @return and integer result
 	 */
-	public Operando parse(final String expression, ArrayList<Indicador> indicadores) {
+	public Operando parse(final String expression, List<Indicador> indicadores) {
 		/*
 		 * Create a lexer that reads from our expression string
 		 */
@@ -69,7 +71,7 @@ public class ExpressionParser {
 
 	}
 
-	private Operando visit(final ExprContext context, ArrayList<Indicador> indicadores) {
+	private Operando visit(final ExprContext context, List<Indicador> indicadores) {
 		if (context.number() != null) { // Just a number
 			return new NodoNumero(Integer.parseInt(context.number().getText()));
 		}

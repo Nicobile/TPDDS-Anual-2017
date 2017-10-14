@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 import ar.edu.utn.dds.antlr.ExpressionParser;
 import ar.edu.utn.dds.entidades.Cuentas;
 import ar.edu.utn.dds.entidades.Empresas;
+import ar.edu.utn.dds.entidades.Indicadores;
 import ar.edu.utn.dds.entidades.Periodos;
 import ar.edu.utn.dds.excepciones.MetodologiaYaExisteException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
@@ -31,11 +32,18 @@ import ar.edu.utn.dds.procesarArchivos.LineaArchivo;
 public class Traductor {
 
 	private List<Empresa> empresas = new ArrayList<Empresa>();
-	private ArrayList<Indicador> indicadores = new ArrayList<Indicador>();
+	private List<Indicador> indicadores = new ArrayList<Indicador>();
 	private List<Metodologia> metodologias = new ArrayList<Metodologia>();
 	private ExpressionParser parser = new ExpressionParser();
 	private static Logger log = Logger.getLogger(Principal.class);
-
+	
+	
+	
+	public void cargarTraductor() {
+	empresas=Empresas.getEmpresas();
+	indicadores=Indicadores.getIndicadores();
+	
+	}
 	public List<Metodologia> getMetodologias() {
 		return metodologias;
 	}
@@ -44,7 +52,7 @@ public class Traductor {
 		this.metodologias = metodologias;
 	}
 
-	public ArrayList<Indicador> getIndicadores() {
+	public List<Indicador> getIndicadores() {
 		return indicadores;
 	}
 
