@@ -54,7 +54,7 @@ public class Metodologias {
 			});
 
 			session.merge(metodologiaCargadaEnBase);
-
+			metodologias.add(metodologiaCargadaEnBase);
 			et.commit();
 		} catch (PersistenceException e) {
 			if (et != null) {
