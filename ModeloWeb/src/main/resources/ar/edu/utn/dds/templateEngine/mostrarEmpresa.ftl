@@ -13,7 +13,7 @@
  	<script src="js/awesomeTable.js" type="text/javascript"></script>
  	<script>
  		$( document ).ready(function() {
- 			$.getJSON('/getempresas',function(json){
+ 			$.getJSON('/getEmpresas',function(json){
     			if ( json.length == 0 ) {
         			console.log("NO DATA!");
         			$(".tablaEmpresa").text("No se encuentran empresas");
@@ -55,7 +55,7 @@
         var newUrl = "";
         $("#picksite").change(function() {
         var id=$("#picksite option:selected").val();
-            $newUrl = "http://localhost:4567/getCuentas/"+id ;
+            $newUrl = "http://localhost:4567/cuentas/"+id ;
         });
         $("#executelink").click(function() {
             location = $newUrl ;

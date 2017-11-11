@@ -18,7 +18,7 @@ public class Cuentas {
 	
 	public void init(Model mod) {
 
-	get("/getCuentas", (request, response) -> {
+	get("/cuentas", (request, response) -> {
 
 		response.status(200);
 		Map<String, Object> viewObjects = new HashMap<String, Object>();
@@ -27,13 +27,13 @@ public class Cuentas {
 		return new ModelAndView(viewObjects, "main.ftl");
 	}, new FreeMarkerEngine());
 
-	get("/getCuentas/:id", (request, response) -> {
+	get("/cuentas/:id", (request, response) -> {
 		response.status(200);
 		String id = request.params(":id");
 		Map<String, Object> viewObjects = new HashMap<String, Object>();
 		viewObjects.put("templateName", "mostrarCuentas.ftl");
 		mod.getCuentas(id);
-		response.redirect("/getCuentas");
+		response.redirect("/cuentas");
 		return new ModelAndView(viewObjects, "main.ftl");
 	}, new FreeMarkerEngine());
 

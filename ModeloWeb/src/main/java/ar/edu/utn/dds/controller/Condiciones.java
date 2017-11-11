@@ -20,7 +20,7 @@ import spark.ModelAndView;
 
 public class Condiciones {
 	public void init(Model mod) {
-
+		
 		get("/condicionMediana", (request, response) -> {
 			response.status(200);
 			Map<String, Object> viewObjects = new HashMap<String, Object>();

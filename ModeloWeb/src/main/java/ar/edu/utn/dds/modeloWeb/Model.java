@@ -48,7 +48,7 @@ public class Model {
 	private Map<String, Object> indicadores;
 
 	private Metodologia meto;
-	private Usuario usuario = new Usuario();
+	private Usuario usuario;
 	private Traductor t = new Traductor();
 
 	/**
@@ -282,7 +282,7 @@ public class Model {
 	}
 
 	public void setUsuario(LoginWeb user) {
-
+usuario=new Usuario();
 		usuario = Usuarios.getUsuarios().stream()
 				.filter(unU -> unU.getUsuario().equals(user.getNombre()) && unU.getPass().equals(user.getContrasenia()))
 				.findFirst().get();

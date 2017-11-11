@@ -1,7 +1,6 @@
 package ar.edu.utn.dds.pruebaPersistencia;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.FileNotFoundException;
@@ -14,12 +13,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import ar.edu.utn.dds.entidades.Empresas;
 import ar.edu.utn.dds.entidades.Indicadores;
-
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaEnElPeriodoException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
@@ -40,6 +39,8 @@ public class IndicadoresTest {
 	private Indicador indPrueba;
 	private List<Indicador> indicadores;
 	private static final double DELTA = 1e-15;
+	private EntityManager em;
+	private EntityTransaction et;
 
 	@Before
 	public void inicializacion() throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresaException,
@@ -53,6 +54,8 @@ public class IndicadoresTest {
 		indicadores = new ArrayList<Indicador>();
 		indPrueba = new Indicador("i_indicadorprueba", "i_ROE+1");
 		p = new Periodo(LocalDate.of(2013, 04, 21), LocalDate.of(2018, 04, 21));
+		em = Utilidades.getEntityManager();
+		et = em.getTransaction();
 	}
 
 	@Test
@@ -89,70 +92,54 @@ public class IndicadoresTest {
 
 	@Test
 	public void actualizarIndicador() {
-		Indicadores.persistirIndicador(indPrueba);
+		et.begin();
+		em.persist(indPrueba);
+		et.commit();
 
-		EntityManager session = Utilidades.getEntityManager();
-		EntityTransaction et = session.getTransaction();
-		try {
+		et.begin();
 
-			et.begin();
-			Indicador indicador = session.find(Indicador.class, indPrueba.getId());
-			indPrueba.setOperacion("i_ROE + 2");
-			session.merge(indicador);
-			et.commit();
-			Indicador indicadorDeLaBase = session.find(Indicador.class, indicador.getId());
-			assertEquals(indicador.getId(), indicadorDeLaBase.getId());
-			assertFalse(indPrueba.equals(indicadorDeLaBase));
-			et.begin();
-			session.remove(indicador);
-			et.commit();
-			indicadores.clear();
-
-		} catch (PersistenceException e) {
-			if (et != null) {
-				et.rollback();
-			}
-			throw new PersistenceException("No se pudo actualizar el objeto" + e.getMessage());
-		} finally {
-			if (session != null) {
-				Utilidades.closeEntityManager();
-			}
-		}
+		Indicador indicador = em.find(Indicador.class, indPrueba.getId());
+		indPrueba.setOperacion("i_ROE + 2");
+		em.merge(indicador);
+		et.commit();
+		Indicador indicadorDeLaBase = em.find(Indicador.class, indicador.getId());
+		assertEquals(indicador.getId(), indicadorDeLaBase.getId());
+		assertTrue(indPrueba.equals(indicadorDeLaBase));
+		et.begin();
+		em.remove(indicador);
+		et.commit();
+		indicadores.clear();
 
 	}
 
 	@Test
 	public void eliminarIndicador() {
-		Indicadores.persistirIndicador(indPrueba);
+		et.begin();
+		em.persist(indPrueba);
+		et.commit();
 
-		EntityManager session = Utilidades.getEntityManager();
-		EntityTransaction et = session.getTransaction();
-		try {
-			et.begin();
-			Indicador indicador = session.find(Indicador.class, indPrueba.getId());
-			session.remove(indicador);
-			indicadores.remove(indicador);
-			et.commit();
-			Indicador indicadorBase = session.find(Indicador.class, indicador.getId());
-			assertTrue(indicadorBase == null);
-			indicadores.clear();
-
-		} catch (PersistenceException e) {
-			if (et != null) {
-				et.rollback();
-			}
-			throw new PersistenceException("No se pudo actualizar el objeto" + e.getMessage());
-		} finally {
-			if (session != null) {
-				Utilidades.closeEntityManager();
-			}
-		}
+		et.begin();
+		Indicador indicador = em.find(Indicador.class, indPrueba.getId());
+		em.remove(indicador);
+		indicadores.remove(indicador);
+		et.commit();
+		Indicador indicadorBase = em.find(Indicador.class, indicador.getId());
+		assertTrue(indicadorBase == null);
+		indicadores.clear();
 
 	}
 
 	@Test(expected = PersistenceException.class)
 	public void persistirIndicadorYaExistente() {
 		Indicador i = new Indicador("i_NivelDeuda", "1+2+3");
-		Utilidades.persistirUnObjeto(i);
+
+		et.begin();
+		em.persist(i);
+		et.commit();
+	}
+
+	@After
+	public void cerrarEm() {
+		Utilidades.closeEntityManager();
 	}
 }

@@ -16,7 +16,8 @@ import spark.ModelAndView;
 
 public class Empresas {
 	public void init(Model mod) {
-	get("/getEmpresas", (request, response) -> {
+	get("/empresas", (request, response) -> {
+		
 		response.status(200);
 		mod.getEmpresas();
 		Map<String, Object> viewObjects = new HashMap<String, Object>();
@@ -29,7 +30,7 @@ public class Empresas {
 
 
 
-	get("/getempresas", (request, response) -> {
+	get("/getEmpresas", (request, response) -> {
 		response.status(200);
 		return toJSON(mod.sendEmpresas());
 	});

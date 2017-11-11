@@ -13,6 +13,9 @@ import java.util.NoSuchElementException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.script.ScriptException;
 
 import org.apache.log4j.Logger;
@@ -20,7 +23,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import ar.edu.utn.dds.entidades.Metodologias;
 import ar.edu.utn.dds.entidades.Periodos;
 import ar.edu.utn.dds.excepciones.NoHayEmpresasQueCumplanLaCondicionException;
 import ar.edu.utn.dds.excepciones.NoSeEncuentraElIndicadorException;
@@ -52,6 +54,8 @@ public class MetodologiaTest {
 	private Condicion condicion2;
 	private Indicador indPrueba;
 	private static Logger log = Logger.getLogger(Principal.class);
+	private EntityManager session;
+	private EntityTransaction et;
 
 	@Before
 	public void inicializacion() throws FileNotFoundException, IOException, NoSeEncuentraLaEmpresaException,
@@ -69,13 +73,19 @@ public class MetodologiaTest {
 
 		sum = new Sumatoria(indPrueba, t);
 
+		session = Utilidades.getEntityManager();
+
+		et = session.getTransaction();
+
 		Periodo p = new Periodo();
 		try {
 
 			p = Periodos.getPeriodos().stream().filter(unP -> unP.equals(periodo)).findFirst().get();
 		} catch (NoSuchElementException e) {
 			p = periodo;
-			Utilidades.persistirUnObjeto(p);
+			et.begin();
+			session.persist(p);
+			et.commit();
 			Periodos.agregarPeriodo(p);
 
 		}
@@ -85,8 +95,6 @@ public class MetodologiaTest {
 		metod.agregarCondicion(condicion1);
 		metod.agregarCondicion(condicion2);
 
-		EntityManager session = Utilidades.getEntityManager();
-		EntityTransaction et = session.getTransaction();
 		try {
 
 			et.begin();
@@ -99,17 +107,9 @@ public class MetodologiaTest {
 
 		} catch (PersistenceException e) {
 			log.fatal("La metodologia ya fue creada");
-		} finally {
-			if (session != null) {
-				Utilidades.closeEntityManager();
-			}
 		}
 
 	}
-	
-	
-
-	
 
 	@Test
 	public void aplicarMetodologiaEnBD()
@@ -117,16 +117,17 @@ public class MetodologiaTest {
 			NoSePudoOrdenarLaCondicionException, NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
 
-		List<Metodologia> metodologiasBD = Metodologias.setMetodologias();
+		// para buscar las metodologias en bd
+		CriteriaBuilder qb = session.getCriteriaBuilder();
+		CriteriaQuery<Metodologia> criteriaQuery = qb.createQuery(Metodologia.class);
+		criteriaQuery.from(Metodologia.class);
+		TypedQuery<Metodologia> q = session.createQuery(criteriaQuery);
+		List<Metodologia> metodologiasBD = q.getResultList();
 
 		Metodologia metodologia = metodologiasBD.stream().filter(unaM -> unaM.equals(metod)).findFirst().get();
 
-		EntityManager session = Utilidades.getEntityManager();
-		
-
 		Metodologia meto = session.find(Metodologia.class, metodologia.getId());
-	
-		Utilidades.closeEntityManager();
+
 		meto.getCondicionesDeMetodologia().stream().forEach(unC -> {
 			unC.getLadoIzq().setTraductor(t);
 		});
@@ -138,9 +139,6 @@ public class MetodologiaTest {
 		assertEquals(t.buscarEmpresaEnPuntajeEmpresa(empresas, "Pepsico"), empresas.get(0));
 
 	}
-	
-	
-
 
 	@After
 	public void eliminarListas() {
@@ -148,5 +146,6 @@ public class MetodologiaTest {
 		this.t.getIndicadores().clear();
 		this.metod.getCondicionesDeMetodologia().clear();
 		this.metod.getPuntajeEmpresas().clear();
+		Utilidades.closeEntityManager();
 	}
 }

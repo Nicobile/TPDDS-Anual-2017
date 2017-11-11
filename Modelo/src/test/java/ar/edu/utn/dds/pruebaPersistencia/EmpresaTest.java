@@ -9,8 +9,8 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceException;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,6 +26,8 @@ public class EmpresaTest {
 	private Cuenta cuentaPrueba;
 	private Periodo periodo;
 	private Empresa empresaPrueba;
+	private EntityManager em;
+	private EntityTransaction et;
 
 	@Before
 	public void inicializacion() {
@@ -36,105 +38,73 @@ public class EmpresaTest {
 		cuentaPrueba = new Cuenta("c_Prueba", 200.36, periodo);
 		cuentasEmpresa.add(cuentaPrueba);
 		empresaPrueba = new Empresa("Prueba", cuentasEmpresa);
+		
+		em = Utilidades.getEntityManager();
+
+		et = em.getTransaction();
 	}
 
 	@Test
 	public void actualizarEmpresa() {
 
-		EntityManager session = Utilidades.getEntityManager();
-		EntityTransaction et = session.getTransaction();
-		try {
-			et.begin();
-			session.persist(periodo);
-			session.persist(cuentaPrueba);
-			session.persist(empresaPrueba);
-			et.commit();
-			et.begin();
-			Empresa empresa = session.find(Empresa.class, empresaPrueba.getId());
-			empresa.setNombre("Empresa");
-			session.merge(empresa);
-			et.commit();
-			Empresa empresaDeLaBase = session.find(Empresa.class, empresa.getId());
-			assertEquals(empresa.getId(), empresaDeLaBase.getId());
+		et.begin();
+		em.persist(periodo);
+		em.persist(cuentaPrueba);
+		em.persist(empresaPrueba);
+		et.commit();
+		et.begin();
+		Empresa empresa = em.find(Empresa.class, empresaPrueba.getId());
+		empresa.setNombre("Empresa");
+		em.merge(empresa);
+		et.commit();
+		Empresa empresaDeLaBase = em.find(Empresa.class, empresa.getId());
+		assertEquals(empresa.getId(), empresaDeLaBase.getId());
 
-			assertTrue(empresaDeLaBase.getNombre().equals("Empresa"));
-			et.begin();
+		assertTrue(empresaDeLaBase.getNombre().equals("Empresa"));
+		et.begin();
 
-			session.remove(empresaDeLaBase);
+		em.remove(empresaDeLaBase);
 
-			et.commit();
-
-		} catch (PersistenceException e) {
-			if (et != null) {
-				et.rollback();
-			}
-			throw new PersistenceException("No se pudo actualizar el objeto" + e.getMessage());
-		} finally {
-			if (session != null) {
-				Utilidades.closeEntityManager();
-			}
-		}
+		et.commit();
 
 	}
 
 	@Test
 	public void eliminarEmpresa() {
 
-		EntityManager session = Utilidades.getEntityManager();
-		EntityTransaction et = session.getTransaction();
-		try {
-			et.begin();
-			session.persist(periodo);
-			session.persist(cuentaPrueba);
-			session.persist(empresaPrueba);
-			et.commit();
-			et.begin();
-			Empresa empresa = session.find(Empresa.class, empresaPrueba.getId());
-			session.remove(empresa);
-			et.commit();
-			Empresa empresaBase = session.find(Empresa.class, empresa.getId());
-			assertTrue(empresaBase == null);
-
-		} catch (PersistenceException e) {
-			if (et != null) {
-				et.rollback();
-			}
-			throw new PersistenceException("No se pudo actualizar el objeto" + e.getMessage());
-		} finally {
-			if (session != null) {
-				Utilidades.closeEntityManager();
-			}
-		}
+		et.begin();
+		em.persist(periodo);
+		em.persist(cuentaPrueba);
+		em.persist(empresaPrueba);
+		et.commit();
+		et.begin();
+		Empresa empresa = em.find(Empresa.class, empresaPrueba.getId());
+		em.remove(empresa);
+		et.commit();
+		Empresa empresaBase = em.find(Empresa.class, empresa.getId());
+		assertTrue(empresaBase == null);
 
 	}
 
 	@Test
 	public void agregarEmpresa() {
 
-		EntityManager session = Utilidades.getEntityManager();
-		EntityTransaction et = session.getTransaction();
-		try {
-			et.begin();
-			session.persist(periodo);
-			session.persist(cuentaPrueba);
-			session.persist(empresaPrueba);
-			et.commit();
-			et.begin();
-			Empresa empresa = session.find(Empresa.class, empresaPrueba.getId());
-			session.remove(empresa);
+		et.begin();
+		em.persist(periodo);
+		em.persist(cuentaPrueba);
+		em.persist(empresaPrueba);
+		et.commit();
+		et.begin();
+		Empresa empresa = em.find(Empresa.class, empresaPrueba.getId());
+		em.remove(empresa);
 
-			et.commit();
+		et.commit();
 
-		} catch (PersistenceException e) {
-			if (et != null) {
-				et.rollback();
-			}
-			throw new PersistenceException("No se pudo actualizar el objeto" + e.getMessage());
-		} finally {
-			if (session != null) {
-				Utilidades.closeEntityManager();
-			}
-		}
+	}
+
+	@After
+	public void cerrarEm() {
+		Utilidades.closeEntityManager();
 	}
 
 }

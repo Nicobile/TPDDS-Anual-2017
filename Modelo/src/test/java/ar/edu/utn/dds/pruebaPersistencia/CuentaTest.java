@@ -9,8 +9,8 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceException;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,6 +25,9 @@ public class CuentaTest {
 	private Cuenta cuentaPrueba;
 	private Periodo periodo;
 	private static final double DELTA = 1e-15;
+	private EntityManager em;
+	private EntityTransaction et;
+
 	@Before
 	public void inicializacion() {
 		cuentas = new ArrayList<>();
@@ -32,110 +35,77 @@ public class CuentaTest {
 		periodos = new ArrayList<>();
 		periodo = new Periodo(LocalDate.of(1005, 04, 21), LocalDate.of(2003, 04, 21));
 		cuentaPrueba = new Cuenta("c_Prueba", 200.36, periodo);
+		em = Utilidades.getEntityManager();
+		
+		et = em.getTransaction();
 	}
 
 	@Test
 	public void actualizarCuenta() {
 
-		EntityManager session = Utilidades.getEntityManager();
-		EntityTransaction et = session.getTransaction();
-		try {
-			et.begin();
-			session.persist(periodo);
-			session.persist(cuentaPrueba);
-			et.commit();
-			et.begin();
-			Cuenta cuenta = session.find(Cuenta.class, cuentaPrueba.getId());
-			cuenta.setValor(500);
-			session.merge(cuenta);
-			et.commit();
-			Cuenta cuentaDeLaBase = session.find(Cuenta.class, cuenta.getId());
-			assertEquals(cuenta.getId(), cuentaDeLaBase.getId());
-            assertEquals(cuentaDeLaBase.getValor(),500,DELTA);
-			et.begin();
-			Periodo p = session.find(Periodo.class, periodo.getId());
-			session.remove(cuenta);
-			session.remove(p);
-			et.commit();
-			cuentas.clear();
-			periodos.clear();
-
-		} catch (PersistenceException e) {
-			if (et != null) {
-				et.rollback();
-			}
-			throw new PersistenceException("No se pudo actualizar el objeto" + e.getMessage());
-		} finally {
-			if (session != null) {
-				Utilidades.closeEntityManager();
-			}
-		}
+		et.begin();
+		em.persist(periodo);
+		em.persist(cuentaPrueba);
+		et.commit();
+		et.begin();
+		Cuenta cuenta = em.find(Cuenta.class, cuentaPrueba.getId());
+		cuenta.setValor(500);
+		em.merge(cuenta);
+		et.commit();
+		Cuenta cuentaDeLaBase = em.find(Cuenta.class, cuenta.getId());
+		assertEquals(cuenta.getId(), cuentaDeLaBase.getId());
+		assertEquals(cuentaDeLaBase.getValor(), 500, DELTA);
+		et.begin();
+		Periodo p = em.find(Periodo.class, periodo.getId());
+		em.remove(cuenta);
+		em.remove(p);
+		et.commit();
+		cuentas.clear();
+		periodos.clear();
 
 	}
 
 	@Test
 	public void eliminarCuenta() {
 
-		EntityManager session = Utilidades.getEntityManager();
-		EntityTransaction et = session.getTransaction();
-		try {
-			et.begin();
-			session.persist(periodo);
-			session.persist(cuentaPrueba);
-			et.commit();
-			et.begin();
-			Cuenta cuenta = session.find(Cuenta.class, cuentaPrueba.getId());
-			session.remove(cuenta);
-			cuentas.remove(cuenta);
-			et.commit();
-			Cuenta cuentaBase = session.find(Cuenta.class, cuenta.getId());
-			assertTrue(cuentaBase == null);
-			cuentas.clear();
-			periodos.clear();
-
-		} catch (PersistenceException e) {
-			if (et != null) {
-				et.rollback();
-			}
-			throw new PersistenceException("No se pudo actualizar el objeto" + e.getMessage());
-		} finally {
-			if (session != null) {
-				Utilidades.closeEntityManager();
-			}
-		}
+		et.begin();
+		em.persist(periodo);
+		em.persist(cuentaPrueba);
+		et.commit();
+		et.begin();
+		Cuenta cuenta = em.find(Cuenta.class, cuentaPrueba.getId());
+		em.remove(cuenta);
+		cuentas.remove(cuenta);
+		et.commit();
+		Cuenta cuentaBase = em.find(Cuenta.class, cuenta.getId());
+		assertTrue(cuentaBase == null);
+		cuentas.clear();
+		periodos.clear();
 
 	}
 
 	@Test
 	public void agregarCuenta() {
 
-		EntityManager session = Utilidades.getEntityManager();
-		EntityTransaction et = session.getTransaction();
-		try {
-			et.begin();
-			session.persist(periodo);
-			session.persist(cuentaPrueba);
-			et.commit();
-			et.begin();
-			Cuenta cuenta = session.find(Cuenta.class, cuentaPrueba.getId());
-			session.remove(cuenta);
-			cuentas.remove(cuenta);
-			et.commit();
-			Cuenta cuentaBase = session.find(Cuenta.class, cuenta.getId());
-			assertTrue(cuentaBase == null);
-			cuentas.clear();
-			periodos.clear();
+		et.begin();
+		em.persist(periodo);
+		em.persist(cuentaPrueba);
+		et.commit();
+		et.begin();
+		Cuenta cuenta = em.find(Cuenta.class, cuentaPrueba.getId());
+		em.remove(cuenta);
+		cuentas.remove(cuenta);
+		et.commit();
+		Cuenta cuentaBase = em.find(Cuenta.class, cuenta.getId());
+		assertTrue(cuentaBase == null);
+		cuentas.clear();
+		periodos.clear();
 
-		} catch (PersistenceException e) {
-			if (et != null) {
-				et.rollback();
-			}
-			throw new PersistenceException("No se pudo actualizar el objeto" + e.getMessage());
-		} finally {
-			if (session != null) {
-				Utilidades.closeEntityManager();
-			}
-		}
+	}
+
+	@After
+	public void cerrarEm() {
+		Utilidades.closeEntityManager();
 	}
 
 }

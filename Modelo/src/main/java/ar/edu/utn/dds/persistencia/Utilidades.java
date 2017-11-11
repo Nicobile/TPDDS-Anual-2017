@@ -81,5 +81,8 @@ public class Utilidades {
 			e.printStackTrace();
 		}
 	}
+	public static EntityManager obtenerEntityManager() {
+		return entityManager;
+	}
 
 }
