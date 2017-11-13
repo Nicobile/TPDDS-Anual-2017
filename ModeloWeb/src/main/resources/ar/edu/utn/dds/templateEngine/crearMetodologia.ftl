@@ -61,7 +61,7 @@ $(function() {
         // Ajax Call
         $.ajax({
             type: "POST",
-            url: "crearMetodologia",
+            url: "metodologia",
             data: json,
             dataType: "json",
             success : function() {

@@ -27,7 +27,7 @@ import spark.ModelAndView;
 
 public class Metodologia {
 	public void init(Model mod) {
-	get("/aplicarMetodologia", (request, response) -> {
+	get("/metodologias", (request, response) -> {
 		response.status(200);
 		Map<String, Object> viewObjects = new HashMap<String, Object>();
 		viewObjects.put("empresas", mod.sendEmpresas());
@@ -36,7 +36,7 @@ public class Metodologia {
 		return new ModelAndView(viewObjects, "main.ftl");
 	}, new FreeMarkerEngine());
 
-	post("/aplicarMetodologia", (request, response) -> {
+	post("/metodologias", (request, response) -> {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 
@@ -77,7 +77,7 @@ public class Metodologia {
 	
 	
 	
-	get("/crearMetodologia", (request, response) -> {
+	get("/metodologia", (request, response) -> {
 		response.status(200);
 		mod.inicializarMetodologia();
 		Map<String, Object> viewObjects = new HashMap<String, Object>();
@@ -85,7 +85,7 @@ public class Metodologia {
 		return new ModelAndView(viewObjects, "main.ftl");
 	}, new FreeMarkerEngine());
 
-	post("/crearMetodologia", (request, response) -> {
+	post("/metodologia", (request, response) -> {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			MetodologiaWeb metodologia = mapper.readValue(request.body(), MetodologiaWeb.class);
