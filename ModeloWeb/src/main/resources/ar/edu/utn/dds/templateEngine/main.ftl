@@ -23,9 +23,9 @@
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
                                               
-                         <li><a href="empresas">Obtener Empresas</a></li>
-                         <li><a href="indicador">Crear indicador</a></li>
-                          <li><a href="indicadores">Calcular indicador</a></li>
+                         <li><a href="/empresas">Obtener Empresas</a></li>
+                         <li><a href="/indicador">Crear indicador</a></li>
+                          <li><a href="/indicadores">Calcular indicador</a></li>
                           <li><a href="crearMetodologia">Crear metodologia</a></li>   
                           <li><a href="aplicarMetodologia">Aplicar metodologia</a></li>  
                          
