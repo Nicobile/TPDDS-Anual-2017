@@ -46,7 +46,7 @@ $(function() {
         // Ajax Call
         $.ajax({
             type: "POST",
-            url: "crearIndicador",
+            url: "indicador",
             data: json,
             dataType: "json",
             success : function() {

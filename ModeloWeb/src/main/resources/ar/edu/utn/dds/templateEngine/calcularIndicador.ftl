@@ -76,7 +76,7 @@ $(function() {
         // Ajax Call
       $.ajax({
             type: "POST",
-            url: "calcularIndicador",
+            url: "indicadores",
             data: json,
             dataType: "json",
             success : function() {

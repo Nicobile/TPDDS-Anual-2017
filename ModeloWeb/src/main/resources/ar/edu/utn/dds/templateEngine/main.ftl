@@ -1,9 +1,9 @@
 <html>
     <head>
         <title> Grupo 12 </title>
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="css/starter-template.css">
+        <link rel="stylesheet" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="../css/starter-template.css">
          
     </head>
     
@@ -24,8 +24,8 @@
                     <ul class="nav navbar-nav">
                                               
                          <li><a href="empresas">Obtener Empresas</a></li>
-                         <li><a href="crearIndicador">Crear indicador</a></li>
-                          <li><a href="calcularIndicador">Calcular indicador</a></li>
+                         <li><a href="indicador">Crear indicador</a></li>
+                          <li><a href="indicadores">Calcular indicador</a></li>
                           <li><a href="crearMetodologia">Crear metodologia</a></li>   
                           <li><a href="aplicarMetodologia">Aplicar metodologia</a></li>  
                          
@@ -33,8 +33,8 @@
                 </div><!--/.nav-collapse -->
             </div>
         </div>
-        <script src="js/jquery.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
+        <script src="../js/jquery.min.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
         <div class="container">
             <#include "${templateName}">
         </div>

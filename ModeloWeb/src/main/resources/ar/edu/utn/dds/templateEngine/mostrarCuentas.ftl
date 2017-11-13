@@ -11,7 +11,7 @@
     	</div>
     
     </div>	
- 	<script src="js/awesomeTable.js" type="text/javascript"></script>
+ 	<script src="../js/awesomeTable.js" type="text/javascript"></script>
  	<script>
  		$( document ).ready(function() {
  			$.getJSON('/getcuentas',function(json){

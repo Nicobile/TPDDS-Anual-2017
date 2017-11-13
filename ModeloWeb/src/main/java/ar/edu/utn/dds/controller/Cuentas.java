@@ -18,22 +18,13 @@ public class Cuentas {
 	
 	public void init(Model mod) {
 
-	get("/cuentas", (request, response) -> {
 
-		response.status(200);
-		Map<String, Object> viewObjects = new HashMap<String, Object>();
-		viewObjects.put("templateName", "mostrarCuentas.ftl");
-
-		return new ModelAndView(viewObjects, "main.ftl");
-	}, new FreeMarkerEngine());
-
-	get("/cuentas/:id", (request, response) -> {
+	get("cuentas/:id", (request, response) -> {
 		response.status(200);
 		String id = request.params(":id");
 		Map<String, Object> viewObjects = new HashMap<String, Object>();
 		viewObjects.put("templateName", "mostrarCuentas.ftl");
 		mod.getCuentas(id);
-		response.redirect("/cuentas");
 		return new ModelAndView(viewObjects, "main.ftl");
 	}, new FreeMarkerEngine());
 
@@ -42,7 +33,8 @@ public class Cuentas {
 		return toJSON(mod.sendCuentas());
 	});
 
-	
+
+		
 }
 	private static String toJSON(Object obj) {
 		try {

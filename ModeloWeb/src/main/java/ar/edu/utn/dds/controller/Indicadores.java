@@ -21,58 +21,59 @@ import spark.ModelAndView;
 
 public class Indicadores {
 	public void init(Model mod) {
-	get("/calcularIndicador", (request, response) -> {
-		response.status(200);
-		Map<String, Object> viewObjects = new HashMap<String, Object>();
-		viewObjects.put("indicadores", mod.sendIndicadores());
-		viewObjects.put("empresas", mod.sendEmpresas());
-		viewObjects.put("templateName", "calcularIndicador.ftl");
-		return new ModelAndView(viewObjects, "main.ftl");
-	}, new FreeMarkerEngine());
+		get("/indicadores", (request, response) -> {
+			response.status(200);
+			Map<String, Object> viewObjects = new HashMap<String, Object>();
+			viewObjects.put("indicadores", mod.sendIndicadores());
+			viewObjects.put("empresas", mod.sendEmpresas());
+			viewObjects.put("templateName", "calcularIndicador.ftl");
+			return new ModelAndView(viewObjects, "main.ftl");
+		}, new FreeMarkerEngine());
 
-	post("/calcularIndicador", (request, response) -> {
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			IndicadorCalculable i = mapper.readValue(request.body(), IndicadorCalculable.class);
+		post("/indicadores", (request, response) -> {
+			ObjectMapper mapper = new ObjectMapper();
+			try {
+				IndicadorCalculable i = mapper.readValue(request.body(), IndicadorCalculable.class);
 
-			if (mod.checkIndicadorCalculable(i)) {
+				if (mod.checkIndicadorCalculable(i)) {
 
-				String resultado = mod.calcularIndicador(i, mod.armarPeriodo(i.getFechaInicio(), i.getFechaFin()));
-				response.status(200);
-				response.type("application/json");
-				return "Resultado: " + resultado;
+					String resultado = mod.calcularIndicador(i, mod.armarPeriodo(i.getFechaInicio(), i.getFechaFin()));
+					response.status(200);
+					response.type("application/json");
+					return "Resultado: " + resultado;
 
-			} else {
-				response.status(400);
-				response.type("application/json");
-				return "La empresa no existe";
+				} else {
+					response.status(400);
+					response.type("application/json");
+					return "La empresa no existe";
+				}
+			} catch (JsonParseException jpe) {
+				response.status(404);
+				return "Exception";
+			} catch (NoSeEncuentraElIndicadorException e) {
+				response.status(404);
+				return "No se encuentra Indicador";
+			} catch (NoSeEncuentraLaCuentaEnElPeriodoException e) {
+				response.status(404);
+				return "No se encuentra la cuenta en el periodo";
+			} catch (NoSeEncuentraLaCuentaException e) {
+				response.status(404);
+				return "No se encuentra la cuenta";
+			} catch (NoSeEncuentraLaEmpresaException e) {
+				response.status(404);
+				return "No se encuentra la empresa";
 			}
-		} catch (JsonParseException jpe) {
-			response.status(404);
-			return "Exception";
-		} catch (NoSeEncuentraElIndicadorException e) {
-			response.status(404);
-			return "No se encuentra Indicador";
-		} catch (NoSeEncuentraLaCuentaEnElPeriodoException e) {
-			response.status(404);
-			return "No se encuentra la cuenta en el periodo";
-		} catch (NoSeEncuentraLaCuentaException e) {
-			response.status(404);
-			return "No se encuentra la cuenta";
-		} catch (NoSeEncuentraLaEmpresaException e) {
-			response.status(404);
-			return "No se encuentra la empresa";
-		}
-	});
+		});
+		
 
-	get("/crearIndicador", (request, response) -> {
+	get("/indicador", (request, response) -> {
 		response.status(200);
 		Map<String, Object> viewObjects = new HashMap<String, Object>();
 		viewObjects.put("templateName", "crearIndicador.ftl");
 		return new ModelAndView(viewObjects, "main.ftl");
 	}, new FreeMarkerEngine());
 
-	post("/crearIndicador", (request, response) -> {
+	post("/indicador", (request, response) -> {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			IndicadorWeb i = mapper.readValue(request.body(), IndicadorWeb.class);

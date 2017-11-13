@@ -26,10 +26,6 @@ public class Empresas {
 		return new ModelAndView(viewObjects, "main.ftl");
 	}, new FreeMarkerEngine());
 
-	
-
-
-
 	get("/getEmpresas", (request, response) -> {
 		response.status(200);
 		return toJSON(mod.sendEmpresas());
