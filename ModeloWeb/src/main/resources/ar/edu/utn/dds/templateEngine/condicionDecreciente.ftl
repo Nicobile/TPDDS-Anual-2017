@@ -42,7 +42,7 @@
        
        <font size="3" color="red">Regrese al menu crear metodologia para finalizar de cargarle las condiciones a la actual metodologia</font>
     <div class="form-group">
-       <#assign var_link = "http://localhost:4567/crearMetodologia">
+       <#assign var_link = "http://localhost:4567/metodologia">
 
 <a href="${var_link}">Volver al menu metodologia</a>
        </div>

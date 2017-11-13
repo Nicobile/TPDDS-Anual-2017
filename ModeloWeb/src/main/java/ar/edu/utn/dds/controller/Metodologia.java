@@ -18,6 +18,7 @@ import ar.edu.utn.dds.entidades.Empresas;
 import ar.edu.utn.dds.excepciones.MetodologiaYaExisteException;
 import ar.edu.utn.dds.excepciones.NoHayCondicionesException;
 import ar.edu.utn.dds.excepciones.NoHayEmpresasQueCumplanLaCondicionException;
+import ar.edu.utn.dds.excepciones.NoSeEncuentraLaCuentaException;
 import ar.edu.utn.dds.modelo.Empresa;
 import ar.edu.utn.dds.modeloWeb.MetodologiaAplicable;
 import ar.edu.utn.dds.modeloWeb.MetodologiaWeb;
@@ -72,6 +73,8 @@ public class Metodologia {
 		} catch (NoHayCondicionesException e) {
 			response.status(200);
 			return "La metodologia no presenta condiciones";
+		}catch(NoSeEncuentraLaCuentaException e) {
+			return "No se poseen las cuentas que el indicador requiere en el periodo";
 		}
 	});
 	

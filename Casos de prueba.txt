@@ -1,0 +1,54 @@
+Para crear una metodologia :
+Ir a menu Crear Metodologia, escribir el nombre de la metodologia, CREAR METODOLOGIA.
+
+Para agregarle condiciones:
+Elegir una condicion del combobox y seleccionar agregar condicion, completar los campos de la condicion, seleccionar CREAR CONDICION.
+Para seguir agregandole condiciones a la metodologia repetir el proceso anterior.
+
+
+Metodologia con una unica condicion:
+Caso de prueba 1 :
+
+Crear una metodologia y agregar a la metodologia una condicion Decreciente con el i_NivelDeuda y una catidad de años igual a 4.
+
+Ir a menu aplicar metodologia, seleccionar la metodologia creada recientemente y checkear las empresas que se desean evaluar
+Esta metodologia solo la cumple Pepsico
+
+Con los mismos parametros creando otra metodologia pero con una condicion Creciente, se verifica que solo cumplen las otras empresas que no son Pepsico
+
+Caso de prueba 2:
+Crear una nueva metodologia y agregarle una condicion Sumatoria con el indicador i_NivelDeuda, signo > , valor 400, ordenamiento de mayor a menor, fecha Inicio= 21/04/2010 y
+fecha Fin =21/07/2017. 
+Ir a menu aplicar metodologia, seleccionar la metodologia creada recientemente y checkear las empresas que se desean evaluar
+Este deberia mostrar que no hay empresas que cumplan la metodologia.
+
+Caso de prueba 3:
+Crear una nueva metodologia y agregarle una condicion Longevidad y años =20. 
+Ir a menu aplicar metodologia, seleccionar la metodologia creada recientemente y checkear las empresas que se desean evaluar.
+Solo cumplen la condicion 2 empresas, Cocacola y Pepsico.
+
+Caso de prueba 4:
+Crear una nueva metodologia y agregarle una condicion Sumatoria con el indicador i_NivelDeuda, signo > , valor 300, ordenamiento de mayor a menor y fecha Inicio= 21/04/2010
+fecha Fin =21/07/2017. 
+Ir a menu aplicar metodologia, seleccionar la metodologia creada recientemente y checkear las empresas que se desean evaluar.
+Este deberia devolver como resultado que solo Facebook cumple la metodologia.
+
+
+Metodologia con mas de una condicion:	
+
+Caso de prueba 5:
+ Crear una metodologia y agregarle una condicion Longevidad con años=10 y una condicion Creciente con cantidad de años = 5 e i_NivelDeuda.
+Ir a menu aplicar metodologia, seleccionar la metodologia creada recientemente y checkear las empresas que se desean evaluar.
+ Esto deberia dar como resultado 3 empresas, todas menos Twitter.
+ .
+Caso de prueba 6:
+Crear una metodologia y agregarle una condicion Decreciente con cantidad de años = 10 e i_NivelDeuda, agregarle una condicion Sumatoria con el i_NivelDeuda, sigo >.ordenamiento de mayor a menor, valor 200 y
+fecha Inicio= 21/04/2010 fecha Fin =21/07/2017.
+Ir a menu aplicar metodologia, seleccionar la metodologia creada recientemente y checkear las empresas que se desean evaluar.
+Esto deberia devolver como resultado 1 empresa (Pepsico)
+
+Caso de prueba 7:
+Crear una metodologia y agregarle una condicion Sumatoria con el i_NivelDeuda, sigo >,ordenamiento de mayor a menor, valor 200 y
+fecha Inicio= 20/01/2000 fecha Fin =20/01/2001 y agregarle una condicion Promedio con el i_NivelDeuda mismas fechas inicio y fin.
+Ir a menu aplicar metodologia, seleccionar la metodologia creada recientemente y checkear las empresas que se desean evaluar.
+Esto deberia que no hay empresas que cumplan la metodologia, ya que no hay cuentas en el periodo para el indicador
