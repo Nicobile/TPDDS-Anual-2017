@@ -54,7 +54,6 @@ public class Model {
 	private Metodologia meto;
 	private Usuario usuario;
 	private Traductor t = new Traductor();
-	private int id = 433;
 	ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
 			new ClassPathResource("resources/spring-config.xml").getPath());
 	private ResultadoRepo repoResul = (ResultadoRepo) context.getBean("resultadoRepo");
@@ -244,7 +243,6 @@ public class Model {
 			return resultado.getResultado();
 		} else {
 			String resu = String.valueOf(t.calcular(i.getNombreEmpresa(), p, i.getNombreIndicador()));
-			id = id++;
 			Resultado resultado = new Resultado(resu, i.getNombreIndicador(), i.getNombreEmpresa(), p);
 			repoResul.save(resultado);
 
