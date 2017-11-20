@@ -12,7 +12,6 @@ import javax.persistence.PersistenceException;
 import javax.script.ScriptException;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.core.io.ClassPathResource;
 
 import ar.edu.utn.dds.entidades.Empresas;
 import ar.edu.utn.dds.entidades.Indicadores;
@@ -54,8 +53,9 @@ public class Model {
 	private Metodologia meto;
 	private Usuario usuario;
 	private Traductor t = new Traductor();
+
 	ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-			new ClassPathResource("resources/spring-config.xml").getPath());
+			"classpath:spring-config.xml");
 	private ResultadoRepo repoResul = (ResultadoRepo) context.getBean("resultadoRepo");
 
 	/**
