@@ -11,6 +11,9 @@ import java.util.stream.Collectors;
 import javax.persistence.PersistenceException;
 import javax.script.ScriptException;
 
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.ClassPathResource;
+
 import ar.edu.utn.dds.entidades.Empresas;
 import ar.edu.utn.dds.entidades.Indicadores;
 import ar.edu.utn.dds.entidades.Metodologias;
@@ -39,6 +42,7 @@ import ar.edu.utn.dds.modelo.PuntajeEmpresa;
 import ar.edu.utn.dds.modelo.Sumatoria;
 import ar.edu.utn.dds.modelo.Traductor;
 import ar.edu.utn.dds.modelo.Usuario;
+import ar.edu.utn.dds.repo.ResultadoRepo;
 
 public class Model {
 
@@ -50,6 +54,10 @@ public class Model {
 	private Metodologia meto;
 	private Usuario usuario;
 	private Traductor t = new Traductor();
+	private int id = 433;
+	ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+			new ClassPathResource("resources/spring-config.xml").getPath());
+	private ResultadoRepo repoResul = (ResultadoRepo) context.getBean("resultadoRepo");
 
 	/**
 	 * Constructor
@@ -79,15 +87,15 @@ public class Model {
 		Indicadores.persistirIndicador(indicadorApersistir);
 		indicadores.put(String.valueOf(indicadorApersistir.getId()), indicadorApersistir);
 		usuario.agregarIndicador(indicadorApersistir);
-		
-		Usuarios.actualizarUsuario( usuario,  indicadorApersistir);
-	
+
+		Usuarios.actualizarUsuario(usuario, indicadorApersistir);
+
 		return 1;
 	}
 
 	public int createMetodologia(String nombre) throws MetodologiaYaExisteException, PersistenceException {
 		meto.setNombre(nombre);
-		
+
 		Metodologias.persistirMetodologia(meto);
 		return 1;
 
@@ -218,7 +226,30 @@ public class Model {
 	public String calcularIndicador(IndicadorCalculable i, Periodo p)
 			throws NoSeEncuentraLaEmpresaException, NoSeEncuentraLaCuentaException,
 			NoSeEncuentraLaCuentaEnElPeriodoException, NoSeEncuentraElIndicadorException {
-		return String.valueOf(t.calcular(i.getNombreEmpresa(), p, i.getNombreIndicador()));
+
+		Map<Object, Object> matrizResultados = repoResul.findAll();
+		Resultado r = new Resultado(i.getNombreIndicador(), i.getNombreEmpresa(), p);
+		// lista de resultados
+		if (matrizResultados.values().contains(r)) {
+
+			Resultado resultado = (Resultado) matrizResultados.values().stream().filter(unR -> unR.equals(r))
+					.findFirst().get();
+
+			/// sacar estos
+			System.out.println(resultado.getId());
+			System.out.println(resultado.getIndicador());
+			System.out.println(resultado.getNombreEmpresa());
+			System.out.println(resultado.getResultado());
+
+			return resultado.getResultado();
+		} else {
+			String resu = String.valueOf(t.calcular(i.getNombreEmpresa(), p, i.getNombreIndicador()));
+			id = id++;
+			Resultado resultado = new Resultado(resu, i.getNombreIndicador(), i.getNombreEmpresa(), p);
+			repoResul.save(resultado);
+
+			return resu;
+		}
 	}
 
 	public Periodo armarPeriodo(String fechaInicio, String fechaFin) {
@@ -253,13 +284,12 @@ public class Model {
 	public List<Object> sendIndicadores() {
 
 		List<Object> ret = new ArrayList<>(indicadores.values());
-		List<Object> indicadoresUsuario=new ArrayList<>();
-		indicadoresUsuario=ret.stream().filter(unInd-> ((Indicador) unInd).getNombre().equals("i_NivelDeuda") ||((Indicador) unInd).getNombre().equals("i_MargenVentas")
-				||usuario.getIndicadores().contains(unInd)
-				
+		List<Object> indicadoresUsuario = new ArrayList<>();
+		indicadoresUsuario = ret.stream().filter(unInd -> ((Indicador) unInd).getNombre().equals("i_NivelDeuda")
+				|| ((Indicador) unInd).getNombre().equals("i_MargenVentas") || usuario.getIndicadores().contains(unInd)
+
 		).collect(Collectors.toList());
-		
-		
+
 		return indicadoresUsuario;
 
 	}
@@ -282,7 +312,7 @@ public class Model {
 	}
 
 	public void setUsuario(LoginWeb user) {
-usuario=new Usuario();
+		usuario = new Usuario();
 		usuario = Usuarios.getUsuarios().stream()
 				.filter(unU -> unU.getUsuario().equals(user.getNombre()) && unU.getPass().equals(user.getContrasenia()))
 				.findFirst().get();

@@ -1,5 +1,6 @@
 package ar.edu.utn.dds.modelo;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
@@ -12,7 +13,11 @@ import ar.edu.utn.dds.excepciones.FechaInicioPosteriorAFinException;
 
 @Entity
 @Table(name = "periodos")
-public class Periodo {
+public class Periodo implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6207558234563340031L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
