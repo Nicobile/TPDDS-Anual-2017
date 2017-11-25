@@ -25,8 +25,7 @@ public class App {
 	private void init() {
 
 		Model mod = new Model();
-		
-		
+
 		Condiciones cond = new Condiciones();
 		cond.init(mod);
 		Empresas e = new Empresas();
@@ -36,21 +35,17 @@ public class App {
 		Indicadores i = new Indicadores();
 		i.init(mod);
 		Metodologia m = new Metodologia();
-		m.init(mod);		
-		
-			Login l = new Login();
-			l.init(mod);
-		
-			
-		
-		
+		m.init(mod);
+
+		Login l = new Login();
+		l.init(mod);
 
 		get("/", (request, response) -> {
 			response.status(200);
-			Map<String, Object> viewObjects = new HashMap<String, Object>();	
+			Map<String, Object> viewObjects = new HashMap<String, Object>();
 			viewObjects.put("title", "TP ANUAL DDS");
 			viewObjects.put("templateName", "home.ftl");
-			
+
 			return new ModelAndView(viewObjects, "main.ftl");
 		}, new FreeMarkerEngine());
 

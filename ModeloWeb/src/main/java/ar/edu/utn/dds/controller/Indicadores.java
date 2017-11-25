@@ -64,31 +64,31 @@ public class Indicadores {
 				return "No se encuentra la empresa";
 			}
 		});
-		
 
-	get("/indicador", (request, response) -> {
-		response.status(200);
-		Map<String, Object> viewObjects = new HashMap<String, Object>();
-		viewObjects.put("templateName", "crearIndicador.ftl");
-		return new ModelAndView(viewObjects, "main.ftl");
-	}, new FreeMarkerEngine());
-
-	post("/indicador", (request, response) -> {
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			IndicadorWeb i = mapper.readValue(request.body(), IndicadorWeb.class);
-			if (!i.isValid()) {
-				response.status(400);
-				return "Corregir los campos";
-			}
-			mod.createIndicador(i.getNombre(), i.getExpresion());
+		get("/indicador", (request, response) -> {
 			response.status(200);
-			response.type("application/json");
-			return "Indicador creado";
+			Map<String, Object> viewObjects = new HashMap<String, Object>();
+			viewObjects.put("templateName", "crearIndicador.ftl");
+			return new ModelAndView(viewObjects, "main.ftl");
+		}, new FreeMarkerEngine());
 
-		} catch (JsonParseException jpe) {
-			response.status(404);
-			return "Exception";
-		}
-	});
-}}
+		post("/indicador", (request, response) -> {
+			ObjectMapper mapper = new ObjectMapper();
+			try {
+				IndicadorWeb i = mapper.readValue(request.body(), IndicadorWeb.class);
+				if (!i.isValid()) {
+					response.status(400);
+					return "Corregir los campos";
+				}
+				mod.createIndicador(i.getNombre(), i.getExpresion());
+				response.status(200);
+				response.type("application/json");
+				return "Indicador creado";
+
+			} catch (JsonParseException jpe) {
+				response.status(404);
+				return "Exception";
+			}
+		});
+	}
+}

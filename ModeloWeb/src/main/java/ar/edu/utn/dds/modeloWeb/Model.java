@@ -54,8 +54,7 @@ public class Model {
 	private Usuario usuario;
 	private Traductor t = new Traductor();
 
-	ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-			"classpath:spring-config.xml");
+	ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring-config.xml");
 	private ResultadoRepo repoResul = (ResultadoRepo) context.getBean("resultadoRepo");
 
 	/**

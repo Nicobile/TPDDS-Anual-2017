@@ -16,22 +16,22 @@ import spark.ModelAndView;
 
 public class Empresas {
 	public void init(Model mod) {
-	get("/empresas", (request, response) -> {
-		
-		response.status(200);
-		mod.getEmpresas();
-		Map<String, Object> viewObjects = new HashMap<String, Object>();
-		viewObjects.put("empresas", mod.sendEmpresas());
-		viewObjects.put("templateName", "mostrarEmpresa.ftl");
-		return new ModelAndView(viewObjects, "main.ftl");
-	}, new FreeMarkerEngine());
+		get("/empresas", (request, response) -> {
 
-	get("/getEmpresas", (request, response) -> {
-		response.status(200);
-		return toJSON(mod.sendEmpresas());
-	});
-}
-	
+			response.status(200);
+			mod.getEmpresas();
+			Map<String, Object> viewObjects = new HashMap<String, Object>();
+			viewObjects.put("empresas", mod.sendEmpresas());
+			viewObjects.put("templateName", "mostrarEmpresa.ftl");
+			return new ModelAndView(viewObjects, "main.ftl");
+		}, new FreeMarkerEngine());
+
+		get("/getEmpresas", (request, response) -> {
+			response.status(200);
+			return toJSON(mod.sendEmpresas());
+		});
+	}
+
 	private static String toJSON(Object obj) {
 		try {
 			ObjectMapper mapper = new ObjectMapper();

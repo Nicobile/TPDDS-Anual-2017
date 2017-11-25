@@ -15,27 +15,25 @@ import ar.edu.utn.dds.templateEngine.FreeMarkerEngine;
 import spark.ModelAndView;
 
 public class Cuentas {
-	
+
 	public void init(Model mod) {
 
+		get("cuentas/:id", (request, response) -> {
+			response.status(200);
+			String id = request.params(":id");
+			Map<String, Object> viewObjects = new HashMap<String, Object>();
+			viewObjects.put("templateName", "mostrarCuentas.ftl");
+			mod.getCuentas(id);
+			return new ModelAndView(viewObjects, "main.ftl");
+		}, new FreeMarkerEngine());
 
-	get("cuentas/:id", (request, response) -> {
-		response.status(200);
-		String id = request.params(":id");
-		Map<String, Object> viewObjects = new HashMap<String, Object>();
-		viewObjects.put("templateName", "mostrarCuentas.ftl");
-		mod.getCuentas(id);
-		return new ModelAndView(viewObjects, "main.ftl");
-	}, new FreeMarkerEngine());
+		get("/getcuentas", (request, response) -> {
+			response.status(200);
+			return toJSON(mod.sendCuentas());
+		});
 
-	get("/getcuentas", (request, response) -> {
-		response.status(200);
-		return toJSON(mod.sendCuentas());
-	});
+	}
 
-
-		
-}
 	private static String toJSON(Object obj) {
 		try {
 			ObjectMapper mapper = new ObjectMapper();

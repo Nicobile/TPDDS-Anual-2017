@@ -28,86 +28,88 @@ import spark.ModelAndView;
 
 public class Metodologia {
 	public void init(Model mod) {
-	get("/metodologias", (request, response) -> {
-		response.status(200);
-		Map<String, Object> viewObjects = new HashMap<String, Object>();
-		viewObjects.put("empresas", mod.sendEmpresas());
-		viewObjects.put("metodologias", mod.sendMetodologias());
-		viewObjects.put("templateName", "aplicarMetodologia.ftl");
-		return new ModelAndView(viewObjects, "main.ftl");
-	}, new FreeMarkerEngine());
-
-	post("/metodologias", (request, response) -> {
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-
-			MetodologiaAplicable metodologia = mapper.readValue(request.body(), MetodologiaAplicable.class);
-			List<String> nombreEmpresas=new ArrayList<>();
-			nombreEmpresas.add(metodologia.getEmpresa1());
-			nombreEmpresas.add(metodologia.getEmpresa2());
-			nombreEmpresas.add(metodologia.getEmpresa3());
-			nombreEmpresas.add(metodologia.getEmpresa4());
-			
-			List<Empresa> empresas=new ArrayList<>();
-			nombreEmpresas.stream().filter(unN->unN!=null).collect(Collectors.toList()).stream().forEach(unN->{
-				empresas.add(Empresas.getEmpresas().stream().filter(unaE->unaE.getNombre().equals(unN)).findFirst().get());
-			});;
-			
-			
-			List <String> lista = new ArrayList<String>();
-			(mod.aplicarMetodologia(metodologia.getNombre(),empresas)).forEach(unP -> {
-				lista.add(unP.getNombreEmpresa());
-			});;
-			String empresu = String.join("  ||  ", lista);
+		get("/metodologias", (request, response) -> {
 			response.status(200);
-			response.type("application/json");
+			Map<String, Object> viewObjects = new HashMap<String, Object>();
+			viewObjects.put("empresas", mod.sendEmpresas());
+			viewObjects.put("metodologias", mod.sendMetodologias());
+			viewObjects.put("templateName", "aplicarMetodologia.ftl");
+			return new ModelAndView(viewObjects, "main.ftl");
+		}, new FreeMarkerEngine());
 
-			return empresu;
+		post("/metodologias", (request, response) -> {
+			ObjectMapper mapper = new ObjectMapper();
+			try {
 
-		} catch (JsonParseException jpe) {
-			response.status(404);
-			return "Exception";
-		} catch (NoHayEmpresasQueCumplanLaCondicionException e) {
+				MetodologiaAplicable metodologia = mapper.readValue(request.body(), MetodologiaAplicable.class);
+				List<String> nombreEmpresas = new ArrayList<>();
+				nombreEmpresas.add(metodologia.getEmpresa1());
+				nombreEmpresas.add(metodologia.getEmpresa2());
+				nombreEmpresas.add(metodologia.getEmpresa3());
+				nombreEmpresas.add(metodologia.getEmpresa4());
+
+				List<Empresa> empresas = new ArrayList<>();
+				nombreEmpresas.stream().filter(unN -> unN != null).collect(Collectors.toList()).stream()
+						.forEach(unN -> {
+							empresas.add(Empresas.getEmpresas().stream().filter(unaE -> unaE.getNombre().equals(unN))
+									.findFirst().get());
+						});
+				;
+
+				List<String> lista = new ArrayList<String>();
+				(mod.aplicarMetodologia(metodologia.getNombre(), empresas)).forEach(unP -> {
+					lista.add(unP.getNombreEmpresa());
+				});
+				;
+				String empresu = String.join("  ||  ", lista);
+				response.status(200);
+				response.type("application/json");
+
+				return empresu;
+
+			} catch (JsonParseException jpe) {
+				response.status(404);
+				return "Exception";
+			} catch (NoHayEmpresasQueCumplanLaCondicionException e) {
+				response.status(200);
+				return "No hay empresas que cumplan con la metodologia";
+			} catch (NoHayCondicionesException e) {
+				response.status(200);
+				return "La metodologia no presenta condiciones";
+			} catch (NoSeEncuentraLaCuentaException e) {
+				return "No se poseen las cuentas que el indicador requiere en el periodo";
+			}
+		});
+
+		get("/metodologia", (request, response) -> {
 			response.status(200);
-			return "No hay empresas que cumplan con la metodologia";
-		} catch (NoHayCondicionesException e) {
-			response.status(200);
-			return "La metodologia no presenta condiciones";
-		}catch(NoSeEncuentraLaCuentaException e) {
-			return "No se poseen las cuentas que el indicador requiere en el periodo";
-		}
-	});
-	
-	
-	
-	get("/metodologia", (request, response) -> {
-		response.status(200);
-		mod.inicializarMetodologia();
-		Map<String, Object> viewObjects = new HashMap<String, Object>();
-		viewObjects.put("templateName", "crearMetodologia.ftl");
-		return new ModelAndView(viewObjects, "main.ftl");
-	}, new FreeMarkerEngine());
+			mod.inicializarMetodologia();
+			Map<String, Object> viewObjects = new HashMap<String, Object>();
+			viewObjects.put("templateName", "crearMetodologia.ftl");
+			return new ModelAndView(viewObjects, "main.ftl");
+		}, new FreeMarkerEngine());
 
-	post("/metodologia", (request, response) -> {
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			MetodologiaWeb metodologia = mapper.readValue(request.body(), MetodologiaWeb.class);
-			mod.createMetodologia(metodologia.getNombre());
+		post("/metodologia", (request, response) -> {
+			ObjectMapper mapper = new ObjectMapper();
+			try {
+				MetodologiaWeb metodologia = mapper.readValue(request.body(), MetodologiaWeb.class);
+				mod.createMetodologia(metodologia.getNombre());
 
-			response.status(200);
-			response.type("application/json");
+				response.status(200);
+				response.type("application/json");
 
-			return "Metodologia creada exitosamente, ahora agreguele condiciones";
+				return "Metodologia creada exitosamente, ahora agreguele condiciones";
 
-		} catch (JsonParseException jpe) {
-			response.status(404);
-			return "Exception";
-		} catch (MetodologiaYaExisteException e) {
-			response.status(403);
-			return "Ya existe una metodologia con ese nombre";
-		} catch (PersistenceException e) {
-			response.status(403);
-			return "Ya existe una metodologia con ese nombre";
-		}
-	});
-}}
+			} catch (JsonParseException jpe) {
+				response.status(404);
+				return "Exception";
+			} catch (MetodologiaYaExisteException e) {
+				response.status(403);
+				return "Ya existe una metodologia con ese nombre";
+			} catch (PersistenceException e) {
+				response.status(403);
+				return "Ya existe una metodologia con ese nombre";
+			}
+		});
+	}
+}
