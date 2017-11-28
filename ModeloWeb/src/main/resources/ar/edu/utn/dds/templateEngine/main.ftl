@@ -28,6 +28,7 @@
                           <li><a href="/indicadores">Calcular indicador</a></li>
                           <li><a href="/metodologia">Crear metodologia</a></li>   
                           <li><a href="/metodologias">Aplicar metodologia</a></li>  
+                          <li><a href="/login">Login</a></li>  
                          
                     </ul>
                 </div><!--/.nav-collapse -->
