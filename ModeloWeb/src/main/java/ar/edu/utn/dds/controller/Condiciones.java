@@ -22,6 +22,9 @@ public class Condiciones {
 	public void init(Model mod) {
 
 		get("/condicionMediana", (request, response) -> {
+			if(mod.getUsuario()==null) {
+				response.redirect("http://localhost:4567/login");
+			}
 			response.status(200);
 			Map<String, Object> viewObjects = new HashMap<String, Object>();
 			viewObjects.put("indicadores", mod.sendIndicadores());
@@ -52,6 +55,9 @@ public class Condiciones {
 		});
 
 		get("/condicionPromedio", (request, response) -> {
+			if(mod.getUsuario()==null) {
+				response.redirect("http://localhost:4567/login");
+			}
 			response.status(200);
 			Map<String, Object> viewObjects = new HashMap<String, Object>();
 			viewObjects.put("indicadores", mod.sendIndicadores());
@@ -82,6 +88,9 @@ public class Condiciones {
 		});
 
 		get("/condicionSumatoria", (request, response) -> {
+			if(mod.getUsuario()==null) {
+				response.redirect("http://localhost:4567/login");
+			}
 			response.status(200);
 			Map<String, Object> viewObjects = new HashMap<String, Object>();
 			viewObjects.put("indicadores", mod.sendIndicadores());
@@ -112,6 +121,9 @@ public class Condiciones {
 		});
 
 		get("/condicionDecreciente", (request, response) -> {
+			if(mod.getUsuario()==null) {
+				response.redirect("http://localhost:4567/login");
+			}
 			response.status(200);
 			Map<String, Object> viewObjects = new HashMap<String, Object>();
 			viewObjects.put("indicadores", mod.sendIndicadores());
@@ -141,6 +153,9 @@ public class Condiciones {
 		});
 
 		get("/condicionCreciente", (request, response) -> {
+			if(mod.getUsuario()==null) {
+				response.redirect("http://localhost:4567/login");
+			}
 			response.status(200);
 			Map<String, Object> viewObjects = new HashMap<String, Object>();
 			viewObjects.put("indicadores", mod.sendIndicadores());
@@ -169,6 +184,9 @@ public class Condiciones {
 		});
 
 		get("/condicionLongevidad", (request, response) -> {
+			if(mod.getUsuario()==null) {
+				response.redirect("http://localhost:4567/login");
+			}
 			response.status(200);
 			Map<String, Object> viewObjects = new HashMap<String, Object>();
 			viewObjects.put("templateName", "condicionLongevidad.ftl");

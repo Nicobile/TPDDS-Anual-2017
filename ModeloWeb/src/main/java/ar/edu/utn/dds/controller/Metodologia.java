@@ -29,6 +29,9 @@ import spark.ModelAndView;
 public class Metodologia {
 	public void init(Model mod) {
 		get("/metodologias", (request, response) -> {
+			if(mod.getUsuario()==null) {
+				response.redirect("http://localhost:4567/login");
+			}
 			response.status(200);
 			Map<String, Object> viewObjects = new HashMap<String, Object>();
 			viewObjects.put("empresas", mod.sendEmpresas());
@@ -82,6 +85,9 @@ public class Metodologia {
 		});
 
 		get("/metodologia", (request, response) -> {
+			if(mod.getUsuario()==null) {
+				response.redirect("http://localhost:4567/login");
+			}
 			response.status(200);
 			mod.inicializarMetodologia();
 			Map<String, Object> viewObjects = new HashMap<String, Object>();

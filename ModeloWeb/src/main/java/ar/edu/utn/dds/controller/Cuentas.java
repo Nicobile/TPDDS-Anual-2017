@@ -19,6 +19,9 @@ public class Cuentas {
 	public void init(Model mod) {
 
 		get("cuentas/:id", (request, response) -> {
+			if(mod.getUsuario()==null) {
+				response.redirect("http://localhost:4567/login");
+			}
 			response.status(200);
 			String id = request.params(":id");
 			Map<String, Object> viewObjects = new HashMap<String, Object>();
@@ -28,6 +31,9 @@ public class Cuentas {
 		}, new FreeMarkerEngine());
 
 		get("/getcuentas", (request, response) -> {
+			if(mod.getUsuario()==null) {
+				response.redirect("http://localhost:4567/login");
+			}
 			response.status(200);
 			return toJSON(mod.sendCuentas());
 		});

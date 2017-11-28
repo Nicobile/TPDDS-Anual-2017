@@ -17,7 +17,10 @@ import spark.ModelAndView;
 public class Empresas {
 	public void init(Model mod) {
 		get("/empresas", (request, response) -> {
-
+			if(mod.getUsuario()==null) {
+				response.redirect("http://localhost:4567/login");
+			}
+			
 			response.status(200);
 			mod.getEmpresas();
 			Map<String, Object> viewObjects = new HashMap<String, Object>();
@@ -27,6 +30,9 @@ public class Empresas {
 		}, new FreeMarkerEngine());
 
 		get("/getEmpresas", (request, response) -> {
+			if(mod.getUsuario()==null) {
+				response.redirect("http://localhost:4567/login");
+			}
 			response.status(200);
 			return toJSON(mod.sendEmpresas());
 		});

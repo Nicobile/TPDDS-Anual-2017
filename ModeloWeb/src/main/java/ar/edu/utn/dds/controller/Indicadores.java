@@ -22,6 +22,9 @@ import spark.ModelAndView;
 public class Indicadores {
 	public void init(Model mod) {
 		get("/indicadores", (request, response) -> {
+			if(mod.getUsuario()==null) {
+				response.redirect("http://localhost:4567/login");
+			}
 			response.status(200);
 			Map<String, Object> viewObjects = new HashMap<String, Object>();
 			viewObjects.put("indicadores", mod.sendIndicadores());
@@ -66,6 +69,9 @@ public class Indicadores {
 		});
 
 		get("/indicador", (request, response) -> {
+			if(mod.getUsuario()==null) {
+				response.redirect("http://localhost:4567/login");
+			}
 			response.status(200);
 			Map<String, Object> viewObjects = new HashMap<String, Object>();
 			viewObjects.put("templateName", "crearIndicador.ftl");
