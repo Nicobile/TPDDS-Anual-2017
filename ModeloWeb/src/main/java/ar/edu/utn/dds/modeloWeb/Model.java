@@ -233,11 +233,7 @@ public class Model {
 			Resultado resultado = (Resultado) matrizResultados.values().stream().filter(unR -> unR.equals(r))
 					.findFirst().get();
 
-			/// sacar estos
-			System.out.println(resultado.getId());
-			System.out.println(resultado.getIndicador());
-			System.out.println(resultado.getNombreEmpresa());
-			System.out.println(resultado.getResultado());
+		
 
 			return resultado.getResultado();
 		} else {

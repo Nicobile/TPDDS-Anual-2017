@@ -16,12 +16,17 @@ import javax.persistence.criteria.CriteriaQuery;
 
 public class Utilidades {
 	private static EntityManagerFactory entityManagerFactory;
-	private static EntityManager entityManager;
+	private static EntityManager entityManager = null;
 
 	public static EntityManager getEntityManager() {
-		entityManagerFactory = Persistence.createEntityManagerFactory("db");
-		entityManager = entityManagerFactory.createEntityManager();
-		return entityManager;
+		if (entityManagerFactory == null) {
+			entityManagerFactory = Persistence.createEntityManagerFactory("db");
+			entityManager = entityManagerFactory.createEntityManager();
+			return entityManager;
+		} else {
+			entityManager = entityManagerFactory.createEntityManager();
+			return entityManager;
+		}
 	}
 
 	// permite trarte todos los datos de una clase guardados en la base de datos,
@@ -32,7 +37,7 @@ public class Utilidades {
 		CriteriaQuery<T> criteriaQuery = qb.createQuery(clase);
 		criteriaQuery.from(clase);
 		TypedQuery<T> q = entityManager.createQuery(criteriaQuery);
-		List<T> lista =q.getResultList();
+		List<T> lista = q.getResultList();
 		closeEntityManager();
 		return lista;
 
@@ -81,6 +86,7 @@ public class Utilidades {
 			e.printStackTrace();
 		}
 	}
+
 	public static EntityManager obtenerEntityManager() {
 		return entityManager;
 	}
