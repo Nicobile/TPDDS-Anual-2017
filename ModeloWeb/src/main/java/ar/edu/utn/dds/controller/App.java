@@ -18,14 +18,8 @@ public class App {
 		s.init();
 	}
 
-	/**
-	 * Function for Routes
-	 */
-	
-
 	private void init() {
 
-		
 		Model mod = new Model();
 		Condiciones cond = new Condiciones();
 		cond.init(mod);
@@ -39,13 +33,12 @@ public class App {
 		m.init(mod);
 		Login l = new Login();
 		l.init(mod);
-		
+
 		get("/", (request, response) -> {
 			response.status(200);
 			Map<String, Object> viewObjects = new HashMap<String, Object>();
 			viewObjects.put("title", "TP ANUAL DDS");
 			viewObjects.put("templateName", "home.ftl");
-		
 
 			return new ModelAndView(viewObjects, "main.ftl");
 		}, new FreeMarkerEngine());

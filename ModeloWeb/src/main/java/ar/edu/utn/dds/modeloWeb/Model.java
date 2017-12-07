@@ -233,8 +233,6 @@ public class Model {
 			Resultado resultado = (Resultado) matrizResultados.values().stream().filter(unR -> unR.equals(r))
 					.findFirst().get();
 
-		
-
 			return resultado.getResultado();
 		} else {
 			String resu = String.valueOf(t.calcular(i.getNombreEmpresa(), p, i.getNombreIndicador()));

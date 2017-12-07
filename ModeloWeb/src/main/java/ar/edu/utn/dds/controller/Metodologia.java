@@ -29,7 +29,7 @@ import spark.ModelAndView;
 public class Metodologia {
 	public void init(Model mod) {
 		get("/metodologias", (request, response) -> {
-			if(mod.getUsuario()==null) {
+			if (mod.getUsuario() == null) {
 				response.redirect("http://localhost:4567/login");
 			}
 			response.status(200);
@@ -85,7 +85,7 @@ public class Metodologia {
 		});
 
 		get("/metodologia", (request, response) -> {
-			if(mod.getUsuario()==null) {
+			if (mod.getUsuario() == null) {
 				response.redirect("http://localhost:4567/login");
 			}
 			response.status(200);

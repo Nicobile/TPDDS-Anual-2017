@@ -36,14 +36,13 @@ public class Traductor {
 	private List<Metodologia> metodologias = new ArrayList<Metodologia>();
 	private ExpressionParser parser = new ExpressionParser();
 	private static Logger log = Logger.getLogger(Principal.class);
-	
-	
-	
+
 	public void cargarTraductor() {
-	empresas=Empresas.getEmpresas();
-	indicadores=Indicadores.getIndicadores();
-	
+		empresas = Empresas.getEmpresas();
+		indicadores = Indicadores.getIndicadores();
+
 	}
+
 	public List<Metodologia> getMetodologias() {
 		return metodologias;
 	}

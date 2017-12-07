@@ -36,7 +36,7 @@ public class CuentaTest {
 		periodo = new Periodo(LocalDate.of(1005, 04, 21), LocalDate.of(2003, 04, 21));
 		cuentaPrueba = new Cuenta("c_Prueba", 200.36, periodo);
 		em = Utilidades.getEntityManager();
-		
+
 		et = em.getTransaction();
 	}
 

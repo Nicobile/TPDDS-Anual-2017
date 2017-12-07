@@ -38,7 +38,7 @@ public class PeriodoTest {
 		CriteriaQuery<Periodo> criteriaQuery = qb.createQuery(Periodo.class);
 		criteriaQuery.from(Periodo.class);
 		TypedQuery<Periodo> q = session.createQuery(criteriaQuery);
-	periodos = q.getResultList();
+		periodos = q.getResultList();
 	}
 
 	@Test
@@ -90,7 +90,6 @@ public class PeriodoTest {
 
 		}
 
-
 		try {
 			et.begin();
 			Periodo periodo = session.find(Periodo.class, periodoDePrueba.getId());
@@ -107,7 +106,7 @@ public class PeriodoTest {
 				et.rollback();
 			}
 			throw new PersistenceException("No se pudo actualizar el objeto" + e.getMessage());
-		} 
+		}
 
 	}
 
