@@ -168,7 +168,7 @@ public class Model {
 		metodologiaAaplicar.getCondicionesDeMetodologia().stream().forEach(unC -> {
 			unC.getLadoIzq().setTraductor(t);
 		});
-
+	
 		return metodologiaAaplicar.aplicarMetodologia(empresas);
 
 	}

@@ -37,12 +37,13 @@ Este deberia devolver como resultado que solo Facebook cumple la metodologia.
 Metodologia con mas de una condicion:	
 
 Caso de prueba 5:
- Crear una metodologia y agregarle una condicion Longevidad con años=10 y una condicion Creciente con cantidad de años = 5 e i_NivelDeuda.
+ Crear una metodologia y agregarle una condicion Longevidad con años=10 y una condicion Sumatoria  i_NivelDeuda, signo <, valor a comparar 4863 criterio mayor a menor y
+fecha Inicio= 21/04/2010 fecha Fin =21/07/2017.
 Ir a menu aplicar metodologia, seleccionar la metodologia creada recientemente y checkear las empresas que se desean evaluar.
  Esto deberia dar como resultado 3 empresas, todas menos Twitter.
  .
 Caso de prueba 6:
-Crear una metodologia y agregarle una condicion Decreciente con cantidad de años = 10 e i_NivelDeuda, agregarle una condicion Sumatoria con el i_NivelDeuda, sigo >.ordenamiento de mayor a menor, valor 200 y
+Crear una metodologia y agregarle una condicion Decreciente con cantidad de años = 10 e i_NivelDeuda, agregarle una condicion Promedio con el i_NivelDeuda, sigo >.ordenamiento de mayor a menor, valor 50 y
 fecha Inicio= 21/04/2010 fecha Fin =21/07/2017.
 Ir a menu aplicar metodologia, seleccionar la metodologia creada recientemente y checkear las empresas que se desean evaluar.
 Esto deberia devolver como resultado 1 empresa (Pepsico)
